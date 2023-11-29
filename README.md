@@ -48,6 +48,11 @@
 - [ ] **Overall Working Condition:**
 - [ ] **Recommended Actions: (Repair, Upgrade, etc.)**
 - [ ] **Estimated Value:**
+
+```bash
+
+```
+
 # Material Sourcing
 # Installation
 # Configuration
