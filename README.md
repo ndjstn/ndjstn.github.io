@@ -142,6 +142,12 @@ echo "Report saved to $output_file"
 ```
 
 # Material Sourcing
+
+After checking all the machines out and looking over that box of components I said that I would use one day and finnaly did, this is what I need:
+-
+-
+
+
 # Installation
 # Configuration
 # Implementation
