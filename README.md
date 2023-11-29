@@ -151,6 +151,6 @@ After checking all the machines out and looking over that box of components I sa
 -
 
 
-# Installation
+# Purpose Hardware
 # Configuration
 # Implementation
