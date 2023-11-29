@@ -141,6 +141,9 @@ echo "System Health Check Complete." | tee -a $output_file
 echo "Report saved to $output_file"
 ```
 
+Immediately I bumped into 2 issues. The towers were vile, so I had to scrub them and vaccum out the dust bunnies. The second was that there was no hard drive. I have done small data recovery projects for people I know and relatives helping to recover lost photos of loved ones and important documents. This is important as I had quite a few old hard drives [lying around](https://www.thingiverse.com/thing:3399582). I needed to ensure that there was no data on it so I plugged it in using a usb to sata cable. Then I would use an absoulutely wonderful tool called [testdisk](https://www.cgsecurity.org/). Now I had a drive to work with. 
+
+
 # Material Sourcing
 
 After checking all the machines out and looking over that box of components I said that I would use one day and finnaly did, this is what I need:
