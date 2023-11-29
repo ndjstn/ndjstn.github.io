@@ -1,8 +1,10 @@
 # Purchase
 # Pick Up
 # System Checks
-## Computer Inspection Checklist
 
+I recieved a large lot that was a mixed bag of items. Some where towers some were laptops. I knew that there may be missing components broken items, so I would need a system to check every machine. I set up a table in my garage with a power strip, one of the many monitors that came in the lot, and several other items to facillitate testing. I made a simple check off list for ensuring consistency and saving heartache down the road. Here it is:
+
+## Computer Inspection Checklist
 ### Basic Information
 - [ ] **Model & Make:** 
 - [ ] **Serial Number:**
@@ -48,6 +50,8 @@
 - [ ] **Overall Working Condition:**
 - [ ] **Recommended Actions: (Repair, Upgrade, etc.)**
 - [ ] **Estimated Value:**
+
+I also determined that I needed a script to automate the process of checking the hardware. I created a simple script on a thumb drive I made using [Ventoy](https://www.ventoy.net/en/index.html) This allowed for me to test machines with all components present.
 
 ```bash
 #!/bin/bash
