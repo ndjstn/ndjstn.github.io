@@ -51,7 +51,7 @@ I recieved a large lot that was a mixed bag of items. Some where towers some wer
 - [ ] **Recommended Actions: (Repair, Upgrade, etc.)**
 - [ ] **Estimated Value:**
 
-I also determined that I needed a script to automate the process of checking the hardware. I created a simple script on a thumb drive I made using [Ventoy](https://www.ventoy.net/en/index.html) This allowed for me to test machines with all components present.
+I also determined that I needed a script to automate the process of checking the hardware. I created a simple script on a thumb drive I made using [Ventoy](https://www.ventoy.net/en/index.html) This allowed for me to test machines with all components present. I figured I would deploy the script using either [knoppix](https://www.knopper.net/knoppix/index-en.html) or [rasbian](https://www.raspberrypi.com/software/) given they are lightweight and are both on my [Ventoy](https://www.ventoy.net/en/index.html) drive.
 
 ```bash
 #!/bin/bash
