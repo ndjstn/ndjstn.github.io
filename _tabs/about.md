@@ -5,7 +5,7 @@ order: 1
 categories: [personal, projects, interests]
 ---
 
-Welcome to my personal corner of the web! Here, you'll discover my projects, passions, and a bit about who I am.
+Welcome to my personal corner of the web! Here, you will discover my projects, passions, and a bit about who I am.
 
 ## Projects
 
