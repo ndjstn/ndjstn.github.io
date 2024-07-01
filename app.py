@@ -26,7 +26,7 @@ def create_post():
         
         # Handle images
         image_urls = []
-        if images:
+        if images and images[0].filename != '':
             image_dir = os.path.join(ASSETS_DIR, title.replace(' ', '-').lower())
             os.makedirs(image_dir, exist_ok=True)
             for image in images:
