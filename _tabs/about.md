@@ -1,47 +1,43 @@
 ---
-title: About Me
+title: About
 icon: fas fa-info-circle
 order: 1
-categories: [personal, projects, interests]
 ---
 
-Welcome to my personal corner of the web! Here, you will discover my projects, passions, and a bit about who I am.
+Justin Stone is a builder focused on practical software, automation, and applied AI.
 
-## Projects
+This site is a place to document projects, experiments, and write-ups that are worth keeping public. The goal is not to look busy. The goal is to show real work, real iterations, and clear technical thinking.
 
-I love diving into a variety of tech projects. Here are some of the highlights:
+## What I work on
 
-- [**Anomaly Detection**](https://github.com/ndjstn/Anomaly-Detection): Identifying outliers in data for fraud detection, and network security.
-- [**Customer Segmentation**](https://github.com/ndjstn/Customer-Segmentation): Analyzing customer data to create targeted marketing strategies.
-- [**Housing Price Forecasting**](https://github.com/ndjstn/Housing-Price-Forecasting): Predicting real estate trends using machine learning models.
-- [**Image Classification**](https://github.com/ndjstn/Image-Classification): Teaching computers to recognize and categorize images.
-- [**Natural Language Processing (NLP)**](https://github.com/ndjstn/Natural-Language-Processing): Enabling machines to understand and respond to human language.
-- [**Recommender Systems**](https://github.com/ndjstn/Recomendation-System): Building algorithms to suggest products, and movies.
-- [**Sentiment Analysis**](https://github.com/ndjstn/Sentiment-Analysis): Gauging public opinion from social media and other text data.
-- [**Text Generation**](https://github.com/ndjstn/Simple-Text-Generation): Creating coherent and contextually relevant text using AI.
-- [**Time Series Analysis**](https://github.com/ndjstn/Time-Series-Analysis): Forecasting trends over time.
-- [**Medical Chatbot**](https://github.com/ndjstn/Medical-Chat-Bot): A simple example attempt at a first line of care.
-- [**Predictive Maintenance**](https://github.com/ndjstn/Predictive-Maintenance): Forecasting Machine Breakdowns
+- Local AI tooling and agent workflows
+- Automation and developer tooling
+- Data-oriented projects and applied machine learning
+- Systems that are useful in the real world, not just in demos
 
-## Interests
+## Current direction
 
-Beyond the screen, I have a diverse range of interests that keep me inspired:
+I am especially interested in building systems that combine:
 
-- **Healthcare**: Exploring the intersection of technology and health to improve patient outcomes.
-- **Radio**: Enjoying the art of broadcasting and amateur radio.
-- **Hobby Electronics**: Tinkering with circuits and microcontrollers for DIY projects.
-- **Martial Arts**: Practicing discipline, focus, and physical fitness.
-- **Fitness**: Staying active through various sports and workout routines.
-- **Gaming**: Immersing myself in the latest video games and VR experiences.
-- **Technology**: Keeping up with the latest in tech and innovation.
-- **Traveling**: Exploring new places, cultures, and cuisines around the world.
+- Local or self-hosted models
+- Retrieval and structured knowledge
+- Workflow automation
+- Practical interfaces that help people get things done
 
-Feel free to explore my projects and get in touch if you share similar interests!
+That includes experiments with tooling, infrastructure, note systems, and software that can actually support day-to-day work.
 
-<script src="https://utteranc.es/client.js"
-        repo="ndjstn/ndjstn.github.io"
-        issue-term="url"
-        theme="github-dark"
-        crossorigin="anonymous"
-        async>
-</script>
+## What to expect here
+
+You will mostly find:
+
+- Project updates
+- Technical notes
+- Build logs
+- Write-ups on tools, workflows, and lessons learned
+
+Over time, this site will be kept current with newer posts instead of acting like a stale placeholder.
+
+## Elsewhere
+
+- [GitHub](https://github.com/ndjstn)
+- [X / Twitter](https://twitter.com/ndjstn)
