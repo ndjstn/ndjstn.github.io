@@ -686,18 +686,27 @@ def image_weights_biases():
     save(fig, 'weights-biases.png')
 
 def image_backprop_blame_assignment():
-    fig, ax = plt.subplots(figsize=(13.8, 6.2), facecolor='white')
-    ax.set_xlim(0, 1)
-    ax.set_ylim(0, 1)
-    ax.axis('off')
+    fig = plt.figure(figsize=(13.8, 6.3), facecolor='white')
+    fig.text(0.05, 0.95, 'Backprop is error credit assignment', fontsize=21, fontweight='bold', color=COLORS['ink'])
+    fig.text(0.05, 0.905, 'The model predicts, compares with the target, then sends blame backward. Bigger gradients mean bigger corrections.', fontsize=11.7, color=COLORS['muted'])
 
-    ax.text(0.07, 0.93, 'forward pass', fontsize=13.4, fontweight='bold', color=COLORS['ink'])
-    ax.text(0.74, 0.93, 'loss', fontsize=13.4, fontweight='bold', color=COLORS['ink'])
-    ax.text(0.07, 0.28, 'sample gradients', fontsize=13.0, fontweight='bold', color=COLORS['ink'])
+    gs = fig.add_gridspec(1, 2, left=0.05, right=0.98, top=0.86, bottom=0.13, width_ratios=[1.15, 0.85], wspace=0.16)
+    ax_net = fig.add_subplot(gs[0, 0])
+    ax_bar = fig.add_subplot(gs[0, 1])
 
-    inputs = [(0.12, 0.72, r'$x_1$', 0.80), (0.12, 0.46, r'$x_2$', 0.40)]
-    hidden = [(0.38, 0.78, r'$h_1$', 0.71), (0.38, 0.40, r'$h_2$', 0.29)]
-    output = (0.64, 0.58, r'$\hat{y}$', 0.63)
+    ax_net.set_xlim(0, 1)
+    ax_net.set_ylim(0, 1)
+    ax_net.axis('off')
+
+    ax_net.text(0.00, 0.96, '1. predict, compare, send error back', fontsize=14.0, fontweight='bold', color=COLORS['ink'])
+    ax_net.plot([0.00, 0.08], [0.90, 0.90], color=COLORS['blue_dark'], linewidth=3)
+    ax_net.text(0.09, 0.90, 'forward signal', va='center', fontsize=10.8, color=COLORS['muted'])
+    ax_net.add_patch(FancyArrowPatch((0.27, 0.90), (0.35, 0.90), arrowstyle='->', linewidth=2.4, color=COLORS['purple'], mutation_scale=12))
+    ax_net.text(0.36, 0.90, 'error signal', va='center', fontsize=10.8, color=COLORS['muted'])
+
+    inputs = [(0.10, 0.72, r'$x_1$', 0.80), (0.10, 0.42, r'$x_2$', 0.40)]
+    hidden = [(0.38, 0.80, r'$h_1$', 0.71), (0.38, 0.34, r'$h_2$', 0.29)]
+    output = (0.67, 0.57, r'$\hat{y}$', 0.63)
     target = 1.00
 
     forward_edges = [
@@ -708,84 +717,93 @@ def image_backprop_blame_assignment():
         (hidden[0][:2], output[:2], 3.2),
         (hidden[1][:2], output[:2], 1.9),
     ]
-    for start, end, width in forward_edges:
-        ax.add_patch(FancyArrowPatch(start, end, arrowstyle='-', linewidth=width, color=COLORS['blue_dark'], alpha=0.45))
+    for start_xy, end_xy, width in forward_edges:
+        ax_net.add_patch(FancyArrowPatch(start_xy, end_xy, arrowstyle='-', linewidth=width, color=COLORS['blue_dark'], alpha=0.42))
 
     for x, y, label, value in inputs:
-        ax.add_patch(Circle((x, y), 0.040, facecolor='#e0f2fe', edgecolor=COLORS['blue_dark'], linewidth=2))
-        ax.text(x, y + 0.003, label, ha='center', va='center', fontsize=16.5, fontweight='bold')
-        ax.text(x, y - 0.075, f'{value:.2f}', ha='center', va='center', fontsize=10.8, color=COLORS['muted'])
+        ax_net.add_patch(Circle((x, y), 0.050, facecolor='#e0f2fe', edgecolor=COLORS['blue_dark'], linewidth=2.2))
+        ax_net.text(x, y + 0.002, label, ha='center', va='center', fontsize=18, fontweight='bold')
+        ax_net.text(x, y - 0.090, f'{value:.2f}', ha='center', va='center', fontsize=11.0, color=COLORS['muted'])
     for x, y, label, value in hidden:
-        ax.add_patch(Circle((x, y), 0.046, facecolor='white', edgecolor='#94a3b8', linewidth=2))
-        ax.text(x, y + 0.003, label, ha='center', va='center', fontsize=16.5, fontweight='bold')
-        ax.text(x, y - 0.080, f'{value:.2f}', ha='center', va='center', fontsize=10.8, color=COLORS['muted'])
-    ax.add_patch(Circle(output[:2], 0.050, facecolor='#fef3c7', edgecolor=COLORS['amber_dark'], linewidth=2))
-    ax.text(output[0], output[1] + 0.003, output[2], ha='center', va='center', fontsize=17.0, fontweight='bold')
-    ax.text(output[0], output[1] - 0.084, f'{output[3]:.2f}', ha='center', va='center', fontsize=10.8, color=COLORS['muted'])
+        ax_net.add_patch(Circle((x, y), 0.056, facecolor='white', edgecolor='#94a3b8', linewidth=2.2))
+        ax_net.text(x, y + 0.002, label, ha='center', va='center', fontsize=18, fontweight='bold')
+        ax_net.text(x, y - 0.100, f'{value:.2f}', ha='center', va='center', fontsize=11.0, color=COLORS['muted'])
+    ax_net.add_patch(Circle(output[:2], 0.058, facecolor='#fef3c7', edgecolor=COLORS['amber_dark'], linewidth=2.2))
+    ax_net.text(output[0], output[1] + 0.002, output[2], ha='center', va='center', fontsize=18, fontweight='bold')
+    ax_net.text(output[0], output[1] - 0.100, f'{output[3]:.2f}', ha='center', va='center', fontsize=11.0, color=COLORS['muted'])
 
-    loss_box = FancyBboxPatch((0.79, 0.50), 0.14, 0.16, boxstyle='round,pad=0.02,rounding_size=0.03', facecolor='#fff7ed', edgecolor=COLORS['amber_dark'], linewidth=1.8)
-    ax.add_patch(loss_box)
-    ax.add_patch(FancyArrowPatch((0.69, 0.58), (0.79, 0.58), arrowstyle='->', linewidth=1.7, color=COLORS['line'], mutation_scale=12))
-    ax.text(0.86, 0.615, fr'target = {target:.2f}', ha='center', va='center', fontsize=11.2)
-    ax.text(0.86, 0.575, fr'prediction = {output[3]:.2f}', ha='center', va='center', fontsize=11.2)
-    ax.text(0.86, 0.530, r'$L = (\hat{y} - y)^2$', ha='center', va='center', fontsize=11.2, color=COLORS['muted'])
+    loss_box = FancyBboxPatch((0.79, 0.47), 0.17, 0.18, boxstyle='round,pad=0.02,rounding_size=0.03', facecolor='#fff7ed', edgecolor=COLORS['amber_dark'], linewidth=1.8)
+    ax_net.add_patch(loss_box)
+    ax_net.add_patch(FancyArrowPatch((0.73, 0.57), (0.79, 0.57), arrowstyle='->', linewidth=1.7, color=COLORS['line'], mutation_scale=12))
+    ax_net.text(0.875, 0.61, f'target = {target:.2f}', ha='center', va='center', fontsize=11.4)
+    ax_net.text(0.875, 0.565, f'prediction = {output[3]:.2f}', ha='center', va='center', fontsize=11.4)
+    ax_net.text(0.875, 0.515, r'$L = (\hat{y} - y)^2$', ha='center', va='center', fontsize=11.2, color=COLORS['muted'])
 
     backward_paths = [
-        ((0.80, 0.50), (0.66, 0.52), -0.10, 2.7),
-        ((0.60, 0.50), (0.42, 0.72), -0.15, 2.9),
-        ((0.60, 0.50), (0.42, 0.46), 0.03, 1.9),
-        ((0.33, 0.70), (0.16, 0.68), 0.10, 1.8),
-        ((0.33, 0.44), (0.16, 0.48), -0.10, 2.5),
+        ((0.82, 0.47), (0.71, 0.49), -0.10, 2.8),
+        ((0.64, 0.49), (0.43, 0.73), -0.13, 3.0),
+        ((0.64, 0.49), (0.43, 0.37), 0.05, 2.0),
+        ((0.30, 0.70), (0.14, 0.67), 0.10, 1.9),
+        ((0.30, 0.36), (0.14, 0.44), -0.10, 2.5),
     ]
-    for start, end, rad, width in backward_paths:
-        ax.add_patch(FancyArrowPatch(start, end, arrowstyle='->', linewidth=width, color=COLORS['purple'], alpha=0.82, mutation_scale=12, connectionstyle=f'arc3,rad={rad}'))
-    ax.text(0.54, 0.69, 'error signal flows backward', fontsize=11.1, color=COLORS['purple'], fontweight='bold')
-    ax.text(0.54, 0.63, r'larger $|\nabla L|$ means a larger update', fontsize=10.6, color=COLORS['muted'])
+    for start_xy, end_xy, rad, width in backward_paths:
+        ax_net.add_patch(FancyArrowPatch(start_xy, end_xy, arrowstyle='->', linewidth=width, color=COLORS['purple'], alpha=0.82, mutation_scale=12, connectionstyle=f'arc3,rad={rad}'))
+    ax_net.text(0.52, 0.74, 'prediction missed target → send blame back', fontsize=11.0, color=COLORS['purple'], fontweight='bold')
 
-    baseline = 0.14
-    ax.plot([0.07, 0.90], [baseline, baseline], color='#cbd5e1', linewidth=1.2)
+    ax_bar.set_title('2. larger gradients mean larger corrections', loc='left', fontsize=14.0, pad=10, fontweight='bold')
     bars = [
-        (0.22, -0.41, 'x1→h1'),
-        (0.30, 0.62, 'x2→h2'),
-        (0.50, -0.84, 'h1→ŷ'),
-        (0.58, 0.28, 'h2→ŷ'),
-        (0.73, -0.19, 'b_h1'),
-        (0.81, 0.11, 'b_ŷ'),
+        ('x1→h1', -0.41),
+        ('x2→h2', 0.62),
+        ('h1→ŷ', -0.84),
+        ('h2→ŷ', 0.28),
+        ('b_h1', -0.19),
+        ('b_ŷ', 0.11),
     ]
-    max_abs = max(abs(value) for _, value, _ in bars)
-    for x, value, label in bars:
-        height = 0.18 * (value / max_abs)
-        color = '#6d28d9' if value >= 0 else '#4c1d95'
-        ax.add_patch(Rectangle((x - 0.025, baseline), 0.05, height, facecolor=color, alpha=0.88))
-        ax.text(x, baseline + height + (0.028 if value >= 0 else -0.070), f'{value:+.2f}', ha='center', va='bottom' if value >= 0 else 'top', fontsize=10.4)
-        ax.text(x, 0.05, label, ha='center', va='top', fontsize=9.8, color=COLORS['muted'])
-    ax.text(0.73, 0.235, r'update: $w \leftarrow w - \eta \nabla_w L$', fontsize=10.8, color=COLORS['muted'])
+    labels = [label for label, _ in bars]
+    values = np.array([value for _, value in bars])
+    y = np.arange(len(bars))
+    colors = np.where(values >= 0, COLORS['purple'], '#6d28d9')
+    ax_bar.barh(y, values, color=colors, alpha=0.88, height=0.72)
+    ax_bar.axvline(0, color='#cbd5e1', linewidth=1.3)
+    ax_bar.set_yticks(y, labels=labels)
+    ax_bar.set_xlabel('signed gradient')
+    ax_bar.grid(axis='x', alpha=0.12)
+    sns.despine(ax=ax_bar, left=True, bottom=False)
+    ax_bar.invert_yaxis()
+    max_abs = np.max(np.abs(values))
+    ax_bar.set_xlim(-max_abs * 1.18, max_abs * 1.18)
+    for idx, value in enumerate(values):
+        ax_bar.text(value + (0.03 if value >= 0 else -0.03), idx, f'{value:+.2f}', va='center', ha='left' if value >= 0 else 'right', fontsize=10.4)
+    ax_bar.text(0.02, 0.96, r'update rule: $w \leftarrow w - \eta \nabla_w L$', transform=ax_bar.transAxes, va='top', fontsize=11.0, color=COLORS['muted'])
+
     save(fig, 'backprop-blame-assignment.png')
 
 def image_debugging_checklist():
-    fig, ax = plt.subplots(figsize=(14, 8))
+    fig, ax = plt.subplots(figsize=(13.8, 6.0), facecolor='white')
     ax.set_xlim(0, 1)
     ax.set_ylim(0, 1)
     ax.axis('off')
-    add_rounded_panel(ax)
-    title_block(fig, 'How I actually think about a model when it is failing', 'The checklist is usually more useful than memorizing more vocabulary.')
+
+    fig.text(0.05, 0.95, 'A better debugging checklist than more buzzwords', fontsize=21, fontweight='bold', color=COLORS['ink'])
+    fig.text(0.05, 0.905, 'When a model is failing, I try to diagnose the job, the signals, the capacity, the feedback, and the data in that order.', fontsize=11.7, color=COLORS['muted'])
 
     items = [
-        ('task', 'What is the model actually trying to predict?', COLORS['blue']),
-        ('signals', 'Which inputs should matter most for this job?', COLORS['green']),
-        ('capacity', 'Is the model too weak or too big for the data?', COLORS['amber']),
-        ('feedback', 'Is the learning signal clean enough to help?', COLORS['red']),
-        ('data', 'Is the real problem the data, not the architecture?', COLORS['purple']),
+        ('01', 'task', 'What is the model actually trying to predict?', COLORS['blue_dark']),
+        ('02', 'signals', 'Which inputs should matter most for this job?', COLORS['green_dark']),
+        ('03', 'capacity', 'Is the model too weak or too large for the data?', COLORS['amber_dark']),
+        ('04', 'feedback', 'Is the learning signal clean enough to help?', COLORS['red_dark']),
+        ('05', 'data', 'Is the real problem the data, not the architecture?', COLORS['purple']),
     ]
-    y_positions = [0.74, 0.60, 0.46, 0.32, 0.18]
-    for (label, question, color), y in zip(items, y_positions):
-        ax.add_patch(FancyBboxPatch((0.10, y - 0.05), 0.80, 0.09, boxstyle='round,pad=0.02,rounding_size=0.03',
-                                    facecolor='white', edgecolor=color, linewidth=2))
-        ax.text(0.16, y, label, ha='left', va='center', fontsize=13, fontweight='bold', color=color)
-        ax.text(0.29, y, question, ha='left', va='center', fontsize=12.5, color=COLORS['ink'])
+    y_positions = [0.76, 0.61, 0.46, 0.31, 0.16]
+    for index, (num, label, question, color), y in zip(range(len(items)), items, y_positions):
+        if index > 0:
+            ax.plot([0.05, 0.95], [y + 0.075, y + 0.075], color='#e2e8f0', linewidth=1)
+        ax.add_patch(Rectangle((0.05, y - 0.045), 0.012, 0.09, facecolor=color, edgecolor='none'))
+        ax.text(0.08, y + 0.022, num, ha='left', va='center', fontsize=10.5, color=COLORS['muted'])
+        ax.text(0.14, y + 0.022, label, ha='left', va='center', fontsize=14.0, fontweight='bold', color=color)
+        ax.text(0.14, y - 0.020, question, ha='left', va='center', fontsize=14.0, color=COLORS['ink'])
 
     save(fig, 'debugging-checklist.png')
-
 
 def main():
     image_explanation_problem()

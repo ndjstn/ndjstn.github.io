@@ -21,10 +21,10 @@ Shipping threshold: `40/50` and no score below `3`.
 | `neuron-scoring-rule.png` | 5 | 4 | 5 | 4 | 5 | 5 | 4 | 4 | 4 | 4 | 44 |
 | `weights-biases.png` | 5 | 4 | 5 | 5 | 5 | 5 | 5 | 4 | 4 | 4 | 46 |
 | `weights-bias-threshold-shift.gif` | 5 | 4 | 5 | 5 | 5 | 4 | 4 | 4 | 4 | 4 | 44 |
-| `activation-functions.png` | 4 | 4 | 5 | 4 | 5 | 5 | 5 | 4 | 4 | 4 | 44 |
+| `activation-functions.png` | 4 | 4 | 5 | 4 | 5 | 5 | 5 | 4 | 4 | 5 | 45 |
 | `representation-building.png` | 4 | 4 | 5 | 5 | 4 | 4 | 5 | 4 | 4 | 4 | 43 |
-| `backprop-blame-assignment.png` | 5 | 4 | 4 | 5 | 4 | 5 | 4 | 4 | 4 | 4 | 43 |
-| `debugging-checklist.png` | 4 | 5 | 5 | 4 | 5 | 4 | 5 | 3 | 4 | 4 | 43 |
+| `backprop-blame-assignment.png` | 5 | 4 | 5 | 5 | 4 | 5 | 4 | 4 | 4 | 5 | 45 |
+| `debugging-checklist.png` | 4 | 5 | 5 | 4 | 5 | 4 | 5 | 4 | 4 | 5 | 45 |
 
 ## Notes By Figure
 
@@ -41,8 +41,8 @@ Shipping threshold: `40/50` and no score below `3`.
   - Keep using this style: one scenario, one score, one decision difference.
 
 - `weights-bias-threshold-shift.gif`
-  - Much cleaner after the collision fix.
-  - Still a bit dense in the left summary block, so it should be watched in future passes.
+  - Frame-level collisions are cleaned up enough to ship.
+  - Still slightly dense on the left summary block, so it should be watched in future passes.
 
 - `activation-functions.png`
   - The title collision is fixed.
@@ -53,9 +53,9 @@ Shipping threshold: `40/50` and no score below `3`.
   - Could get stronger with one more explicit cue about why the final line reads the later representation better.
 
 - `backprop-blame-assignment.png`
-  - The story is there now: forward pass, loss, backward signal, gradient sizes.
-  - The lower bar section is still busier than it should be.
+  - Better split now: left side explains the signal flow, right side explains which parameters move most.
+  - The next polish pass should focus on spacing and typography, not structure.
 
 - `debugging-checklist.png`
-  - Legible and useful, but the most slide-like figure in the set.
-  - If this gets another pass, reduce the box treatment and make the hierarchy more editorial.
+  - Much less slide-like after the redesign.
+  - This is now a clean editorial checklist instead of a stack of colored boxes.
