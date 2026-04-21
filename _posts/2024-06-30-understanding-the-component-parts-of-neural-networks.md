@@ -144,7 +144,7 @@ $$
 \frac{\partial s}{\partial x_i} = w_i, \qquad \frac{\partial s}{\partial b} = 1
 $$
 
-That derivative line is exactly why I wanted to redraw this section. A decent weights-and-bias graphic should show three things plainly: which features are active, how strongly each weight pulls, and how the bias shifts the entire score even when the feature pattern stays the same. The older perceptron framing is still useful here because it makes each input’s signed influence explicit ([Rosenblatt, 1958](#ref-rosenblatt1958)).
+A useful weights-and-bias graphic should answer three plain questions: which inputs are active, which weights pull hardest, and where the bias moves the switch-on point. The older perceptron framing is still useful here because it makes each input’s signed influence explicit ([Rosenblatt, 1958](#ref-rosenblatt1958)).
 
 That is not the full mathematical story, but it is the part I reach for when I want the intuition fast.
 
@@ -154,11 +154,11 @@ That is the split that finally made the two concepts stop blurring together for 
 
 ![Weights as influence and biases as threshold shift.](/assets/img/posts/neural-network-components/weights-biases.png)
 
-*Weights tell the model what to care about. Biases help decide when that care turns into a response.*
+*Read it left to right: input values, signed weights, per-feature pull, then the total score before activation.*
 
 ![Animated view of the threshold and decision boundary shifting as the bias changes.](/assets/img/posts/neural-network-components/weights-bias-threshold-shift.gif)
 
-*The useful motion is not decorative: the weights stay fixed, so the rule keeps its orientation while the bias slides the threshold and the decision boundary in parallel.*
+*Hold the weights fixed and change only the bias: the threshold shifts, so the decision rule slides without changing its basic orientation.*
 
 ## Activation is where things get interesting
 
@@ -217,13 +217,13 @@ $$
 
 Each new layer is not starting from scratch. It is transforming the representation produced by the previous one.
 
-I also wanted the visual here to be less hand-wavy than before. So the figure below uses a tiny learned network and then fits a simple linear probe at each stage. The point is to make the phrase “better representation” visible instead of just saying it.
+The figure below uses a tiny learned network and then asks a simple question at each stage: if you freeze that representation, how well can a straight line separate the classes? That makes the phrase “better representation” visible instead of just saying it.
 
 That shift in how I thought about hidden layers made the topic feel much less mystical. I stopped thinking, “there are magic layers in the middle,” and started thinking, “the model is trying to build a better internal representation before it makes a decision.”
 
 ![A synthetic example of representations becoming more useful over layers.](/assets/img/posts/neural-network-components/representation-building.png)
 
-*The raw input is not the final form the model wants. Hidden layers are where that raw signal gets reorganized into something easier to separate and reason about.*
+*The same points become easier for a straight-line classifier to separate as the hidden representation gets cleaner.*
 
 ## Backprop is just accountability
 
@@ -265,7 +265,7 @@ That equation is the whole accountability story in miniature: how much the model
 
 ![Backprop shown as prediction, comparison, blame assignment, and parameter update.](/assets/img/posts/neural-network-components/backprop-blame-assignment.png)
 
-*Learning is not a moment of understanding. It is a long loop of prediction, correction, and parameter updates.*
+*Backprop is not mystery; it is a routing rule for correction. The biggest gradients mark the parts of the model that need the biggest adjustment.*
 
 That is also why training failures usually become easier to diagnose once you stop talking about them in abstract AI language. A bad training run is often just a bad correction loop.
 
