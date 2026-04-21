@@ -276,62 +276,81 @@ def image_weights_biases():
     save(fig, 'weights-biases.png')
 
 def image_weights_bias_animation():
-    fig, (ax_curve, ax_boundary) = plt.subplots(1, 2, figsize=(14, 6.2), facecolor=COLORS['bg'])
-    fig.subplots_adjust(top=0.80, left=0.06, right=0.98, bottom=0.14, wspace=0.24)
-    fig.text(0.06, 0.94, 'Bias is easier to understand when you watch it move', fontsize=22, fontweight='bold', color=COLORS['ink'])
-    fig.text(0.06, 0.89, 'Weights stay fixed. The threshold and the decision boundary slide because the bias term changes the score everywhere at once.', fontsize=12.5, color=COLORS['muted'])
+    feature_names = ['room below target', 'someone home', 'afternoon sun']
+    values = np.array([0.80, 1.00, 0.60])
+    baseline_weights = np.array([1.10, 0.50, -0.70])
+    baseline_feature_score = np.dot(values, baseline_weights)
 
-    raw_score = np.linspace(-4.0, 4.0, 400)
-    sample_raw = 0.7
-    boundary_weights = np.array([1.4, -1.0])
-    xx, yy = np.meshgrid(np.linspace(-2.4, 2.4, 180), np.linspace(-2.1, 2.1, 180))
-    frames = np.concatenate([np.linspace(-1.6, 1.3, 28), np.linspace(1.3, -1.6, 28)])
+    fig, (ax_weights, ax_bias) = plt.subplots(1, 2, figsize=(13.6, 5.0), facecolor='white')
+    fig.subplots_adjust(left=0.06, right=0.98, bottom=0.14, top=0.86, wspace=0.22)
+    fig.text(0.06, 0.93, 'same room, two different knobs', fontsize=18, fontweight='bold', color=COLORS['ink'])
+    fig.text(0.06, 0.88, 'left changes what matters. right changes how much evidence is enough.', fontsize=11.6, color=COLORS['muted'])
+    fig.text(0.06, 0.83, 'room state: cold = 0.80, home = 1.00, sun = 0.60', fontsize=11.0, color=COLORS['muted'])
 
-    def draw_frame(bias_value):
-        ax_curve.clear()
-        ax_boundary.clear()
+    frames = list(range(48))
 
-        response = 1 / (1 + np.exp(-(raw_score + bias_value)))
-        threshold = -bias_value
-        sample_prob = 1 / (1 + np.exp(-(sample_raw + bias_value)))
+    def draw_frame(frame_index):
+        ax_weights.clear()
+        ax_bias.clear()
 
-        ax_curve.plot(raw_score, response, color=COLORS['blue_dark'], linewidth=3)
-        ax_curve.axhline(0.5, color=COLORS['line'], linewidth=1.2, linestyle=':')
-        ax_curve.axvline(threshold, color=COLORS['amber_dark'], linewidth=2.0, linestyle='--')
-        ax_curve.scatter([sample_raw], [sample_prob], color=COLORS['red_dark'], s=90, zorder=5)
-        ax_curve.annotate(
-            f'bias = {bias_value:+.2f}\nthreshold = {-bias_value:+.2f}\nsample p = {sample_prob:.2f}',
-            xy=(sample_raw, sample_prob),
-            xytext=(-3.45, 0.80),
-            arrowprops={'arrowstyle': '->', 'lw': 1.5, 'color': COLORS['muted']},
-            bbox={'boxstyle': 'round,pad=0.35', 'fc': 'white', 'ec': '#cbd5e1'},
-            fontsize=10.5,
-            color=COLORS['ink'],
-        )
-        ax_curve.set_title('The activation threshold slides', loc='left', pad=10, fontsize=14)
-        ax_curve.set_xlabel(r'raw weighted sum $w^\top x$')
-        ax_curve.set_ylabel(r'activation $\sigma(w^\top x + b)$')
-        ax_curve.set_ylim(-0.02, 1.02)
-        ax_curve.grid(alpha=0.18)
-        sns.despine(ax=ax_curve)
+        weight_phase = frame_index < 24
+        current_weights = baseline_weights.copy()
+        if weight_phase:
+            current_weights[0] = np.interp(frame_index, [0, 23], [0.40, 1.10])
+            current_bias = -0.70
+            bias_demo = -0.70
+            feature_score = np.dot(values, baseline_weights)
+            phase_label = 'phase 1: change one weight'
+        else:
+            current_bias = -0.70
+            bias_demo = np.interp(frame_index, [24, 47], [-1.20, -0.60])
+            feature_score = baseline_feature_score
+            phase_label = 'phase 2: change only bias'
 
-        surface = 1 / (1 + np.exp(-(boundary_weights[0] * xx + boundary_weights[1] * yy + bias_value)))
-        ax_boundary.contourf(xx, yy, surface, levels=np.linspace(0, 1, 11), cmap='RdBu_r', alpha=0.42)
-        ax_boundary.contour(xx, yy, boundary_weights[0] * xx + boundary_weights[1] * yy + bias_value, levels=[0], colors=[COLORS['ink']], linewidths=3)
-        normal = boundary_weights / np.linalg.norm(boundary_weights)
-        ax_boundary.arrow(0.2, 0.2, 0.7 * normal[0], 0.7 * normal[1], width=0.02, color=COLORS['amber_dark'], length_includes_head=True)
-        ax_boundary.text(-2.15, 1.65, 'same weights → same angle', fontsize=10.5, color=COLORS['muted'])
-        ax_boundary.text(-2.15, 1.38, 'changing bias → translated line', fontsize=10.5, color=COLORS['muted'])
-        ax_boundary.set_title('The decision boundary moves in parallel', loc='left', pad=10, fontsize=14)
-        ax_boundary.set_xlabel('feature 1')
-        ax_boundary.set_ylabel('feature 2')
-        ax_boundary.grid(alpha=0.14)
-        sns.despine(ax=ax_boundary)
+        contributions = values * current_weights
+        left_score = contributions.sum()
+        left_threshold = -current_bias
+        left_z = left_score + current_bias
 
-    anim = animation.FuncAnimation(fig, draw_frame, frames=frames, interval=90)
+        ax_weights.set_title('weights', loc='left', fontsize=14, pad=10, fontweight='bold')
+        y = np.arange(len(feature_names))
+        colors = [COLORS['blue_dark'], COLORS['green_dark'], COLORS['red_dark']]
+        ax_weights.barh(y, contributions, color=colors, alpha=0.88)
+        ax_weights.axvline(0, color='#cbd5e1', linewidth=1.2)
+        ax_weights.set_yticks(y, labels=feature_names)
+        ax_weights.set_xlim(-0.55, 1.15)
+        ax_weights.invert_yaxis()
+        ax_weights.grid(axis='x', alpha=0.12)
+        sns.despine(ax=ax_weights, left=True, bottom=False)
+        for idx, value in enumerate(contributions):
+            ax_weights.text(value + (0.03 if value >= 0 else -0.03), idx, f'{value:+.2f}', va='center', ha='left' if value >= 0 else 'right', fontsize=10.2)
+        ax_weights.text(0.02, 0.96, phase_label if weight_phase else 'weights fixed', transform=ax_weights.transAxes, va='top', fontsize=11.0, color=COLORS['muted'])
+        ax_weights.text(0.02, 0.86, f'cold-room weight = {current_weights[0]:+.2f}', transform=ax_weights.transAxes, va='top', fontsize=11.0, color=COLORS['ink'])
+        ax_weights.text(0.02, 0.76, f'score = {left_score:.2f}   cutoff = {left_threshold:.2f}', transform=ax_weights.transAxes, va='top', fontsize=11.0, color=COLORS['ink'])
+        ax_weights.text(0.02, 0.66, 'heat on' if left_z > 0 else 'stay off', transform=ax_weights.transAxes, va='top', fontsize=11.4, fontweight='bold', color=COLORS['green_dark'] if left_z > 0 else COLORS['red_dark'])
+
+        ax_bias.set_title('bias', loc='left', fontsize=14, pad=10, fontweight='bold')
+        ax_bias.set_xlim(0.0, 1.35)
+        ax_bias.set_ylim(0, 1)
+        ax_bias.set_yticks([])
+        ax_bias.set_xticks(np.arange(0.0, 1.4, 0.25))
+        ax_bias.grid(axis='x', alpha=0.12)
+        sns.despine(ax=ax_bias, left=True, bottom=False)
+        ax_bias.hlines(0.45, 0.0, 1.35, color='#cbd5e1', linewidth=2)
+        threshold = -bias_demo
+        z = feature_score + bias_demo
+        ax_bias.axvline(threshold, color=COLORS['ink'], linewidth=2)
+        ax_bias.scatter([feature_score], [0.45], s=84, color=COLORS['blue_dark'], zorder=3)
+        ax_bias.text(0.02, 0.96, 'bias fixed' if weight_phase else phase_label, transform=ax_bias.transAxes, va='top', fontsize=11.0, color=COLORS['muted'])
+        ax_bias.text(0.02, 0.86, f'same score = {feature_score:.2f}', transform=ax_bias.transAxes, va='top', fontsize=11.0, color=COLORS['blue_dark'])
+        ax_bias.text(0.02, 0.76, f'b = {bias_demo:+.2f}   cutoff = {threshold:.2f}', transform=ax_bias.transAxes, va='top', fontsize=11.0, color=COLORS['ink'])
+        ax_bias.text(0.02, 0.66, 'heat on' if z > 0 else 'stay off', transform=ax_bias.transAxes, va='top', fontsize=11.4, fontweight='bold', color=COLORS['green_dark'] if z > 0 else COLORS['red_dark'])
+        ax_bias.text(threshold, 0.74, 'cutoff', ha='center', fontsize=10.2, color=COLORS['muted'])
+        ax_bias.text(feature_score, 0.18, 'same room score', ha='center', fontsize=10.0, color=COLORS['blue_dark'])
+
+    anim = animation.FuncAnimation(fig, draw_frame, frames=frames, interval=100)
     anim.save(OUT_DIR / 'weights-bias-threshold-shift.gif', writer=animation.PillowWriter(fps=8))
     plt.close(fig)
-
 
 def image_activation_functions():
     fig, ax = plt.subplots(figsize=(14, 8))
@@ -554,64 +573,92 @@ def image_neuron_scoring_rule():
 
 
 def image_weights_biases():
-    inputs = np.array([0.80, 0.30, 0.30])
-    weights = np.array([1.00, -0.50, 0.50])
-    contributions = inputs * weights
+    feature_names = ['cold room', 'someone home', 'afternoon sun']
+    values = np.array([0.80, 1.00, 0.60])
+    weights = np.array([1.10, 0.50, -0.70])
+    contributions = values * weights
     feature_score = contributions.sum()
-    bias = -0.40
-    total = feature_score + bias
-    bias_settings = [-1.0, 0.0, 1.0]
+    modes = [('comfort mode', -0.70, 'heat turns on'), ('eco mode', -1.20, 'heat stays off')]
 
-    fig = plt.figure(figsize=(13.6, 5.8), facecolor='white')
-    gs = fig.add_gridspec(2, 1, left=0.05, right=0.98, bottom=0.12, top=0.92, height_ratios=[1.08, 0.92], hspace=0.34)
-    ax_main = fig.add_subplot(gs[0, 0])
-    small = gs[1, 0].subgridspec(1, 3, wspace=0.18)
-    ax_small = [fig.add_subplot(small[0, i]) for i in range(3)]
+    fig = plt.figure(figsize=(13.8, 6.2), facecolor='white')
+    fig.text(0.05, 0.95, 'Same room, different thermostat mode', fontsize=22, fontweight='bold', color=COLORS['ink'])
+    fig.text(0.05, 0.905, 'Weights build the room score. Bias decides how much score is enough to heat.', fontsize=12.0, color=COLORS['muted'])
 
-    ax_main.set_xlim(-1.25, 1.45)
-    ax_main.set_ylim(0, 1)
-    ax_main.set_yticks([])
-    ax_main.set_xticks(np.arange(-1.0, 1.6, 0.5))
-    ax_main.grid(axis='x', alpha=0.12)
-    sns.despine(ax=ax_main, left=True, bottom=False)
-    ax_main.text(0.00, 1.02, 'feature contributions add up before bias moves the cutoff', transform=ax_main.transAxes, fontsize=14.2, fontweight='bold', va='bottom')
-    ax_main.text(0.00, 0.93, r'$z = \sum_i w_i x_i + b$', transform=ax_main.transAxes, fontsize=12.0, color=COLORS['muted'])
-    ax_main.text(-1.23, 0.82, 'x = [0.80, 0.30, 0.30]\nw = [+1.00, -0.50, +0.50]', fontsize=10.8, color=COLORS['muted'], va='top')
-    ax_main.hlines(0.42, -1.25, 1.45, color='#cbd5e1', linewidth=2)
-    ax_main.axvline(0, color=COLORS['ink'], linewidth=2)
-    ax_main.text(0.02, 0.12, r'threshold: fire if $z > 0$', fontsize=11.4, color=COLORS['ink'])
+    outer = fig.add_gridspec(2, 1, left=0.05, right=0.98, bottom=0.10, top=0.88, height_ratios=[1.02, 0.88], hspace=0.38)
+    top = outer[0].subgridspec(1, 2, width_ratios=[0.40, 0.60], wspace=0.18)
+    bottom = outer[1].subgridspec(1, 2, wspace=0.18)
+    ax_table = fig.add_subplot(top[0, 0])
+    ax_score = fig.add_subplot(top[0, 1])
+    ax_mode_a = fig.add_subplot(bottom[0, 0])
+    ax_mode_b = fig.add_subplot(bottom[0, 1])
 
-    deltas = [*contributions, bias]
-    colors = [COLORS['blue_dark'] if delta >= 0 else COLORS['red_dark'] for delta in contributions] + [COLORS['amber_dark']]
+    ax_table.set_xlim(0, 1)
+    ax_table.set_ylim(0, 1)
+    ax_table.axis('off')
+    ax_table.text(0.02, 0.93, 'current signals', fontsize=14.0, fontweight='bold', color=COLORS['ink'])
+    ax_table.text(0.02, 0.84, 'signal', fontsize=12.2, fontweight='bold')
+    ax_table.text(0.54, 0.84, 'reading', fontsize=12.2, fontweight='bold', ha='right')
+    ax_table.text(0.69, 0.84, 'weight', fontsize=12.2, fontweight='bold', ha='right')
+    ax_table.text(0.90, 0.84, 'pull', fontsize=12.2, fontweight='bold', ha='center')
+
+    zero_x = 0.85
+    ax_table.plot([zero_x, zero_x], [0.18, 0.77], color='#cbd5e1', linewidth=1)
+    row_y = [0.67, 0.47, 0.27]
+    scale = 0.10 / np.max(np.abs(contributions))
+    row_colors = [COLORS['blue_dark'], COLORS['green_dark'], COLORS['red_dark']]
+
+    for name, value, weight, contribution, y, color in zip(feature_names, values, weights, contributions, row_y, row_colors):
+        ax_table.text(0.02, y, name, fontsize=12.4, va='center')
+        ax_table.text(0.54, y, f'{value:.2f}', fontsize=12.4, va='center', ha='right')
+        ax_table.text(0.69, y, f'{weight:+.2f}', fontsize=12.4, va='center', ha='right')
+        width = contribution * scale
+        left = zero_x if contribution >= 0 else zero_x + width
+        ax_table.add_patch(Rectangle((left, y - 0.045), abs(width), 0.09, facecolor=color, edgecolor='none', alpha=0.92, transform=ax_table.transAxes))
+        ax_table.text(0.98, y, f'{contribution:+.2f}', fontsize=12.2, va='center', ha='right')
+        ax_table.plot([0.02, 0.98], [y - 0.10, y - 0.10], color='#eef2f7', linewidth=1)
+
+    ax_score.set_xlim(-0.08, 1.18)
+    ax_score.set_ylim(0, 1)
+    ax_score.set_yticks([])
+    ax_score.set_xticks(np.arange(0.0, 1.21, 0.25))
+    ax_score.grid(axis='x', alpha=0.10)
+    sns.despine(ax=ax_score, left=True, bottom=False)
+    ax_score.text(0.00, 0.95, 'room score before bias', transform=ax_score.transAxes, fontsize=14.2, fontweight='bold')
+    ax_score.text(0.00, 0.86, f'{contributions[0]:.2f} + {contributions[1]:.2f} - {abs(contributions[2]):.2f} = {feature_score:.2f}', transform=ax_score.transAxes, fontsize=11.5, color=COLORS['muted'])
+    ax_score.hlines(0.45, -0.08, 1.18, color='#cbd5e1', linewidth=2)
+    ax_score.axvline(0, color=COLORS['ink'], linewidth=1.6)
+
     current = 0.0
-    for idx, (delta, color) in enumerate(zip(deltas, colors)):
+    labels = ['cold room', 'someone home', 'sunlight']
+    for delta, label, color in zip(contributions, labels, row_colors):
         nxt = current + delta
-        ax_main.plot([current, nxt], [0.42, 0.42], color=color, linewidth=14, solid_capstyle='round', alpha=0.92)
-        ax_main.scatter([nxt], [0.42], s=58, color=color, zorder=3)
+        ax_score.plot([current, nxt], [0.45, 0.45], color=color, linewidth=16, solid_capstyle='round', alpha=0.92)
+        ax_score.scatter([nxt], [0.45], s=62, color=color, zorder=3)
+        ax_score.text((current + nxt) / 2, 0.69 if delta >= 0 else 0.22, f'{label}\n{delta:+.2f}', ha='center', va='center', fontsize=10.5)
         current = nxt
-    ax_main.text(0.66, 0.90, fr'score before bias = {feature_score:.2f}', transform=ax_main.transAxes, fontsize=11.5, color=COLORS['blue_dark'], fontweight='bold')
-    ax_main.text(0.55, 0.76, fr'after bias: $z$ = {total:.2f}', transform=ax_main.transAxes, fontsize=12.2, fontweight='bold', color=COLORS['ink'])
+    ax_score.text(feature_score, 0.82, f'room score = {feature_score:.2f}', ha='center', fontsize=12.6, fontweight='bold', color=COLORS['blue_dark'])
 
-    for axis, current_bias in zip(ax_small, bias_settings):
-        threshold = -current_bias
-        axis.set_xlim(-1.4, 1.4)
+    for axis, (mode_name, bias, outcome) in zip((ax_mode_a, ax_mode_b), modes):
+        threshold = -bias
+        z = feature_score + bias
+        heat_on = z > 0
+        axis.set_xlim(0.0, 1.35)
         axis.set_ylim(0, 1)
         axis.set_yticks([])
-        axis.set_xticks(np.arange(-1.0, 1.1, 0.5))
+        axis.set_xticks(np.arange(0.0, 1.36, 0.25))
         axis.grid(axis='x', alpha=0.10)
         sns.despine(ax=axis, left=True, bottom=False)
-        axis.hlines(0.45, -1.4, 1.4, color='#cbd5e1', linewidth=2)
+        axis.set_title(mode_name, fontsize=14.0, pad=8, fontweight='bold')
+        axis.hlines(0.43, 0.0, 1.35, color='#cbd5e1', linewidth=2)
         axis.axvline(threshold, color=COLORS['ink'], linewidth=2)
-        axis.scatter([feature_score], [0.45], s=72, color=COLORS['blue_dark'], zorder=3)
-        status = 'on' if feature_score > threshold else 'off'
-        status_color = COLORS['green_dark'] if status == 'on' else COLORS['red_dark']
-        axis.set_title(fr'$b$ = {current_bias:+.1f}', fontsize=12.6, pad=8, fontweight='bold')
-        threshold_label = 0.0 if abs(threshold) < 1e-9 else threshold
-        axis.text(threshold, 0.76, f'threshold = {threshold_label:.1f}', ha='center', fontsize=10.3, color=COLORS['muted'])
-        axis.text(feature_score, 0.19, 'score = 0.80', ha='center', fontsize=10.2, color=COLORS['blue_dark'])
-        axis.text(0.03, 0.90, status, transform=axis.transAxes, fontsize=11.4, fontweight='bold', color=status_color)
-    save(fig, 'weights-biases.png')
+        axis.scatter([feature_score], [0.43], s=82, color=COLORS['blue_dark'], zorder=3)
+        axis.text(0.03, 0.87, f'bias = {bias:+.2f}', transform=axis.transAxes, fontsize=11.0, color=COLORS['muted'])
+        axis.text(0.03, 0.73, outcome, transform=axis.transAxes, fontsize=12.2, fontweight='bold', color=COLORS['green_dark'] if heat_on else COLORS['red_dark'])
+        axis.text(0.74, 0.87, f'z = {z:+.2f}', transform=axis.transAxes, fontsize=11.4, fontweight='bold', color=COLORS['ink'])
+        axis.text(threshold, 0.74, f'cutoff {threshold:.2f}', ha='center', fontsize=10.3, color=COLORS['muted'])
+        axis.text(feature_score, 0.18, f'same room score {feature_score:.2f}', ha='center', fontsize=10.3, color=COLORS['blue_dark'])
 
+    save(fig, 'weights-biases.png')
 
 def image_backprop_blame_assignment():
     fig, ax = plt.subplots(figsize=(13.8, 6.2), facecolor='white')

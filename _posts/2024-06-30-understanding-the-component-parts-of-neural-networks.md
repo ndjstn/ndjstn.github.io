@@ -148,17 +148,17 @@ A useful weights-and-bias graphic should answer three plain questions: which inp
 
 That is not the full mathematical story, but it is the part I reach for when I want the intuition fast.
 
-A spam classifier is a nice toy example here. Certain words, sender patterns, or formatting quirks might deserve more weight because they are genuinely informative. But a bias can still shift how quickly the model leans toward “spam” even before those signals become overwhelming.
+A thermostat is a cleaner example here than a classifier with mysterious embeddings. Imagine a smart heater deciding whether to kick on. A room that is well below target temperature should push the score up, so that signal gets a positive weight. Occupancy gets a positive weight too: if someone is home, the system should care more. Strong afternoon sun gets a negative weight because free warmth should pull the score back down.
 
-That is the split that finally made the two concepts stop blurring together for me.
+Now hold that room state fixed. If the thermostat is in comfort mode, a less negative bias makes it easier for the same evidence to cross the line and turn the heat on. Switch to eco mode and the exact same room can stay off. Nothing about the room changed. Nothing about the weights changed. Only the baseline stubbornness changed.
 
-![Weights as influence and biases as threshold shift.](/assets/img/posts/neural-network-components/weights-biases.png)
+![Thermostat example showing feature contributions and comfort versus eco thresholds.](/assets/img/posts/neural-network-components/weights-biases.png)
 
-*Read it left to right: input values, signed weights, per-feature pull, then the total score before activation.*
+*Same room state. Weights decide which signals push hardest; bias decides how much evidence is enough.*
 
-![Animated view of the threshold and decision boundary shifting as the bias changes.](/assets/img/posts/neural-network-components/weights-bias-threshold-shift.gif)
+![Animation showing weight changes on the left and bias changes on the right for the same thermostat decision.](/assets/img/posts/neural-network-components/weights-bias-threshold-shift.gif)
 
-*Hold the weights fixed and change only the bias: the threshold shifts, so the decision rule slides without changing its basic orientation.*
+*On the left, one weight changes while the cutoff stays fixed. On the right, the cutoff moves while the room state stays fixed.*
 
 ## Activation is where things get interesting
 
