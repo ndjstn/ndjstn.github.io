@@ -18,11 +18,11 @@ Shipping threshold: `40/50` and no score below `3`.
 | Figure | LC | PL | RO | FC | QH | MA | TF | VE | AC | EP | Total |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | `explanation-problem.png` | 4 | 5 | 5 | 4 | 5 | 4 | 5 | 4 | 4 | 4 | 44 |
-| `neuron-scoring-rule.png` | 5 | 4 | 5 | 4 | 5 | 5 | 4 | 4 | 4 | 4 | 44 |
+| `neuron-scoring-rule.png` | 5 | 5 | 5 | 4 | 5 | 5 | 5 | 4 | 4 | 4 | 46 |
 | `weights-biases.png` | 5 | 4 | 5 | 5 | 5 | 5 | 5 | 4 | 4 | 4 | 46 |
 | `weights-bias-threshold-shift.gif` | 5 | 4 | 5 | 5 | 5 | 4 | 4 | 4 | 4 | 4 | 44 |
 | `activation-functions.png` | 4 | 4 | 5 | 4 | 5 | 5 | 5 | 4 | 4 | 5 | 45 |
-| `representation-building.png` | 4 | 4 | 5 | 5 | 4 | 4 | 5 | 4 | 4 | 4 | 43 |
+| `representation-building.png` | 5 | 4 | 5 | 5 | 5 | 4 | 5 | 4 | 4 | 4 | 45 |
 | `backprop-blame-assignment.png` | 5 | 4 | 5 | 5 | 4 | 5 | 4 | 4 | 4 | 5 | 45 |
 | `debugging-checklist.png` | 4 | 5 | 5 | 4 | 5 | 4 | 5 | 4 | 4 | 5 | 45 |
 
@@ -33,8 +33,8 @@ Shipping threshold: `40/50` and no score below `3`.
   - Still a little box-heavy, but not confusing.
 
 - `neuron-scoring-rule.png`
-  - Good teaching arc from inputs to weighted sum to activation.
-  - Next improvement would be slightly more breathing room around the left table.
+  - Much stronger now because it uses a concrete smoke-alarm example instead of bare symbols.
+  - The visual story is finally honest: evidence comes in, one score gets built, then the activation turns that score into a response.
 
 - `weights-biases.png`
   - Strongest current figure because the example is concrete and the cutoff shift is explicit.
@@ -49,8 +49,8 @@ Shipping threshold: `40/50` and no score below `3`.
   - Still more generic than the best figures in the set because it shows curves but not a concrete downstream consequence.
 
 - `representation-building.png`
-  - Good before/after progression.
-  - Could get stronger with one more explicit cue about why the final line reads the later representation better.
+  - Stronger now because the reader can literally count the straight-line mistakes shrinking across stages.
+  - The progression is finally monotonic and easier to trust: 28 mistakes, then 5, then 0.
 
 - `backprop-blame-assignment.png`
   - Better split now: left side explains the signal flow, right side explains which parameters move most.

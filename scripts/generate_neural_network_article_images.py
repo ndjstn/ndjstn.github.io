@@ -403,7 +403,7 @@ def image_activation_functions():
 
 
 def image_representation_building():
-    raw, labels = make_moons(n_samples=220, noise=0.17, random_state=7)
+    raw, labels = make_moons(n_samples=220, noise=0.12, random_state=1)
     raw = StandardScaler().fit_transform(raw)
     model = MLPClassifier(
         hidden_layer_sizes=(2, 2),
@@ -411,7 +411,7 @@ def image_representation_building():
         solver='lbfgs',
         alpha=1e-2,
         max_iter=6000,
-        random_state=7,
+        random_state=1,
     )
     model.fit(raw, labels)
 
@@ -422,30 +422,36 @@ def image_representation_building():
         activations.append(current.copy())
 
     stages = [
-        ('raw input', raw, 'wrapped around each other'),
-        ('after hidden layer 1', activations[0], 'starting to untangle'),
-        ('later representation', activations[1], 'almost linearly separable'),
+        ('raw input', raw),
+        ('after hidden layer 1', activations[0]),
+        ('later representation', activations[1]),
     ]
 
-    fig, axes = plt.subplots(1, 3, figsize=(15.8, 5.8), facecolor=COLORS['bg'])
-    fig.subplots_adjust(top=0.78, left=0.055, right=0.985, bottom=0.12, wspace=0.23)
-    title_block(fig, 'Hidden layers build easier-to-separate representations', 'The useful question is simple: how well can a straight line read the representation at each stage?')
+    fig, axes = plt.subplots(1, 3, figsize=(15.8, 5.9), facecolor='white')
+    fig.text(0.05, 0.95, 'Hidden layers try to make the next readout simpler', fontsize=21, fontweight='bold', color=COLORS['ink'])
+    fig.text(0.05, 0.905, 'Same data, same labels. The only question is: how many mistakes does one straight line make at each stage?', fontsize=11.7, color=COLORS['muted'])
+    fig.subplots_adjust(top=0.82, left=0.05, right=0.985, bottom=0.14, wspace=0.24)
 
-    for ax, (label, data, note) in zip(axes, stages):
+    for ax, (label, data) in zip(axes, stages):
         probe = LogisticRegression(max_iter=4000)
         probe.fit(data, labels)
         accuracy = probe.score(data, labels)
+        predictions = probe.predict(data)
+        mistakes = predictions != labels
+        mistake_count = int(mistakes.sum())
 
         x_min, x_max = data[:, 0].min() - 0.45, data[:, 0].max() + 0.45
         y_min, y_max = data[:, 1].min() - 0.45, data[:, 1].max() + 0.45
         xx, yy = np.meshgrid(np.linspace(x_min, x_max, 220), np.linspace(y_min, y_max, 220))
         decision = probe.coef_[0, 0] * xx + probe.coef_[0, 1] * yy + probe.intercept_[0]
-        ax.contourf(xx, yy, decision, levels=[-1e9, 0, 1e9], colors=['#e8f4fb', '#fdecec'], alpha=0.45)
+        ax.contourf(xx, yy, decision, levels=[-1e9, 0, 1e9], colors=['#e8f4fb', '#fdecec'], alpha=0.38)
         ax.contour(xx, yy, decision, levels=[0], colors=[COLORS['ink']], linewidths=1.8)
-        ax.scatter(data[labels == 0, 0], data[labels == 0, 1], color=COLORS['blue_dark'], s=34, alpha=0.92, edgecolor='white', linewidth=0.35)
-        ax.scatter(data[labels == 1, 0], data[labels == 1, 1], color=COLORS['red_dark'], s=34, alpha=0.92, edgecolor='white', linewidth=0.35)
+        ax.scatter(data[labels == 0, 0], data[labels == 0, 1], color=COLORS['blue_dark'], s=38, alpha=0.94, edgecolor='white', linewidth=0.4)
+        ax.scatter(data[labels == 1, 0], data[labels == 1, 1], color=COLORS['red_dark'], s=38, alpha=0.94, edgecolor='white', linewidth=0.4)
+        if mistake_count:
+            ax.scatter(data[mistakes, 0], data[mistakes, 1], s=88, facecolors='none', edgecolors=COLORS['ink'], linewidth=1.5)
         ax.set_title(label, fontsize=14.2, pad=10, fontweight='bold')
-        ax.text(0.03, 0.05, f'{note}\nlinear readout acc = {accuracy:.2f}', transform=ax.transAxes, fontsize=10.3, color=COLORS['ink'], va='bottom', bbox={'boxstyle': 'round,pad=0.28', 'fc': 'white', 'ec': '#dbe4ee', 'alpha': 0.96})
+        ax.text(0.04, 0.05, f'straight-line mistakes: {mistake_count}\naccuracy: {accuracy:.2f}', transform=ax.transAxes, fontsize=10.6, color=COLORS['ink'], va='bottom', bbox={'boxstyle': 'round,pad=0.30', 'fc': 'white', 'ec': '#dbe4ee', 'alpha': 0.96})
         ax.set_xticks([])
         ax.set_yticks([])
         ax.set_xlim(x_min, x_max)
@@ -524,78 +530,87 @@ def image_backprop_blame_assignment():
 
 
 def image_neuron_scoring_rule():
-    inputs = np.array([0.90, 0.40, 0.20])
-    weights = np.array([1.50, -0.80, 0.60])
+    feature_names = ['smoke density', 'room heat', 'shower steam']
+    inputs = np.array([0.90, 0.55, 0.30])
+    weights = np.array([1.40, 0.80, -1.10])
     contributions = inputs * weights
-    bias = -0.45
+    bias = -0.60
     z = contributions.sum() + bias
     activation = 1 / (1 + np.exp(-z))
 
-    fig = plt.figure(figsize=(13.4, 4.8), facecolor='white')
-    gs = fig.add_gridspec(1, 3, left=0.05, right=0.98, bottom=0.16, top=0.92, width_ratios=[1.02, 1.30, 0.92], wspace=0.22)
+    fig = plt.figure(figsize=(13.8, 5.9), facecolor='white')
+    fig.text(0.05, 0.95, 'A neuron is just a scoring rule plus a switch', fontsize=21, fontweight='bold', color=COLORS['ink'])
+    fig.text(0.05, 0.905, 'Smoke and heat push the alarm score up. Shower steam pushes it back down. The activation says how strongly the unit fires.', fontsize=11.7, color=COLORS['muted'])
+
+    gs = fig.add_gridspec(1, 3, left=0.05, right=0.98, bottom=0.14, top=0.84, width_ratios=[1.05, 1.18, 0.92], wspace=0.22)
     ax_table = fig.add_subplot(gs[0, 0])
     ax_sum = fig.add_subplot(gs[0, 1])
     ax_act = fig.add_subplot(gs[0, 2])
 
-    for ax in (ax_table, ax_sum, ax_act):
-        ax.set_facecolor('white')
-
     ax_table.set_xlim(0, 1)
     ax_table.set_ylim(0, 1)
     ax_table.axis('off')
-    ax_table.text(0.04, 0.93, 'inputs', fontsize=13.5, fontweight='bold', color=COLORS['ink'])
-    ax_table.text(0.32, 0.93, 'weight', fontsize=13.5, fontweight='bold', color=COLORS['ink'])
-    ax_table.text(0.70, 0.93, r'$w_i x_i$', fontsize=13.5, fontweight='bold', color=COLORS['ink'])
-    ax_table.plot([0.68, 0.68], [0.18, 0.86], color='#cbd5e1', linewidth=1)
-    row_y = [0.74, 0.54, 0.34]
-    scale = 0.20 / np.max(np.abs(contributions))
-    for index, (value, weight, contribution, y) in enumerate(zip(inputs, weights, contributions, row_y), start=1):
-        ax_table.text(0.04, y, fr'$x_{index}$ = {value:.2f}', fontsize=12.5, va='center')
-        ax_table.text(0.32, y, f'{weight:+.2f}', fontsize=12.5, va='center')
+    ax_table.text(0.04, 0.92, 'current signals', fontsize=13.8, fontweight='bold', color=COLORS['ink'])
+    ax_table.text(0.04, 0.82, 'signal', fontsize=12.0, fontweight='bold')
+    ax_table.text(0.45, 0.82, 'reading', fontsize=11.2, fontweight='bold', ha='center')
+    ax_table.text(0.68, 0.82, 'weight', fontsize=11.2, fontweight='bold', ha='center')
+    ax_table.text(0.93, 0.82, 'pull', fontsize=12.0, fontweight='bold', ha='center')
+    zero_x = 0.84
+    ax_table.plot([zero_x, zero_x], [0.17, 0.76], color='#cbd5e1', linewidth=1)
+    row_y = [0.67, 0.47, 0.27]
+    scale = 0.11 / np.max(np.abs(contributions))
+    row_colors = [COLORS['blue_dark'], COLORS['green_dark'], COLORS['red_dark']]
+    for name, value, weight, contribution, y, color in zip(feature_names, inputs, weights, contributions, row_y, row_colors):
+        ax_table.text(0.04, y, name, fontsize=12.3, va='center')
+        ax_table.text(0.50, y, f'{value:.2f}', fontsize=12.3, va='center', ha='center')
+        ax_table.text(0.69, y, f'{weight:+.2f}', fontsize=12.3, va='center', ha='center')
         width = contribution * scale
-        color = COLORS['blue_dark'] if contribution >= 0 else COLORS['red_dark']
-        ax_table.add_patch(Rectangle((min(0.68, 0.68 + width), y - 0.045), abs(width), 0.09, facecolor=color, alpha=0.85, edgecolor='none', transform=ax_table.transAxes))
-        ax_table.text(0.68 + width + (0.02 if contribution >= 0 else -0.02), y, f'{contribution:+.2f}', fontsize=11.6, va='center', ha='left' if contribution >= 0 else 'right')
-        ax_table.plot([0.02, 0.96], [y - 0.10, y - 0.10], color='#eef2f7', linewidth=1)
-    ax_table.text(0.04, 0.10, fr'$b$ = {bias:+.2f}', fontsize=12.5, color=COLORS['amber_dark'])
+        left = zero_x if contribution >= 0 else zero_x + width
+        ax_table.add_patch(Rectangle((left, y - 0.045), abs(width), 0.09, facecolor=color, alpha=0.90, edgecolor='none', transform=ax_table.transAxes))
+        ax_table.text(0.98, y, f'{contribution:+.2f}', fontsize=11.8, va='center', ha='right')
+        ax_table.plot([0.04, 0.98], [y - 0.10, y - 0.10], color='#eef2f7', linewidth=1)
+    ax_table.text(0.04, 0.08, f'bias = {bias:+.2f}', fontsize=12.2, color=COLORS['muted'])
 
-    ax_sum.set_xlim(-0.6, 1.6)
+    ax_sum.set_xlim(-0.45, 1.45)
     ax_sum.set_ylim(0, 1)
     ax_sum.set_yticks([])
-    ax_sum.set_xticks(np.arange(-0.5, 1.6, 0.5))
-    ax_sum.grid(axis='x', alpha=0.14)
+    ax_sum.set_xticks(np.arange(-0.25, 1.51, 0.25))
+    ax_sum.grid(axis='x', alpha=0.12)
     sns.despine(ax=ax_sum, left=True, bottom=False)
-    ax_sum.text(0.02, 0.93, 'weighted sum', transform=ax_sum.transAxes, fontsize=13.5, fontweight='bold')
-    ax_sum.text(0.02, 0.84, r'$z = \sum_i w_i x_i + b$', transform=ax_sum.transAxes, fontsize=12.0, color=COLORS['muted'])
-    ax_sum.hlines(0.46, -0.6, 1.6, color='#cbd5e1', linewidth=2)
+    ax_sum.text(0.00, 0.93, 'alarm score before activation', transform=ax_sum.transAxes, fontsize=13.8, fontweight='bold')
+    ax_sum.text(0.00, 0.84, f'{contributions[0]:.2f} + {contributions[1]:.2f} - {abs(contributions[2]):.2f} - {abs(bias):.2f} = {z:.2f}', transform=ax_sum.transAxes, fontsize=11.4, color=COLORS['muted'])
+    ax_sum.hlines(0.46, -0.45, 1.45, color='#cbd5e1', linewidth=2)
+    ax_sum.axvline(0, color=COLORS['ink'], linewidth=1.5)
     current = 0.0
+    labels = ['smoke', 'heat', 'steam', 'bias']
     deltas = [*contributions, bias]
-    colors = [COLORS['blue_dark'] if delta >= 0 else COLORS['red_dark'] for delta in contributions] + [COLORS['amber_dark']]
-    for delta, color in zip(deltas, colors):
+    colors = [COLORS['blue_dark'], COLORS['green_dark'], COLORS['red_dark'], COLORS['muted']]
+    for delta, label, color in zip(deltas, labels, colors):
         nxt = current + delta
-        ax_sum.plot([current, nxt], [0.46, 0.46], color=color, linewidth=12, solid_capstyle='round', alpha=0.90)
-        ax_sum.scatter([nxt], [0.46], s=48, color=color, zorder=3)
+        ax_sum.plot([current, nxt], [0.46, 0.46], color=color, linewidth=14, solid_capstyle='round', alpha=0.90)
+        ax_sum.scatter([nxt], [0.46], s=58, color=color, zorder=3)
+        if label != 'bias':
+            ax_sum.text((current + nxt) / 2, 0.70 if delta >= 0 else 0.22, f'{label}\n{delta:+.2f}', ha='center', va='center', fontsize=10.4)
         current = nxt
-    ax_sum.axvline(0, color=COLORS['ink'], linewidth=1.4, alpha=0.65)
-    ax_sum.text(0.47, 0.63, r'1.35 - 0.32 + 0.12 - 0.45 = 0.70', transform=ax_sum.transAxes, fontsize=12.0, fontweight='bold')
-    ax_sum.text(z, 0.74, fr'$z$ = {z:.2f}', ha='center', fontsize=12.6, fontweight='bold')
+    ax_sum.text(z, 0.78, f'score z = {z:.2f}', ha='center', fontsize=12.6, fontweight='bold', color=COLORS['ink'])
 
     raw = np.linspace(-4, 4, 400)
     curve = 1 / (1 + np.exp(-raw))
-    ax_act.plot(raw, curve, color=COLORS['purple'], linewidth=2.6)
-    ax_act.scatter([z], [activation], s=64, color=COLORS['purple'], zorder=3)
+    ax_act.plot(raw, curve, color=COLORS['purple'], linewidth=2.8)
+    ax_act.scatter([z], [activation], s=72, color=COLORS['purple'], zorder=3)
     ax_act.axvline(z, color='#cbd5e1', linewidth=1.2, linestyle='--')
     ax_act.axhline(activation, color='#cbd5e1', linewidth=1.2, linestyle='--')
+    ax_act.axhline(0.5, color='#e2e8f0', linewidth=1.0, linestyle=':')
     ax_act.set_xlim(-4, 4)
     ax_act.set_ylim(0, 1.02)
-    ax_act.set_title('activation', loc='left', fontsize=13.5, pad=8, fontweight='bold')
-    ax_act.set_xlabel(r'pre-activation $z$')
-    ax_act.set_ylabel(r'output $a$')
+    ax_act.set_title('how strongly the unit fires', loc='left', fontsize=13.8, pad=8, fontweight='bold')
+    ax_act.set_xlabel('pre-activation score z')
+    ax_act.set_ylabel('activation a')
     ax_act.grid(alpha=0.14)
     sns.despine(ax=ax_act)
-    ax_act.text(0.04, 0.90, fr'$a = \sigma(z) = {activation:.2f}$', transform=ax_act.transAxes, fontsize=12.2, fontweight='bold', color=COLORS['ink'])
-    save(fig, 'neuron-scoring-rule.png')
+    ax_act.text(0.05, 0.90, f'alarm activity = {activation:.2f}', transform=ax_act.transAxes, fontsize=12.0, fontweight='bold', color=COLORS['ink'])
 
+    save(fig, 'neuron-scoring-rule.png')
 
 def image_weights_biases():
     feature_names = ['cold room', 'someone home', 'afternoon sun']

@@ -103,9 +103,9 @@ That is why I think of neurons as **scoring rules** now. A neuron is not thinkin
 
 Most of those scores are meaningless on their own. The value shows up when later units combine them into something the model can actually use. The brain metaphor gets in the way here. If you expect intelligence at the neuron level, you will be disappointed. If you expect simple operations compounding into capability, the whole system makes much more sense.
 
-![Diagram of a neuron as inputs, weights, bias, activation, and output.](/assets/img/posts/neural-network-components/neuron-scoring-rule.png)
+![Smoke-alarm example of a neuron scoring evidence, adding bias, and producing an activation.](/assets/img/posts/neural-network-components/neuron-scoring-rule.png)
 
-*This is the core pattern underneath all the complexity: signals come in, get scored, get reshaped, and move forward.*
+*Same pattern, but easier to see: evidence comes in, gets combined into one score, then gets turned into a stronger or weaker response.*
 
 That is why neural networks became easier for me once I stopped trying to imagine intelligence at the neuron level. It is cleaner to imagine tiny scoring operations building toward something useful.
 
