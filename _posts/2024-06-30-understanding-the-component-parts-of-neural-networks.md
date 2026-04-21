@@ -144,6 +144,8 @@ $$
 \frac{\partial s}{\partial x_i} = w_i, \qquad \frac{\partial s}{\partial b} = 1
 $$
 
+That derivative line is exactly why I wanted to redraw this section. A decent weights-and-bias graphic should show three things plainly: which features are active, how strongly each weight pulls, and how the bias shifts the entire score even when the feature pattern stays the same.
+
 That is not the full mathematical story, but it is the part I reach for when I want the intuition fast.
 
 A spam classifier is a nice toy example here. Certain words, sender patterns, or formatting quirks might deserve more weight because they are genuinely informative. But a bias can still shift how quickly the model leans toward “spam” even before those signals become overwhelming.
@@ -153,6 +155,10 @@ That is the split that finally made the two concepts stop blurring together for 
 ![Weights as influence and biases as threshold shift.](/assets/img/posts/neural-network-components/weights-biases.png)
 
 *Weights tell the model what to care about. Biases help decide when that care turns into a response.*
+
+![Animated view of the threshold and decision boundary shifting as the bias changes.](/assets/img/posts/neural-network-components/weights-bias-threshold-shift.gif)
+
+*The useful motion is not decorative: the weights stay fixed, so the rule keeps its orientation while the bias slides the threshold and the decision boundary in parallel.*
 
 ## Activation is where things get interesting
 
@@ -210,6 +216,8 @@ h^{(2)} = \phi\!\left(W^{(2)} h^{(1)} + b^{(2)}\right)
 $$
 
 Each new layer is not starting from scratch. It is transforming the representation produced by the previous one.
+
+I also wanted the visual here to be less hand-wavy than before. So the figure below uses a tiny learned network and then fits a simple linear probe at each stage. The point is to make the phrase “better representation” visible instead of just saying it.
 
 That shift in how I thought about hidden layers made the topic feel much less mystical. I stopped thinking, “there are magic layers in the middle,” and started thinking, “the model is trying to build a better internal representation before it makes a decision.”
 
