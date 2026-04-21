@@ -70,62 +70,109 @@ def save(fig, name):
     plt.close(fig)
 
 
-def image_explanation_problem():
-    fig, ax = plt.subplots(figsize=(13.5, 6.8))
-    fig.patch.set_facecolor('white')
-    ax.set_facecolor('white')
+def image_hero_editorial():
+    fig = plt.figure(figsize=(16, 9), facecolor='#f8fafc')
+    ax = fig.add_axes([0.04, 0.08, 0.92, 0.84])
     ax.set_xlim(0, 1)
     ax.set_ylim(0, 1)
     ax.axis('off')
 
-    left_x, left_w = 0.08, 0.22
-    right_x, right_w = 0.46, 0.40
-    rows = [
-        ('neuron', 'score evidence for a pattern'),
-        ('bias', 'shift the cutoff'),
-        ('activation', 'decide what passes on'),
-        ('backprop', 'assign blame and update'),
+    ax.text(0.08, 0.83, r'$x$', fontsize=26, fontweight='bold', color=COLORS['ink'])
+    ax.text(0.36, 0.83, r'$w^\top x + b$', fontsize=26, fontweight='bold', color=COLORS['ink'])
+    ax.text(0.68, 0.83, r'$\phi(z)$', fontsize=26, fontweight='bold', color=COLORS['ink'])
+    ax.text(0.86, 0.83, r'$\hat{y}$', fontsize=26, fontweight='bold', color=COLORS['ink'])
+
+    features = [
+        ('x1', 0.82, COLORS['blue_dark']),
+        ('x2', 0.52, COLORS['green_dark']),
+        ('x3', -0.36, COLORS['red_dark']),
     ]
-    y_positions = [0.73, 0.57, 0.41, 0.25]
+    y_positions = [0.66, 0.52, 0.38]
+    zero_x = 0.20
+    ax.plot([zero_x, zero_x], [0.30, 0.72], color='#cbd5e1', linewidth=2)
+    for (label, value, color), y in zip(features, y_positions):
+        ax.text(0.08, y, label, ha='center', va='center', fontsize=18, color=COLORS['muted'])
+        width = 0.16 * abs(value)
+        left = zero_x if value >= 0 else zero_x - width
+        ax.add_patch(Rectangle((left, y - 0.032), width, 0.064, facecolor=color, edgecolor='none', alpha=0.88))
+        value_x = left + width + 0.018 if value >= 0 else zero_x + 0.018
+        ax.text(value_x, y, f'{value:+.2f}', ha='left', va='center', fontsize=15, color=COLORS['ink'])
 
-    ax.text(left_x, 0.88, 'Technical term', ha='left', va='center', fontsize=17, fontweight='bold', color=COLORS['ink'])
-    ax.text(right_x, 0.88, 'Plain-language job', ha='left', va='center', fontsize=17, fontweight='bold', color=COLORS['ink'])
-    ax.plot([left_x, left_x + left_w], [0.845, 0.845], color='#fca5a5', linewidth=3, solid_capstyle='round')
-    ax.plot([right_x, right_x + 0.28], [0.845, 0.845], color='#86efac', linewidth=3, solid_capstyle='round')
+    ax.add_patch(FancyArrowPatch((0.32, 0.52), (0.40, 0.52), arrowstyle='->', mutation_scale=18, linewidth=2, color=COLORS['line']))
 
-    for (term, job), y in zip(rows, y_positions):
-        term_box = FancyBboxPatch(
-            (left_x, y - 0.042),
-            left_w,
-            0.084,
-            boxstyle='round,pad=0.012,rounding_size=0.03',
-            facecolor='#fff7f7',
-            edgecolor='#fca5a5',
-            linewidth=1.5,
-        )
-        job_box = FancyBboxPatch(
-            (right_x, y - 0.05),
-            right_w,
-            0.10,
-            boxstyle='round,pad=0.012,rounding_size=0.03',
-            facecolor='#f7fff9',
-            edgecolor='#86efac',
-            linewidth=1.5,
-        )
-        ax.add_patch(term_box)
-        ax.add_patch(job_box)
-        ax.text(left_x + left_w / 2, y, term, ha='center', va='center', fontsize=13.5)
-        ax.text(right_x + right_w / 2, y, job, ha='center', va='center', fontsize=13.1)
-        ax.add_patch(
-            FancyArrowPatch(
-                (left_x + left_w + 0.03, y),
-                (right_x - 0.03, y),
-                arrowstyle='->',
-                mutation_scale=14,
-                linewidth=1.6,
-                color='#94a3b8',
-            )
-        )
+    score_start = 0.44
+    score_y = 0.52
+    current = score_start
+    scale = 0.16
+    deltas = [0.82, 0.52, -0.36, -0.42]
+    colors = [COLORS['blue_dark'], COLORS['green_dark'], COLORS['red_dark'], COLORS['muted']]
+    labels = [r'$w_1x_1$', r'$w_2x_2$', r'$w_3x_3$', r'$b$']
+    ax.plot([score_start - 0.02, score_start + 0.24], [score_y, score_y], color='#cbd5e1', linewidth=2)
+    for delta, color, label in zip(deltas, colors, labels):
+        nxt = current + delta * scale
+        ax.plot([current, nxt], [score_y, score_y], color=color, linewidth=16, solid_capstyle='round', alpha=0.9)
+        ax.scatter([nxt], [score_y], s=80, color=color, zorder=3)
+        ax.text((current + nxt) / 2, score_y + (0.095 if delta >= 0 else -0.11), label, ha='center', fontsize=15, color=COLORS['muted'])
+        current = nxt
+    ax.text(current, score_y - 0.18, r'$z$', ha='center', fontsize=22, color=COLORS['ink'])
+
+    ax.add_patch(FancyArrowPatch((0.61, 0.52), (0.67, 0.52), arrowstyle='->', mutation_scale=18, linewidth=2, color=COLORS['line']))
+
+    curve_x = np.linspace(-3.5, 3.5, 200)
+    curve_y = 1 / (1 + np.exp(-curve_x))
+    plot_x = 0.68 + (curve_x + 3.5) / 7.0 * 0.16
+    plot_y = 0.35 + curve_y * 0.34
+    ax.plot(plot_x, plot_y, color=COLORS['purple'], linewidth=4)
+    sample = 0.72
+    sample_y = 1 / (1 + np.exp(-sample))
+    sx = 0.68 + (sample + 3.5) / 7.0 * 0.16
+    sy = 0.35 + sample_y * 0.34
+    ax.plot([sx, sx], [0.35, sy], color='#cbd5e1', linewidth=1.6, linestyle='--')
+    ax.scatter([sx], [sy], s=120, color=COLORS['purple'], zorder=4)
+
+    ax.add_patch(FancyArrowPatch((0.85, sy), (0.90, sy), arrowstyle='->', mutation_scale=18, linewidth=2, color=COLORS['line']))
+    output = Circle((0.93, sy), 0.045, facecolor='#fef3c7', edgecolor=COLORS['amber_dark'], linewidth=2.4)
+    ax.add_patch(output)
+
+    layer_xs = [0.11, 0.45, 0.74, 0.93]
+    for x in layer_xs:
+        ax.plot([x, x], [0.18, 0.24], color='#cbd5e1', linewidth=1.4)
+    ax.plot([0.11, 0.93], [0.21, 0.21], color='#e2e8f0', linewidth=1.2)
+    ax.text(0.11, 0.14, 'signals', ha='center', fontsize=15, color=COLORS['muted'])
+    ax.text(0.45, 0.14, 'score', ha='center', fontsize=15, color=COLORS['muted'])
+    ax.text(0.74, 0.14, 'activation', ha='center', fontsize=15, color=COLORS['muted'])
+    ax.text(0.93, 0.14, 'prediction', ha='center', fontsize=15, color=COLORS['muted'])
+
+    save(fig, 'hero.png')
+
+
+def image_explanation_problem():
+    fig, ax = plt.subplots(figsize=(13.8, 6.0), facecolor='white')
+    ax.set_xlim(0, 1)
+    ax.set_ylim(0, 1)
+    ax.axis('off')
+
+    fig.text(0.05, 0.95, 'The label is not the idea', fontsize=21, fontweight='bold', color=COLORS['ink'])
+    fig.text(0.05, 0.905, 'These terms only became useful once I attached each one to the question it answers inside the system.', fontsize=11.7, color=COLORS['muted'])
+
+    ax.text(0.05, 0.83, 'technical term', fontsize=13.2, fontweight='bold', color=COLORS['ink'])
+    ax.text(0.30, 0.83, 'plain-language job', fontsize=13.2, fontweight='bold', color=COLORS['ink'])
+    ax.text(0.72, 0.83, 'question it answers', fontsize=13.2, fontweight='bold', color=COLORS['ink'])
+
+    rows = [
+        ('neuron', 'score local evidence', 'Does this pattern show up here?', COLORS['blue_dark']),
+        ('bias', 'move the trigger point', 'How much evidence is enough?', COLORS['green_dark']),
+        ('activation', 'reshape the response', 'How hard should it fire?', COLORS['amber_dark']),
+        ('backprop', 'route correction backward', 'Who should change most?', COLORS['purple']),
+    ]
+    y_positions = [0.68, 0.52, 0.36, 0.20]
+
+    for (term, job, question, color), y in zip(rows, y_positions):
+        ax.plot([0.05, 0.95], [y - 0.09, y - 0.09], color='#e2e8f0', linewidth=1)
+        ax.add_patch(Rectangle((0.05, y - 0.045), 0.012, 0.09, facecolor=color, edgecolor='none'))
+        ax.text(0.08, y, term, fontsize=14.5, fontweight='bold', va='center', color=COLORS['ink'])
+        ax.text(0.30, y, job, fontsize=14.5, va='center', color=COLORS['ink'])
+        ax.text(0.72, y, question, fontsize=13.8, va='center', color=COLORS['muted'])
 
     save(fig, 'explanation-problem.png')
 
@@ -378,29 +425,32 @@ def image_weights_bias_animation():
     plt.close(fig)
 
 def image_activation_functions():
-    fig, ax = plt.subplots(figsize=(14, 7.2))
-    fig.patch.set_facecolor(COLORS['bg'])
-    fig.subplots_adjust(top=0.83, left=0.08, right=0.97, bottom=0.14)
-    x = np.linspace(-4.5, 4.5, 400)
-    relu = np.maximum(0, x)
-    sigmoid = 1 / (1 + np.exp(-x))
-    tanh = np.tanh(x)
+    fig, ax = plt.subplots(figsize=(13.2, 5.8), facecolor='white')
+    fig.subplots_adjust(top=0.86, left=0.08, right=0.97, bottom=0.15)
+    fig.text(0.08, 0.94, 'Activation functions reshape the same score', fontsize=19.5, fontweight='bold', color=COLORS['ink'])
 
-    fig.text(0.08, 0.95, 'Activation functions break the straight-line limit', fontsize=20.5, fontweight='bold', color=COLORS['ink'])
-    fig.text(0.08, 0.905, 'Each curve reshapes the weighted sum differently after the same scoring step.', fontsize=11.8, color=COLORS['muted'])
+    z = np.linspace(-4.5, 4.5, 400)
+    specs = [
+        ('ReLU', np.maximum(0, z), COLORS['amber_dark']),
+        ('Sigmoid', 1 / (1 + np.exp(-z)), COLORS['blue_dark']),
+        ('Tanh', np.tanh(z), COLORS['green_dark']),
+    ]
+    for label, values, color in specs:
+        ax.plot(z, values, color=color, linewidth=2.7, label=label)
 
-    ax.plot(x, relu, color=COLORS['amber_dark'], linewidth=3, label='ReLU')
-    ax.plot(x, sigmoid, color=COLORS['blue_dark'], linewidth=3, label='Sigmoid')
-    ax.plot(x, tanh, color=COLORS['green_dark'], linewidth=3, label='Tanh')
-    ax.axhline(0, color=COLORS['line'], linewidth=1)
-    ax.axvline(0, color=COLORS['line'], linewidth=1)
-    ax.set_xlabel('input to the activation')
+    sample_z = 1.2
+    ax.axvline(sample_z, color='#cbd5e1', linewidth=1.3, linestyle='--')
+    ax.text(sample_z + 0.08, 4.18, 'same incoming score', fontsize=10.6, color=COLORS['muted'])
+    ax.axhline(0, color=COLORS['line'], linewidth=1.0)
+    ax.axvline(0, color=COLORS['line'], linewidth=1.0)
+    ax.set_xlim(-4.5, 4.5)
+    ax.set_ylim(-1.15, 4.75)
+    ax.set_xlabel('incoming score z')
     ax.set_ylabel('output response')
     ax.legend(frameon=False, ncol=3, loc='upper left', bbox_to_anchor=(0.0, 1.01), borderaxespad=0.0)
-    ax.grid(alpha=0.22)
+    ax.grid(alpha=0.16)
     sns.despine(ax=ax)
     save(fig, 'activation-functions.png')
-
 
 def image_representation_building():
     raw, labels = make_moons(n_samples=220, noise=0.12, random_state=1)
@@ -422,17 +472,17 @@ def image_representation_building():
         activations.append(current.copy())
 
     stages = [
-        ('raw input', raw),
-        ('after hidden layer 1', activations[0]),
-        ('later representation', activations[1]),
+        ('raw input', raw, 'line still cuts through both classes'),
+        ('after hidden layer 1', activations[0], 'much easier for one line to read'),
+        ('later representation', activations[1], 'one line now separates them cleanly'),
     ]
 
-    fig, axes = plt.subplots(1, 3, figsize=(15.8, 5.9), facecolor='white')
+    fig, axes = plt.subplots(1, 3, figsize=(15.8, 5.8), facecolor='white')
     fig.text(0.05, 0.95, 'Hidden layers try to make the next readout simpler', fontsize=21, fontweight='bold', color=COLORS['ink'])
-    fig.text(0.05, 0.905, 'Same data, same labels. The only question is: how many mistakes does one straight line make at each stage?', fontsize=11.7, color=COLORS['muted'])
+    fig.text(0.05, 0.905, 'Same data, same labels. Watch how many mistakes one straight line makes after each transformation.', fontsize=11.7, color=COLORS['muted'])
     fig.subplots_adjust(top=0.82, left=0.05, right=0.985, bottom=0.14, wspace=0.24)
 
-    for ax, (label, data) in zip(axes, stages):
+    for ax, (label, data, note) in zip(axes, stages):
         probe = LogisticRegression(max_iter=4000)
         probe.fit(data, labels)
         accuracy = probe.score(data, labels)
@@ -444,19 +494,18 @@ def image_representation_building():
         y_min, y_max = data[:, 1].min() - 0.45, data[:, 1].max() + 0.45
         xx, yy = np.meshgrid(np.linspace(x_min, x_max, 220), np.linspace(y_min, y_max, 220))
         decision = probe.coef_[0, 0] * xx + probe.coef_[0, 1] * yy + probe.intercept_[0]
-        ax.contourf(xx, yy, decision, levels=[-1e9, 0, 1e9], colors=['#e8f4fb', '#fdecec'], alpha=0.38)
-        ax.contour(xx, yy, decision, levels=[0], colors=[COLORS['ink']], linewidths=1.8)
-        ax.scatter(data[labels == 0, 0], data[labels == 0, 1], color=COLORS['blue_dark'], s=38, alpha=0.94, edgecolor='white', linewidth=0.4)
-        ax.scatter(data[labels == 1, 0], data[labels == 1, 1], color=COLORS['red_dark'], s=38, alpha=0.94, edgecolor='white', linewidth=0.4)
+        ax.contour(xx, yy, decision, levels=[0], colors=[COLORS['ink']], linewidths=2.0)
+        ax.scatter(data[labels == 0, 0], data[labels == 0, 1], color=COLORS['blue_dark'], s=38, alpha=0.95, edgecolor='white', linewidth=0.4)
+        ax.scatter(data[labels == 1, 0], data[labels == 1, 1], color=COLORS['red_dark'], s=38, alpha=0.95, edgecolor='white', linewidth=0.4)
         if mistake_count:
-            ax.scatter(data[mistakes, 0], data[mistakes, 1], s=88, facecolors='none', edgecolors=COLORS['ink'], linewidth=1.5)
+            ax.scatter(data[mistakes, 0], data[mistakes, 1], s=92, facecolors='none', edgecolors=COLORS['ink'], linewidth=1.5)
         ax.set_title(label, fontsize=14.2, pad=10, fontweight='bold')
-        ax.text(0.04, 0.05, f'straight-line mistakes: {mistake_count}\naccuracy: {accuracy:.2f}', transform=ax.transAxes, fontsize=10.6, color=COLORS['ink'], va='bottom', bbox={'boxstyle': 'round,pad=0.30', 'fc': 'white', 'ec': '#dbe4ee', 'alpha': 0.96})
+        ax.text(0.04, 0.92, note, transform=ax.transAxes, fontsize=10.4, color=COLORS['muted'])
+        ax.text(0.04, 0.05, f'{mistake_count} straight-line mistakes\naccuracy: {accuracy:.2f}', transform=ax.transAxes, fontsize=10.6, color=COLORS['ink'], va='bottom', bbox={'boxstyle': 'round,pad=0.30', 'fc': 'white', 'ec': '#dbe4ee', 'alpha': 0.96})
         ax.set_xticks([])
         ax.set_yticks([])
         ax.set_xlim(x_min, x_max)
         ax.set_ylim(y_min, y_max)
-        ax.grid(alpha=0.08)
         sns.despine(ax=ax, left=True, bottom=True)
 
     save(fig, 'representation-building.png')
@@ -701,126 +750,172 @@ def image_weights_biases():
     save(fig, 'weights-biases.png')
 
 def image_backprop_blame_assignment():
-    fig = plt.figure(figsize=(13.8, 6.3), facecolor='white')
-    fig.text(0.05, 0.95, 'Backprop is error credit assignment', fontsize=21, fontweight='bold', color=COLORS['ink'])
-    fig.text(0.05, 0.905, 'The model predicts, compares with the target, then sends blame backward. Bigger gradients mean bigger corrections.', fontsize=11.7, color=COLORS['muted'])
-
-    gs = fig.add_gridspec(1, 2, left=0.05, right=0.98, top=0.86, bottom=0.13, width_ratios=[1.15, 0.85], wspace=0.16)
-    ax_net = fig.add_subplot(gs[0, 0])
-    ax_bar = fig.add_subplot(gs[0, 1])
-
-    ax_net.set_xlim(0, 1)
-    ax_net.set_ylim(0, 1)
-    ax_net.axis('off')
-
-    ax_net.text(0.00, 0.96, '1. predict, compare, send error back', fontsize=14.0, fontweight='bold', color=COLORS['ink'])
-    ax_net.plot([0.00, 0.08], [0.90, 0.90], color=COLORS['blue_dark'], linewidth=3)
-    ax_net.text(0.09, 0.90, 'forward signal', va='center', fontsize=10.8, color=COLORS['muted'])
-    ax_net.add_patch(FancyArrowPatch((0.27, 0.90), (0.35, 0.90), arrowstyle='->', linewidth=2.4, color=COLORS['purple'], mutation_scale=12))
-    ax_net.text(0.36, 0.90, 'error signal', va='center', fontsize=10.8, color=COLORS['muted'])
-
-    inputs = [(0.10, 0.72, r'$x_1$', 0.80), (0.10, 0.42, r'$x_2$', 0.40)]
-    hidden = [(0.38, 0.80, r'$h_1$', 0.71), (0.38, 0.34, r'$h_2$', 0.29)]
-    output = (0.67, 0.57, r'$\hat{y}$', 0.63)
-    target = 1.00
-
-    forward_edges = [
-        (inputs[0][:2], hidden[0][:2], 2.6),
-        (inputs[1][:2], hidden[0][:2], 1.4),
-        (inputs[0][:2], hidden[1][:2], 1.8),
-        (inputs[1][:2], hidden[1][:2], 2.9),
-        (hidden[0][:2], output[:2], 3.2),
-        (hidden[1][:2], output[:2], 1.9),
-    ]
-    for start_xy, end_xy, width in forward_edges:
-        ax_net.add_patch(FancyArrowPatch(start_xy, end_xy, arrowstyle='-', linewidth=width, color=COLORS['blue_dark'], alpha=0.42))
-
-    for x, y, label, value in inputs:
-        ax_net.add_patch(Circle((x, y), 0.050, facecolor='#e0f2fe', edgecolor=COLORS['blue_dark'], linewidth=2.2))
-        ax_net.text(x, y + 0.002, label, ha='center', va='center', fontsize=18, fontweight='bold')
-        ax_net.text(x, y - 0.090, f'{value:.2f}', ha='center', va='center', fontsize=11.0, color=COLORS['muted'])
-    for x, y, label, value in hidden:
-        ax_net.add_patch(Circle((x, y), 0.056, facecolor='white', edgecolor='#94a3b8', linewidth=2.2))
-        ax_net.text(x, y + 0.002, label, ha='center', va='center', fontsize=18, fontweight='bold')
-        ax_net.text(x, y - 0.100, f'{value:.2f}', ha='center', va='center', fontsize=11.0, color=COLORS['muted'])
-    ax_net.add_patch(Circle(output[:2], 0.058, facecolor='#fef3c7', edgecolor=COLORS['amber_dark'], linewidth=2.2))
-    ax_net.text(output[0], output[1] + 0.002, output[2], ha='center', va='center', fontsize=18, fontweight='bold')
-    ax_net.text(output[0], output[1] - 0.100, f'{output[3]:.2f}', ha='center', va='center', fontsize=11.0, color=COLORS['muted'])
-
-    loss_box = FancyBboxPatch((0.79, 0.47), 0.17, 0.18, boxstyle='round,pad=0.02,rounding_size=0.03', facecolor='#fff7ed', edgecolor=COLORS['amber_dark'], linewidth=1.8)
-    ax_net.add_patch(loss_box)
-    ax_net.add_patch(FancyArrowPatch((0.73, 0.57), (0.79, 0.57), arrowstyle='->', linewidth=1.7, color=COLORS['line'], mutation_scale=12))
-    ax_net.text(0.875, 0.61, f'target = {target:.2f}', ha='center', va='center', fontsize=11.4)
-    ax_net.text(0.875, 0.565, f'prediction = {output[3]:.2f}', ha='center', va='center', fontsize=11.4)
-    ax_net.text(0.875, 0.515, r'$L = (\hat{y} - y)^2$', ha='center', va='center', fontsize=11.2, color=COLORS['muted'])
-
-    backward_paths = [
-        ((0.82, 0.47), (0.71, 0.49), -0.10, 2.8),
-        ((0.64, 0.49), (0.43, 0.73), -0.13, 3.0),
-        ((0.64, 0.49), (0.43, 0.37), 0.05, 2.0),
-        ((0.30, 0.70), (0.14, 0.67), 0.10, 1.9),
-        ((0.30, 0.36), (0.14, 0.44), -0.10, 2.5),
-    ]
-    for start_xy, end_xy, rad, width in backward_paths:
-        ax_net.add_patch(FancyArrowPatch(start_xy, end_xy, arrowstyle='->', linewidth=width, color=COLORS['purple'], alpha=0.82, mutation_scale=12, connectionstyle=f'arc3,rad={rad}'))
-    ax_net.text(0.52, 0.74, 'prediction missed target → send blame back', fontsize=11.0, color=COLORS['purple'], fontweight='bold')
-
-    ax_bar.set_title('2. larger gradients mean larger corrections', loc='left', fontsize=14.0, pad=10, fontweight='bold')
-    bars = [
-        ('x1→h1', -0.41),
-        ('x2→h2', 0.62),
-        ('h1→ŷ', -0.84),
-        ('h2→ŷ', 0.28),
-        ('b_h1', -0.19),
-        ('b_ŷ', 0.11),
-    ]
-    labels = [label for label, _ in bars]
-    values = np.array([value for _, value in bars])
-    y = np.arange(len(bars))
-    colors = np.where(values >= 0, COLORS['purple'], '#6d28d9')
-    ax_bar.barh(y, values, color=colors, alpha=0.88, height=0.72)
-    ax_bar.axvline(0, color='#cbd5e1', linewidth=1.3)
-    ax_bar.set_yticks(y, labels=labels)
-    ax_bar.set_xlabel('signed gradient')
-    ax_bar.grid(axis='x', alpha=0.12)
-    sns.despine(ax=ax_bar, left=True, bottom=False)
-    ax_bar.invert_yaxis()
-    max_abs = np.max(np.abs(values))
-    ax_bar.set_xlim(-max_abs * 1.18, max_abs * 1.18)
-    for idx, value in enumerate(values):
-        ax_bar.text(value + (0.03 if value >= 0 else -0.03), idx, f'{value:+.2f}', va='center', ha='left' if value >= 0 else 'right', fontsize=10.4)
-    ax_bar.text(0.02, 0.96, r'update rule: $w \leftarrow w - \eta \nabla_w L$', transform=ax_bar.transAxes, va='top', fontsize=11.0, color=COLORS['muted'])
-
-    save(fig, 'backprop-blame-assignment.png')
-
-def image_debugging_checklist():
-    fig, ax = plt.subplots(figsize=(13.8, 6.0), facecolor='white')
+    fig, ax = plt.subplots(figsize=(13.6, 5.6), facecolor='white')
     ax.set_xlim(0, 1)
     ax.set_ylim(0, 1)
     ax.axis('off')
 
-    fig.text(0.05, 0.95, 'A better debugging checklist than more buzzwords', fontsize=21, fontweight='bold', color=COLORS['ink'])
-    fig.text(0.05, 0.905, 'When a model is failing, I try to diagnose the job, the signals, the capacity, the feedback, and the data in that order.', fontsize=11.7, color=COLORS['muted'])
+    fig.text(0.05, 0.95, 'Backprop in one still frame', fontsize=21, fontweight='bold', color=COLORS['ink'])
+    fig.text(0.05, 0.905, 'Forward pass makes the prediction. Backward pass sends correction back through the same path.', fontsize=11.7, color=COLORS['muted'])
 
-    items = [
-        ('01', 'task', 'What is the model actually trying to predict?', COLORS['blue_dark']),
-        ('02', 'signals', 'Which inputs should matter most for this job?', COLORS['green_dark']),
-        ('03', 'capacity', 'Is the model too weak or too large for the data?', COLORS['amber_dark']),
-        ('04', 'feedback', 'Is the learning signal clean enough to help?', COLORS['red_dark']),
-        ('05', 'data', 'Is the real problem the data, not the architecture?', COLORS['purple']),
+    positions = {
+        'x1': (0.10, 0.72),
+        'x2': (0.10, 0.36),
+        'h1': (0.36, 0.80),
+        'h2': (0.36, 0.28),
+        'yhat': (0.64, 0.54),
+        'loss': (0.86, 0.54),
+    }
+    forward_edges = [('x1', 'h1'), ('x1', 'h2'), ('x2', 'h1'), ('x2', 'h2'), ('h1', 'yhat'), ('h2', 'yhat')]
+    for a, b in forward_edges:
+        ax.add_patch(FancyArrowPatch(positions[a], positions[b], arrowstyle='-', linewidth=2.8, color=COLORS['blue_dark'], alpha=0.38))
+    for a, b in [('loss', 'yhat'), ('yhat', 'h1'), ('yhat', 'h2'), ('h1', 'x1'), ('h2', 'x2')]:
+        ax.add_patch(FancyArrowPatch(positions[a], positions[b], arrowstyle='->', linewidth=2.6, color=COLORS['purple'], alpha=0.82, mutation_scale=12, connectionstyle='arc3,rad=0.08'))
+
+    for key, label, value, face, edge in [
+        ('x1', r'$x_1$', '0.80', '#e0f2fe', COLORS['blue_dark']),
+        ('x2', r'$x_2$', '0.40', '#e0f2fe', COLORS['blue_dark']),
+        ('h1', r'$h_1$', '0.71', 'white', '#94a3b8'),
+        ('h2', r'$h_2$', '0.29', 'white', '#94a3b8'),
+        ('yhat', r'$\hat{y}$', '0.63', '#fef3c7', COLORS['amber_dark']),
+    ]:
+        x, y = positions[key]
+        ax.add_patch(Circle((x, y), 0.050 if key.startswith('x') else 0.056, facecolor=face, edgecolor=edge, linewidth=2.1))
+        ax.text(x, y + 0.002, label, ha='center', va='center', fontsize=18, fontweight='bold')
+        ax.text(x, y - 0.090, value, ha='center', va='center', fontsize=11.0, color=COLORS['muted'])
+
+    loss_box = FancyBboxPatch((0.80, 0.44), 0.13, 0.18, boxstyle='round,pad=0.02,rounding_size=0.03', facecolor='#fff7ed', edgecolor=COLORS['amber_dark'], linewidth=1.8)
+    ax.add_patch(loss_box)
+    ax.text(0.865, 0.58, 'target = 1.00', ha='center', fontsize=11.2)
+    ax.text(0.865, 0.53, 'prediction = 0.63', ha='center', fontsize=11.2)
+    ax.text(0.865, 0.47, r'$L = (\hat{y} - y)^2$', ha='center', fontsize=11.2, color=COLORS['muted'])
+    ax.text(0.05, 0.15, 'blue = forward prediction path', fontsize=11.0, color=COLORS['blue_dark'])
+    ax.text(0.05, 0.10, 'purple = backward correction path', fontsize=11.0, color=COLORS['purple'])
+
+    save(fig, 'backprop-blame-assignment.png')
+
+
+def image_backprop_animation():
+    fig, (ax_net, ax_bar) = plt.subplots(1, 2, figsize=(13.8, 5.8), facecolor='white')
+    fig.subplots_adjust(left=0.05, right=0.98, bottom=0.14, top=0.84, wspace=0.18)
+    fig.text(0.05, 0.95, 'Backprop is one forward pass, then one backward correction pass', fontsize=19, fontweight='bold', color=COLORS['ink'])
+    fig.text(0.05, 0.905, 'Blue shows the prediction being built. Purple shows the error signal coming back and turning into parameter updates.', fontsize=11.5, color=COLORS['muted'])
+
+    positions = {
+        'x1': (0.12, 0.72),
+        'x2': (0.12, 0.38),
+        'h1': (0.40, 0.80),
+        'h2': (0.40, 0.28),
+        'yhat': (0.68, 0.54),
+        'loss': (0.89, 0.54),
+    }
+    forward_edges = [('x1', 'h1'), ('x1', 'h2'), ('x2', 'h1'), ('x2', 'h2'), ('h1', 'yhat'), ('h2', 'yhat')]
+    back_edges = [('loss', 'yhat'), ('yhat', 'h1'), ('yhat', 'h2'), ('h1', 'x1'), ('h2', 'x2')]
+    bars = [('x1→h1', -0.41), ('x2→h2', 0.62), ('h1→ŷ', -0.84), ('h2→ŷ', 0.28), ('b_h1', -0.19), ('b_ŷ', 0.11)]
+    max_abs = max(abs(v) for _, v in bars)
+    frames = list(range(28))
+
+    def node(ax, xy, label, value, face, edge, alpha=1.0, radius=0.052):
+        ax.add_patch(Circle(xy, radius, facecolor=face, edgecolor=edge, linewidth=2.0, alpha=alpha))
+        ax.text(xy[0], xy[1] + 0.002, label, ha='center', va='center', fontsize=17, fontweight='bold', alpha=alpha)
+        ax.text(xy[0], xy[1] - 0.090, value, ha='center', va='center', fontsize=10.6, color=COLORS['muted'], alpha=alpha)
+
+    def draw(frame):
+        ax_net.clear()
+        ax_bar.clear()
+        ax_net.set_xlim(0, 1)
+        ax_net.set_ylim(0, 1)
+        ax_net.axis('off')
+
+        forward_phase = min(frame / 10.0, 1.0)
+        backward_phase = max(0.0, min((frame - 10) / 12.0, 1.0))
+
+        ax_net.text(0.00, 0.95, 'prediction path', fontsize=13.5, fontweight='bold', color=COLORS['ink'])
+        ax_net.text(0.00, 0.89, 'forward' if backward_phase == 0 else 'forward complete', fontsize=10.6, color=COLORS['muted'])
+
+        for a, b in forward_edges:
+            ax_net.add_patch(FancyArrowPatch(positions[a], positions[b], arrowstyle='-', linewidth=2.4, color='#dbe4ee', alpha=0.9))
+        for idx, (a, b) in enumerate(forward_edges):
+            local = max(0.0, min(forward_phase * len(forward_edges) - idx, 1.0))
+            if local > 0:
+                ax_net.add_patch(FancyArrowPatch(positions[a], positions[b], arrowstyle='-', linewidth=3.0, color=COLORS['blue_dark'], alpha=0.25 + 0.55 * local))
+
+        node(ax_net, positions['x1'], r'$x_1$', '0.80', '#e0f2fe', COLORS['blue_dark'])
+        node(ax_net, positions['x2'], r'$x_2$', '0.40', '#e0f2fe', COLORS['blue_dark'])
+        node(ax_net, positions['h1'], r'$h_1$', '0.71', 'white', '#94a3b8', alpha=0.35 + 0.65 * min(forward_phase * 1.5, 1.0), radius=0.056)
+        node(ax_net, positions['h2'], r'$h_2$', '0.29', 'white', '#94a3b8', alpha=0.35 + 0.65 * min(forward_phase * 1.5, 1.0), radius=0.056)
+        node(ax_net, positions['yhat'], r'$\hat{y}$', '0.63', '#fef3c7', COLORS['amber_dark'], alpha=0.25 + 0.75 * max(0.0, min((forward_phase - 0.55) / 0.45, 1.0)), radius=0.060)
+
+        loss_alpha = max(0.0, min((forward_phase - 0.75) / 0.25, 1.0))
+        loss_box = FancyBboxPatch((0.82, 0.44), 0.14, 0.18, boxstyle='round,pad=0.02,rounding_size=0.03', facecolor='#fff7ed', edgecolor=COLORS['amber_dark'], linewidth=1.8, alpha=max(loss_alpha, 0.12))
+        ax_net.add_patch(loss_box)
+        ax_net.text(0.89, 0.58, 'target = 1.00', ha='center', fontsize=11.0, alpha=loss_alpha)
+        ax_net.text(0.89, 0.53, 'prediction = 0.63', ha='center', fontsize=11.0, alpha=loss_alpha)
+        ax_net.text(0.89, 0.47, r'$L = (\hat{y} - y)^2$', ha='center', fontsize=11.0, color=COLORS['muted'], alpha=loss_alpha)
+
+        if backward_phase > 0:
+            ax_net.text(0.42, 0.71, 'correction signal comes back through the same graph', fontsize=10.8, color=COLORS['purple'], fontweight='bold')
+        for idx, (a, b) in enumerate(back_edges):
+            local = max(0.0, min(backward_phase * len(back_edges) - idx, 1.0))
+            if local > 0:
+                ax_net.add_patch(FancyArrowPatch(positions[a], positions[b], arrowstyle='->', linewidth=2.4 + local, color=COLORS['purple'], alpha=0.30 + 0.55 * local, mutation_scale=12, connectionstyle='arc3,rad=0.08'))
+
+        ax_bar.set_title('parameter updates', loc='left', fontsize=13.5, pad=10, fontweight='bold')
+        labels = [name for name, _ in bars]
+        finals = np.array([value for _, value in bars])
+        y = np.arange(len(bars))
+        shown = np.zeros_like(finals)
+        if backward_phase > 0:
+            for idx, value in enumerate(finals):
+                local = max(0.0, min(backward_phase * len(finals) - idx, 1.0))
+                shown[idx] = value * local
+        colors = np.where(shown >= 0, COLORS['purple'], '#6d28d9')
+        ax_bar.barh(y, shown, color=colors, alpha=0.88, height=0.72)
+        ax_bar.axvline(0, color='#cbd5e1', linewidth=1.3)
+        ax_bar.set_yticks(y, labels=labels)
+        ax_bar.set_xlabel('signed gradient')
+        ax_bar.grid(axis='x', alpha=0.12)
+        sns.despine(ax=ax_bar, left=True, bottom=False)
+        ax_bar.invert_yaxis()
+        ax_bar.set_xlim(-max_abs * 1.18, max_abs * 1.18)
+        for idx, value in enumerate(shown):
+            if abs(value) > 1e-3:
+                ax_bar.text(value + (0.03 if value >= 0 else -0.03), idx, f'{value:+.2f}', va='center', ha='left' if value >= 0 else 'right', fontsize=10.2)
+        ax_bar.text(0.02, 0.96, 'update rule: w ← w - η·gradient', transform=ax_bar.transAxes, va='top', fontsize=10.8, color=COLORS['muted'])
+        ax_bar.text(0.02, 0.88, 'bars stay near zero until the backward pass starts', transform=ax_bar.transAxes, va='top', fontsize=10.2, color=COLORS['muted'])
+
+    anim = animation.FuncAnimation(fig, draw, frames=frames, interval=120)
+    anim.save(OUT_DIR / 'backprop-blame-assignment.gif', writer=animation.PillowWriter(fps=8))
+    plt.close(fig)
+
+def image_debugging_checklist():
+    fig, ax = plt.subplots(figsize=(12.8, 5.0), facecolor='white')
+    ax.set_xlim(0, 1)
+    ax.set_ylim(0, 1)
+    ax.axis('off')
+
+    fig.text(0.06, 0.92, 'A practical debugging pass', fontsize=19.5, fontweight='bold', color=COLORS['ink'])
+
+    steps = [
+        ('01', 'task', 'What exactly should the model predict?', COLORS['blue_dark']),
+        ('02', 'signals', 'Which inputs should matter most?', COLORS['green_dark']),
+        ('03', 'capacity', 'Is the model too weak or too large?', COLORS['amber_dark']),
+        ('04', 'feedback', 'Is the correction signal useful?', COLORS['red_dark']),
+        ('05', 'data', 'Is the dataset the real bottleneck?', COLORS['purple']),
     ]
-    y_positions = [0.76, 0.61, 0.46, 0.31, 0.16]
-    for index, (num, label, question, color), y in zip(range(len(items)), items, y_positions):
-        if index > 0:
-            ax.plot([0.05, 0.95], [y + 0.075, y + 0.075], color='#e2e8f0', linewidth=1)
-        ax.add_patch(Rectangle((0.05, y - 0.045), 0.012, 0.09, facecolor=color, edgecolor='none'))
-        ax.text(0.08, y + 0.022, num, ha='left', va='center', fontsize=10.5, color=COLORS['muted'])
-        ax.text(0.14, y + 0.022, label, ha='left', va='center', fontsize=14.0, fontweight='bold', color=color)
-        ax.text(0.14, y - 0.020, question, ha='left', va='center', fontsize=14.0, color=COLORS['ink'])
+    y_positions = np.linspace(0.74, 0.22, len(steps))
+    for y, (num, label, question, color) in zip(y_positions, steps):
+        ax.plot([0.16, 0.90], [y - 0.065, y - 0.065], color='#e2e8f0', linewidth=1)
+        ax.add_patch(Rectangle((0.16, y - 0.035), 0.012, 0.07, facecolor=color, edgecolor='none'))
+        ax.text(0.19, y, num, va='center', fontsize=9.5, color=COLORS['muted'])
+        ax.text(0.25, y + 0.018, label, va='center', fontsize=12.3, fontweight='bold', color=color)
+        ax.text(0.25, y - 0.022, question, va='center', fontsize=10.8, color=COLORS['ink'])
 
+    ax.text(0.16, 0.11, 'If a step is broken, stop there and fix it before moving on.', fontsize=10.8, color=COLORS['muted'])
     save(fig, 'debugging-checklist.png')
 
 def main():
+    image_hero_editorial()
     image_explanation_problem()
     image_neuron_scoring_rule()
     image_weights_biases()
@@ -828,6 +923,7 @@ def main():
     image_activation_functions()
     image_representation_building()
     image_backprop_blame_assignment()
+    image_backprop_animation()
     image_debugging_checklist()
     print('Generated images in', OUT_DIR)
 
