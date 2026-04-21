@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 420" role="img" aria-labelledby="title desc">
+  <title id="title">Neuron with weights and bias</title>
+  <desc id="desc">A diagram showing three inputs, weighted connections, a bias term, and an activation output from a single neuron.</desc>
+  <rect width="960" height="420" rx="24" fill="#ffffff"/>
+  <rect x="40" y="40" width="880" height="340" rx="20" fill="#f8fafc" stroke="#d0d7de" stroke-width="2"/>
+  <text x="70" y="92" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="700" fill="#111827">What a single neuron actually does</text>
+  <text x="70" y="125" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#475467">Inputs are weighted, shifted by a bias, and passed through an activation function.</text>
+
+  <g font-family="Arial, Helvetica, sans-serif" fill="#111827">
+    <circle cx="140" cy="180" r="28" fill="#dbeafe" stroke="#60a5fa" stroke-width="2"/>
+    <circle cx="140" cy="240" r="28" fill="#dbeafe" stroke="#60a5fa" stroke-width="2"/>
+    <circle cx="140" cy="300" r="28" fill="#dbeafe" stroke="#60a5fa" stroke-width="2"/>
+    <text x="140" y="187" text-anchor="middle" font-size="24" font-weight="700">x₁</text>
+    <text x="140" y="247" text-anchor="middle" font-size="24" font-weight="700">x₂</text>
+    <text x="140" y="307" text-anchor="middle" font-size="24" font-weight="700">x₃</text>
+
+    <line x1="168" y1="180" x2="410" y2="180" stroke="#94a3b8" stroke-width="4"/>
+    <line x1="168" y1="240" x2="410" y2="240" stroke="#94a3b8" stroke-width="4"/>
+    <line x1="168" y1="300" x2="410" y2="300" stroke="#94a3b8" stroke-width="4"/>
+    <text x="290" y="168" text-anchor="middle" font-size="22" fill="#475467">w₁</text>
+    <text x="290" y="228" text-anchor="middle" font-size="22" fill="#475467">w₂</text>
+    <text x="290" y="288" text-anchor="middle" font-size="22" fill="#475467">w₃</text>
+
+    <circle cx="470" cy="240" r="72" fill="#dcfce7" stroke="#22c55e" stroke-width="3"/>
+    <text x="470" y="232" text-anchor="middle" font-size="26" font-weight="700">Σ(wx) + b</text>
+    <text x="470" y="264" text-anchor="middle" font-size="18" fill="#166534">weighted sum + bias</text>
+
+    <line x1="470" y1="112" x2="470" y2="168" stroke="#a855f7" stroke-width="4"/>
+    <circle cx="470" cy="92" r="24" fill="#f3e8ff" stroke="#a855f7" stroke-width="2"/>
+    <text x="470" y="100" text-anchor="middle" font-size="24" font-weight="700">b</text>
+
+    <line x1="542" y1="240" x2="680" y2="240" stroke="#94a3b8" stroke-width="4"/>
+    <rect x="680" y="188" width="130" height="104" rx="18" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+    <text x="745" y="226" text-anchor="middle" font-size="24" font-weight="700">Activation</text>
+    <text x="745" y="254" text-anchor="middle" font-size="18" fill="#92400e">ReLU / Sigmoid / Tanh</text>
+
+    <line x1="810" y1="240" x2="860" y2="240" stroke="#94a3b8" stroke-width="4"/>
+    <circle cx="880" cy="240" r="26" fill="#fee2e2" stroke="#ef4444" stroke-width="2"/>
+    <text x="880" y="248" text-anchor="middle" font-size="24" font-weight="700">y</text>
+  </g>
+</svg>

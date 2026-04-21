@@ -1,11 +1,87 @@
-from flask import Flask, render_template_string, request, redirect, url_for
-import os
+import json
+import re
 from datetime import datetime
+from pathlib import Path
+from zoneinfo import ZoneInfo
+
+from flask import Flask, redirect, render_template_string, request, url_for
+from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 
-POSTS_DIR = './_posts'
-ASSETS_DIR = './assets'
+POSTS_DIR = Path('./_posts')
+ASSETS_DIR = Path('./assets')
+SITE_TIMEZONE = ZoneInfo('America/Chicago')
+
+
+def slugify(value):
+    slug = re.sub(r'[^a-z0-9]+', '-', value.lower()).strip('-')
+    return slug or 'post'
+
+
+def normalize_tags(raw_tags):
+    tags = []
+    seen = set()
+
+    for candidate in raw_tags.split(','):
+        tag = candidate.strip()
+        tag_key = tag.lower()
+
+        if tag and tag_key not in seen:
+            tags.append(tag)
+            seen.add(tag_key)
+
+    return tags
+
+
+def build_post_content(title, post_date, tags, content, image_urls):
+    post_datetime = datetime.combine(post_date, datetime.min.time(), SITE_TIMEZONE)
+
+    front_matter = [
+        '---',
+        f'title: {json.dumps(title)}',
+        f"date: {post_datetime.strftime('%Y-%m-%d %H:%M:%S %z')}"
+    ]
+
+    if tags:
+        front_matter.append('tags:')
+        front_matter.extend([f'  - {json.dumps(tag)}' for tag in tags])
+
+    front_matter.append('---')
+
+    body = content.strip()
+
+    for index, image_url in enumerate(image_urls, start=1):
+        image_tag = (
+            f'<p><a href="{image_url}"><img src="{image_url}" alt="Image {index}"></a></p>'
+        )
+        body = body.replace(f'[image_{index}]', image_tag)
+
+    return '\n\n'.join(['\n'.join(front_matter), body]).strip() + '\n'
+
+
+def save_images(images, post_slug):
+    valid_images = [image for image in images if image and image.filename]
+
+    if not valid_images:
+        return []
+
+    image_dir = ASSETS_DIR / post_slug
+    image_dir.mkdir(parents=True, exist_ok=True)
+
+    image_urls = []
+
+    for image in valid_images:
+        filename = secure_filename(image.filename)
+
+        if not filename:
+            continue
+
+        image_path = image_dir / filename
+        image.save(image_path)
+        image_urls.append(f'/{image_path.as_posix()}')
+
+    return image_urls
 
 @app.route('/')
 def index():
@@ -14,57 +90,21 @@ def index():
 @app.route('/create_post', methods=['GET', 'POST'])
 def create_post():
     if request.method == 'POST':
-        title = request.form['title']
-        tags = request.form['tags']
-        content = request.form['content']
-        post_date = request.form['date']
+        title = request.form['title'].strip()
+        tags = normalize_tags(request.form['tags'])
+        content = request.form['content'].strip()
+        post_date = datetime.strptime(request.form['date'], '%Y-%m-%d').date()
         images = request.files.getlist('images')
-        
-        # Generate the post filename and directory
-        post_filename = f"{post_date}-{title.replace(' ', '-').lower()}.md"
-        post_filepath = os.path.join(POSTS_DIR, post_filename)
-        
-        # Handle images
-        image_urls = []
-        if images and images[0].filename != '':
-            image_dir = os.path.join(ASSETS_DIR, title.replace(' ', '-').lower())
-            os.makedirs(image_dir, exist_ok=True)
-            for image in images:
-                image_path = os.path.join(image_dir, image.filename)
-                image.save(image_path)
-                image_url = f"/{image_path.replace(os.path.sep, '/')}"
-                image_urls.append(image_url)
 
-        # Create the post content based on the template
-        post_content = f"""---
-title: "{title}"
-date: {post_date} 00:00:00 +0000
-tags: [{tags}]
----
+        post_slug = slugify(title)
+        post_filename = f"{post_date.strftime('%Y-%m-%d')}-{post_slug}.md"
+        post_filepath = POSTS_DIR / post_filename
+        image_urls = save_images(images, post_slug)
+        post_content = build_post_content(title, post_date, tags, content, image_urls)
 
-<p>{content}</p>
-"""
-
-        # Insert images into content
-        for idx, image_url in enumerate(image_urls):
-            image_tag = f'<p><a href="{image_url}"><img src="{image_url}" alt="Image {idx+1}"/></a></p>'
-            post_content = post_content.replace(f'[image_{idx+1}]', image_tag)
-
-        # Append the script for comments
-        post_content += """
-<script src="https://utteranc.es/client.js"
-        repo="ndjstn/ndjstn.github.io"
-        issue-term="url"
-        theme="github-dark"
-        crossorigin="anonymous"
-        async>
-</script>
-"""
-
-        # Save the post content to the file
-        with open(post_filepath, 'w') as file:
+        with post_filepath.open('w', encoding='utf-8') as file:
             file.write(post_content)
-        
+
         return redirect(url_for('index'))
 
     return render_template_string('''

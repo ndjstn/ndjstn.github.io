@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 420" role="img" aria-labelledby="title desc">
+  <title id="title">Backpropagation feedback loop</title>
+  <desc id="desc">A circular process showing prediction, comparison with truth, error calculation, and weight updates repeating over time.</desc>
+  <rect width="960" height="420" rx="24" fill="#ffffff"/>
+  <rect x="40" y="40" width="880" height="340" rx="20" fill="#f8fafc" stroke="#d0d7de" stroke-width="2"/>
+  <text x="70" y="92" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="700" fill="#111827">Backpropagation as a correction loop</text>
+  <text x="70" y="125" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#475467">The model predicts, measures error, updates itself, and tries again.</text>
+
+  <g font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700">
+    <rect x="135" y="185" width="150" height="70" rx="18" fill="#dbeafe" stroke="#60a5fa" stroke-width="2"/>
+    <text x="210" y="228" text-anchor="middle" fill="#1d4ed8">1. Predict</text>
+
+    <rect x="405" y="95" width="150" height="70" rx="18" fill="#dcfce7" stroke="#22c55e" stroke-width="2"/>
+    <text x="480" y="138" text-anchor="middle" fill="#15803d">2. Compare</text>
+
+    <rect x="675" y="185" width="150" height="70" rx="18" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+    <text x="750" y="228" text-anchor="middle" fill="#b45309">3. Measure error</text>
+
+    <rect x="405" y="275" width="150" height="70" rx="18" fill="#fee2e2" stroke="#ef4444" stroke-width="2"/>
+    <text x="480" y="318" text-anchor="middle" fill="#b91c1c">4. Update weights</text>
+  </g>
+
+  <g stroke="#64748b" stroke-width="4" fill="none" stroke-linecap="round">
+    <path d="M285 220 C330 180, 360 155, 405 130"/>
+    <path d="M555 130 C610 155, 645 180, 675 220"/>
+    <path d="M675 255 C640 295, 600 315, 555 315"/>
+    <path d="M405 315 C340 315, 290 280, 245 240"/>
+  </g>
+
+  <g fill="#64748b">
+    <polygon points="397,124 406,135 392,138"/>
+    <polygon points="667,214 675,224 661,226"/>
+    <polygon points="562,309 551,318 548,304"/>
+    <polygon points="252,246 239,243 248,232"/>
+  </g>
+</svg>
