@@ -56,7 +56,6 @@ def add_card(ax):
 def variant_a(ax):
     add_card(ax)
     ax.text(0.08, 0.92, 'Variant A — Structural', fontsize=16, fontweight='bold')
-    ax.text(0.08, 0.875, 'Best for: first-time readers', fontsize=10.5, color=COLORS['muted'])
 
     inputs = [
         (0.14, 0.68, 'x₁', '0.90'),
@@ -87,14 +86,11 @@ def variant_a(ax):
     ax.text(0.85, 0.72, 'threshold', fontsize=9.5, color=COLORS['amber'])
     ax.scatter([0.88], [0.56], s=110, color=COLORS['green'])
     ax.text(0.88, 0.50, 'fires', ha='center', fontsize=10)
-    ax.text(0.08, 0.11, 'Shows the parts and the order of operations clearly.', fontsize=10.8)
-    ax.text(0.08, 0.07, 'Weak on exact magnitude and sign.', fontsize=10.1, color=COLORS['muted'])
 
 
 def variant_b(ax):
     add_card(ax)
     ax.text(0.08, 0.92, 'Variant B — Quantitative', fontsize=16, fontweight='bold')
-    ax.text(0.08, 0.875, 'Best for: readers who want the score to feel concrete', fontsize=10.5, color=COLORS['muted'])
 
     features = ['links', 'sender rep', 'urgent tone', 'known contact', 'bias']
     values = np.array([1.44, -0.42, 0.80, -0.08, -0.55])
@@ -127,14 +123,11 @@ def variant_b(ax):
     marker_y = 0.18 + prob * 0.18
     ax.scatter([marker_x], [marker_y], s=45, color=COLORS['amber'])
     ax.text(0.74, 0.39, 'threshold shifts are visible here too', fontsize=9.5, color=COLORS['muted'])
-    ax.text(0.08, 0.11, 'Shows sign, magnitude, and cumulative pull.', fontsize=10.8)
-    ax.text(0.08, 0.07, 'Weak on the “same weights, moved boundary” intuition.', fontsize=10.1, color=COLORS['muted'])
 
 
 def variant_c(ax):
     add_card(ax)
     ax.text(0.08, 0.92, 'Variant C — Dynamic', fontsize=16, fontweight='bold')
-    ax.text(0.08, 0.875, 'Best for: people confused about what bias changes', fontsize=10.5, color=COLORS['muted'])
 
     frames = [(-1.2, 0.20), (0.0, 0.50), (1.2, 0.80)]
     for idx, (bias, x0) in enumerate(frames):
@@ -149,9 +142,6 @@ def variant_c(ax):
         ax.plot(xs, ys, color=COLORS['ink'], linewidth=2.1)
         ax.text(left + 0.02, top + 0.02, f'b = {bias:+.1f}', fontsize=9.5)
 
-    ax.text(0.08, 0.18, 'Three snapshots of the same rule with a different bias.', fontsize=10.8)
-    ax.text(0.08, 0.13, 'The angle stays fixed. The boundary slides in parallel.', fontsize=10.8)
-    ax.text(0.08, 0.07, 'Weak on the actual score buildup unless paired with another panel.', fontsize=10.1, color=COLORS['muted'])
 
 
 def save_single(draw_fn, filename):
