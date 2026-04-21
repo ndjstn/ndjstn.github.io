@@ -4,7 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import animation
 import seaborn as sns
-from matplotlib.patches import FancyBboxPatch, FancyArrowPatch, Circle
+from matplotlib.patches import FancyBboxPatch, FancyArrowPatch, Circle, Rectangle
 from sklearn.datasets import make_moons
 from sklearn.inspection import DecisionBoundaryDisplay
 from sklearn.linear_model import LogisticRegression
@@ -476,6 +476,218 @@ def image_backprop_blame_assignment():
     ax_grad.grid(axis='x', alpha=0.16)
     sns.despine(ax=ax_grad, left=True, bottom=True)
 
+    save(fig, 'backprop-blame-assignment.png')
+
+
+def image_neuron_scoring_rule():
+    inputs = np.array([0.90, 0.40, 0.20])
+    weights = np.array([1.50, -0.80, 0.60])
+    contributions = inputs * weights
+    bias = -0.45
+    z = contributions.sum() + bias
+    activation = 1 / (1 + np.exp(-z))
+
+    fig = plt.figure(figsize=(13.4, 4.8), facecolor='white')
+    gs = fig.add_gridspec(1, 3, left=0.05, right=0.98, bottom=0.16, top=0.92, width_ratios=[1.02, 1.30, 0.92], wspace=0.22)
+    ax_table = fig.add_subplot(gs[0, 0])
+    ax_sum = fig.add_subplot(gs[0, 1])
+    ax_act = fig.add_subplot(gs[0, 2])
+
+    for ax in (ax_table, ax_sum, ax_act):
+        ax.set_facecolor('white')
+
+    ax_table.set_xlim(0, 1)
+    ax_table.set_ylim(0, 1)
+    ax_table.axis('off')
+    ax_table.text(0.04, 0.93, 'inputs', fontsize=13.5, fontweight='bold', color=COLORS['ink'])
+    ax_table.text(0.32, 0.93, 'weight', fontsize=13.5, fontweight='bold', color=COLORS['ink'])
+    ax_table.text(0.70, 0.93, r'$w_i x_i$', fontsize=13.5, fontweight='bold', color=COLORS['ink'])
+    ax_table.plot([0.68, 0.68], [0.18, 0.86], color='#cbd5e1', linewidth=1)
+    row_y = [0.74, 0.54, 0.34]
+    scale = 0.20 / np.max(np.abs(contributions))
+    for index, (value, weight, contribution, y) in enumerate(zip(inputs, weights, contributions, row_y), start=1):
+        ax_table.text(0.04, y, fr'$x_{index}$ = {value:.2f}', fontsize=12.5, va='center')
+        ax_table.text(0.32, y, f'{weight:+.2f}', fontsize=12.5, va='center')
+        width = contribution * scale
+        color = COLORS['blue_dark'] if contribution >= 0 else COLORS['red_dark']
+        ax_table.add_patch(Rectangle((min(0.68, 0.68 + width), y - 0.045), abs(width), 0.09, facecolor=color, alpha=0.85, edgecolor='none', transform=ax_table.transAxes))
+        ax_table.text(0.68 + width + (0.02 if contribution >= 0 else -0.02), y, f'{contribution:+.2f}', fontsize=11.6, va='center', ha='left' if contribution >= 0 else 'right')
+        ax_table.plot([0.02, 0.96], [y - 0.10, y - 0.10], color='#eef2f7', linewidth=1)
+    ax_table.text(0.04, 0.10, fr'$b$ = {bias:+.2f}', fontsize=12.5, color=COLORS['amber_dark'])
+
+    ax_sum.set_xlim(-0.6, 1.6)
+    ax_sum.set_ylim(0, 1)
+    ax_sum.set_yticks([])
+    ax_sum.set_xticks(np.arange(-0.5, 1.6, 0.5))
+    ax_sum.grid(axis='x', alpha=0.14)
+    sns.despine(ax=ax_sum, left=True, bottom=False)
+    ax_sum.text(0.02, 0.93, 'weighted sum', transform=ax_sum.transAxes, fontsize=13.5, fontweight='bold')
+    ax_sum.text(0.02, 0.84, r'$z = \sum_i w_i x_i + b$', transform=ax_sum.transAxes, fontsize=12.0, color=COLORS['muted'])
+    ax_sum.hlines(0.46, -0.6, 1.6, color='#cbd5e1', linewidth=2)
+    current = 0.0
+    deltas = [*contributions, bias]
+    colors = [COLORS['blue_dark'] if delta >= 0 else COLORS['red_dark'] for delta in contributions] + [COLORS['amber_dark']]
+    for delta, color in zip(deltas, colors):
+        nxt = current + delta
+        ax_sum.plot([current, nxt], [0.46, 0.46], color=color, linewidth=12, solid_capstyle='round', alpha=0.90)
+        ax_sum.scatter([nxt], [0.46], s=48, color=color, zorder=3)
+        current = nxt
+    ax_sum.axvline(0, color=COLORS['ink'], linewidth=1.4, alpha=0.65)
+    ax_sum.text(0.47, 0.63, r'1.35 - 0.32 + 0.12 - 0.45 = 0.70', transform=ax_sum.transAxes, fontsize=12.0, fontweight='bold')
+    ax_sum.text(z, 0.74, fr'$z$ = {z:.2f}', ha='center', fontsize=12.6, fontweight='bold')
+
+    raw = np.linspace(-4, 4, 400)
+    curve = 1 / (1 + np.exp(-raw))
+    ax_act.plot(raw, curve, color=COLORS['purple'], linewidth=2.6)
+    ax_act.scatter([z], [activation], s=64, color=COLORS['purple'], zorder=3)
+    ax_act.axvline(z, color='#cbd5e1', linewidth=1.2, linestyle='--')
+    ax_act.axhline(activation, color='#cbd5e1', linewidth=1.2, linestyle='--')
+    ax_act.set_xlim(-4, 4)
+    ax_act.set_ylim(0, 1.02)
+    ax_act.set_title('activation', loc='left', fontsize=13.5, pad=8, fontweight='bold')
+    ax_act.set_xlabel(r'pre-activation $z$')
+    ax_act.set_ylabel(r'output $a$')
+    ax_act.grid(alpha=0.14)
+    sns.despine(ax=ax_act)
+    ax_act.text(0.04, 0.90, fr'$a = \sigma(z) = {activation:.2f}$', transform=ax_act.transAxes, fontsize=12.2, fontweight='bold', color=COLORS['ink'])
+    save(fig, 'neuron-scoring-rule.png')
+
+
+def image_weights_biases():
+    inputs = np.array([0.80, 0.30, 0.30])
+    weights = np.array([1.00, -0.50, 0.50])
+    contributions = inputs * weights
+    feature_score = contributions.sum()
+    bias = -0.40
+    total = feature_score + bias
+    bias_settings = [-1.0, 0.0, 1.0]
+
+    fig = plt.figure(figsize=(13.6, 5.8), facecolor='white')
+    gs = fig.add_gridspec(2, 1, left=0.05, right=0.98, bottom=0.12, top=0.92, height_ratios=[1.08, 0.92], hspace=0.34)
+    ax_main = fig.add_subplot(gs[0, 0])
+    small = gs[1, 0].subgridspec(1, 3, wspace=0.18)
+    ax_small = [fig.add_subplot(small[0, i]) for i in range(3)]
+
+    ax_main.set_xlim(-1.25, 1.45)
+    ax_main.set_ylim(0, 1)
+    ax_main.set_yticks([])
+    ax_main.set_xticks(np.arange(-1.0, 1.6, 0.5))
+    ax_main.grid(axis='x', alpha=0.12)
+    sns.despine(ax=ax_main, left=True, bottom=False)
+    ax_main.text(0.00, 1.02, 'feature contributions add up before bias moves the cutoff', transform=ax_main.transAxes, fontsize=14.2, fontweight='bold', va='bottom')
+    ax_main.text(0.00, 0.93, r'$z = \sum_i w_i x_i + b$', transform=ax_main.transAxes, fontsize=12.0, color=COLORS['muted'])
+    ax_main.text(-1.23, 0.82, 'x = [0.80, 0.30, 0.30]\nw = [+1.00, -0.50, +0.50]', fontsize=10.8, color=COLORS['muted'], va='top')
+    ax_main.hlines(0.42, -1.25, 1.45, color='#cbd5e1', linewidth=2)
+    ax_main.axvline(0, color=COLORS['ink'], linewidth=2)
+    ax_main.text(0.02, 0.12, r'threshold: fire if $z > 0$', fontsize=11.4, color=COLORS['ink'])
+
+    deltas = [*contributions, bias]
+    colors = [COLORS['blue_dark'] if delta >= 0 else COLORS['red_dark'] for delta in contributions] + [COLORS['amber_dark']]
+    current = 0.0
+    for idx, (delta, color) in enumerate(zip(deltas, colors)):
+        nxt = current + delta
+        ax_main.plot([current, nxt], [0.42, 0.42], color=color, linewidth=14, solid_capstyle='round', alpha=0.92)
+        ax_main.scatter([nxt], [0.42], s=58, color=color, zorder=3)
+        current = nxt
+    ax_main.text(0.66, 0.90, fr'score before bias = {feature_score:.2f}', transform=ax_main.transAxes, fontsize=11.5, color=COLORS['blue_dark'], fontweight='bold')
+    ax_main.text(0.55, 0.76, fr'after bias: $z$ = {total:.2f}', transform=ax_main.transAxes, fontsize=12.2, fontweight='bold', color=COLORS['ink'])
+
+    for axis, current_bias in zip(ax_small, bias_settings):
+        threshold = -current_bias
+        axis.set_xlim(-1.4, 1.4)
+        axis.set_ylim(0, 1)
+        axis.set_yticks([])
+        axis.set_xticks(np.arange(-1.0, 1.1, 0.5))
+        axis.grid(axis='x', alpha=0.10)
+        sns.despine(ax=axis, left=True, bottom=False)
+        axis.hlines(0.45, -1.4, 1.4, color='#cbd5e1', linewidth=2)
+        axis.axvline(threshold, color=COLORS['ink'], linewidth=2)
+        axis.scatter([feature_score], [0.45], s=72, color=COLORS['blue_dark'], zorder=3)
+        status = 'on' if feature_score > threshold else 'off'
+        status_color = COLORS['green_dark'] if status == 'on' else COLORS['red_dark']
+        axis.set_title(fr'$b$ = {current_bias:+.1f}', fontsize=12.6, pad=8, fontweight='bold')
+        threshold_label = 0.0 if abs(threshold) < 1e-9 else threshold
+        axis.text(threshold, 0.76, f'threshold = {threshold_label:.1f}', ha='center', fontsize=10.3, color=COLORS['muted'])
+        axis.text(feature_score, 0.19, 'score = 0.80', ha='center', fontsize=10.2, color=COLORS['blue_dark'])
+        axis.text(0.03, 0.90, status, transform=axis.transAxes, fontsize=11.4, fontweight='bold', color=status_color)
+    save(fig, 'weights-biases.png')
+
+
+def image_backprop_blame_assignment():
+    fig, ax = plt.subplots(figsize=(13.8, 6.2), facecolor='white')
+    ax.set_xlim(0, 1)
+    ax.set_ylim(0, 1)
+    ax.axis('off')
+
+    ax.text(0.07, 0.93, 'forward pass', fontsize=13.4, fontweight='bold', color=COLORS['ink'])
+    ax.text(0.74, 0.93, 'loss', fontsize=13.4, fontweight='bold', color=COLORS['ink'])
+    ax.text(0.07, 0.28, 'sample parameter gradients', fontsize=13.4, fontweight='bold', color=COLORS['ink'])
+
+    inputs = [(0.12, 0.72, r'$x_1$', 0.80), (0.12, 0.46, r'$x_2$', 0.40)]
+    hidden = [(0.38, 0.78, r'$h_1$', 0.71), (0.38, 0.40, r'$h_2$', 0.29)]
+    output = (0.64, 0.58, r'$\hat{y}$', 0.63)
+    target = 1.00
+
+    forward_edges = [
+        (inputs[0][:2], hidden[0][:2], 2.6),
+        (inputs[1][:2], hidden[0][:2], 1.4),
+        (inputs[0][:2], hidden[1][:2], 1.8),
+        (inputs[1][:2], hidden[1][:2], 2.9),
+        (hidden[0][:2], output[:2], 3.2),
+        (hidden[1][:2], output[:2], 1.9),
+    ]
+    for start, end, width in forward_edges:
+        ax.add_patch(FancyArrowPatch(start, end, arrowstyle='-', linewidth=width, color=COLORS['blue_dark'], alpha=0.45))
+
+    for x, y, label, value in inputs:
+        ax.add_patch(Circle((x, y), 0.040, facecolor='#e0f2fe', edgecolor=COLORS['blue_dark'], linewidth=2))
+        ax.text(x, y + 0.003, label, ha='center', va='center', fontsize=16.5, fontweight='bold')
+        ax.text(x, y - 0.075, f'{value:.2f}', ha='center', va='center', fontsize=10.8, color=COLORS['muted'])
+    for x, y, label, value in hidden:
+        ax.add_patch(Circle((x, y), 0.046, facecolor='white', edgecolor='#94a3b8', linewidth=2))
+        ax.text(x, y + 0.003, label, ha='center', va='center', fontsize=16.5, fontweight='bold')
+        ax.text(x, y - 0.080, f'{value:.2f}', ha='center', va='center', fontsize=10.8, color=COLORS['muted'])
+    ax.add_patch(Circle(output[:2], 0.050, facecolor='#fef3c7', edgecolor=COLORS['amber_dark'], linewidth=2))
+    ax.text(output[0], output[1] + 0.003, output[2], ha='center', va='center', fontsize=17.0, fontweight='bold')
+    ax.text(output[0], output[1] - 0.084, f'{output[3]:.2f}', ha='center', va='center', fontsize=10.8, color=COLORS['muted'])
+
+    loss_box = FancyBboxPatch((0.79, 0.50), 0.14, 0.16, boxstyle='round,pad=0.02,rounding_size=0.03', facecolor='#fff7ed', edgecolor=COLORS['amber_dark'], linewidth=1.8)
+    ax.add_patch(loss_box)
+    ax.add_patch(FancyArrowPatch((0.69, 0.58), (0.79, 0.58), arrowstyle='->', linewidth=1.7, color=COLORS['line'], mutation_scale=12))
+    ax.text(0.86, 0.615, fr'target = {target:.2f}', ha='center', va='center', fontsize=11.2)
+    ax.text(0.86, 0.575, fr'prediction = {output[3]:.2f}', ha='center', va='center', fontsize=11.2)
+    ax.text(0.86, 0.530, r'$L = (\hat{y} - y)^2$', ha='center', va='center', fontsize=11.2, color=COLORS['muted'])
+
+    backward_paths = [
+        ((0.80, 0.50), (0.66, 0.52), -0.10, 2.7),
+        ((0.60, 0.50), (0.42, 0.72), -0.15, 2.9),
+        ((0.60, 0.50), (0.42, 0.46), 0.03, 1.9),
+        ((0.33, 0.70), (0.16, 0.68), 0.10, 1.8),
+        ((0.33, 0.44), (0.16, 0.48), -0.10, 2.5),
+    ]
+    for start, end, rad, width in backward_paths:
+        ax.add_patch(FancyArrowPatch(start, end, arrowstyle='->', linewidth=width, color=COLORS['purple'], alpha=0.82, mutation_scale=12, connectionstyle=f'arc3,rad={rad}'))
+    ax.text(0.52, 0.69, 'error signal flows backward', fontsize=11.2, color=COLORS['purple'], fontweight='bold')
+    ax.text(0.52, 0.63, r'bigger $|\nabla L|$ → bigger update', fontsize=10.8, color=COLORS['muted'])
+
+    baseline = 0.14
+    ax.plot([0.07, 0.90], [baseline, baseline], color='#cbd5e1', linewidth=1.2)
+    bars = [
+        (0.22, -0.41, 'x1→h1'),
+        (0.30, 0.62, 'x2→h2'),
+        (0.50, -0.84, 'h1→ŷ'),
+        (0.58, 0.28, 'h2→ŷ'),
+        (0.73, -0.19, 'b_h1'),
+        (0.81, 0.11, 'b_ŷ'),
+    ]
+    max_abs = max(abs(value) for _, value, _ in bars)
+    for x, value, label in bars:
+        height = 0.18 * (value / max_abs)
+        color = '#6d28d9' if value >= 0 else '#4c1d95'
+        ax.add_patch(Rectangle((x - 0.025, baseline), 0.05, height, facecolor=color, alpha=0.88))
+        ax.text(x, baseline + height + (0.028 if value >= 0 else -0.070), f'{value:+.2f}', ha='center', va='bottom' if value >= 0 else 'top', fontsize=10.4)
+        ax.text(x, 0.05, label, ha='center', va='top', fontsize=9.8, color=COLORS['muted'])
+    ax.text(0.78, 0.24, r'update: $w \leftarrow w - \eta \nabla_w L$', fontsize=11.0, color=COLORS['muted'])
     save(fig, 'backprop-blame-assignment.png')
 
 def image_debugging_checklist():
