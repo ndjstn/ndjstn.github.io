@@ -276,16 +276,15 @@ def image_weights_biases():
     save(fig, 'weights-biases.png')
 
 def image_weights_bias_animation():
-    feature_names = ['room below target', 'someone home', 'afternoon sun']
+    feature_names = ['cold room', 'someone home', 'afternoon sun']
     values = np.array([0.80, 1.00, 0.60])
     baseline_weights = np.array([1.10, 0.50, -0.70])
     baseline_feature_score = np.dot(values, baseline_weights)
 
-    fig, (ax_weights, ax_bias) = plt.subplots(1, 2, figsize=(13.6, 5.0), facecolor='white')
-    fig.subplots_adjust(left=0.06, right=0.98, bottom=0.14, top=0.86, wspace=0.22)
-    fig.text(0.06, 0.93, 'same room, two different knobs', fontsize=18, fontweight='bold', color=COLORS['ink'])
-    fig.text(0.06, 0.88, 'left changes what matters. right changes how much evidence is enough.', fontsize=11.6, color=COLORS['muted'])
-    fig.text(0.06, 0.83, 'room state: cold = 0.80, home = 1.00, sun = 0.60', fontsize=11.0, color=COLORS['muted'])
+    fig, (ax_weights, ax_bias) = plt.subplots(1, 2, figsize=(13.8, 5.2), facecolor='white')
+    fig.subplots_adjust(left=0.12, right=0.98, bottom=0.14, top=0.78, wspace=0.22)
+    fig.text(0.06, 0.93, 'Thermostat example: weight vs bias', fontsize=18.5, fontweight='bold', color=COLORS['ink'])
+    fig.text(0.06, 0.88, 'Room stays fixed: cold 0.80, home 1.00, sun 0.60. Left changes one weight; right changes only bias.', fontsize=11.2, color=COLORS['muted'])
 
     frames = list(range(48))
 
@@ -312,7 +311,7 @@ def image_weights_bias_animation():
         left_threshold = -current_bias
         left_z = left_score + current_bias
 
-        ax_weights.set_title('weights', loc='left', fontsize=14, pad=10, fontweight='bold')
+        ax_weights.set_title('left knob: weight', loc='left', fontsize=13.5, pad=10, fontweight='bold')
         y = np.arange(len(feature_names))
         colors = [COLORS['blue_dark'], COLORS['green_dark'], COLORS['red_dark']]
         ax_weights.barh(y, contributions, color=colors, alpha=0.88)
@@ -324,12 +323,25 @@ def image_weights_bias_animation():
         sns.despine(ax=ax_weights, left=True, bottom=False)
         for idx, value in enumerate(contributions):
             ax_weights.text(value + (0.03 if value >= 0 else -0.03), idx, f'{value:+.2f}', va='center', ha='left' if value >= 0 else 'right', fontsize=10.2)
-        ax_weights.text(0.02, 0.96, phase_label if weight_phase else 'weights fixed', transform=ax_weights.transAxes, va='top', fontsize=11.0, color=COLORS['muted'])
-        ax_weights.text(0.02, 0.86, f'cold-room weight = {current_weights[0]:+.2f}', transform=ax_weights.transAxes, va='top', fontsize=11.0, color=COLORS['ink'])
-        ax_weights.text(0.02, 0.76, f'score = {left_score:.2f}   cutoff = {left_threshold:.2f}', transform=ax_weights.transAxes, va='top', fontsize=11.0, color=COLORS['ink'])
-        ax_weights.text(0.02, 0.66, 'heat on' if left_z > 0 else 'stay off', transform=ax_weights.transAxes, va='top', fontsize=11.4, fontweight='bold', color=COLORS['green_dark'] if left_z > 0 else COLORS['red_dark'])
+        left_summary = '\n'.join([
+            'moving now' if weight_phase else 'fixed now',
+            f'cold-room weight = {current_weights[0]:+.2f}',
+            f'room score = {left_score:.2f}   cutoff = {left_threshold:.2f}',
+        ])
+        ax_weights.text(
+            0.03,
+            0.95,
+            left_summary,
+            transform=ax_weights.transAxes,
+            va='top',
+            fontsize=10.7,
+            color=COLORS['ink'],
+            linespacing=1.35,
+            bbox={'boxstyle': 'round,pad=0.20', 'fc': 'white', 'ec': 'none', 'alpha': 0.88},
+        )
+        ax_weights.text(0.03, 0.67, 'heat on' if left_z > 0 else 'stay off', transform=ax_weights.transAxes, va='top', fontsize=11.2, fontweight='bold', color=COLORS['green_dark'] if left_z > 0 else COLORS['red_dark'])
 
-        ax_bias.set_title('bias', loc='left', fontsize=14, pad=10, fontweight='bold')
+        ax_bias.set_title('right knob: bias', loc='left', fontsize=13.5, pad=10, fontweight='bold')
         ax_bias.set_xlim(0.0, 1.35)
         ax_bias.set_ylim(0, 1)
         ax_bias.set_yticks([])
@@ -341,10 +353,23 @@ def image_weights_bias_animation():
         z = feature_score + bias_demo
         ax_bias.axvline(threshold, color=COLORS['ink'], linewidth=2)
         ax_bias.scatter([feature_score], [0.45], s=84, color=COLORS['blue_dark'], zorder=3)
-        ax_bias.text(0.02, 0.96, 'bias fixed' if weight_phase else phase_label, transform=ax_bias.transAxes, va='top', fontsize=11.0, color=COLORS['muted'])
-        ax_bias.text(0.02, 0.86, f'same score = {feature_score:.2f}', transform=ax_bias.transAxes, va='top', fontsize=11.0, color=COLORS['blue_dark'])
-        ax_bias.text(0.02, 0.76, f'b = {bias_demo:+.2f}   cutoff = {threshold:.2f}', transform=ax_bias.transAxes, va='top', fontsize=11.0, color=COLORS['ink'])
-        ax_bias.text(0.02, 0.66, 'heat on' if z > 0 else 'stay off', transform=ax_bias.transAxes, va='top', fontsize=11.4, fontweight='bold', color=COLORS['green_dark'] if z > 0 else COLORS['red_dark'])
+        right_summary = '\n'.join([
+            'fixed now' if weight_phase else 'moving now',
+            f'same room score = {feature_score:.2f}',
+            f'bias = {bias_demo:+.2f}   cutoff = {threshold:.2f}',
+        ])
+        ax_bias.text(
+            0.03,
+            0.95,
+            right_summary,
+            transform=ax_bias.transAxes,
+            va='top',
+            fontsize=10.7,
+            color=COLORS['ink'],
+            linespacing=1.35,
+            bbox={'boxstyle': 'round,pad=0.20', 'fc': 'white', 'ec': 'none', 'alpha': 0.88},
+        )
+        ax_bias.text(0.03, 0.67, 'heat on' if z > 0 else 'stay off', transform=ax_bias.transAxes, va='top', fontsize=11.2, fontweight='bold', color=COLORS['green_dark'] if z > 0 else COLORS['red_dark'])
         ax_bias.text(threshold, 0.74, 'cutoff', ha='center', fontsize=10.2, color=COLORS['muted'])
         ax_bias.text(feature_score, 0.18, 'same room score', ha='center', fontsize=10.0, color=COLORS['blue_dark'])
 
@@ -353,25 +378,25 @@ def image_weights_bias_animation():
     plt.close(fig)
 
 def image_activation_functions():
-    fig, ax = plt.subplots(figsize=(14, 8))
+    fig, ax = plt.subplots(figsize=(14, 7.2))
     fig.patch.set_facecolor(COLORS['bg'])
-    fig.subplots_adjust(top=0.80, left=0.08, right=0.97, bottom=0.12)
+    fig.subplots_adjust(top=0.83, left=0.08, right=0.97, bottom=0.14)
     x = np.linspace(-4.5, 4.5, 400)
     relu = np.maximum(0, x)
     sigmoid = 1 / (1 + np.exp(-x))
     tanh = np.tanh(x)
+
+    fig.text(0.08, 0.95, 'Activation functions break the straight-line limit', fontsize=20.5, fontweight='bold', color=COLORS['ink'])
+    fig.text(0.08, 0.905, 'Each curve reshapes the weighted sum differently after the same scoring step.', fontsize=11.8, color=COLORS['muted'])
 
     ax.plot(x, relu, color=COLORS['amber_dark'], linewidth=3, label='ReLU')
     ax.plot(x, sigmoid, color=COLORS['blue_dark'], linewidth=3, label='Sigmoid')
     ax.plot(x, tanh, color=COLORS['green_dark'], linewidth=3, label='Tanh')
     ax.axhline(0, color=COLORS['line'], linewidth=1)
     ax.axvline(0, color=COLORS['line'], linewidth=1)
-    ax.set_title('Activation functions are where the model stops being linear', loc='left', pad=15)
-    ax.text(0.0, 1.06, 'Different curves, same big job: add non-linearity so the model can bend.',
-            transform=ax.transAxes, fontsize=12.5, color=COLORS['muted'])
     ax.set_xlabel('input to the activation')
     ax.set_ylabel('output response')
-    ax.legend(frameon=False, ncol=3, loc='upper left')
+    ax.legend(frameon=False, ncol=3, loc='upper left', bbox_to_anchor=(0.0, 1.01), borderaxespad=0.0)
     ax.grid(alpha=0.22)
     sns.despine(ax=ax)
     save(fig, 'activation-functions.png')
@@ -668,7 +693,7 @@ def image_backprop_blame_assignment():
 
     ax.text(0.07, 0.93, 'forward pass', fontsize=13.4, fontweight='bold', color=COLORS['ink'])
     ax.text(0.74, 0.93, 'loss', fontsize=13.4, fontweight='bold', color=COLORS['ink'])
-    ax.text(0.07, 0.28, 'sample parameter gradients', fontsize=13.4, fontweight='bold', color=COLORS['ink'])
+    ax.text(0.07, 0.28, 'sample gradients', fontsize=13.0, fontweight='bold', color=COLORS['ink'])
 
     inputs = [(0.12, 0.72, r'$x_1$', 0.80), (0.12, 0.46, r'$x_2$', 0.40)]
     hidden = [(0.38, 0.78, r'$h_1$', 0.71), (0.38, 0.40, r'$h_2$', 0.29)]
@@ -714,8 +739,8 @@ def image_backprop_blame_assignment():
     ]
     for start, end, rad, width in backward_paths:
         ax.add_patch(FancyArrowPatch(start, end, arrowstyle='->', linewidth=width, color=COLORS['purple'], alpha=0.82, mutation_scale=12, connectionstyle=f'arc3,rad={rad}'))
-    ax.text(0.52, 0.69, 'error signal flows backward', fontsize=11.2, color=COLORS['purple'], fontweight='bold')
-    ax.text(0.52, 0.63, r'bigger $|\nabla L|$ → bigger update', fontsize=10.8, color=COLORS['muted'])
+    ax.text(0.54, 0.69, 'error signal flows backward', fontsize=11.1, color=COLORS['purple'], fontweight='bold')
+    ax.text(0.54, 0.63, r'larger $|\nabla L|$ means a larger update', fontsize=10.6, color=COLORS['muted'])
 
     baseline = 0.14
     ax.plot([0.07, 0.90], [baseline, baseline], color='#cbd5e1', linewidth=1.2)
@@ -734,7 +759,7 @@ def image_backprop_blame_assignment():
         ax.add_patch(Rectangle((x - 0.025, baseline), 0.05, height, facecolor=color, alpha=0.88))
         ax.text(x, baseline + height + (0.028 if value >= 0 else -0.070), f'{value:+.2f}', ha='center', va='bottom' if value >= 0 else 'top', fontsize=10.4)
         ax.text(x, 0.05, label, ha='center', va='top', fontsize=9.8, color=COLORS['muted'])
-    ax.text(0.78, 0.24, r'update: $w \leftarrow w - \eta \nabla_w L$', fontsize=11.0, color=COLORS['muted'])
+    ax.text(0.73, 0.235, r'update: $w \leftarrow w - \eta \nabla_w L$', fontsize=10.8, color=COLORS['muted'])
     save(fig, 'backprop-blame-assignment.png')
 
 def image_debugging_checklist():
