@@ -1,10 +1,10 @@
 ---
 title: "When Kawasaki Disease Started Looking Like a Weather Map"
 date: 2026-04-21 00:00:00 -0500
-description: "A paper-inspired data science explainer on Kawasaki disease, North Pacific wind patterns, and the difference between a plausible mechanism and proof."
+description: "A first-person read of a strange but serious paper on Kawasaki disease, North Pacific wind patterns, and what the evidence can and cannot support."
 image:
   path: /assets/img/posts/kawasaki-wind-patterns/hero.png
-  alt: North Pacific 300 hPa wind map with Japan, Hawaii, San Diego, and a seasonal wind-index inset.
+  alt: January 300 hPa North Pacific wind map with Japan, Hawaii, San Diego, and the P-WIND corridor labeled.
 tags:
   - "Kawasaki Disease"
   - "Climate Data"
@@ -16,61 +16,51 @@ categories:
   - "Data Science"
 ---
 
-Most data science examples start with a table.
+The first time I read the Kawasaki disease wind-pattern paper, my reaction was basically: this is either a clever hypothesis or a very polished coincidence.
 
-The Kawasaki disease wind-pattern paper starts with something stranger: a pediatric disease with a seasonal rhythm, a geographic pattern, and no known cause.
+That kind of paper is usually worth a closer look.
 
-That is what makes it interesting. The paper is not a leaderboard problem. It is not "train a model and report accuracy." It is a scientific argument built from timing, geography, and atmospheric circulation.
+The claim is unusual enough to sound risky at first. Kawasaki disease is a serious childhood illness, and the paper is asking whether its timing in Japan, Hawaii, and San Diego lines up with large-scale wind patterns moving across the North Pacific ([Rodo et al., 2011](#ref-rodo2011)). I would not treat that like a normal regression problem. It is a question about whether a disease pattern and an atmospheric pattern might be part of the same story.
 
-The 2011 Scientific Reports paper by Rodo and coauthors asked whether Kawasaki disease activity in Japan, Hawaii, and San Diego was associated with large-scale tropospheric winds crossing the North Pacific ([Rodo et al., 2011](#ref-rodo2011)). The paper's most provocative suggestion is that the environmental trigger for Kawasaki disease could be wind-borne.
+What made the paper worth reading was not the headline. It was the way the authors tried to connect geography, seasonality, and transport without pretending they had already solved the cause.
 
-That sentence needs care.
+## The claim sounds weird at first
 
-It does not mean the paper proved what causes Kawasaki disease. It does not mean wind itself causes the disease. It means the authors found repeated alignment between disease timing and atmospheric pathways, strong enough to argue that aerosols or another transported environmental trigger deserved attention.
+Kawasaki disease mostly affects young children and can damage the heart and blood vessels. The CDC also notes that the cause is unknown and that it is the leading cause of acquired heart disease in children in the United States ([CDC, 2026](#ref-cdc2026)).
 
-That is the version worth writing about.
+With an open cause, a seasonal and geographic pattern is not just trivia. It is a clue.
 
-## The disease is real, but the cause is still open
+I think that is why this paper still feels useful years later. It asks a strange question, but not a random one. If disease activity rises and falls with the seasons in places separated by an ocean, then something in the environment is at least worth testing. The atmosphere is one of the few systems that can move material across that kind of distance on a schedule.
 
-Kawasaki disease is a serious childhood illness. The CDC describes it as a disease that mostly affects children younger than 5 and can damage the heart and blood vessels. It is also the number one cause of acquired heart disease in children in the United States ([CDC, 2026](#ref-cdc2026)).
+So the paper is not saying, "wind causes Kawasaki disease." It is asking whether a transported trigger, possibly aerosolized, could be part of the mechanism.
 
-The cause is not known.
+## What the paper actually argues
 
-That uncertainty is the whole reason the wind paper matters. If a disease has a stable seasonal rhythm, clusters in time, and appears in distant places with similar timing, it is reasonable to ask whether something outside the patient is moving in a patterned way.
+The core argument is narrower than the title sounds.
 
-Weather is patterned.
+Rodo and coauthors compared Kawasaki disease timing in Japan, Hawaii, and San Diego with wind fields over the North Pacific. For Japan, they focused on a northwesterly component over the western Pacific. For the trans-Pacific pathway, they defined a Pacific Zonal Wind Index, or P-WIND, along roughly 35 degrees north from 140E to 240E ([Rodo et al., 2011](#ref-rodo2011)).
 
-Air masses move.
+The important move is not the map itself. It is turning a moving atmospheric field into something seasonal and measurable enough to compare with disease activity.
 
-The atmosphere connects places that look distant on a map.
+That was the part I wanted to test for myself.
 
-That is the jump the paper makes: not from "weather causes disease," but from "the timing looks spatially connected" to "maybe we should test whether atmospheric transport is part of the mechanism."
+## The part I could reproduce
 
-## This is not a Kaggle dataset
+I cannot reproduce the clinical case series from the paper from first principles, and I do not need to pretend otherwise. What I can reproduce is the atmospheric side: the North Pacific wind field and the seasonal indices the paper uses to describe it.
 
-The patient data in the paper came from clinical and surveillance sources, not a neat public CSV.
+For this post, I used NOAA PSL NCEP/NCAR Reanalysis 1 monthly wind data ([NOAA PSL, 2026](#ref-noaa-psl); [Kalnay et al., 1996](#ref-kalnay1996)). Reanalysis is not a station archive. It is a gridded reconstruction of the atmosphere built from observations and a fixed model framework.
 
-The Japanese series came from nationwide hospital surveys. The paper reports 247,685 cases across 47 prefectures over 1970-2008. The Hawaii analysis used 498 cases from hospital discharge records over 1996-2006. The San Diego series used 749 cases from the UCSD Kawasaki Disease Research Center database over 1994-2008 ([Rodo et al., 2011](#ref-rodo2011)).
+I liked it for this question because the paper is about circulation, not just local weather.
 
-That matters for reproducibility.
+That is what the lead map is meant to show: the winter flow is the thing to watch. The paper is interested in whether that pathway changes in a way that lines up with disease timing.
 
-I cannot honestly reproduce the clinical side from Kaggle. What I can reproduce is the atmospheric side: the North Pacific wind fields and the wind indices the paper uses to describe the seasonal pathway.
+## Turning wind into a number
 
-For that, I used NOAA PSL's NCEP/NCAR Reanalysis 1 monthly wind data ([NOAA PSL, 2026](#ref-noaa-psl); [Kalnay et al., 1996](#ref-kalnay1996)). Reanalysis is not a weather station spreadsheet. It is a gridded reconstruction of the atmosphere made by combining observations with a fixed weather model and data assimilation system.
+This is the move that turns a wind field into something I can compare with disease timing.
 
-The figure at the top of this post is built from those NOAA fields. It shows January winds at 300 hPa, roughly the upper-troposphere level the paper uses when discussing the trans-Pacific pathway to Hawaii and San Diego.
+The atmosphere is continuous. If you want to compare it with disease timing, you need to compress it into something repeatable. The paper does that by using indices.
 
-## The paper's move is a data-science move
-
-The clever part is not that the authors drew a weather map.
-
-The clever part is that they converted a messy atmospheric field into indices that could be compared with disease timing.
-
-For Japan, the paper uses a northwesterly wind component. In plain English: are winds over Japan blowing from the north and west, the direction the authors associate with air coming from continental Asia?
-
-For the North Pacific, the paper defines a Pacific Zonal Wind Index, or P-WIND. This is the mean east-west wind along 35 degrees north between 140 degrees east and 240 degrees east. That line runs across the North Pacific, roughly marking the trans-Pacific corridor highlighted in the paper.
-
-The exact implementation below is not a clinical reproduction. It is a reproducible atmospheric echo of the paper's setup:
+For the reconstruction in this post, I kept the setup close to the published idea:
 
 - P-WIND: mean 300 hPa east-west wind along 35N, 140E-240E
 - Japan NW-WIND: mean 850 hPa northwesterly component over 30-45N, 130-145E
@@ -78,84 +68,55 @@ The exact implementation below is not a clinical reproduction. It is a reproduci
 
 ![Seasonal wind indices derived from NOAA reanalysis data.](/assets/img/posts/kawasaki-wind-patterns/seasonal-wind-indices.png)
 
-*The atmospheric indices turn up in the cool season. This figure contains wind data only, not patient records.*
+*The point of the indices is not that they are perfect. The point is that they turn a large, messy field into something seasonal enough to compare against disease timing.*
 
-In this reconstruction, the Pacific zonal wind index is strongest in February, about 42.94 m/s, and weakest in August, about 5.55 m/s. The Japan northwesterly component is strongest in January, about 7.68 m/s, and weakest in August, about 0.24 m/s.
+In this reconstruction, P-WIND is strongest in February, about 42.94 m/s, and weakest in August, about 5.55 m/s. Japan NW-WIND is strongest in January, about 7.68 m/s, and weakest in August, about 0.24 m/s.
 
-That seasonal contrast is the important part. The winds are not constant background noise. The North Pacific pathway changes across the year.
+The seasonal gap is the interesting part. The wind pattern is not flat background noise. It changes in a way that could plausibly matter if the disease is responding to something transported through the atmosphere.
 
-## The animation is the argument
+## Why the seasonal pattern matters
 
-Static maps are useful, but the paper's idea is seasonal. The thing that changes is the circulation.
-
-The animation below shows monthly 300 hPa winds over the North Pacific using the same 1996-2006 NOAA climatology. The map is not trying to show disease cases. It is showing the atmospheric conveyor belt that makes the hypothesis plausible enough to test.
+The monthly wind field makes the seasonal argument easier to see.
 
 ![Monthly animation of North Pacific 300 hPa winds.](/assets/img/posts/kawasaki-wind-patterns/monthly-pacific-winds.gif)
 
-*The winter jet strengthens and opens a clearer west-to-east pathway across the Pacific. In summer, the pattern weakens and shifts.*
+*The winter jet strengthens the west-to-east corridor across the Pacific. In summer, that corridor weakens and shifts.*
 
-That visual makes the paper feel less abstract.
+That does not prove anything by itself. It does, however, explain why the hypothesis is not absurd on its face. Japan, Hawaii, and San Diego are far apart on a map, but they can still sit inside the same broad circulation pattern at the same time of year.
 
-Japan, Hawaii, and San Diego are far apart politically and medically. Atmospherically, they can sit inside connected flow patterns. If a disease has seasonal peaks in those places, and if those peaks repeatedly line up with a seasonal atmospheric pathway, the next scientific question becomes obvious:
+Once you see that, the scientific question changes. It is no longer "can a disease and a weather map look similar?" It becomes "what would move along that path, and can we find evidence for it?"
 
-What, if anything, is being transported?
+The paper discusses aerosols and airborne biological material as possibilities, but it does not identify a causal agent.
 
-The paper discusses aerosols and airborne biological material as possibilities. It does not identify a causal agent. That distinction is not a footnote; it is the central guardrail.
+I would keep that limit in view.
 
-## Association is not causation, but it is not nothing
+## Where the evidence stops
 
-It is easy to overreact in either direction.
+I like the paper more once I stop asking it to do too much.
 
-One bad reading says: "The wind causes Kawasaki disease."
-
-Another bad reading says: "Correlation is not causation, so there is nothing here."
-
-Neither is good enough.
-
-The better reading is that the paper builds a mechanistic hypothesis. It combines a clinical pattern with an atmospheric pattern, then says: this alignment is specific enough that aerosol microbiology and environmental sampling should look here.
-
-That is a useful scientific move.
+It shows a recurring alignment between disease timing and wind structure. I find that interesting, but it is still an association. If I read it carefully, the paper is making a mechanism-shaped hypothesis, not declaring a mechanism as settled fact.
 
 ![Workflow figure separating observed case data, reproducible wind data, and the hypothesis.](/assets/img/posts/kawasaki-wind-patterns/evidence-boundary.png)
 
-*The claim has layers. The disease timing is observed in clinical data, the wind fields are reproducible from NOAA, and the transport mechanism remains a hypothesis.*
+*The case data are clinical, the wind fields are reproducible, and the transport mechanism remains a hypothesis.*
 
-This is why I like the topic more than a generic Kaggle analysis. A leaderboard dataset often rewards you for treating columns as inputs and a target as output. This paper rewards a different habit: ask whether the data has a mechanism behind it.
+That boundary is the whole story for me. The paper is strongest when it stays on the evidence side of that line.
 
-If a model finds a pattern but you cannot say how the world could produce that pattern, you may have found a shortcut, a confounder, or noise.
+I do not think the right takeaway is "wind causes Kawasaki disease." I also do not think the right takeaway is "this is just correlation, so ignore it." The better reading is that the paper identifies a pattern specific enough to justify follow-up work in aerosol sampling, environmental monitoring, and replication across time windows.
 
-If a pattern lines up with a plausible mechanism, it is not proof. But it is a better reason to investigate.
+## What I would test next
 
-## What I would do next
+If I were extending this analysis, I would keep the next steps boring and testable:
 
-If I were turning this into a deeper project, I would not start by fitting a prediction model.
+1. Recompute the wind indices across nearby atmospheric levels.
+2. Check whether the seasonal signal survives different averaging windows.
+3. Compare the same wind measures against diseases that should not share the pattern.
+4. Look for public Kawasaki disease surveillance summaries that can be compared without patient-level data.
+5. Test whether the relationship holds outside the original study period.
 
-I would start by separating the evidence:
+I would especially care about negative controls. If the same wind index tracks every winter disease, the hypothesis gets weaker. If the pattern stays specific to Kawasaki disease timing and locations, it becomes harder to dismiss.
 
-- reproduce the wind fields from NOAA
-- rebuild P-WIND and NW-WIND across multiple atmospheric levels
-- test whether the seasonal pattern survives different averaging windows
-- look for public Kawasaki disease surveillance summaries that can be used without patient-level data
-- compare the same wind indices against diseases that should not share the same pattern
-- check whether the relationship persists outside the original study period
-
-The negative controls matter. If every winter disease lines up with the same wind index, the hypothesis weakens. If the pattern is specific to Kawasaki disease timing and locations, the hypothesis gets more interesting.
-
-That is where the article should end: not with certainty, but with a sharper question.
-
-## Why this belongs on a data-science site
-
-The lesson is not medical diagnosis. This post is not health advice.
-
-The lesson is how to read a scientific data argument.
-
-The paper starts with a human problem: a serious childhood disease whose cause remains unknown. It then looks for structure across time and space. It converts weather maps into indices. It compares those indices with disease timing. Then it proposes a mechanism that can be tested outside the original analysis.
-
-That is data science at its best.
-
-Not every good analysis ends with a model.
-
-Sometimes the win is a better hypothesis.
+I trust that kind of result more than a single polished plot. It is also the kind of result that tells you whether the idea is worth carrying forward.
 
 ## Reproducibility note
 

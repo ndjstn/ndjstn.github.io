@@ -178,9 +178,10 @@ def image_hero(ds: xr.Dataset) -> None:
     q_lat = wind["lat"].to_numpy()[::3]
     q_x, q_y = np.meshgrid(q_lon, q_lat)
 
-    fig = plt.figure(figsize=(14.8, 7.9))
-    ax = fig.add_axes([0.02, 0.05, 0.96, 0.90], projection=ccrs.PlateCarree(central_longitude=180))
+    fig = plt.figure(figsize=(16, 9))
+    ax = fig.add_axes([0.035, 0.14, 0.93, 0.76], projection=ccrs.PlateCarree(central_longitude=180))
     add_pacific_context(ax, grid_labels=False)
+    ax.set_aspect("auto")
 
     ax.contourf(
         wind["lon"],
@@ -231,7 +232,14 @@ def image_hero(ds: xr.Dataset) -> None:
     stroke_text(jet, lw=3.0)
     add_locations(ax)
 
-    fig.savefig(OUT_DIR / "hero.png", dpi=180, bbox_inches="tight", pad_inches=0.05)
+    fig.text(
+        0.04,
+        0.06,
+        "January 300 hPa winds, NOAA NCEP/NCAR Reanalysis 1 monthly climatology, 1996-2006",
+        fontsize=10.2,
+        color=COLORS["muted"],
+    )
+    fig.savefig(OUT_DIR / "hero.png", dpi=180)
     plt.close(fig)
 
 
@@ -263,11 +271,11 @@ def image_seasonal_indices(ds: xr.Dataset) -> None:
     fig.patch.set_facecolor(COLORS["bg"])
     fig.subplots_adjust(left=0.10, right=0.98, bottom=0.10, top=0.82, hspace=0.24)
     specs = [
-        (axes[0], p, "Pacific zonal wind at 300 hPa", COLORS["blue"], "Mean east-west wind along 35N, 140E-240E"),
-        (axes[1], nw, "Japan northwesterly component at 850 hPa", COLORS["green"], "Area mean over 30-45N, 130-145E"),
+        (axes[0], p, "Pacific zonal wind at 300 hPa", COLORS["blue"], "Mean east-west wind along 35N, 140E-240E", (-0.55, -4.0)),
+        (axes[1], nw, "Japan northwesterly component at 850 hPa", COLORS["green"], "Area mean over 30-45N, 130-145E", (-0.30, -1.2)),
     ]
 
-    for ax, values, title, color, subtitle in specs:
+    for ax, values, title, color, subtitle, peak_offset in specs:
         ax.axvspan(1, 3, color="#dbe9ef", alpha=0.7, zorder=0)
         ax.axvspan(11, 12, color="#dbe9ef", alpha=0.7, zorder=0)
         ax.plot(x, values, color=color, linewidth=3.0)
@@ -282,7 +290,7 @@ def image_seasonal_indices(ds: xr.Dataset) -> None:
         ymin = float(np.floor(values.min() - 1.0))
         ymax = float(np.ceil(values.max() + 1.4))
         ax.set_ylim(ymin, ymax)
-        annotate_peak(ax, x, values, color, offset=(-0.3, -1.2))
+        annotate_peak(ax, x, values, color, offset=peak_offset)
         subtitle_text.set_path_effects([pe.withStroke(linewidth=2.4, foreground=COLORS["panel"])])
 
     axes[-1].set_xticks(x, MONTHS)
