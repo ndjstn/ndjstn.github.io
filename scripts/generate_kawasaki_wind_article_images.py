@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import xarray as xr
 from matplotlib.colors import LinearSegmentedColormap
-from matplotlib.patches import FancyArrowPatch, Rectangle
+from matplotlib.patches import Rectangle
 
 warnings.filterwarnings("ignore", message="facecolor will have no effect.*")
 
@@ -72,19 +72,17 @@ LOCATIONS = {
     "San Diego": (242.8, 32.7),
 }
 
-LANDMARKS = {
-    "Tokyo": (139.7, 35.7),
-    "Seoul": (127.0, 37.6),
-    "Shanghai": (121.5, 31.2),
-    "Honolulu": (202.1, 21.3),
-    "Seattle": (237.7, 47.6),
-    "San Francisco": (237.6, 37.8),
+SOURCE_REGIONS = {
+    "Siberia": (128, 55.2),
+    "Mongolia /\nnorth China": (116.5, 43.0),
 }
 
 FEATURE_LABELS = {
-    "Aleutian Islands": (181, 52.4),
+    "Kuril Islands": (151.5, 46.0),
+    "Aleutian arc": (181, 52.7),
+    "Bering Sea": (188, 58.0),
     "Gulf of Alaska": (219, 55.2),
-    "North Pacific": (185, 24.0),
+    "North Pacific": (184, 24.0),
 }
 
 
@@ -158,7 +156,10 @@ def add_locations(ax) -> None:
             zorder=7,
         )
         dx = 3.0 if label != "San Diego" else -18.5
-        dy = 1.6 if label != "Hawaii" else -3.2
+        dy = 1.6
+        if label == "Hawaii":
+            dx = 3.0
+            dy = 1.5
         text = ax.text(
             lon + dx,
             lat + dy,
@@ -172,42 +173,27 @@ def add_locations(ax) -> None:
         stroke_text(text, lw=3.0)
 
 
-def add_landmarks(ax) -> None:
-    for label, (lon, lat) in LANDMARKS.items():
-        ax.scatter(
+def add_source_regions(ax) -> None:
+    for label, (lon, lat) in SOURCE_REGIONS.items():
+        text = ax.text(
             lon,
             lat,
-            s=18,
-            color="#33413d",
-            edgecolor="white",
-            linewidth=0.55,
-            transform=ccrs.PlateCarree(),
-            zorder=9,
-        )
-        dx = 1.2
-        dy = 0.8
-        if label in {"Seattle", "San Francisco", "Los Angeles"}:
-            dx = -10.5
-            dy = 0.5
-        if label == "Honolulu":
-            dx = 1.4
-            dy = -2.6
-        if label == "Shanghai":
-            dx = 1.3
-            dy = -2.2
-        text = ax.text(
-            lon + dx,
-            lat + dy,
             label,
             transform=ccrs.PlateCarree(),
-            fontsize=7.7,
-            color=COLORS["ink"],
+            fontsize=9.2,
+            color="#5e5135",
             weight="bold",
-            zorder=10,
+            ha="center",
+            va="center",
+            zorder=8,
         )
-        stroke_text(text, lw=2.4)
+        stroke_text(text, lw=3.0)
 
+
+def add_feature_labels(ax, *, include_north_pacific: bool = True) -> None:
     for label, (lon, lat) in FEATURE_LABELS.items():
+        if label == "North Pacific" and not include_north_pacific:
+            continue
         text = ax.text(
             lon,
             lat,
@@ -221,6 +207,119 @@ def add_landmarks(ax) -> None:
             zorder=8,
         )
         stroke_text(text, lw=2.6)
+
+
+def add_corridor(ax, *, label: bool = True, wide: bool = False) -> None:
+    if wide:
+        ax.add_patch(
+            Rectangle(
+                (140, 34.0),
+                100,
+                2.0,
+                transform=ccrs.PlateCarree(),
+                facecolor=COLORS["red"],
+                edgecolor="none",
+                alpha=0.12,
+                zorder=4,
+            )
+        )
+    ax.plot(
+        [140, 240],
+        [35, 35],
+        color=COLORS["red"],
+        linewidth=2.1,
+        linestyle=(0, (7, 5)),
+        transform=ccrs.PlateCarree(),
+        zorder=7,
+    )
+    if label:
+        text = ax.text(
+            169,
+            37.4,
+            "35N averaging corridor\nnot a literal route",
+            color=COLORS["red"],
+            fontsize=9.2,
+            weight="bold",
+            transform=ccrs.PlateCarree(),
+            zorder=8,
+        )
+        stroke_text(text, lw=3.0)
+
+
+def add_pathway_cues(ax, *, northern: bool = True) -> None:
+    arrow_style = {
+        "arrowstyle": "-|>",
+        "color": COLORS["deep_blue"],
+        "lw": 2.0,
+        "mutation_scale": 16,
+        "alpha": 0.82,
+        "connectionstyle": "arc3,rad=0.05",
+    }
+    for start, end in [
+        ((118, 43), (139.5, 36.5)),
+        ((146, 37.5), (174, 39.0)),
+        ((180, 39.0), (209, 36.5)),
+        ((215, 35.5), (241, 33.2)),
+    ]:
+        ax.annotate("", xy=end, xytext=start, xycoords=ccrs.PlateCarree(), textcoords=ccrs.PlateCarree(), arrowprops=arrow_style, zorder=8)
+
+    if not northern:
+        return
+
+    ax.plot(
+        [150, 174, 202, 226],
+        [47, 53.5, 56, 50],
+        color=COLORS["gold"],
+        linewidth=2.0,
+        linestyle=(0, (4, 5)),
+        transform=ccrs.PlateCarree(),
+        zorder=7,
+    )
+    ax.annotate(
+        "",
+        xy=(226, 50),
+        xytext=(202, 56),
+        xycoords=ccrs.PlateCarree(),
+        textcoords=ccrs.PlateCarree(),
+        arrowprops={"arrowstyle": "-|>", "color": COLORS["gold"], "lw": 1.8, "mutation_scale": 15},
+        zorder=8,
+    )
+    text = ax.text(
+        187,
+        57.0,
+        "northern route to test",
+        transform=ccrs.PlateCarree(),
+        fontsize=8.8,
+        color=COLORS["gold"],
+        weight="bold",
+        zorder=8,
+    )
+    stroke_text(text, lw=2.8)
+
+
+def add_wind_speed_key(ax) -> None:
+    box = Rectangle(
+        (0.705, 0.032),
+        0.270,
+        0.122,
+        transform=ax.transAxes,
+        facecolor=COLORS["panel"],
+        edgecolor="#d7ddd9",
+        linewidth=0.8,
+        alpha=0.90,
+        zorder=8,
+    )
+    ax.add_patch(box)
+    ax.text(0.724, 0.122, "wind speed (m/s)", transform=ax.transAxes, fontsize=8.4, color=COLORS["ink"], weight="bold", zorder=9)
+    swatches = ["#f3f6c8", "#b9dfbf", "#69c7c4", "#2389bd", "#182f7c"]
+    values = ["10", "20", "30", "40", "50+"]
+    x0 = 0.724
+    w = 0.043
+    for i, (color, value) in enumerate(zip(swatches, values)):
+        x = x0 + i * w
+        ax.add_patch(Rectangle((x, 0.086), w, 0.018, transform=ax.transAxes, facecolor=color, edgecolor="none", zorder=9))
+        ax.text(x + w / 2, 0.061, value, transform=ax.transAxes, fontsize=7.1, color=COLORS["muted"], ha="center", zorder=9)
+    ax.text(0.724, 0.041, "lines = direction; red = analysis corridor", transform=ax.transAxes, fontsize=7.1, color=COLORS["muted"], zorder=9)
 
 
 def jan_300_wind(ds: xr.Dataset) -> xr.Dataset:
@@ -246,12 +345,12 @@ def nw_wind_japan(ds: xr.Dataset) -> xr.DataArray:
 def image_hero(ds: xr.Dataset) -> None:
     wind = jan_300_wind(ds)
     speed = np.hypot(wind["u"], wind["v"])
-    q_lon = wind["lon"].to_numpy()[::4]
-    q_lat = wind["lat"].to_numpy()[::3]
+    q_lon = wind["lon"].to_numpy()[::7]
+    q_lat = wind["lat"].to_numpy()[::4]
     q_x, q_y = np.meshgrid(q_lon, q_lat)
 
     fig = plt.figure(figsize=(16, 9))
-    ax = fig.add_axes([0.035, 0.14, 0.93, 0.76], projection=ccrs.PlateCarree(central_longitude=180))
+    ax = fig.add_axes([0.025, 0.060, 0.95, 0.895], projection=ccrs.PlateCarree(central_longitude=180))
     add_pacific_context(ax, grid_labels=False)
     ax.set_aspect("auto")
 
@@ -260,7 +359,7 @@ def image_hero(ds: xr.Dataset) -> None:
         wind["lat"],
         speed,
         levels=np.arange(10, 58, 4),
-        cmap="YlGnBu",
+        cmap=WIND_CMAP,
         extend="max",
         transform=ccrs.PlateCarree(),
         zorder=1,
@@ -268,27 +367,19 @@ def image_hero(ds: xr.Dataset) -> None:
     ax.quiver(
         q_x,
         q_y,
-        wind["u"].to_numpy()[::3, ::4],
-        wind["v"].to_numpy()[::3, ::4],
+        wind["u"].to_numpy()[::4, ::7],
+        wind["v"].to_numpy()[::4, ::7],
         transform=ccrs.PlateCarree(),
         color="#14384d",
-        scale=820,
-        width=0.0024,
-        alpha=0.82,
+        scale=720,
+        width=0.0022,
+        alpha=0.46,
         zorder=5,
     )
-    ax.plot([140, 240], [35, 35], color=COLORS["red"], linewidth=3.0, transform=ccrs.PlateCarree(), zorder=6)
-    pwind = ax.text(
-        170,
-        36.8,
-        "P-WIND line",
-        color=COLORS["red"],
-        fontsize=12.2,
-        weight="bold",
-        transform=ccrs.PlateCarree(),
-        zorder=7,
-    )
-    stroke_text(pwind, lw=3.0)
+    add_corridor(ax, wide=True)
+    add_pathway_cues(ax)
+    add_source_regions(ax)
+    add_feature_labels(ax)
     jet = ax.annotate(
         "winter jet",
         xy=(171, 46),
@@ -303,11 +394,12 @@ def image_hero(ds: xr.Dataset) -> None:
     )
     stroke_text(jet, lw=3.0)
     add_locations(ax)
+    add_wind_speed_key(ax)
 
     fig.text(
         0.04,
-        0.06,
-        "January 300 hPa winds, NOAA NCEP/NCAR Reanalysis 1 monthly climatology, 1996-2006",
+        0.020,
+        "January 300 hPa winds. NOAA NCEP/NCAR Reanalysis 1 monthly climatology, 1996-2006.",
         fontsize=10.2,
         color=COLORS["muted"],
     )
@@ -343,8 +435,8 @@ def image_seasonal_indices(ds: xr.Dataset) -> None:
     fig.patch.set_facecolor(COLORS["bg"])
     fig.subplots_adjust(left=0.10, right=0.98, bottom=0.10, top=0.82, hspace=0.24)
     specs = [
-        (axes[0], p, "Pacific zonal wind at 300 hPa", COLORS["blue"], "Mean east-west wind along 35N, 140E-240E", (-0.55, -4.0)),
-        (axes[1], nw, "Japan northwesterly component at 850 hPa", COLORS["green"], "Area mean over 30-45N, 130-145E", (-0.30, -1.2)),
+        (axes[0], p, "Pacific zonal wind at 300 hPa", COLORS["blue"], "Upper-air version of the 35N, 140E-240E P-WIND corridor", (-0.55, -4.0)),
+        (axes[1], nw, "Japan northwesterly component at 850 hPa", COLORS["green"], "45-degree northwest/southeast projection over 30-45N, 130-145E", (-0.30, -1.2)),
     ]
 
     for ax, values, title, color, subtitle, peak_offset in specs:
@@ -367,7 +459,7 @@ def image_seasonal_indices(ds: xr.Dataset) -> None:
 
     axes[-1].set_xticks(x, MONTHS)
     axes[-1].set_xlabel("month")
-    fig.suptitle("The wind indices rise in the cool season", x=0.08, y=0.965, ha="left", fontsize=18, fontweight="bold", color=COLORS["ink"])
+    fig.suptitle("The wind indices peak in cool months", x=0.08, y=0.965, ha="left", fontsize=17, fontweight="bold", color=COLORS["ink"])
     save(fig, "seasonal-wind-indices.png")
 
 
@@ -399,21 +491,7 @@ def image_monthly_animation(ds: xr.Dataset) -> None:
         u_arr = u.to_numpy()[lat_slice, :]
         v_arr = v.to_numpy()[lat_slice, :]
         spd_arr = spd.to_numpy()[lat_slice, :]
-        line_width = 0.50 + 1.65 * np.clip((spd_arr - 8) / 45, 0, 1)
-
-        ax.add_patch(
-            Rectangle(
-                (140, 27.5),
-                100,
-                15,
-                transform=ccrs.PlateCarree(),
-                facecolor="#f5df6d",
-                edgecolor="#b6533f",
-                linewidth=1.2,
-                alpha=0.16,
-                zorder=2,
-            )
-        )
+        line_width = 0.45 + 1.40 * np.clip((spd_arr - 8) / 45, 0, 1)
         ax.contourf(
             clim["lon"],
             clim["lat"],
@@ -429,45 +507,23 @@ def image_monthly_animation(ds: xr.Dataset) -> None:
             lat_plot,
             u_arr,
             v_arr,
-            density=(1.45, 0.95),
+            density=(1.25, 0.82),
             linewidth=line_width,
-            arrowsize=1.25,
+            arrowsize=1.35,
             arrowstyle="->",
             color="#14384d",
             transform=ccrs.PlateCarree(),
             broken_streamlines=False,
             zorder=5,
         )
-        ax.add_patch(
-            Rectangle(
-                (140, 33.8),
-                100,
-                2.4,
-                transform=ccrs.PlateCarree(),
-                facecolor=COLORS["red"],
-                edgecolor="none",
-                alpha=0.78,
-                zorder=6,
-            )
-        )
-        corridor = ax.text(
-            170,
-            37.6,
-            "35N P-WIND corridor",
-            transform=ccrs.PlateCarree(),
-            fontsize=8.6,
-            color=COLORS["red"],
-            weight="bold",
-            zorder=7,
-        )
-        stroke_text(corridor, lw=2.8)
-        add_landmarks(ax)
+        add_corridor(ax, wide=False)
+        add_feature_labels(ax, include_north_pacific=False)
         add_locations(ax)
 
         title_box = Rectangle(
-            (0.018, 0.842),
-            0.285,
-            0.132,
+            (0.018, 0.802),
+            0.305,
+            0.172,
             transform=ax.transAxes,
             facecolor=COLORS["panel"],
             edgecolor="#d7ddd9",
@@ -499,46 +555,25 @@ def image_monthly_animation(ds: xr.Dataset) -> None:
         ax.text(
             0.035,
             0.852,
+            "same map + scale; month changes",
+            transform=ax.transAxes,
+            fontsize=8.5,
+            color=COLORS["muted"],
+            zorder=8,
+        )
+        ax.text(
+            0.035,
+            0.825,
             "300 hPa monthly climatology, 1996-2006",
             transform=ax.transAxes,
-            fontsize=8.5,
+            fontsize=8.1,
             color=COLORS["muted"],
             zorder=8,
         )
-        legend_box = Rectangle(
-            (0.715, 0.035),
-            0.255,
-            0.092,
-            transform=ax.transAxes,
-            facecolor=COLORS["panel"],
-            edgecolor="#d7ddd9",
-            linewidth=0.8,
-            alpha=0.88,
-            zorder=8,
-        )
-        ax.add_patch(legend_box)
-        ax.text(
-            0.732,
-            0.095,
-            "darker color = faster winds",
-            transform=ax.transAxes,
-            fontsize=8.5,
-            color=COLORS["ink"],
-            weight="bold",
-            zorder=9,
-        )
-        ax.text(
-            0.732,
-            0.057,
-            "streamlines show flow direction",
-            transform=ax.transAxes,
-            fontsize=8.2,
-            color=COLORS["muted"],
-            zorder=9,
-        )
+        add_wind_speed_key(ax)
 
     ani = animation.FuncAnimation(fig, draw, frames=12, interval=520, repeat=True)
-    ani.save(OUT_DIR / "monthly-pacific-winds.gif", writer=animation.PillowWriter(fps=2), dpi=115)
+    ani.save(OUT_DIR / "monthly-pacific-winds.gif", writer=animation.PillowWriter(fps=2), dpi=100)
     plt.close(fig)
 
 
@@ -549,46 +584,42 @@ def image_analysis_boundary() -> None:
     ax.axis("off")
     fig.patch.set_facecolor(COLORS["bg"])
 
-    ax.text(0.05, 0.93, "Evidence ladder", fontsize=18, fontweight="bold", color=COLORS["ink"])
+    ax.text(0.05, 0.93, "Evidence boundary", fontsize=18, fontweight="bold", color=COLORS["ink"])
     ax.text(
         0.05,
         0.875,
-        "Four layers, each with a narrower claim than the one above it.",
+        "What the data show, what I think is worth testing, and what is not shown yet.",
         fontsize=10.9,
         color=COLORS["muted"],
     )
 
-    rows = [
-        ("1", "Observed clinical timing", COLORS["blue"], "Kawasaki disease peaks on a seasonal clock in the paper's case records."),
-        ("2", "Reproducible wind fields", COLORS["green"], "NOAA reanalysis shows a cool-season North Pacific corridor."),
-        ("3", "Transport hypothesis", COLORS["gold"], "A wind-borne trigger can move along that pathway."),
-        ("4", "Still unknown", COLORS["red"], "The causal agent is not identified, so causation stays open."),
+    columns = [
+        ("Shown", COLORS["green"], "Case timing in the paper and NOAA wind fields have a recurring seasonal structure."),
+        ("Worth testing", COLORS["gold"], "A winter air-mass pathway links continental Asia, Japan, Hawaii, and southern California often enough to chase."),
+        ("Not shown", COLORS["red"], "The causal agent is not identified. A wind map is not proof that wind causes Kawasaki disease."),
     ]
 
-    top = 0.70
-    row_h = 0.135
-    gap = 0.04
-    for i, (num, title, color, body) in enumerate(rows):
-        y = top - i * (row_h + gap)
-        ax.add_patch(Rectangle((0.06, y), 0.88, row_h, facecolor=COLORS["panel"], edgecolor="#d7ddd9", linewidth=1.1))
-        ax.add_patch(Rectangle((0.06, y), 0.018, row_h, facecolor=color, edgecolor="none"))
-        num_text = ax.text(0.09, y + 0.092, num, fontsize=20, fontweight="bold", color=color, va="center")
-        title_text = ax.text(0.14, y + 0.098, title, fontsize=14.0, fontweight="bold", color=COLORS["ink"], va="center")
-        body_text = ax.text(0.14, y + 0.043, textwrap.fill(body, width=78), fontsize=11.1, color=COLORS["muted"], va="center")
-        stroke_text(num_text, lw=2.5)
-        stroke_text(title_text, lw=2.8)
-        stroke_text(body_text, lw=2.2)
-        if i < len(rows) - 1:
-            ax.add_patch(
-                FancyArrowPatch(
-                    (0.50, y - 0.004),
-                    (0.50, y - gap + 0.006),
-                    arrowstyle="->",
-                    mutation_scale=14,
-                    linewidth=1.4,
-                    color="#8b8a82",
-                )
-            )
+    x0 = 0.055
+    y0 = 0.28
+    width = 0.285
+    gap = 0.027
+    height = 0.48
+    for i, (title, color, body) in enumerate(columns):
+        x = x0 + i * (width + gap)
+        ax.add_patch(Rectangle((x, y0), width, height, facecolor=COLORS["panel"], edgecolor="#d7ddd9", linewidth=1.1))
+        ax.add_patch(Rectangle((x, y0 + height - 0.075), width, 0.075, facecolor=color, edgecolor="none", alpha=0.94))
+        ax.text(x + 0.025, y0 + height - 0.047, title, fontsize=13.8, fontweight="bold", color="white", va="center")
+        ax.text(x + 0.025, y0 + 0.32, textwrap.fill(body, width=28), fontsize=11.8, color=COLORS["ink"], va="top", linespacing=1.32)
+
+    ax.plot([0.678, 0.678], [0.22, 0.80], color=COLORS["red"], linewidth=2.3, linestyle=(0, (4, 5)), alpha=0.8)
+    ax.text(
+        0.695,
+        0.205,
+        "this is the line I would not cross without a stronger study",
+        fontsize=9.8,
+        color=COLORS["red"],
+        weight="bold",
+    )
 
     save(fig, "evidence-boundary.png")
 
