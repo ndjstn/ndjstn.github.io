@@ -54,11 +54,11 @@ In this reconstruction, P-WIND peaks in February at about 42.94 m/s and bottoms 
 
 ## The pathway question
 
-The monthly wind field is where the idea becomes easier to argue with.
+The monthly wind field is where the idea becomes easier to argue with. The moving dots below are not a simulation of the causal agent. They are tracer pulses pushed by the monthly 300 hPa wind field, which makes the open corridor easier to see and keeps the upstream inspection areas on the map.
 
-![Animation of North Pacific upper-air winds with the same 35N analysis corridor held fixed while the month changes.](/assets/img/posts/kawasaki-wind-patterns/monthly-pacific-winds.gif)
+![Animation of tracer pulses moving through monthly North Pacific upper-air wind fields, with Mongolia, the Gobi Desert, north China, Japan, Hawaii, and San Diego labeled.](/assets/img/posts/kawasaki-wind-patterns/wind-pathway-particles.gif)
 
-*Same map, same scale, different month. Winter opens a stronger west-to-east corridor; summer weakens it and shifts the flow. The red line is an index corridor, not a literal route.*
+*The gold areas are where I would start looking upstream. The moving dots follow the wind field so the winter pathway reads like motion instead of a static weather map.*
 
 I would not call that a mechanism. I would call it a better target. If there is a transported trigger, I would start looking upstream of Japan and then along the winter Pacific corridor toward Hawaii and southern California. I would also keep the northern Pacific branch in play, because the paper itself treats the atmospheric path as more than one clean line across the ocean.
 
@@ -68,9 +68,9 @@ The thing to look for is not just "aerosols" in the abstract. It is a candidate 
 
 This is where I would draw the line. The paper shows a recurring alignment between disease timing and wind structure. My rebuild shows that the atmospheric part of that story is real enough to reproduce. None of that identifies the agent.
 
-![Evidence boundary figure separating what is shown, what is worth testing, and what is not shown.](/assets/img/posts/kawasaki-wind-patterns/evidence-boundary.png)
+![Research map showing upstream inspection regions, the Pacific wind corridor, observed downstream locations, and a warning that the causal agent is not shown.](/assets/img/posts/kawasaki-wind-patterns/research-boundary-map.png)
 
-*The useful claim lives in the middle column: a pathway worth testing. The causal claim is still on the other side of the line.*
+*This is the useful output: a search area, not a proof chain.*
 
 I do not buy "wind causes Kawasaki disease." I do buy that the wind pattern is specific enough to be a research lead. That distinction matters. If the map gets treated like proof, the paper becomes too neat. If it gets dismissed as "just correlation," the best part of the paper gets lost.
 
