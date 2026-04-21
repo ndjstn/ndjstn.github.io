@@ -19,9 +19,6 @@ COLORS = {
     'red': '#dc2626',
     'purple': '#7c3aed',
     'soft_blue': '#e8f4fb',
-    'soft_red': '#fdecec',
-    'soft_green': '#eefbf3',
-    'soft_amber': '#fff7ed',
 }
 
 plt.rcParams.update(
@@ -94,7 +91,6 @@ def variant_a(ax):
     ax.text(0.08, 0.07, 'Weak on exact magnitude and sign.', fontsize=10.1, color=COLORS['muted'])
 
 
-
 def variant_b(ax):
     add_card(ax)
     ax.text(0.08, 0.92, 'Variant B — Quantitative', fontsize=16, fontweight='bold')
@@ -104,15 +100,13 @@ def variant_b(ax):
     values = np.array([1.44, -0.42, 0.80, -0.08, -0.55])
     colors = [COLORS['blue'], COLORS['red'], COLORS['blue'], COLORS['red'], COLORS['purple']]
     y0 = 0.75
-    for idx, (feature, value, color) in enumerate(zip(features, values, colors)):
-        y = y0 - idx * 0.11
+    for feature, value, color, y in zip(features, values, colors, [0.75, 0.64, 0.53, 0.42, 0.31]):
         ax.text(0.08, y, feature, va='center', fontsize=10.6)
-        x_left = 0.34
-        x_right = 0.74
         ax.plot([0.54, 0.54], [0.21, 0.79], color='#cbd5e1', linewidth=1)
         if value >= 0:
-            ax.add_patch(FancyBboxPatch((0.54, y - 0.024), 0.16 * (value / 1.44), 0.048, boxstyle='round,pad=0.005,rounding_size=0.01', facecolor=color, edgecolor=color, linewidth=0))
-            ax.text(0.54 + 0.16 * (value / 1.44) + 0.02, y, f'+{value:.2f}', va='center', fontsize=10.0)
+            width = 0.16 * (value / 1.44)
+            ax.add_patch(FancyBboxPatch((0.54, y - 0.024), width, 0.048, boxstyle='round,pad=0.005,rounding_size=0.01', facecolor=color, edgecolor=color, linewidth=0))
+            ax.text(0.54 + width + 0.02, y, f'+{value:.2f}', va='center', fontsize=10.0)
         else:
             width = 0.16 * (abs(value) / 0.55)
             ax.add_patch(FancyBboxPatch((0.54 - width, y - 0.024), width, 0.048, boxstyle='round,pad=0.005,rounding_size=0.01', facecolor=color, edgecolor=color, linewidth=0))
@@ -137,7 +131,6 @@ def variant_b(ax):
     ax.text(0.08, 0.07, 'Weak on the “same weights, moved boundary” intuition.', fontsize=10.1, color=COLORS['muted'])
 
 
-
 def variant_c(ax):
     add_card(ax)
     ax.text(0.08, 0.92, 'Variant C — Dynamic', fontsize=16, fontweight='bold')
@@ -149,10 +142,8 @@ def variant_c(ax):
         right = left + 0.22
         bottom, top = 0.25, 0.72
         ax.add_patch(FancyBboxPatch((left, bottom), 0.22, 0.47, boxstyle='round,pad=0.01,rounding_size=0.02', facecolor='white', edgecolor='#dbe4ee', linewidth=1.2))
-        # same direction vector
         ax.arrow(left + 0.05, bottom + 0.07, 0.08, 0.12, width=0.004, color=COLORS['amber'], length_includes_head=True)
         ax.text(left + 0.14, bottom + 0.20, 'same\nweights', fontsize=8.8, color=COLORS['muted'])
-        # parallel boundary line shift
         xs = np.array([left + 0.04, right - 0.03])
         ys = np.array([bottom + 0.05 + x0 * 0.18, top - 0.08 + x0 * 0.18])
         ax.plot(xs, ys, color=COLORS['ink'], linewidth=2.1)
@@ -163,22 +154,36 @@ def variant_c(ax):
     ax.text(0.08, 0.07, 'Weak on the actual score buildup unless paired with another panel.', fontsize=10.1, color=COLORS['muted'])
 
 
+def save_single(draw_fn, filename):
+    fig = plt.figure(figsize=(6.2, 7.2), facecolor=COLORS['bg'])
+    ax = fig.add_subplot(111)
+    draw_fn(ax)
+    out = OUT_DIR / filename
+    fig.savefig(out, dpi=180, bbox_inches='tight', pad_inches=0.10)
+    plt.close(fig)
+    print(f'generated {out}')
 
-def main():
+
+def save_board():
     fig = plt.figure(figsize=(18, 7.8), facecolor=COLORS['bg'])
     fig.text(0.05, 0.955, 'Weights and bias: three ways to teach the same idea', fontsize=24, fontweight='bold', color=COLORS['ink'])
     fig.text(0.05, 0.918, 'Pick the version that makes the interaction clearest. We can also combine the best parts into a hybrid.', fontsize=12.2, color=COLORS['muted'])
-
     gs = fig.add_gridspec(1, 3, left=0.04, right=0.98, top=0.87, bottom=0.07, wspace=0.08)
     axes = [fig.add_subplot(gs[0, i]) for i in range(3)]
     variant_a(axes[0])
     variant_b(axes[1])
     variant_c(axes[2])
-
     out = OUT_DIR / 'weights-bias-variants-board.png'
     fig.savefig(out, dpi=180, bbox_inches='tight', pad_inches=0.12)
     plt.close(fig)
     print(f'generated {out}')
+
+
+def main():
+    save_single(variant_a, 'weights-bias-variant-a.png')
+    save_single(variant_b, 'weights-bias-variant-b.png')
+    save_single(variant_c, 'weights-bias-variant-c.png')
+    save_board()
 
 
 if __name__ == '__main__':
