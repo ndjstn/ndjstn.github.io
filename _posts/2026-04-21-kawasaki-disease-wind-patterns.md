@@ -34,7 +34,13 @@ I do not have the clinical case records, so I did not reproduce the disease time
 
 The lead map is the first sanity check. The red line is not meant to be a literal path from Japan to San Diego. It is the 35N averaging corridor used to summarize west-to-east flow. The more interesting geography is the broader winter setup: upstream Asia into Japan, then trans-Pacific westerlies toward Hawaii and southern California, with a possible northern route around the Aleutians and Gulf of Alaska.
 
-That is already a narrower research path than "something in the air." It gives you places, seasons, and failure modes.
+That is already a narrower research path than "something in the air." It gives you places, seasons, and failure modes. If I were turning this into an actual source hunt, I would start with a broad stripe across continental Asia and then try to shrink it.
+
+![Map of a possible source-screening swath across the Taklamakan Desert, Gobi Desert, Loess Plateau, North China Plain, northeast China, Korea, Siberia, and Japan.](/assets/img/posts/kawasaki-wind-patterns/source-screening-swath.png)
+
+*This is the map I wanted: not a claimed source, but a shortlist of places and source types to sample against the wind pathway.*
+
+I would treat that stripe as a sampling plan. The desert regions matter because Asian dust-source areas can loft bacterial and fungal bioaerosols ([Maki et al., 2019](#ref-maki2019)). The North China and northeast China pieces matter because later flight sampling over Japan, designed around suspected source-region winds, found a strong fungal signal including Candida, while still stopping short of naming a causal agent ([Rodo et al., 2014](#ref-rodo2014)). The agricultural and soil regions matter because toxins, plant decay, fungi, yeasts, and dust-attached cofactors are all different enough that I would not want one generic "upstream Asia" bucket.
 
 ## Turning wind into a number
 
@@ -93,6 +99,14 @@ The figures in this post were generated from NOAA PSL NCEP/NCAR Reanalysis 1 mon
 
 <div id="ref-rodo2011" style="padding-left: 1.5em; text-indent: -1.5em; margin-bottom: 0.85rem;">
 Rodo, X., Ballester, J., Cayan, D., Melish, M. E., Nakamura, Y., Uehara, R., &amp; Burns, J. C. (2011). Association of Kawasaki disease with tropospheric wind patterns. <em>Scientific Reports, 1</em>, Article 152. <a href="https://www.nature.com/articles/srep00152">https://www.nature.com/articles/srep00152</a>
+</div>
+
+<div id="ref-rodo2014" style="padding-left: 1.5em; text-indent: -1.5em; margin-bottom: 0.85rem;">
+Rodo, X., Curcoll, R., Robinson, M., Ballester, J., Burns, J. C., Cayan, D. R., et al. (2014). Tropospheric winds from northeastern China carry the etiologic agent of Kawasaki disease from its source to Japan. <em>Proceedings of the National Academy of Sciences, 111</em>(22), 7952-7957. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC4050536/">https://pmc.ncbi.nlm.nih.gov/articles/PMC4050536/</a>
+</div>
+
+<div id="ref-maki2019" style="padding-left: 1.5em; text-indent: -1.5em; margin-bottom: 0.85rem;">
+Maki, T., Hara, K., Kobayashi, F., Kurosaki, Y., Kakikawa, M., Matsuki, A., et al. (2019). Vertical distributions of airborne microorganisms over Asian dust source region of Taklimakan and Gobi Desert. <em>Atmospheric Environment, 214</em>, 116848. <a href="https://doi.org/10.1016/j.atmosenv.2019.116848">https://doi.org/10.1016/j.atmosenv.2019.116848</a>
 </div>
 
 <div id="ref-cdc2026" style="padding-left: 1.5em; text-indent: -1.5em; margin-bottom: 0.85rem;">

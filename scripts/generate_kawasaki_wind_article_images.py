@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import xarray as xr
 from matplotlib.colors import LinearSegmentedColormap
-from matplotlib.patches import Ellipse, Rectangle
+from matplotlib.patches import Ellipse, Polygon, Rectangle
 from scipy.interpolate import RegularGridInterpolator
 
 warnings.filterwarnings("ignore", message="facecolor will have no effect.*")
@@ -149,6 +149,26 @@ def add_pacific_context(ax, *, grid_labels: bool = False) -> None:
         gl.right_labels = False
         gl.xlabel_style = {"size": 8.5, "color": COLORS["muted"]}
         gl.ylabel_style = {"size": 8.5, "color": COLORS["muted"]}
+
+
+def add_source_context(ax) -> None:
+    ax.set_extent([74, 146, 31, 59], crs=ccrs.PlateCarree())
+    ax.set_facecolor(COLORS["water"])
+    ax.add_feature(cfeature.LAND.with_scale("50m"), facecolor=COLORS["land"], edgecolor="none", zorder=0)
+    ax.add_feature(cfeature.COASTLINE.with_scale("50m"), linewidth=0.8, color=COLORS["coast"], zorder=4)
+    ax.add_feature(cfeature.BORDERS.with_scale("50m"), linewidth=0.45, color="#9b9a90", alpha=0.75, zorder=4)
+    gl = ax.gridlines(
+        crs=ccrs.PlateCarree(),
+        draw_labels=True,
+        linewidth=0.55,
+        color="#9fb0ac",
+        alpha=0.32,
+        linestyle="-",
+    )
+    gl.top_labels = False
+    gl.right_labels = False
+    gl.xlabel_style = {"size": 8.0, "color": COLORS["muted"]}
+    gl.ylabel_style = {"size": 8.0, "color": COLORS["muted"]}
 
 
 def add_inspection_regions(ax, *, labels: bool = True, alpha: float = 0.18) -> None:
@@ -468,6 +488,158 @@ def add_tracer_layer(
             )
 
 
+def image_source_screening_map() -> None:
+    fig = plt.figure(figsize=(12.5, 8.8))
+    fig.patch.set_facecolor(COLORS["bg"])
+    ax = fig.add_axes([0.03, 0.08, 0.94, 0.82], projection=ccrs.PlateCarree())
+    add_source_context(ax)
+    ax.set_aspect("auto")
+
+    swath = np.array(
+        [
+            [73, 43.5],
+            [82, 47.0],
+            [92, 49.0],
+            [103, 49.0],
+            [116, 46.5],
+            [129, 43.0],
+            [140, 39.0],
+            [145, 36.5],
+            [144, 33.5],
+            [138, 34.0],
+            [124, 36.5],
+            [110, 38.5],
+            [96, 39.0],
+            [83, 39.0],
+            [73, 40.5],
+        ]
+    )
+    ax.add_patch(
+        Polygon(
+            swath,
+            closed=True,
+            transform=ccrs.PlateCarree(),
+            facecolor="#d39b2d",
+            edgecolor="#9c6d12",
+            linewidth=1.6,
+            alpha=0.24,
+            zorder=2,
+        )
+    )
+
+    core = np.array(
+        [
+            [86, 44.0],
+            [102, 44.5],
+            [119, 42.5],
+            [136, 38.5],
+            [144, 35.2],
+            [143, 34.0],
+            [132, 36.0],
+            [116, 39.0],
+            [100, 41.0],
+            [86, 41.5],
+        ]
+    )
+    ax.add_patch(
+        Polygon(
+            core,
+            closed=True,
+            transform=ccrs.PlateCarree(),
+            facecolor="#c55e43",
+            edgecolor="none",
+            alpha=0.18,
+            zorder=3,
+        )
+    )
+
+    regions = [
+        ("1", "Taklamakan\nDesert", 82.5, 39.8, "#d1a640", "dust +\nbioaerosols"),
+        ("2", "Gobi\nDesert", 104.0, 43.4, "#d1a640", "dust +\nsoil microbes"),
+        ("3", "Loess\nPlateau", 108.5, 36.7, "#b9844a", "soil +\nmineral dust"),
+        ("4", "North China\nPlain", 116.5, 36.4, "#6f9b59", "crop soils,\nplant decay"),
+        ("5", "Northeast\nChina", 124.2, 44.8, "#6f9b59", "agriculture,\nwet soils"),
+        ("6", "Korean\nPeninsula", 127.8, 38.2, "#5f8ca8", "downwind\nfilter point"),
+        ("7", "Siberia /\nAmur", 127.0, 54.0, "#6f9b59", "northern\nbranch"),
+    ]
+    for num, label, lon, lat, color, note in regions:
+        ax.add_patch(
+            Ellipse(
+                (lon, lat),
+                9.4,
+                4.6,
+                transform=ccrs.PlateCarree(),
+                facecolor=color,
+                edgecolor=color,
+                linewidth=1.2,
+                alpha=0.22,
+                zorder=5,
+            )
+        )
+        ax.scatter(lon, lat, s=82, color=color, edgecolor="white", linewidth=1.0, transform=ccrs.PlateCarree(), zorder=7)
+        num_text = ax.text(lon, lat, num, fontsize=10.2, weight="bold", color="white", ha="center", va="center", transform=ccrs.PlateCarree(), zorder=8)
+        stroke_text(num_text, lw=1.4)
+        label_text = ax.text(lon + 1.2, lat + 1.9, label, fontsize=10.2, weight="bold", color=COLORS["ink"], transform=ccrs.PlateCarree(), zorder=8)
+        note_text = ax.text(lon + 1.2, lat - 2.1, note, fontsize=8.8, color=COLORS["muted"], transform=ccrs.PlateCarree(), zorder=8)
+        stroke_text(label_text, lw=2.4)
+        stroke_text(note_text, lw=2.2)
+
+    for start, end in [
+        ((86, 41.5), (104, 41.8)),
+        ((106, 41.8), (119, 40.0)),
+        ((121, 40.0), (133, 38.0)),
+        ((134, 38.0), (140.6, 36.0)),
+    ]:
+        ax.annotate(
+            "",
+            xy=end,
+            xytext=start,
+            xycoords=ccrs.PlateCarree(),
+            textcoords=ccrs.PlateCarree(),
+            arrowprops={"arrowstyle": "-|>", "color": COLORS["deep_blue"], "lw": 2.1, "mutation_scale": 15, "alpha": 0.86},
+            zorder=8,
+        )
+    ax.annotate(
+        "",
+        xy=(142.0, 38.0),
+        xytext=(127.0, 54.0),
+        xycoords=ccrs.PlateCarree(),
+        textcoords=ccrs.PlateCarree(),
+        arrowprops={
+            "arrowstyle": "-|>",
+            "color": COLORS["gold"],
+            "lw": 2.0,
+            "linestyle": (0, (4, 4)),
+            "mutation_scale": 15,
+            "alpha": 0.90,
+        },
+        zorder=8,
+    )
+
+    for label, lon, lat, dx, dy in [
+        ("Japan", 139.7, 35.7, 1.2, -2.0),
+        ("Sea of Japan", 136.0, 40.5, -10.0, 1.2),
+        ("Beijing", 116.4, 39.9, 0.9, 1.1),
+        ("Seoul", 127.0, 37.6, 1.0, -1.8),
+        ("Tokyo", 139.7, 35.7, 1.2, 1.2),
+    ]:
+        ax.scatter(lon, lat, s=30 if label not in {"Japan", "Sea of Japan"} else 0.01, color=COLORS["red"], edgecolor="white", linewidth=0.8, transform=ccrs.PlateCarree(), zorder=9)
+        text = ax.text(lon + dx, lat + dy, label, fontsize=9.8 if label != "Japan" else 13.2, weight="bold", color=COLORS["ink"], transform=ccrs.PlateCarree(), zorder=10)
+        stroke_text(text, lw=2.8)
+
+    ax.text(0.025, 1.045, "Source-screening swath", transform=ax.transAxes, fontsize=21.5, weight="bold", color=COLORS["ink"])
+    ax.text(
+        0.025,
+        1.003,
+        "Places I would sample or cross-check for dust, soil microbes, fungi/yeasts, toxins, and aerosol cofactors. This is not an origin claim.",
+        transform=ax.transAxes,
+        fontsize=10.6,
+        color=COLORS["muted"],
+    )
+    fig.savefig(OUT_DIR / "source-screening-swath.png", dpi=180, bbox_inches="tight", pad_inches=0.12)
+    plt.close(fig)
+
+
 def jan_300_wind(ds: xr.Dataset) -> xr.Dataset:
     return ds.sel(level=300).where(ds.time.dt.month == 1, drop=True).mean("time")
 
@@ -780,6 +952,7 @@ def main() -> None:
     ds = load_winds()
     image_hero(ds)
     image_seasonal_indices(ds)
+    image_source_screening_map()
     image_monthly_animation(ds)
     image_analysis_boundary()
     print_summary(ds)
