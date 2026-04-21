@@ -1,11 +1,13 @@
 from __future__ import annotations
 
+import textwrap
 import warnings
 from pathlib import Path
 
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
 import matplotlib.animation as animation
+import matplotlib.patheffects as pe
 import matplotlib.pyplot as plt
 import numpy as np
 import xarray as xr
@@ -25,13 +27,13 @@ PERIOD = slice("1996-01-01", "2006-12-31")
 LEVELS = [300.0, 850.0]
 
 COLORS = {
-    "bg": "#f7f3e9",
-    "panel": "#fffdf8",
+    "bg": "#f4f6f4",
+    "panel": "#ffffff",
     "ink": "#19221f",
     "muted": "#66736d",
-    "grid": "#d9d3c6",
-    "water": "#dce9ec",
-    "land": "#eee3cf",
+    "grid": "#d7ddd9",
+    "water": "#ddebf0",
+    "land": "#efe7d7",
     "coast": "#65706b",
     "blue": "#2b6f91",
     "deep_blue": "#174a68",
@@ -92,12 +94,16 @@ def load_winds() -> xr.Dataset:
     return ds
 
 
-def save(fig: plt.Figure, name: str, *, pad: float = 0.15) -> None:
+def save(fig: plt.Figure, name: str, *, pad: float = 0.10) -> None:
     fig.savefig(OUT_DIR / name, dpi=180, bbox_inches="tight", pad_inches=pad)
     plt.close(fig)
 
 
-def add_pacific_context(ax) -> None:
+def stroke_text(text_obj, lw: float = 3.0) -> None:
+    text_obj.set_path_effects([pe.withStroke(linewidth=lw, foreground=COLORS["panel"])])
+
+
+def add_pacific_context(ax, *, grid_labels: bool = False) -> None:
     ax.set_extent([110, 255, 15, 60], crs=ccrs.PlateCarree())
     ax.set_facecolor(COLORS["water"])
     ax.add_feature(cfeature.LAND.with_scale("50m"), facecolor=COLORS["land"], edgecolor="none", zorder=0)
@@ -105,33 +111,44 @@ def add_pacific_context(ax) -> None:
     ax.add_feature(cfeature.BORDERS.with_scale("50m"), linewidth=0.35, color="#9b9a90", alpha=0.7, zorder=4)
     gl = ax.gridlines(
         crs=ccrs.PlateCarree(),
-        draw_labels=True,
+        draw_labels=grid_labels,
         linewidth=0.55,
         color="#9fb0ac",
-        alpha=0.45,
+        alpha=0.38,
         linestyle="-",
     )
-    gl.top_labels = False
-    gl.right_labels = False
-    gl.xlabel_style = {"size": 8.5, "color": COLORS["muted"]}
-    gl.ylabel_style = {"size": 8.5, "color": COLORS["muted"]}
+    if grid_labels:
+        gl.top_labels = False
+        gl.right_labels = False
+        gl.xlabel_style = {"size": 8.5, "color": COLORS["muted"]}
+        gl.ylabel_style = {"size": 8.5, "color": COLORS["muted"]}
 
 
 def add_locations(ax) -> None:
     for label, (lon, lat) in LOCATIONS.items():
-        ax.scatter(lon, lat, s=42, color=COLORS["red"], edgecolor="white", linewidth=0.8, transform=ccrs.PlateCarree(), zorder=7)
-        dx = 3.2 if label != "San Diego" else -18
-        dy = 1.4 if label != "Hawaii" else -3.0
-        ax.text(
+        ax.scatter(
+            lon,
+            lat,
+            s=56,
+            color=COLORS["red"],
+            edgecolor="white",
+            linewidth=0.9,
+            transform=ccrs.PlateCarree(),
+            zorder=7,
+        )
+        dx = 3.0 if label != "San Diego" else -18.5
+        dy = 1.6 if label != "Hawaii" else -3.2
+        text = ax.text(
             lon + dx,
             lat + dy,
             label,
             transform=ccrs.PlateCarree(),
-            fontsize=9.5,
+            fontsize=11.3,
             color=COLORS["ink"],
             weight="bold",
             zorder=8,
         )
+        stroke_text(text, lw=3.0)
 
 
 def jan_300_wind(ds: xr.Dataset) -> xr.Dataset:
@@ -154,11 +171,6 @@ def nw_wind_japan(ds: xr.Dataset) -> xr.DataArray:
     return component.weighted(weights).mean(("lat", "lon")).groupby("time.month").mean("time")
 
 
-def zscore(values: xr.DataArray) -> np.ndarray:
-    arr = values.to_numpy()
-    return (arr - arr.mean()) / arr.std()
-
-
 def image_hero(ds: xr.Dataset) -> None:
     wind = jan_300_wind(ds)
     speed = np.hypot(wind["u"], wind["v"])
@@ -166,15 +178,15 @@ def image_hero(ds: xr.Dataset) -> None:
     q_lat = wind["lat"].to_numpy()[::3]
     q_x, q_y = np.meshgrid(q_lon, q_lat)
 
-    fig = plt.figure(figsize=(16, 9))
-    ax = fig.add_axes([0.045, 0.14, 0.61, 0.64], projection=ccrs.PlateCarree(central_longitude=180))
-    add_pacific_context(ax)
-    levels = np.arange(10, 58, 4)
-    filled = ax.contourf(
+    fig = plt.figure(figsize=(14.8, 7.9))
+    ax = fig.add_axes([0.02, 0.05, 0.96, 0.90], projection=ccrs.PlateCarree(central_longitude=180))
+    add_pacific_context(ax, grid_labels=False)
+
+    ax.contourf(
         wind["lon"],
         wind["lat"],
         speed,
-        levels=levels,
+        levels=np.arange(10, 58, 4),
         cmap="YlGnBu",
         extend="max",
         transform=ccrs.PlateCarree(),
@@ -187,47 +199,59 @@ def image_hero(ds: xr.Dataset) -> None:
         wind["v"].to_numpy()[::3, ::4],
         transform=ccrs.PlateCarree(),
         color="#14384d",
-        scale=850,
-        width=0.0022,
+        scale=820,
+        width=0.0024,
         alpha=0.82,
         zorder=5,
     )
-    ax.plot([140, 240], [35, 35], color=COLORS["red"], linewidth=2.4, transform=ccrs.PlateCarree(), zorder=6)
-    ax.text(177, 36.8, "P-WIND line", color=COLORS["red"], fontsize=10.5, weight="bold", transform=ccrs.PlateCarree(), zorder=7)
-    add_locations(ax)
-    ax.set_title("January 300 hPa winds across the North Pacific", loc="left", fontsize=16, fontweight="bold", pad=10)
-
-    cbar = fig.colorbar(filled, ax=ax, fraction=0.036, pad=0.016)
-    cbar.outline.set_visible(False)
-    cbar.set_label("wind speed (m/s)", color=COLORS["muted"], labelpad=8)
-
-    side = fig.add_axes([0.765, 0.22, 0.19, 0.46])
-    p = p_wind(ds)
-    nw = nw_wind_japan(ds)
-    x = np.arange(1, 13)
-    side.plot(x, zscore(p), color=COLORS["blue"], linewidth=2.6, label="Pacific westerlies")
-    side.plot(x, zscore(nw), color=COLORS["green"], linewidth=2.6, label="Japan NW component")
-    side.axhline(0, color="#bdb5a7", linewidth=1)
-    side.axvspan(1, 3, color="#dbe9ef", alpha=0.65, zorder=0)
-    side.axvspan(11, 12, color="#dbe9ef", alpha=0.65, zorder=0)
-    side.set_xticks(x, MONTHS, rotation=45, ha="right")
-    side.set_ylabel("standardized")
-    side.set_title("Same seasonal turn", loc="left", fontsize=14, fontweight="bold")
-    side.grid(axis="y", alpha=0.6)
-    side.grid(axis="x", visible=False)
-    side.legend(frameon=False, fontsize=9.2, loc="lower left")
-
-    fig.text(0.045, 0.92, "When a disease time series starts looking like a weather map", fontsize=22, weight="bold", color=COLORS["ink"])
-    fig.text(
-        0.045,
-        0.875,
-        "The paper's hypothesis depends on a seasonal North Pacific circulation pattern. The wind fields are public; the clinical case records are not a Kaggle-style dataset.",
-        fontsize=11,
-        color=COLORS["muted"],
+    ax.plot([140, 240], [35, 35], color=COLORS["red"], linewidth=3.0, transform=ccrs.PlateCarree(), zorder=6)
+    pwind = ax.text(
+        170,
+        36.8,
+        "P-WIND line",
+        color=COLORS["red"],
+        fontsize=12.2,
+        weight="bold",
+        transform=ccrs.PlateCarree(),
+        zorder=7,
     )
-    fig.text(0.05, 0.025, "Source: NOAA PSL NCEP/NCAR Reanalysis 1, monthly means, 1996-2006", fontsize=9.5, color=COLORS["muted"])
-    fig.savefig(OUT_DIR / "hero.png", dpi=180)
+    stroke_text(pwind, lw=3.0)
+    jet = ax.annotate(
+        "winter jet",
+        xy=(171, 46),
+        xytext=(153, 53),
+        xycoords=ccrs.PlateCarree(),
+        textcoords=ccrs.PlateCarree(),
+        color=COLORS["deep_blue"],
+        fontsize=12.0,
+        weight="bold",
+        arrowprops={"arrowstyle": "->", "color": COLORS["deep_blue"], "lw": 1.8},
+        zorder=8,
+    )
+    stroke_text(jet, lw=3.0)
+    add_locations(ax)
+
+    fig.savefig(OUT_DIR / "hero.png", dpi=180, bbox_inches="tight", pad_inches=0.05)
     plt.close(fig)
+
+
+def annotate_peak(ax, x: np.ndarray, values: xr.DataArray, color: str, *, offset: tuple[float, float]) -> None:
+    arr = values.to_numpy()
+    idx = int(np.argmax(arr))
+    month = MONTHS[idx]
+    value = float(arr[idx])
+    ax.scatter(x[idx], value, s=64, color=color, edgecolor="white", linewidth=0.9, zorder=4)
+    ann = ax.annotate(
+        f"{month}\n{value:.1f} m/s",
+        xy=(x[idx], value),
+        xytext=(x[idx] + offset[0], value + offset[1]),
+        color=color,
+        fontsize=10.8,
+        weight="bold",
+        arrowprops={"arrowstyle": "->", "color": color, "lw": 1.5, "shrinkA": 0, "shrinkB": 0},
+        zorder=5,
+    )
+    stroke_text(ann, lw=2.8)
 
 
 def image_seasonal_indices(ds: xr.Dataset) -> None:
@@ -235,33 +259,35 @@ def image_seasonal_indices(ds: xr.Dataset) -> None:
     nw = nw_wind_japan(ds)
     x = np.arange(1, 13)
 
-    fig, axes = plt.subplots(2, 1, figsize=(12.5, 8.1), sharex=True)
+    fig, axes = plt.subplots(2, 1, figsize=(12.2, 7.6), sharex=True)
+    fig.patch.set_facecolor(COLORS["bg"])
+    fig.subplots_adjust(left=0.10, right=0.98, bottom=0.10, top=0.82, hspace=0.24)
     specs = [
-        (axes[0], p, "Pacific Zonal Wind Index at 300 hPa", COLORS["blue"], "Mean east-west wind along 35N, 140E-240E"),
+        (axes[0], p, "Pacific zonal wind at 300 hPa", COLORS["blue"], "Mean east-west wind along 35N, 140E-240E"),
         (axes[1], nw, "Japan northwesterly component at 850 hPa", COLORS["green"], "Area mean over 30-45N, 130-145E"),
     ]
 
     for ax, values, title, color, subtitle in specs:
         ax.axvspan(1, 3, color="#dbe9ef", alpha=0.7, zorder=0)
         ax.axvspan(11, 12, color="#dbe9ef", alpha=0.7, zorder=0)
-        ax.plot(x, values, color=color, linewidth=2.8)
+        ax.plot(x, values, color=color, linewidth=3.0)
         ax.scatter(x, values, s=42, color=color, edgecolor="white", linewidth=0.7, zorder=3)
-        ax.set_title(title, loc="left", pad=12, fontsize=15, fontweight="bold")
-        ax.text(0, 1.02, subtitle, transform=ax.transAxes, color=COLORS["muted"], fontsize=10.2)
+        ax.set_title(title, loc="left", pad=15, fontsize=13.8, fontweight="bold")
+        subtitle_text = ax.text(0.0, 0.99, subtitle, transform=ax.transAxes, color=COLORS["muted"], fontsize=9.8)
         ax.set_ylabel("m/s")
-        ax.grid(axis="y", alpha=0.62)
+        ax.grid(axis="y", alpha=0.45)
         ax.grid(axis="x", visible=False)
+        ax.spines["top"].set_visible(False)
+        ax.spines["right"].set_visible(False)
+        ymin = float(np.floor(values.min() - 1.0))
+        ymax = float(np.ceil(values.max() + 1.4))
+        ax.set_ylim(ymin, ymax)
+        annotate_peak(ax, x, values, color, offset=(-0.3, -1.2))
+        subtitle_text.set_path_effects([pe.withStroke(linewidth=2.4, foreground=COLORS["panel"])])
 
     axes[-1].set_xticks(x, MONTHS)
     axes[-1].set_xlabel("month")
-    fig.suptitle("The wind indices turn upward in the cool season", x=0.08, y=0.985, ha="left", fontsize=18, fontweight="bold", color=COLORS["ink"])
-    fig.text(
-        0.08,
-        0.936,
-        "These are atmospheric indices only. They do not include patient records or prove a cause.",
-        color=COLORS["muted"],
-        fontsize=10.8,
-    )
+    fig.suptitle("The wind indices rise in the cool season", x=0.08, y=0.965, ha="left", fontsize=18, fontweight="bold", color=COLORS["ink"])
     save(fig, "seasonal-wind-indices.png")
 
 
@@ -273,17 +299,26 @@ def image_monthly_animation(ds: xr.Dataset) -> None:
     q_lat = clim["lat"].to_numpy()[::4]
     q_x, q_y = np.meshgrid(q_lon, q_lat)
 
-    fig = plt.figure(figsize=(11.5, 7.0))
-    ax = fig.add_subplot(1, 1, 1, projection=ccrs.PlateCarree(central_longitude=180))
+    fig = plt.figure(figsize=(11.0, 6.6))
+    ax = fig.add_axes([0.015, 0.03, 0.97, 0.95], projection=ccrs.PlateCarree(central_longitude=180))
 
     def draw(month_index: int):
         ax.clear()
-        add_pacific_context(ax)
+        add_pacific_context(ax, grid_labels=False)
         month = month_index + 1
         u = clim["u"].sel(month=month)
         v = clim["v"].sel(month=month)
         spd = speed.sel(month=month)
-        ax.contourf(clim["lon"], clim["lat"], spd, levels=levels, cmap="YlGnBu", extend="max", transform=ccrs.PlateCarree(), zorder=1)
+        ax.contourf(
+            clim["lon"],
+            clim["lat"],
+            spd,
+            levels=levels,
+            cmap="YlGnBu",
+            extend="max",
+            transform=ccrs.PlateCarree(),
+            zorder=1,
+        )
         ax.quiver(
             q_x,
             q_y,
@@ -291,75 +326,88 @@ def image_monthly_animation(ds: xr.Dataset) -> None:
             v.to_numpy()[::4, ::5],
             transform=ccrs.PlateCarree(),
             color="#14384d",
-            scale=850,
-            width=0.0025,
+            scale=820,
+            width=0.0027,
             alpha=0.82,
             zorder=5,
         )
         ax.plot([140, 240], [35, 35], color=COLORS["red"], linewidth=2.1, transform=ccrs.PlateCarree(), zorder=6)
         add_locations(ax)
-        ax.set_title(f"300 hPa North Pacific winds: {MONTHS[month_index]}", loc="left", fontsize=16, fontweight="bold", pad=10)
-        ax.text(
+        month_text = ax.text(
             0.02,
-            0.04,
-            "Monthly climatology, 1996-2006",
+            0.962,
+            MONTHS[month_index],
             transform=ax.transAxes,
-            fontsize=9.8,
-            color=COLORS["muted"],
-            bbox={"facecolor": COLORS["panel"], "edgecolor": COLORS["grid"], "boxstyle": "round,pad=0.25"},
+            fontsize=21,
+            weight="bold",
+            color=COLORS["ink"],
             zorder=8,
         )
+        stroke_text(month_text, lw=3.5)
+        subtitle = ax.text(
+            0.02,
+            0.915,
+            "Monthly climatology, 1996-2006",
+            transform=ax.transAxes,
+            fontsize=10.4,
+            color=COLORS["muted"],
+            zorder=8,
+        )
+        stroke_text(subtitle, lw=3.0)
 
     ani = animation.FuncAnimation(fig, draw, frames=12, interval=520, repeat=True)
-    ani.save(OUT_DIR / "monthly-pacific-winds.gif", writer=animation.PillowWriter(fps=2), dpi=135)
+    ani.save(OUT_DIR / "monthly-pacific-winds.gif", writer=animation.PillowWriter(fps=2), dpi=120)
     plt.close(fig)
 
 
 def image_analysis_boundary() -> None:
-    fig, ax = plt.subplots(figsize=(13.2, 7.0))
+    fig, ax = plt.subplots(figsize=(13.4, 7.3))
     ax.set_xlim(0, 1)
     ax.set_ylim(0, 1)
     ax.axis("off")
+    fig.patch.set_facecolor(COLORS["bg"])
 
-    ax.text(0.05, 0.92, "A careful reading separates evidence from claim", fontsize=18, fontweight="bold", color=COLORS["ink"])
+    ax.text(0.05, 0.93, "Evidence ladder", fontsize=18, fontweight="bold", color=COLORS["ink"])
     ax.text(
         0.05,
-        0.865,
-        "The paper connects disease timing with atmospheric circulation. The reproducible part here is the circulation, not the private clinical records.",
-        fontsize=11,
+        0.875,
+        "Four layers, each with a narrower claim than the one above it.",
+        fontsize=10.9,
         color=COLORS["muted"],
     )
 
-    columns = [
-        ("Observed in paper", 0.08, COLORS["blue"], ["KD admission records", "Seasonal and epidemic peaks", "Japan, Hawaii, San Diego"]),
-        ("Reproduced here", 0.39, COLORS["green"], ["NOAA wind fields", "P-WIND and NW-WIND indices", "Monthly circulation maps"]),
-        ("Hypothesis", 0.70, COLORS["gold"], ["Wind-borne trigger is plausible", "Aerosols are worth testing", "Causation remains open"]),
+    rows = [
+        ("1", "Observed clinical timing", COLORS["blue"], "Kawasaki disease peaks on a seasonal clock in the paper's case records."),
+        ("2", "Reproducible wind fields", COLORS["green"], "NOAA reanalysis shows a cool-season North Pacific corridor."),
+        ("3", "Transport hypothesis", COLORS["gold"], "A wind-borne trigger can move along that pathway."),
+        ("4", "Still unknown", COLORS["red"], "The causal agent is not identified, so causation stays open."),
     ]
 
-    for title, x0, color, bullets in columns:
-        ax.add_patch(Rectangle((x0, 0.28), 0.22, 0.44, facecolor=COLORS["panel"], edgecolor="#ded6c9", linewidth=1.2))
-        ax.add_patch(Rectangle((x0, 0.69), 0.22, 0.03, facecolor=color, edgecolor="none"))
-        ax.text(x0 + 0.02, 0.64, title, fontsize=13.2, fontweight="bold", color=COLORS["ink"])
-        for i, bullet in enumerate(bullets):
-            ax.text(x0 + 0.025, 0.565 - i * 0.105, f"- {bullet}", fontsize=11.1, color=COLORS["muted"])
+    top = 0.70
+    row_h = 0.135
+    gap = 0.04
+    for i, (num, title, color, body) in enumerate(rows):
+        y = top - i * (row_h + gap)
+        ax.add_patch(Rectangle((0.06, y), 0.88, row_h, facecolor=COLORS["panel"], edgecolor="#d7ddd9", linewidth=1.1))
+        ax.add_patch(Rectangle((0.06, y), 0.018, row_h, facecolor=color, edgecolor="none"))
+        num_text = ax.text(0.09, y + 0.092, num, fontsize=20, fontweight="bold", color=color, va="center")
+        title_text = ax.text(0.14, y + 0.098, title, fontsize=14.0, fontweight="bold", color=COLORS["ink"], va="center")
+        body_text = ax.text(0.14, y + 0.043, textwrap.fill(body, width=78), fontsize=11.1, color=COLORS["muted"], va="center")
+        stroke_text(num_text, lw=2.5)
+        stroke_text(title_text, lw=2.8)
+        stroke_text(body_text, lw=2.2)
+        if i < len(rows) - 1:
+            ax.add_patch(
+                FancyArrowPatch(
+                    (0.50, y - 0.004),
+                    (0.50, y - gap + 0.006),
+                    arrowstyle="->",
+                    mutation_scale=14,
+                    linewidth=1.4,
+                    color="#8b8a82",
+                )
+            )
 
-    arrows = [
-        ((0.30, 0.50), (0.39, 0.50), "compare timing"),
-        ((0.61, 0.50), (0.70, 0.50), "form testable mechanism"),
-    ]
-    for start, end, label in arrows:
-        ax.add_patch(FancyArrowPatch(start, end, arrowstyle="->", mutation_scale=16, linewidth=1.8, color="#8b8a82"))
-        ax.text((start[0] + end[0]) / 2, 0.455, label, ha="center", fontsize=9.8, color=COLORS["muted"])
-
-    ax.add_patch(Rectangle((0.08, 0.12), 0.84, 0.08, facecolor="#f5e2dc", edgecolor="#d6b4aa", linewidth=1.0))
-    ax.text(
-        0.10,
-        0.153,
-        "Guardrail: this workflow can strengthen a mechanistic hypothesis, but it cannot identify the causal agent by itself.",
-        fontsize=11.2,
-        color=COLORS["ink"],
-        va="center",
-    )
     save(fig, "evidence-boundary.png")
 
 
