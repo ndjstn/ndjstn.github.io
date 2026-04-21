@@ -71,50 +71,62 @@ def save(fig, name):
 
 
 def image_explanation_problem():
-    fig, ax = plt.subplots(figsize=(14, 7.6))
+    fig, ax = plt.subplots(figsize=(13.5, 6.8))
+    fig.patch.set_facecolor('white')
+    ax.set_facecolor('white')
     ax.set_xlim(0, 1)
     ax.set_ylim(0, 1)
     ax.axis('off')
-    add_rounded_panel(ax)
-    title_block(fig, 'Most explanations start in the wrong place', 'The difference is not more detail. It is whether the picture gives the parts a job.')
 
-    left = FancyBboxPatch((0.08, 0.18), 0.34, 0.58, boxstyle='round,pad=0.02,rounding_size=0.03',
-                          facecolor='#fff7f7', edgecolor='#fecaca', linewidth=1.4)
-    right = FancyBboxPatch((0.56, 0.18), 0.36, 0.58, boxstyle='round,pad=0.02,rounding_size=0.03',
-                           facecolor='#f5fbf7', edgecolor='#c7eed3', linewidth=1.4)
-    ax.add_patch(left)
-    ax.add_patch(right)
-
-    ax.text(0.25, 0.72, 'Vocabulary first', ha='center', va='center', fontsize=17, fontweight='bold', color=COLORS['red_dark'])
-    ax.text(0.74, 0.72, 'Job first', ha='center', va='center', fontsize=17, fontweight='bold', color=COLORS['green_dark'])
-
-    chips = ['neuron', 'bias', 'activation', 'backprop']
-    for idx, chip in enumerate(chips):
-        y = 0.61 - idx * 0.105
-        box = FancyBboxPatch((0.16, y), 0.18, 0.065, boxstyle='round,pad=0.015,rounding_size=0.025',
-                             facecolor='white', edgecolor='#fca5a5', linewidth=1.2)
-        ax.add_patch(box)
-        ax.text(0.25, y + 0.032, chip, ha='center', va='center', fontsize=12.2)
-
-    ax.text(0.25, 0.25, 'names without a job', ha='center', va='center', fontsize=12.5, color=COLORS['red_dark'])
-    ax.text(0.25, 0.20, 'hard to build intuition', ha='center', va='center', fontsize=11.5, color=COLORS['muted'])
-
-    steps = [
-        (0.64, 0.49, 'input'),
-        (0.74, 0.49, 'score'),
-        (0.84, 0.49, 'reshape'),
-        (0.84, 0.33, 'predict'),
+    left_x, left_w = 0.08, 0.22
+    right_x, right_w = 0.46, 0.40
+    rows = [
+        ('neuron', 'score evidence for a pattern'),
+        ('bias', 'shift the cutoff'),
+        ('activation', 'decide what passes on'),
+        ('backprop', 'assign blame and update'),
     ]
-    colors = [COLORS['blue_dark'], COLORS['purple'], COLORS['green_dark'], COLORS['amber_dark']]
-    for (x, y, label), color in zip(steps, colors):
-        box = FancyBboxPatch((x - 0.055, y - 0.04), 0.11, 0.08, boxstyle='round,pad=0.02,rounding_size=0.025',
-                             facecolor='white', edgecolor=color, linewidth=1.8)
-        ax.add_patch(box)
-        ax.text(x, y, label, ha='center', va='center', fontsize=11.7)
-    for start, end in [((0.695, 0.49), (0.785, 0.49)), ((0.795, 0.49), (0.885, 0.49)), ((0.84, 0.45), (0.84, 0.37))]:
-        ax.add_patch(FancyArrowPatch(start, end, arrowstyle='->', mutation_scale=12, linewidth=1.7, color=COLORS['line']))
+    y_positions = [0.73, 0.57, 0.41, 0.25]
 
-    ax.text(0.74, 0.24, 'same system, clearer starting point', ha='center', va='center', fontsize=12.5, color=COLORS['green_dark'])
+    ax.text(left_x, 0.88, 'Technical term', ha='left', va='center', fontsize=17, fontweight='bold', color=COLORS['ink'])
+    ax.text(right_x, 0.88, 'Plain-language job', ha='left', va='center', fontsize=17, fontweight='bold', color=COLORS['ink'])
+    ax.plot([left_x, left_x + left_w], [0.845, 0.845], color='#fca5a5', linewidth=3, solid_capstyle='round')
+    ax.plot([right_x, right_x + 0.28], [0.845, 0.845], color='#86efac', linewidth=3, solid_capstyle='round')
+
+    for (term, job), y in zip(rows, y_positions):
+        term_box = FancyBboxPatch(
+            (left_x, y - 0.042),
+            left_w,
+            0.084,
+            boxstyle='round,pad=0.012,rounding_size=0.03',
+            facecolor='#fff7f7',
+            edgecolor='#fca5a5',
+            linewidth=1.5,
+        )
+        job_box = FancyBboxPatch(
+            (right_x, y - 0.05),
+            right_w,
+            0.10,
+            boxstyle='round,pad=0.012,rounding_size=0.03',
+            facecolor='#f7fff9',
+            edgecolor='#86efac',
+            linewidth=1.5,
+        )
+        ax.add_patch(term_box)
+        ax.add_patch(job_box)
+        ax.text(left_x + left_w / 2, y, term, ha='center', va='center', fontsize=13.5)
+        ax.text(right_x + right_w / 2, y, job, ha='center', va='center', fontsize=13.1)
+        ax.add_patch(
+            FancyArrowPatch(
+                (left_x + left_w + 0.03, y),
+                (right_x - 0.03, y),
+                arrowstyle='->',
+                mutation_scale=14,
+                linewidth=1.6,
+                color='#94a3b8',
+            )
+        )
+
     save(fig, 'explanation-problem.png')
 
 def image_neuron_scoring_rule():

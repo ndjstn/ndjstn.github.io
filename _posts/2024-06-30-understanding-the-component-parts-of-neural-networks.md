@@ -63,7 +63,7 @@ $$
 \hat{y} = f_{\theta}(x)
 $$
 
-Input $x$ goes in, prediction $\hat{y}$ comes out, and the parameters $\theta$ are what training keeps adjusting. That compact view is the one modern deep-learning overviews usually start from ([LeCun et al., 2015](#ref-lecun2015)).
+Input $x$ goes in, prediction $\hat{y}$ comes out, and the parameters $\theta$ are what training keeps adjusting. That compact view is the one open deep-learning textbooks usually start from ([Goodfellow et al., 2016](#ref-goodfellow2016)).
 
 If you want one more layer of detail, you can think of $f_{\theta}$ as a composition of smaller transformations:
 
@@ -93,7 +93,7 @@ $$
 z = \sum_{i=1}^{n} w_i x_i + b, \qquad a = \phi(z)
 $$
 
-That’s it. In modern machine-learning terms, this is the feedforward-unit / perceptron view descended from the formal neuron and perceptron literature ([McCulloch & Pitts, 1943](#ref-mcculloch1943); [Rosenblatt, 1958](#ref-rosenblatt1958)).
+That’s it. In modern machine-learning terms, this is just the standard feedforward / perceptron view you see in open textbooks and course notes ([Goodfellow et al., 2016](#ref-goodfellow2016); [Google, n.d.-b](#ref-google-nodes)).
 
 A single neuron is not the interesting part. The interesting part is that this same small operation gets repeated over and over again, across many units and many layers, until a pretty simple pattern turns into a much more capable system.
 
@@ -144,7 +144,7 @@ $$
 \frac{\partial s}{\partial x_i} = w_i, \qquad \frac{\partial s}{\partial b} = 1
 $$
 
-A useful weights-and-bias graphic should answer three plain questions: which inputs are active, which weights pull hardest, and where the bias moves the switch-on point. The older perceptron framing is still useful here because it makes each input’s signed influence explicit ([Rosenblatt, 1958](#ref-rosenblatt1958)).
+A useful weights-and-bias graphic should answer three plain questions: which inputs are active, which weights pull hardest, and where the bias moves the switch-on point. The standard nodes-and-hidden-layers framing is still useful here because it makes each input’s signed influence explicit ([Google, n.d.-b](#ref-google-nodes)).
 
 That is not the full mathematical story, but it is the part I reach for when I want the intuition fast.
 
@@ -180,7 +180,7 @@ $$
 \tanh(x) = \frac{e^x - e^{-x}}{e^x + e^{-x}}
 $$
 
-ReLU, Sigmoid, and Tanh are different curves with different tradeoffs, but the big idea is the same: they let the model respond in a way that is not just a simple linear rescaling of the input. The point of writing the formulas out is to make the shape change explicit; that is exactly why rectified units became so practically important in later deep models ([Nair & Hinton, 2010](#ref-nair2010); [LeCun et al., 2015](#ref-lecun2015)).
+ReLU, Sigmoid, and Tanh are different curves with different tradeoffs, but the big idea is the same: they let the model respond in a way that is not just a simple linear rescaling of the input. The point of writing the formulas out is to make the shape change explicit; that is exactly why rectified units became so practically important in later deep models ([Nair & Hinton, 2010](#ref-nair2010); [Google, n.d.-a](#ref-google-activation)).
 
 That is what gives the network room to model richer structure.
 
@@ -196,7 +196,7 @@ The phrase “hidden layer” is another one of those terms that sounds more mys
 
 A hidden layer is just an intermediate stage where the model turns one representation into another.
 
-That is the part of neural networks I find most compelling now. They are not useful because they contain a lot of labeled boxes. They are useful because those boxes can build progressively more helpful internal representations. That representation-building view is one of the core ideas behind modern deep learning and representation learning more broadly ([Bengio et al., 2013](#ref-bengio2013); [LeCun et al., 2015](#ref-lecun2015)).
+That is the part of neural networks I find most compelling now. They are not useful because they contain a lot of labeled boxes. They are useful because those boxes can build progressively more helpful internal representations. That representation-building view is one of the core ideas behind modern deep learning more broadly ([Goodfellow et al., 2016](#ref-goodfellow2016)).
 
 Early transformations often react to simpler patterns. Later transformations can combine those simpler patterns into more meaningful structures.
 
@@ -261,7 +261,7 @@ $$
 \frac{\partial L}{\partial w_i} = \frac{\partial L}{\partial \hat{y}} \cdot \frac{\partial \hat{y}}{\partial w_i}
 $$
 
-That equation is the whole accountability story in miniature: how much the model missed by, times how much a specific weight contributed to that miss. This is the chain-rule bookkeeping at the heart of backpropagation ([Rumelhart et al., 1986](#ref-rumelhart1986)).
+That equation is the whole accountability story in miniature: how much the model missed by, times how much a specific weight contributed to that miss. This is the chain-rule bookkeeping at the heart of backpropagation ([Nielsen, 2015](#ref-nielsen2015); [Google, n.d.-c](#ref-google-backprop)).
 
 ![Backprop shown as prediction, comparison, blame assignment, and parameter update.](/assets/img/posts/neural-network-components/backprop-blame-assignment.png)
 
@@ -297,7 +297,7 @@ $$
 \theta^* = \arg\min_{\theta} \frac{1}{N} \sum_{n=1}^{N} L\left(f_{\theta}(x^{(n)}), y^{(n)}\right)
 $$
 
-If the model is failing, something about that optimization problem is going wrong: the data, the objective, the capacity, or the signal flowing through the network. That optimization view is exactly how the backpropagation paper and later deep-learning reviews formalize the training story ([Rumelhart et al., 1986](#ref-rumelhart1986); [LeCun et al., 2015](#ref-lecun2015)).
+If the model is failing, something about that optimization problem is going wrong: the data, the objective, the capacity, or the signal flowing through the network. That optimization view is how open deep-learning textbooks and tutorials usually formalize the training story ([Nielsen, 2015](#ref-nielsen2015); [Goodfellow et al., 2016](#ref-goodfellow2016); [Google, n.d.-c](#ref-google-backprop)).
 
 ![A practical debugging checklist for thinking through failing models.](/assets/img/posts/neural-network-components/debugging-checklist.png)
 
@@ -343,26 +343,26 @@ A better picture.
 
 ## References
 
-<div id="ref-bengio2013" style="padding-left: 1.5em; text-indent: -1.5em; margin-bottom: 0.85rem;">
-Bengio, Y., Courville, A., &amp; Vincent, P. (2013). <em>Representation learning: A review and new perspectives</em>. <em>IEEE Transactions on Pattern Analysis and Machine Intelligence, 35</em>(8), 1798–1828. <a href="https://doi.org/10.1109/TPAMI.2013.50">https://doi.org/10.1109/TPAMI.2013.50</a>
+<div id="ref-goodfellow2016" style="padding-left: 1.5em; text-indent: -1.5em; margin-bottom: 0.85rem;">
+Goodfellow, I., Bengio, Y., &amp; Courville, A. (2016). <em>Deep learning</em>. MIT Press. <a href="https://www.deeplearningbook.org/">https://www.deeplearningbook.org/</a>
 </div>
 
-<div id="ref-lecun2015" style="padding-left: 1.5em; text-indent: -1.5em; margin-bottom: 0.85rem;">
-LeCun, Y., Bengio, Y., &amp; Hinton, G. (2015). Deep learning. <em>Nature, 521</em>, 436–444. <a href="https://doi.org/10.1038/nature14539">https://doi.org/10.1038/nature14539</a>
+<div id="ref-google-activation" style="padding-left: 1.5em; text-indent: -1.5em; margin-bottom: 0.85rem;">
+Google. (n.d.-a). <em>Neural networks: Activation functions</em>. Google for Developers. <a href="https://developers.google.com/machine-learning/crash-course/neural-networks/activation-functions">https://developers.google.com/machine-learning/crash-course/neural-networks/activation-functions</a>
 </div>
 
-<div id="ref-mcculloch1943" style="padding-left: 1.5em; text-indent: -1.5em; margin-bottom: 0.85rem;">
-McCulloch, W. S., &amp; Pitts, W. (1943). A logical calculus of the ideas immanent in nervous activity. <em>The Bulletin of Mathematical Biophysics, 5</em>(4), 115–133. <a href="https://doi.org/10.1007/BF02478259">https://doi.org/10.1007/BF02478259</a>
+<div id="ref-google-nodes" style="padding-left: 1.5em; text-indent: -1.5em; margin-bottom: 0.85rem;">
+Google. (n.d.-b). <em>Neural networks: Nodes and hidden layers</em>. Google for Developers. <a href="https://developers.google.com/machine-learning/crash-course/neural-networks/nodes-hidden-layers">https://developers.google.com/machine-learning/crash-course/neural-networks/nodes-hidden-layers</a>
+</div>
+
+<div id="ref-google-backprop" style="padding-left: 1.5em; text-indent: -1.5em; margin-bottom: 0.85rem;">
+Google. (n.d.-c). <em>Neural networks: Training using backpropagation</em>. Google for Developers. <a href="https://developers.google.com/machine-learning/crash-course/neural-networks/backpropagation">https://developers.google.com/machine-learning/crash-course/neural-networks/backpropagation</a>
 </div>
 
 <div id="ref-nair2010" style="padding-left: 1.5em; text-indent: -1.5em; margin-bottom: 0.85rem;">
 Nair, V., &amp; Hinton, G. E. (2010). Rectified linear units improve restricted Boltzmann machines. In <em>Proceedings of the 27th International Conference on Machine Learning</em> (pp. 807–814). <a href="https://icml.cc/Conferences/2010/papers/432.pdf">https://icml.cc/Conferences/2010/papers/432.pdf</a>
 </div>
 
-<div id="ref-rosenblatt1958" style="padding-left: 1.5em; text-indent: -1.5em; margin-bottom: 0.85rem;">
-Rosenblatt, F. (1958). The perceptron: A probabilistic model for information storage and organization in the brain. <em>Psychological Review, 65</em>(6), 386–408. <a href="https://doi.org/10.1037/h0042519">https://doi.org/10.1037/h0042519</a>
-</div>
-
-<div id="ref-rumelhart1986" style="padding-left: 1.5em; text-indent: -1.5em; margin-bottom: 0.85rem;">
-Rumelhart, D. E., Hinton, G. E., &amp; Williams, R. J. (1986). Learning representations by back-propagating errors. <em>Nature, 323</em>, 533–536. <a href="https://doi.org/10.1038/323533a0">https://doi.org/10.1038/323533a0</a>
+<div id="ref-nielsen2015" style="padding-left: 1.5em; text-indent: -1.5em; margin-bottom: 0.85rem;">
+Nielsen, M. A. (2015). <em>Neural networks and deep learning</em>. Determination Press. <a href="https://neuralnetworksanddeeplearning.com/">https://neuralnetworksanddeeplearning.com/</a>
 </div>
