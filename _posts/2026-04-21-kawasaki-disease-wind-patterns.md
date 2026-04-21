@@ -16,9 +16,7 @@ categories:
   - "Data Science"
 ---
 
-The first time I read the Kawasaki disease wind-pattern paper, my reaction was basically: this is either a clever hypothesis or a very polished coincidence.
-
-That kind of paper is usually worth a closer look.
+The first time I read the Kawasaki disease wind-pattern paper, my reaction was basically: this is either a clever hypothesis or a very polished coincidence. That kind of paper is usually worth a closer look.
 
 The claim is unusual enough to sound risky at first. Kawasaki disease is a serious childhood illness, and the paper is asking whether its timing in Japan, Hawaii, and San Diego lines up with large-scale wind patterns moving across the North Pacific ([Rodo et al., 2011](#ref-rodo2011)). I would not treat that like a normal regression problem. It is a question about whether a disease pattern and an atmospheric pattern might be part of the same story.
 
@@ -26,39 +24,27 @@ What made the paper worth reading was not the headline. It was the way the autho
 
 ## The claim sounds weird at first
 
-Kawasaki disease mostly affects young children and can damage the heart and blood vessels. The CDC also notes that the cause is unknown and that it is the leading cause of acquired heart disease in children in the United States ([CDC, 2026](#ref-cdc2026)).
+Kawasaki disease mostly affects young children and can damage the heart and blood vessels. The CDC also notes that the cause is unknown and that it is the leading cause of acquired heart disease in children in the United States ([CDC, 2026](#ref-cdc2026)). With an open cause, a seasonal and geographic pattern is not just trivia. It is a clue.
 
-With an open cause, a seasonal and geographic pattern is not just trivia. It is a clue.
-
-I think that is why this paper still feels useful years later. It asks a strange question, but not a random one. If disease activity rises and falls with the seasons in places separated by an ocean, then something in the environment is at least worth testing. The atmosphere is one of the few systems that can move material across that kind of distance on a schedule.
-
-So the paper is not saying, "wind causes Kawasaki disease." It is asking whether a transported trigger, possibly aerosolized, could be part of the mechanism.
+I think that is why this paper still feels useful years later. It asks a strange question, but not a random one. If disease activity rises and falls with the seasons in places separated by an ocean, then something in the environment is at least worth testing. The atmosphere is one of the few systems that can move material across that kind of distance on a schedule. So the paper is not saying, "wind causes Kawasaki disease." It is asking whether a transported trigger, possibly aerosolized, could be part of the mechanism.
 
 ## What the paper actually argues
 
-The core argument is narrower than the title sounds.
+The core argument is narrower than the title sounds. Rodo and coauthors compared Kawasaki disease timing in Japan, Hawaii, and San Diego with wind fields over the North Pacific. For Japan, they focused on a northwesterly component over the western Pacific. For the trans-Pacific pathway, they defined a Pacific Zonal Wind Index, or P-WIND, along roughly 35 degrees north from 140E to 240E ([Rodo et al., 2011](#ref-rodo2011)).
 
-Rodo and coauthors compared Kawasaki disease timing in Japan, Hawaii, and San Diego with wind fields over the North Pacific. For Japan, they focused on a northwesterly component over the western Pacific. For the trans-Pacific pathway, they defined a Pacific Zonal Wind Index, or P-WIND, along roughly 35 degrees north from 140E to 240E ([Rodo et al., 2011](#ref-rodo2011)).
-
-The important move is not the map itself. It is turning a moving atmospheric field into something seasonal and measurable enough to compare with disease activity.
-
-That was the part I wanted to test for myself.
+The important move is not the map itself. It is turning a moving atmospheric field into something seasonal and measurable enough to compare with disease activity. That was the part I wanted to test for myself.
 
 ## The part I could reproduce
 
 I cannot reproduce the clinical case series from the paper from first principles, and I do not need to pretend otherwise. What I can reproduce is the atmospheric side: the North Pacific wind field and the seasonal indices the paper uses to describe it.
 
-For this post, I used NOAA PSL NCEP/NCAR Reanalysis 1 monthly wind data ([NOAA PSL, 2026](#ref-noaa-psl); [Kalnay et al., 1996](#ref-kalnay1996)). Reanalysis is not a station archive. It is a gridded reconstruction of the atmosphere built from observations and a fixed model framework.
-
-I liked it for this question because the paper is about circulation, not just local weather.
+For this post, I used NOAA PSL NCEP/NCAR Reanalysis 1 monthly wind data ([NOAA PSL, 2026](#ref-noaa-psl); [Kalnay et al., 1996](#ref-kalnay1996)). Reanalysis is not a station archive. It is a gridded reconstruction of the atmosphere built from observations and a fixed model framework. I liked it for this question because the paper is about circulation, not just local weather.
 
 That is what the lead map is meant to show: the winter flow is the thing to watch. The paper is interested in whether that pathway changes in a way that lines up with disease timing.
 
 ## Turning wind into a number
 
-This is the move that turns a wind field into something I can compare with disease timing.
-
-The atmosphere is continuous. If you want to compare it with disease timing, you need to compress it into something repeatable. The paper does that by using indices.
+This is the move that turns a wind field into something I can compare with disease timing. The atmosphere is continuous. If you want to compare it with disease timing, you need to compress it into something repeatable. The paper does that by using indices.
 
 For the reconstruction in this post, I kept the setup close to the published idea:
 
@@ -70,9 +56,7 @@ For the reconstruction in this post, I kept the setup close to the published ide
 
 *The point of the indices is not that they are perfect. The point is that they turn a large, messy field into something seasonal enough to compare against disease timing.*
 
-In this reconstruction, P-WIND is strongest in February, about 42.94 m/s, and weakest in August, about 5.55 m/s. Japan NW-WIND is strongest in January, about 7.68 m/s, and weakest in August, about 0.24 m/s.
-
-The seasonal gap is the interesting part. The wind pattern is not flat background noise. It changes in a way that could plausibly matter if the disease is responding to something transported through the atmosphere.
+In this reconstruction, P-WIND is strongest in February, about 42.94 m/s, and weakest in August, about 5.55 m/s. Japan NW-WIND is strongest in January, about 7.68 m/s, and weakest in August, about 0.24 m/s. The seasonal gap is the interesting part. The wind pattern is not flat background noise. It changes in a way that could plausibly matter if the disease is responding to something transported through the atmosphere.
 
 ## Why the seasonal pattern matters
 
@@ -84,17 +68,11 @@ The monthly wind field makes the seasonal argument easier to see.
 
 That does not prove anything by itself. It does, however, explain why the hypothesis is not absurd on its face. Japan, Hawaii, and San Diego are far apart on a map, but they can still sit inside the same broad circulation pattern at the same time of year.
 
-Once you see that, the scientific question changes. It is no longer "can a disease and a weather map look similar?" It becomes "what would move along that path, and can we find evidence for it?"
-
-The paper discusses aerosols and airborne biological material as possibilities, but it does not identify a causal agent.
-
-I would keep that limit in view.
+Once you see that, the scientific question changes. It is no longer "can a disease and a weather map look similar?" It becomes "what would move along that path, and can we find evidence for it?" The paper discusses aerosols and airborne biological material as possibilities, but it does not identify a causal agent. I would keep that limit in view.
 
 ## Where the evidence stops
 
-I like the paper more once I stop asking it to do too much.
-
-It shows a recurring alignment between disease timing and wind structure. I find that interesting, but it is still an association. If I read it carefully, the paper is making a mechanism-shaped hypothesis, not declaring a mechanism as settled fact.
+I like the paper more once I stop asking it to do too much. It shows a recurring alignment between disease timing and wind structure. I find that interesting, but it is still an association. If I read it carefully, the paper is making a mechanism-shaped hypothesis, not declaring a mechanism as settled fact.
 
 ![Workflow figure separating observed case data, reproducible wind data, and the hypothesis.](/assets/img/posts/kawasaki-wind-patterns/evidence-boundary.png)
 
@@ -114,9 +92,7 @@ If I were extending this analysis, I would keep the next steps boring and testab
 4. Look for public Kawasaki disease surveillance summaries that can be compared without patient-level data.
 5. Test whether the relationship holds outside the original study period.
 
-I would especially care about negative controls. If the same wind index tracks every winter disease, the hypothesis gets weaker. If the pattern stays specific to Kawasaki disease timing and locations, it becomes harder to dismiss.
-
-I trust that kind of result more than a single polished plot. It is also the kind of result that tells you whether the idea is worth carrying forward.
+I would especially care about negative controls. If the same wind index tracks every winter disease, the hypothesis gets weaker. If the pattern stays specific to Kawasaki disease timing and locations, it becomes harder to dismiss. I trust that kind of result more than a single polished plot. It is also the kind of result that tells you whether the idea is worth carrying forward.
 
 ## Reproducibility note
 
