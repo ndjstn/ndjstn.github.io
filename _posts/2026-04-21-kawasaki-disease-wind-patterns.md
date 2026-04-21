@@ -78,9 +78,9 @@ The seasonal gap is the interesting part. The wind pattern is not flat backgroun
 
 The monthly wind field makes the seasonal argument easier to see.
 
-![Monthly animation of North Pacific 300 hPa winds.](/assets/img/posts/kawasaki-wind-patterns/monthly-pacific-winds.gif)
+![Monthly animation of North Pacific 300 hPa wind speed and streamlines with Pacific city landmarks.](/assets/img/posts/kawasaki-wind-patterns/monthly-pacific-winds.gif)
 
-*The winter jet strengthens the west-to-east corridor across the Pacific. In summer, that corridor weakens and shifts.*
+*Darker bands mark faster upper-level winds, and the streamlines show direction. The winter jet strengthens the west-to-east corridor across the Pacific; in summer, that corridor weakens and shifts.*
 
 That does not prove anything by itself. It does, however, explain why the hypothesis is not absurd on its face. Japan, Hawaii, and San Diego are far apart on a map, but they can still sit inside the same broad circulation pattern at the same time of year.
 

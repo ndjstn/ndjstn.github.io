@@ -11,6 +11,7 @@ import matplotlib.patheffects as pe
 import matplotlib.pyplot as plt
 import numpy as np
 import xarray as xr
+from matplotlib.colors import LinearSegmentedColormap
 from matplotlib.patches import FancyArrowPatch, Rectangle
 
 warnings.filterwarnings("ignore", message="facecolor will have no effect.*")
@@ -42,6 +43,11 @@ COLORS = {
     "red": "#b6533f",
 }
 
+WIND_CMAP = LinearSegmentedColormap.from_list(
+    "pacific_wind_speed",
+    ["#f3f6c8", "#b9dfbf", "#69c7c4", "#2389bd", "#182f7c"],
+)
+
 plt.rcParams.update(
     {
         "font.family": "DejaVu Sans",
@@ -64,6 +70,21 @@ LOCATIONS = {
     "Japan": (139.7, 35.7),
     "Hawaii": (202.2, 21.3),
     "San Diego": (242.8, 32.7),
+}
+
+LANDMARKS = {
+    "Tokyo": (139.7, 35.7),
+    "Seoul": (127.0, 37.6),
+    "Shanghai": (121.5, 31.2),
+    "Honolulu": (202.1, 21.3),
+    "Seattle": (237.7, 47.6),
+    "San Francisco": (237.6, 37.8),
+}
+
+FEATURE_LABELS = {
+    "Aleutian Islands": (181, 52.4),
+    "Gulf of Alaska": (219, 55.2),
+    "North Pacific": (185, 24.0),
 }
 
 
@@ -149,6 +170,57 @@ def add_locations(ax) -> None:
             zorder=8,
         )
         stroke_text(text, lw=3.0)
+
+
+def add_landmarks(ax) -> None:
+    for label, (lon, lat) in LANDMARKS.items():
+        ax.scatter(
+            lon,
+            lat,
+            s=18,
+            color="#33413d",
+            edgecolor="white",
+            linewidth=0.55,
+            transform=ccrs.PlateCarree(),
+            zorder=9,
+        )
+        dx = 1.2
+        dy = 0.8
+        if label in {"Seattle", "San Francisco", "Los Angeles"}:
+            dx = -10.5
+            dy = 0.5
+        if label == "Honolulu":
+            dx = 1.4
+            dy = -2.6
+        if label == "Shanghai":
+            dx = 1.3
+            dy = -2.2
+        text = ax.text(
+            lon + dx,
+            lat + dy,
+            label,
+            transform=ccrs.PlateCarree(),
+            fontsize=7.7,
+            color=COLORS["ink"],
+            weight="bold",
+            zorder=10,
+        )
+        stroke_text(text, lw=2.4)
+
+    for label, (lon, lat) in FEATURE_LABELS.items():
+        text = ax.text(
+            lon,
+            lat,
+            label,
+            transform=ccrs.PlateCarree(),
+            fontsize=8.4,
+            color="#586661",
+            style="italic",
+            weight="bold",
+            alpha=0.90,
+            zorder=8,
+        )
+        stroke_text(text, lw=2.6)
 
 
 def jan_300_wind(ds: xr.Dataset) -> xr.Dataset:
@@ -303,68 +375,170 @@ def image_monthly_animation(ds: xr.Dataset) -> None:
     clim = monthly_climatology(ds, 300)
     speed = np.hypot(clim["u"], clim["v"])
     levels = np.arange(6, 58, 4)
-    q_lon = clim["lon"].to_numpy()[::5]
-    q_lat = clim["lat"].to_numpy()[::4]
-    q_x, q_y = np.meshgrid(q_lon, q_lat)
+    p = p_wind(ds)
+    lon = clim["lon"].to_numpy()
+    lat = clim["lat"].to_numpy()
+    if lat[0] > lat[-1]:
+        lat_plot = lat[::-1]
+        lat_slice = slice(None, None, -1)
+    else:
+        lat_plot = lat
+        lat_slice = slice(None)
 
-    fig = plt.figure(figsize=(11.0, 6.6))
-    ax = fig.add_axes([0.015, 0.03, 0.97, 0.95], projection=ccrs.PlateCarree(central_longitude=180))
+    fig = plt.figure(figsize=(12.8, 7.2))
+    ax = fig.add_axes([0.0, 0.0, 1.0, 1.0], projection=ccrs.PlateCarree(central_longitude=180))
 
     def draw(month_index: int):
         ax.clear()
         add_pacific_context(ax, grid_labels=False)
+        ax.set_aspect("auto")
         month = month_index + 1
         u = clim["u"].sel(month=month)
         v = clim["v"].sel(month=month)
         spd = speed.sel(month=month)
+        u_arr = u.to_numpy()[lat_slice, :]
+        v_arr = v.to_numpy()[lat_slice, :]
+        spd_arr = spd.to_numpy()[lat_slice, :]
+        line_width = 0.50 + 1.65 * np.clip((spd_arr - 8) / 45, 0, 1)
+
+        ax.add_patch(
+            Rectangle(
+                (140, 27.5),
+                100,
+                15,
+                transform=ccrs.PlateCarree(),
+                facecolor="#f5df6d",
+                edgecolor="#b6533f",
+                linewidth=1.2,
+                alpha=0.16,
+                zorder=2,
+            )
+        )
         ax.contourf(
             clim["lon"],
             clim["lat"],
             spd,
             levels=levels,
-            cmap="YlGnBu",
+            cmap=WIND_CMAP,
             extend="max",
             transform=ccrs.PlateCarree(),
             zorder=1,
         )
-        ax.quiver(
-            q_x,
-            q_y,
-            u.to_numpy()[::4, ::5],
-            v.to_numpy()[::4, ::5],
-            transform=ccrs.PlateCarree(),
+        ax.streamplot(
+            lon,
+            lat_plot,
+            u_arr,
+            v_arr,
+            density=(1.45, 0.95),
+            linewidth=line_width,
+            arrowsize=1.25,
+            arrowstyle="->",
             color="#14384d",
-            scale=820,
-            width=0.0027,
-            alpha=0.82,
+            transform=ccrs.PlateCarree(),
+            broken_streamlines=False,
             zorder=5,
         )
-        ax.plot([140, 240], [35, 35], color=COLORS["red"], linewidth=2.1, transform=ccrs.PlateCarree(), zorder=6)
+        ax.add_patch(
+            Rectangle(
+                (140, 33.8),
+                100,
+                2.4,
+                transform=ccrs.PlateCarree(),
+                facecolor=COLORS["red"],
+                edgecolor="none",
+                alpha=0.78,
+                zorder=6,
+            )
+        )
+        corridor = ax.text(
+            170,
+            37.6,
+            "35N P-WIND corridor",
+            transform=ccrs.PlateCarree(),
+            fontsize=8.6,
+            color=COLORS["red"],
+            weight="bold",
+            zorder=7,
+        )
+        stroke_text(corridor, lw=2.8)
+        add_landmarks(ax)
         add_locations(ax)
+
+        title_box = Rectangle(
+            (0.018, 0.842),
+            0.285,
+            0.132,
+            transform=ax.transAxes,
+            facecolor=COLORS["panel"],
+            edgecolor="#d7ddd9",
+            linewidth=0.8,
+            alpha=0.88,
+            zorder=5,
+        )
+        ax.add_patch(title_box)
         month_text = ax.text(
-            0.02,
-            0.962,
+            0.035,
+            0.935,
             MONTHS[month_index],
             transform=ax.transAxes,
-            fontsize=21,
+            fontsize=21.5,
             weight="bold",
             color=COLORS["ink"],
             zorder=8,
         )
-        stroke_text(month_text, lw=3.5)
-        subtitle = ax.text(
-            0.02,
-            0.915,
-            "Monthly climatology, 1996-2006",
+        ax.text(
+            0.035,
+            0.885,
+            f"P-WIND {float(p.sel(month=month)):.1f} m/s",
             transform=ax.transAxes,
-            fontsize=10.4,
+            fontsize=11.0,
+            color=COLORS["deep_blue"],
+            weight="bold",
+            zorder=8,
+        )
+        ax.text(
+            0.035,
+            0.852,
+            "300 hPa monthly climatology, 1996-2006",
+            transform=ax.transAxes,
+            fontsize=8.5,
             color=COLORS["muted"],
             zorder=8,
         )
-        stroke_text(subtitle, lw=3.0)
+        legend_box = Rectangle(
+            (0.715, 0.035),
+            0.255,
+            0.092,
+            transform=ax.transAxes,
+            facecolor=COLORS["panel"],
+            edgecolor="#d7ddd9",
+            linewidth=0.8,
+            alpha=0.88,
+            zorder=8,
+        )
+        ax.add_patch(legend_box)
+        ax.text(
+            0.732,
+            0.095,
+            "darker color = faster winds",
+            transform=ax.transAxes,
+            fontsize=8.5,
+            color=COLORS["ink"],
+            weight="bold",
+            zorder=9,
+        )
+        ax.text(
+            0.732,
+            0.057,
+            "streamlines show flow direction",
+            transform=ax.transAxes,
+            fontsize=8.2,
+            color=COLORS["muted"],
+            zorder=9,
+        )
 
     ani = animation.FuncAnimation(fig, draw, frames=12, interval=520, repeat=True)
-    ani.save(OUT_DIR / "monthly-pacific-winds.gif", writer=animation.PillowWriter(fps=2), dpi=120)
+    ani.save(OUT_DIR / "monthly-pacific-winds.gif", writer=animation.PillowWriter(fps=2), dpi=115)
     plt.close(fig)
 
 
