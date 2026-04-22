@@ -19,7 +19,7 @@ The California housing dataset has the perfect shape for a machine-learning tuto
 
 It is small enough to load quickly, real enough to feel less toy-like than synthetic data, and familiar enough that the target makes immediate sense. Everyone understands the idea of predicting housing prices.
 
-That familiarity is also the trap.
+But the name is misleading in a way that actually matters.
 
 The dataset looks like a home-price dataset, but it is not house-by-house sales data. It is not current market data. It is not a Zillow clone waiting to happen. It is a 1990 census-era collection of area summaries, and the most useful thing it teaches is not "how to predict California home prices." It teaches how quickly a regression problem becomes a data problem.
 
@@ -72,9 +72,7 @@ That is not a natural market pattern. It is a censoring pattern. The dataset doe
 
 This matters because the target is what the model is trying to learn. If the high end is flattened, then model errors near the high end are harder to interpret. A prediction of $480,000 for a capped row might look close, but we do not actually know how high the uncapped value should have been.
 
-That does not ruin the dataset. It makes it better as a teaching example.
-
-Real datasets often have limits like this. Sometimes values are top-coded for privacy. Sometimes collection systems have maximum fields. Sometimes business logic rounds, clips, buckets, or suppresses values. If you do not check the target distribution early, you can mistake a data-collection artifact for a market pattern.
+The ceiling is exactly what makes it a good teaching example. Real datasets often have limits like this. Sometimes values are top-coded for privacy. Sometimes collection systems have maximum fields. Sometimes business logic rounds, clips, buckets, or suppresses values. If you do not check the target distribution early, you can mistake a data-collection artifact for a market pattern.
 
 ## Income is the obvious first signal
 
@@ -129,7 +127,7 @@ I ran a simple train/test check with two models:
 
 The ridge model landed around $52,663 mean absolute error and $72,073 RMSE on the test split. The gradient boosting model did better, around $30,807 MAE and $47,380 RMSE.
 
-That is a meaningful improvement, and it is not surprising. The boosted model can use nonlinear interactions: income by location, occupancy by location, age by region, and so on.
+The boosted model has room to use nonlinear interactions the ridge cannot: income by location, occupancy by location, age by region, and so on.
 
 ![Model baseline chart and actual-versus-predicted scatter plot.](/assets/img/posts/california-housing-prices/model-check.png)
 
@@ -153,38 +151,11 @@ That is why this dataset is useful and dangerous in exactly the same way. It is 
 
 ## What I would use it for
 
-I would use the California housing dataset to teach regression workflow, not to teach housing markets.
-
-It is good for:
-
-- reading a dataset description before modeling
-- checking target distributions
-- noticing capped values
-- comparing a linear baseline to a nonlinear model
-- seeing why map-like features behave differently from ordinary numbers
-- practicing train/test evaluation without waiting on a huge dataset
-
-I would not use it for:
-
-- modern California housing commentary
-- individual home-price prediction
-- real estate advice
-- fairness conclusions without much more context
-- pretending a better leaderboard score means a better understanding of housing
+I would use the California housing dataset to teach regression workflow, not to teach housing markets. It is a compact way to practice reading a dataset description, checking target distributions, catching capped values, and comparing a linear baseline to a nonlinear model that can exploit location. What I would not do is treat it as current real estate data, use it for individual home-price prediction, or draw fairness conclusions from it without a lot more context.
 
 The dataset is from 1990. California changed. Prices changed. Lending changed. Zoning fights changed. The modern housing market is not contained in these 20,640 rows.
 
-But as a teaching dataset, it still holds up because it makes the right mistakes visible.
-
-It looks clean, then reveals aggregation.
-
-It looks continuous, then reveals a ceiling.
-
-It looks tabular, then turns into a map.
-
-It looks like a model problem, then turns back into a data problem.
-
-That is a pretty good lesson for one small dataset.
+But as a teaching dataset, it still holds up because it makes the right mistakes visible: the clean table hides aggregation, the continuous target hides a ceiling, and what looks like a model problem keeps turning back into a data problem.
 
 ## Reproducibility note
 

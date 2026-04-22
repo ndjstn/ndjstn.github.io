@@ -78,7 +78,7 @@ That view scales. Two layers, twenty layers, two hundred layers—it is still th
 
 The word “neuron” does a lot of damage, honestly. It suggests biology, mystery, maybe some tiny synthetic brain cell doing something profound.
 
-What it actually does is much less dramatic.
+The underlying operation is much less dramatic.
 
 A neuron takes in numbers, weights them, adds a bias term, runs the result through an activation function, and passes the output onward.
 
@@ -242,13 +242,13 @@ Bad training runs usually stop looking mysterious once you treat them as broken 
 
 Once you frame the problem that way, debugging gets less theatrical and more mechanical. You start checking the loop instead of reaching for a new architecture name.
 
-## The checklist I actually use when a model is going sideways
+## The checklist I use when a model is going sideways
 
-When a model underperforms, I almost never start with architecture branding. I start with a plain checklist.
+When a model underperforms, I almost never start by reaching for a new architecture. I start with a plain checklist.
 
-What is the model actually being asked to predict? Which signals should matter if the task is being learned correctly? Does the model have enough capacity to fit the pattern without blowing up its generalization? Is the training signal useful, or just noisy? And is this actually a model problem, or a data problem wearing a model costume?
+What is the model being asked to predict? Which signals should matter if the task is being learned correctly? Does the model have enough capacity to fit the pattern without memorizing noise? Is the training signal useful? Is this a model problem or a data problem?
 
-That line of questioning has saved me more time than memorizing more terminology ever has.
+That line of questioning has saved me more time than memorizing more terminology.
 
 Underneath all of those questions is the same training objective:
 
@@ -270,19 +270,7 @@ Most debugging does not happen at the whiteboard. It happens when training stall
 
 ## What finally changed for me
 
-What changed for me was not learning more definitions. It was switching from parts-list thinking to job thinking.
-
-A neuron scores.
-
-Weights decide what pulls hardest.
-
-Biases move the trigger point.
-
-Activation functions give the model room to bend.
-
-Hidden layers build better representations.
-
-Backpropagation pushes accountability backward through the system so the next guess can be a little better.
+What changed was not learning more definitions. It was switching from parts-list thinking to job thinking: a neuron scores, weights decide what pulls hardest, and backprop routes the correction backward so the next guess can be a little better.
 
 If I want the whole picture in one line now, it is this:
 
@@ -290,9 +278,7 @@ $$
 \hat{y} = f_{\theta}(x) = f^{(L)} \circ f^{(L-1)} \circ \cdots \circ f^{(1)}(x)
 $$
 
-That did not remove the hard parts. It gave the hard parts somewhere to sit.
-
-The math stayed hard when it needed to be hard. The difference was that I finally had a mental model sturdy enough to hold it.
+The math stayed hard when it needed to be hard. I just finally had a mental model sturdy enough to hold it.
 
 ## References
 

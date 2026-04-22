@@ -1899,6 +1899,278 @@ def image_emergence_context() -> None:
     print("Saved: emergence-context.png")
 
 
+def figure_emergence_animation() -> None:
+    """Animated timeline: source-zone disruptions 1950-1967 + Japan's first KD case."""
+    C_IND = "#7a2a2a"
+    C_VL = "#c8a050"
+    C_GLF = "#4a7040"
+    RIVER = "#4f8fa8"
+    LAKE_F = "#c8e4ed"
+    LAKE_E = "#6b9caf"
+
+    vl_poly = np.array(
+        [
+            [58, 50.0], [63, 51.5], [69, 52.5], [76, 53.2], [82, 53.8],
+            [86, 54.0], [86, 57.5], [80, 57.2], [72, 56.5], [63, 55.2],
+            [58, 53.8], [58, 50.0],
+        ]
+    )
+    glf_poly = np.array(
+        [
+            [118, 46.0], [126, 46.5], [131, 46.2], [133, 48.0],
+            [131, 51.2], [127, 52.5], [122, 54.0], [118, 54.0], [118, 46.0],
+        ]
+    )
+    swath = np.array(
+        [
+            [76.5, 43.1], [84, 45.8], [99, 46.2], [113, 46.4], [126, 44.8],
+            [137, 40.5], [143, 37.2], [141, 34.6], [130, 37.0], [117, 38.5],
+            [104, 39.5], [92, 39.6], [81, 40.3], [76.5, 41.8],
+        ]
+    )
+    industrial_cities = [
+        ("Shenyang", 123.43, 41.80, 1.2, -1.5),
+        ("Anshan", 122.99, 41.11, -7.2, -1.0),
+        ("Fushun", 123.95, 41.86, 1.2, 1.2),
+        ("Changchun", 125.32, 43.82, 1.2, 1.2),
+        ("Harbin", 126.64, 45.76, 1.2, 1.2),
+        ("Baotou", 110.00, 40.65, -7.0, -1.0),
+    ]
+
+    def ramp(year: float, start: float, end: float, max_val: float = 1.0) -> float:
+        if year < start:
+            return 0.0
+        if year >= end:
+            return max_val
+        return max_val * (year - start) / (end - start)
+
+    base_years = np.arange(1950.0, 1967.1, 0.5)
+    year_seq = [1950.0] * 3 + list(base_years)
+    idx_1961 = next(i for i, y in enumerate(year_seq) if abs(y - 1961.0) < 0.01)
+    year_seq = year_seq[: idx_1961 + 1] + [1961.0] * 3 + year_seq[idx_1961 + 1 :]
+    year_seq = year_seq + [1967.0] * 6
+
+    fig = plt.figure(figsize=(11.5, 7.6))
+    fig.patch.set_facecolor(COLORS["bg"])
+    ax = fig.add_axes([0.030, 0.155, 0.940, 0.80], projection=ccrs.PlateCarree())
+    bar_ax = fig.add_axes([0.08, 0.055, 0.84, 0.060])
+
+    def draw(frame_i: int) -> None:
+        ax.clear()
+        bar_ax.clear()
+        year = year_seq[frame_i]
+
+        ax.set_extent([57, 145, 29, 62], crs=ccrs.PlateCarree())
+        ax.set_facecolor(COLORS["water"])
+        ax.set_aspect("auto")
+        relief = ax.stock_img()
+        relief.set_alpha(0.28)
+        relief.set_zorder(0)
+        ax.add_feature(
+            cfeature.LAND.with_scale("50m"),
+            facecolor=COLORS["land"], edgecolor="none", alpha=0.55, zorder=1,
+        )
+        ax.add_feature(
+            cfeature.COASTLINE.with_scale("50m"),
+            linewidth=0.65, color=COLORS["coast"], zorder=7,
+        )
+        ax.add_feature(
+            cfeature.BORDERS.with_scale("50m"),
+            linewidth=0.28, color="#9b9a90", alpha=0.60, zorder=7,
+        )
+        ax.add_feature(
+            cfeature.RIVERS.with_scale("50m"),
+            linewidth=0.75, color=RIVER, alpha=0.72, zorder=5,
+        )
+        ax.add_feature(
+            cfeature.LAKES.with_scale("50m"),
+            facecolor=LAKE_F, edgecolor=LAKE_E,
+            linewidth=0.50, alpha=0.85, zorder=5,
+        )
+        ax.gridlines(
+            crs=ccrs.PlateCarree(), draw_labels=False,
+            linewidth=0.35, color="#9fb0ac", alpha=0.28,
+        )
+
+        ax.add_patch(Polygon(
+            swath, closed=True, transform=ccrs.PlateCarree(),
+            facecolor="none", edgecolor=COLORS["gold"],
+            linewidth=1.6, alpha=0.55, zorder=6, linestyle=(0, (6, 4)),
+        ))
+        st = ax.text(
+            106.0, 36.8, "wind source swath",
+            transform=ccrs.PlateCarree(), fontsize=8.3,
+            color=COLORS["gold"], weight="bold", ha="center", zorder=9,
+        )
+        stroke_text(st, 2.2)
+
+        vl_a = ramp(year, 1953.0, 1956.0, 0.28)
+        if vl_a > 0.001:
+            ax.add_patch(Polygon(
+                vl_poly, closed=True, transform=ccrs.PlateCarree(),
+                facecolor=C_VL, edgecolor="#8b6914",
+                linewidth=0.9, alpha=vl_a, zorder=2, hatch="///",
+            ))
+            label_a = ramp(year, 1953.0, 1954.5, 1.0)
+            if label_a > 0.001:
+                vt = ax.text(
+                    71.5, 55.5, "Virgin Lands\n1953-65",
+                    transform=ccrs.PlateCarree(), fontsize=8.5,
+                    color="#6b4a08", weight="bold", ha="center",
+                    alpha=label_a, zorder=9,
+                )
+                stroke_text(vt, 2.2)
+
+        glf_a = ramp(year, 1957.0, 1959.0, 0.25)
+        if glf_a > 0.001:
+            ax.add_patch(Polygon(
+                glf_poly, closed=True, transform=ccrs.PlateCarree(),
+                facecolor=C_GLF, edgecolor="#2d5028",
+                linewidth=0.9, alpha=glf_a, zorder=3, hatch="\\\\\\",
+            ))
+            label_a = ramp(year, 1957.0, 1958.5, 1.0)
+            if label_a > 0.001:
+                gt = ax.text(
+                    129.0, 53.5, "GLF clearance\n1957-64",
+                    transform=ccrs.PlateCarree(), fontsize=8.5,
+                    color="#1d3d17", weight="bold", ha="center",
+                    alpha=label_a, zorder=9,
+                )
+                stroke_text(gt, 2.2)
+
+        ind_a = ramp(year, 1953.0, 1957.0, 1.0)
+        if ind_a > 0.001:
+            ax.add_patch(Ellipse(
+                (123.0, 43.2), 15.0, 9.5,
+                transform=ccrs.PlateCarree(),
+                facecolor=C_IND, edgecolor="none",
+                alpha=0.10 * ind_a, zorder=3,
+            ))
+            for name, lon, lat, dx, dy in industrial_cities:
+                ax.scatter(
+                    lon, lat, s=70, marker="s", color=C_IND,
+                    edgecolor="white", linewidth=0.7, alpha=ind_a,
+                    transform=ccrs.PlateCarree(), zorder=9,
+                )
+                t = ax.text(
+                    lon + dx, lat + dy, name,
+                    transform=ccrs.PlateCarree(),
+                    fontsize=7.5, color="#5a1a1a", weight="bold",
+                    alpha=ind_a, zorder=9,
+                )
+                stroke_text(t, 1.9)
+            label_a = ramp(year, 1953.0, 1954.5, 1.0)
+            if label_a > 0.001:
+                it = ax.text(
+                    116.5, 45.8, "156 industrial projects\n(NE China, 1953-57)",
+                    transform=ccrs.PlateCarree(), fontsize=8.5,
+                    color="#5a1a1a", weight="bold", ha="center",
+                    alpha=label_a, zorder=9,
+                )
+                stroke_text(it, 2.3)
+
+        if year >= 1961.0:
+            kd_a = ramp(year, 1961.0, 1961.25, 1.0)
+            ax.scatter(
+                139.7, 35.7, s=200, marker="*", color=COLORS["red"],
+                edgecolor="white", linewidth=1.1, alpha=kd_a,
+                transform=ccrs.PlateCarree(), zorder=10,
+            )
+            jt = ax.text(
+                141.8, 34.5, "Japan\n(1st KD case)",
+                transform=ccrs.PlateCarree(), fontsize=9.0,
+                color=COLORS["red"], weight="bold", ha="left",
+                alpha=kd_a, zorder=10,
+            )
+            stroke_text(jt, 2.6)
+            ax.annotate(
+                "",
+                xy=(139.0, 37.5), xytext=(129.5, 41.0),
+                xycoords=ccrs.PlateCarree(), textcoords=ccrs.PlateCarree(),
+                arrowprops={
+                    "arrowstyle": "-|>", "color": COLORS["blue"],
+                    "lw": 1.5, "mutation_scale": 12,
+                    "alpha": 0.55 * kd_a, "linestyle": (0, (5, 4)),
+                },
+                zorder=6,
+            )
+        else:
+            ax.scatter(
+                139.7, 35.7, s=50, marker="o", color="white",
+                edgecolor=COLORS["coast"], linewidth=0.9, alpha=0.65,
+                transform=ccrs.PlateCarree(), zorder=10,
+            )
+
+        ax.text(
+            0.965, 0.955, f"{int(year)}",
+            transform=ax.transAxes, fontsize=24, fontweight="bold",
+            color=COLORS["ink"], ha="right", va="top", zorder=15,
+            bbox={
+                "boxstyle": "round,pad=0.32",
+                "facecolor": COLORS["panel"], "edgecolor": COLORS["grid"],
+                "linewidth": 1.0, "alpha": 0.92,
+            },
+        )
+        ax.set_title(
+            "The upstream zone transforms, 1950-1967",
+            loc="left", pad=8, fontsize=13, fontweight="bold", color=COLORS["ink"],
+        )
+
+        bar_ax.set_xlim(1950, 1967)
+        bar_ax.set_ylim(0, 1)
+        bar_ax.set_yticks([])
+        for sp in ("top", "right", "left"):
+            bar_ax.spines[sp].set_visible(False)
+        bar_ax.set_facecolor(COLORS["bg"])
+
+        timeline_events = [
+            (1953, 1957, 0.75, C_IND, "156 projects"),
+            (1953, 1965, 0.45, C_VL, "Virgin Lands"),
+            (1957, 1964, 0.15, C_GLF, "GLF clearance"),
+        ]
+        for start, end, y_off, color, label in timeline_events:
+            bar_ax.barh(
+                y_off, end - start, left=start, height=0.16,
+                color=color, alpha=0.28, edgecolor=color, linewidth=0.5,
+            )
+            if year >= start:
+                active_w = min(year, end) - start
+                if active_w > 0:
+                    bar_ax.barh(
+                        y_off, active_w, left=start, height=0.16,
+                        color=color, alpha=0.85, edgecolor="none",
+                    )
+            bar_ax.text(
+                end + 0.25, y_off, label,
+                fontsize=7.2, color=color, weight="bold", va="center",
+            )
+
+        bar_ax.axvline(
+            1961, color=COLORS["red"],
+            linewidth=1.0 if year < 1961 else 1.6,
+            alpha=0.45 if year < 1961 else 1.0, linestyle="--",
+        )
+        if year >= 1961:
+            bar_ax.text(
+                1961.1, 1.08, "first KD case",
+                fontsize=7.2, color=COLORS["red"], weight="bold",
+                va="top", transform=bar_ax.get_xaxis_transform(),
+            )
+        bar_ax.axvline(year, color=COLORS["ink"], linewidth=1.6, alpha=0.70)
+        bar_ax.set_xticks(range(1950, 1968, 3))
+        bar_ax.tick_params(colors=COLORS["muted"], labelsize=7.5)
+
+    ani = animation.FuncAnimation(
+        fig, draw, frames=len(year_seq), interval=180, repeat=True,
+    )
+    ani.save(
+        OUT_DIR / "emergence-timeline.gif",
+        writer=animation.PillowWriter(fps=6), dpi=88,
+    )
+    plt.close(fig)
+    print("Saved: emergence-timeline.gif")
+
+
 def figure_incidence_specificity() -> None:
     """Horizontal bar chart: annual KD incidence by country."""
     entries = [
@@ -2614,6 +2886,7 @@ def main() -> None:
     figure_incidence_specificity()
     figure_biology_constraints()
     figure_workflow_steps()
+    figure_emergence_animation()
     print_summary(ds)
 
 
