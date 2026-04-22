@@ -36,9 +36,11 @@ The lead map is the first sanity check. The red line is not meant to be a litera
 
 That is already a narrower research path than "something in the air." It gives you places, seasons, and failure modes. If I were turning this into an actual source hunt, I would start with a broad stripe across continental Asia and then try to shrink it.
 
-![Map of a possible source-screening swath across the Taklamakan Desert, Gobi Desert, Loess Plateau, North China Plain, northeast China, Korea, Siberia, and Japan.](/assets/img/posts/kawasaki-wind-patterns/source-screening-swath.png)
+![Map of source-screening pins at Dunhuang, Dalanzadgad, Lanzhou, Hohhot, Beijing, Shenyang, Changchun, Harbin, Seoul, and Tokyo inside a broader continental Asia wind stripe.](/assets/img/posts/kawasaki-wind-patterns/source-screening-swath.png)
 
-*This is the map I wanted: not a claimed source, but a shortlist of places and source types to sample against the wind pathway.*
+*This is the map I wanted: not a claimed source, but a set of specific pins to sample or cross-check against the wind pathway.*
+
+The first pass would be Dunhuang, Dalanzadgad, Lanzhou, Hohhot, Beijing, Shenyang, Changchun, Harbin, Seoul, and Tokyo. I would not treat those as magic dots on a map. I would treat them as places to pull soils, dust, crop residue, fungi and yeasts, toxins, and fine aerosols into the same comparison frame.
 
 I would treat that stripe as a sampling plan. The desert regions matter because Asian dust-source areas can loft bacterial and fungal bioaerosols ([Maki et al., 2019](#ref-maki2019)). The North China and northeast China pieces matter because later flight sampling over Japan, designed around suspected source-region winds, found a strong fungal signal including Candida, while still stopping short of naming a causal agent ([Rodo et al., 2014](#ref-rodo2014)). The agricultural and soil regions matter because toxins, plant decay, fungi, yeasts, and dust-attached cofactors are all different enough that I would not want one generic "upstream Asia" bucket.
 

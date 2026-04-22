@@ -152,7 +152,7 @@ def add_pacific_context(ax, *, grid_labels: bool = False) -> None:
 
 
 def add_source_context(ax) -> None:
-    ax.set_extent([74, 146, 31, 59], crs=ccrs.PlateCarree())
+    ax.set_extent([82, 143, 33, 51], crs=ccrs.PlateCarree())
     ax.set_facecolor(COLORS["water"])
     ax.add_feature(cfeature.LAND.with_scale("50m"), facecolor=COLORS["land"], edgecolor="none", zorder=0)
     ax.add_feature(cfeature.COASTLINE.with_scale("50m"), linewidth=0.8, color=COLORS["coast"], zorder=4)
@@ -489,29 +489,40 @@ def add_tracer_layer(
 
 
 def image_source_screening_map() -> None:
-    fig = plt.figure(figsize=(12.5, 8.8))
+    fig = plt.figure(figsize=(13.2, 10.8))
     fig.patch.set_facecolor(COLORS["bg"])
-    ax = fig.add_axes([0.03, 0.08, 0.94, 0.82], projection=ccrs.PlateCarree())
+    ax = fig.add_axes([0.040, 0.345, 0.920, 0.540], projection=ccrs.PlateCarree())
+    list_ax = fig.add_axes([0.040, 0.060, 0.920, 0.245])
     add_source_context(ax)
     ax.set_aspect("auto")
+    list_ax.axis("off")
+    list_ax.add_patch(
+        Rectangle(
+            (0, 0),
+            1,
+            1,
+            transform=list_ax.transAxes,
+            facecolor=COLORS["panel"],
+            edgecolor=COLORS["grid"],
+            linewidth=1.0,
+            zorder=0,
+        )
+    )
 
     swath = np.array(
         [
-            [73, 43.5],
-            [82, 47.0],
-            [92, 49.0],
-            [103, 49.0],
-            [116, 46.5],
-            [129, 43.0],
-            [140, 39.0],
-            [145, 36.5],
-            [144, 33.5],
-            [138, 34.0],
-            [124, 36.5],
-            [110, 38.5],
-            [96, 39.0],
-            [83, 39.0],
-            [73, 40.5],
+            [88, 43.6],
+            [99, 46.2],
+            [113, 46.4],
+            [126, 44.8],
+            [137, 40.5],
+            [143, 37.2],
+            [141, 34.6],
+            [130, 37.0],
+            [117, 38.5],
+            [104, 39.5],
+            [92, 39.6],
+            [88, 41.0],
         ]
     )
     ax.add_patch(
@@ -529,16 +540,16 @@ def image_source_screening_map() -> None:
 
     core = np.array(
         [
-            [86, 44.0],
-            [102, 44.5],
-            [119, 42.5],
-            [136, 38.5],
-            [144, 35.2],
-            [143, 34.0],
-            [132, 36.0],
-            [116, 39.0],
-            [100, 41.0],
-            [86, 41.5],
+            [94, 42.2],
+            [106, 42.4],
+            [119, 41.2],
+            [132, 38.7],
+            [141.5, 36.0],
+            [140.5, 34.8],
+            [130, 36.6],
+            [117, 38.4],
+            [104, 40.0],
+            [94, 40.0],
         ]
     )
     ax.add_patch(
@@ -553,42 +564,53 @@ def image_source_screening_map() -> None:
         )
     )
 
-    regions = [
-        ("1", "Taklamakan\nDesert", 82.5, 39.8, "#d1a640", "dust +\nbioaerosols"),
-        ("2", "Gobi\nDesert", 104.0, 43.4, "#d1a640", "dust +\nsoil microbes"),
-        ("3", "Loess\nPlateau", 108.5, 36.7, "#b9844a", "soil +\nmineral dust"),
-        ("4", "North China\nPlain", 116.5, 36.4, "#6f9b59", "crop soils,\nplant decay"),
-        ("5", "Northeast\nChina", 124.2, 44.8, "#6f9b59", "agriculture,\nwet soils"),
-        ("6", "Korean\nPeninsula", 127.8, 38.2, "#5f8ca8", "downwind\nfilter point"),
-        ("7", "Siberia /\nAmur", 127.0, 54.0, "#6f9b59", "northern\nbranch"),
+    sites = [
+        ("1", "Dunhuang", "Taklamakan edge", 94.66, 40.14, -7.0, 1.6, COLORS["gold"]),
+        ("2", "Dalanzadgad", "Gobi Desert", 104.43, 43.57, -7.6, 2.4, COLORS["gold"]),
+        ("3", "Lanzhou", "Loess Plateau", 103.84, 36.06, -6.8, -2.1, COLORS["gold"]),
+        ("4", "Hohhot", "steppe edge", 111.75, 40.84, -5.5, -2.4, COLORS["gold"]),
+        ("5", "Beijing", "North China Plain", 116.40, 39.90, 1.2, 2.7, COLORS["green"]),
+        ("6", "Shenyang", "NE China", 123.43, 41.80, 1.2, 2.5, COLORS["green"]),
+        ("7", "Changchun", "crop soils", 125.32, 43.82, 1.2, 2.3, COLORS["green"]),
+        ("8", "Harbin", "northern branch", 126.64, 45.76, 1.1, 2.1, COLORS["green"]),
+        ("9", "Seoul", "downwind filter", 126.98, 37.57, 1.4, -2.4, COLORS["blue"]),
+        ("10", "Tokyo", "receptor check", 139.69, 35.69, -7.2, -2.0, COLORS["red"]),
     ]
-    for num, label, lon, lat, color, note in regions:
-        ax.add_patch(
-            Ellipse(
-                (lon, lat),
-                9.4,
-                4.6,
-                transform=ccrs.PlateCarree(),
-                facecolor=color,
-                edgecolor=color,
-                linewidth=1.2,
-                alpha=0.22,
-                zorder=5,
-            )
+    for num, city, note, lon, lat, dx, dy, color in sites:
+        ax.scatter(lon, lat, s=132, marker="o", color=color, edgecolor="white", linewidth=1.25, transform=ccrs.PlateCarree(), zorder=9)
+        num_text = ax.text(lon, lat, num, fontsize=9.4, weight="bold", color="white", ha="center", va="center", transform=ccrs.PlateCarree(), zorder=10)
+        stroke_text(num_text, lw=1.1)
+        label = ax.annotate(
+            city,
+            xy=(lon, lat),
+            xytext=(lon + dx, lat + dy),
+            xycoords=ccrs.PlateCarree(),
+            textcoords=ccrs.PlateCarree(),
+            fontsize=12.2,
+            color=COLORS["ink"],
+            weight="bold",
+            arrowprops={"arrowstyle": "-", "color": color, "lw": 1.1, "alpha": 0.85},
+            zorder=11,
         )
-        ax.scatter(lon, lat, s=82, color=color, edgecolor="white", linewidth=1.0, transform=ccrs.PlateCarree(), zorder=7)
-        num_text = ax.text(lon, lat, num, fontsize=10.2, weight="bold", color="white", ha="center", va="center", transform=ccrs.PlateCarree(), zorder=8)
-        stroke_text(num_text, lw=1.4)
-        label_text = ax.text(lon + 1.2, lat + 1.9, label, fontsize=10.2, weight="bold", color=COLORS["ink"], transform=ccrs.PlateCarree(), zorder=8)
-        note_text = ax.text(lon + 1.2, lat - 2.1, note, fontsize=8.8, color=COLORS["muted"], transform=ccrs.PlateCarree(), zorder=8)
-        stroke_text(label_text, lw=2.4)
-        stroke_text(note_text, lw=2.2)
+        stroke_text(label, lw=2.6)
+
+    ax.text(
+        0.035,
+        0.045,
+        "Broad winter pathway to test; pins are concrete places, not claimed sources.",
+        transform=ax.transAxes,
+        fontsize=11.6,
+        color=COLORS["ink"],
+        weight="bold",
+        zorder=12,
+        bbox={"boxstyle": "square,pad=0.42", "facecolor": COLORS["panel"], "edgecolor": COLORS["grid"], "alpha": 0.92},
+    )
 
     for start, end in [
-        ((86, 41.5), (104, 41.8)),
-        ((106, 41.8), (119, 40.0)),
-        ((121, 40.0), (133, 38.0)),
-        ((134, 38.0), (140.6, 36.0)),
+        ((94.7, 40.2), (104.4, 43.6)),
+        ((104.4, 43.6), (116.4, 39.9)),
+        ((116.4, 39.9), (126.0, 41.5)),
+        ((126.0, 41.5), (139.7, 35.7)),
     ]:
         ax.annotate(
             "",
@@ -601,8 +623,8 @@ def image_source_screening_map() -> None:
         )
     ax.annotate(
         "",
-        xy=(142.0, 38.0),
-        xytext=(127.0, 54.0),
+        xy=(139.7, 35.7),
+        xytext=(126.64, 45.76),
         xycoords=ccrs.PlateCarree(),
         textcoords=ccrs.PlateCarree(),
         arrowprops={
@@ -616,24 +638,33 @@ def image_source_screening_map() -> None:
         zorder=8,
     )
 
-    for label, lon, lat, dx, dy in [
-        ("Japan", 139.7, 35.7, 1.2, -2.0),
-        ("Sea of Japan", 136.0, 40.5, -10.0, 1.2),
-        ("Beijing", 116.4, 39.9, 0.9, 1.1),
-        ("Seoul", 127.0, 37.6, 1.0, -1.8),
-        ("Tokyo", 139.7, 35.7, 1.2, 1.2),
-    ]:
-        ax.scatter(lon, lat, s=30 if label not in {"Japan", "Sea of Japan"} else 0.01, color=COLORS["red"], edgecolor="white", linewidth=0.8, transform=ccrs.PlateCarree(), zorder=9)
-        text = ax.text(lon + dx, lat + dy, label, fontsize=9.8 if label != "Japan" else 13.2, weight="bold", color=COLORS["ink"], transform=ccrs.PlateCarree(), zorder=10)
-        stroke_text(text, lw=2.8)
-
-    ax.text(0.025, 1.045, "Source-screening swath", transform=ax.transAxes, fontsize=21.5, weight="bold", color=COLORS["ink"])
-    ax.text(
+    list_ax.text(0.025, 0.835, "Look here first", transform=list_ax.transAxes, fontsize=19.5, weight="bold", color=COLORS["ink"], zorder=2)
+    row_y = [0.825, 0.645, 0.465, 0.285, 0.105]
+    for i, (num, city, _note, _lon, _lat, _dx, _dy, color) in enumerate(sites):
+        col_x = 0.350 if i < 5 else 0.665
+        y = row_y[i % 5]
+        list_ax.scatter(col_x, y, s=142, color=color, edgecolor="white", linewidth=1.1, transform=list_ax.transAxes, zorder=3)
+        list_ax.text(col_x, y, num, transform=list_ax.transAxes, fontsize=9.0, color="white", weight="bold", ha="center", va="center", zorder=4)
+        list_ax.text(col_x + 0.035, y, city, transform=list_ax.transAxes, fontsize=15.2, color=COLORS["ink"], weight="bold", ha="left", va="center", zorder=2)
+    list_ax.text(
         0.025,
-        1.003,
-        "Places I would sample or cross-check for dust, soil microbes, fungi/yeasts, toxins, and aerosol cofactors. This is not an origin claim.",
-        transform=ax.transAxes,
+        0.430,
+        "Sample:\ndust, soils, crop residue,\nfungi/yeasts, toxins,\nfine aerosols.",
+        transform=list_ax.transAxes,
         fontsize=10.6,
+        color=COLORS["ink"],
+        weight="bold",
+        linespacing=1.25,
+        wrap=True,
+        zorder=2,
+    )
+
+    fig.text(0.040, 0.965, "Where I would look first", fontsize=24, weight="bold", color=COLORS["ink"])
+    fig.text(
+        0.040,
+        0.928,
+        "A source-screening map, not an origin claim: use the wind pathway to choose real places for sampling.",
+        fontsize=12.3,
         color=COLORS["muted"],
     )
     fig.savefig(OUT_DIR / "source-screening-swath.png", dpi=180, bbox_inches="tight", pad_inches=0.12)
