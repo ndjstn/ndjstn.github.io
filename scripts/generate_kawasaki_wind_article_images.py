@@ -152,11 +152,14 @@ def add_pacific_context(ax, *, grid_labels: bool = False) -> None:
 
 
 def add_source_context(ax) -> None:
-    ax.set_extent([82, 143, 33, 51], crs=ccrs.PlateCarree())
+    ax.set_extent([74, 143, 33, 55], crs=ccrs.PlateCarree())
     ax.set_facecolor(COLORS["water"])
-    ax.add_feature(cfeature.LAND.with_scale("50m"), facecolor=COLORS["land"], edgecolor="none", zorder=0)
-    ax.add_feature(cfeature.COASTLINE.with_scale("50m"), linewidth=0.8, color=COLORS["coast"], zorder=4)
-    ax.add_feature(cfeature.BORDERS.with_scale("50m"), linewidth=0.45, color="#9b9a90", alpha=0.75, zorder=4)
+    relief = ax.stock_img()
+    relief.set_alpha(0.46)
+    relief.set_zorder(0)
+    ax.add_feature(cfeature.LAND.with_scale("50m"), facecolor=COLORS["land"], edgecolor="none", alpha=0.56, zorder=1)
+    ax.add_feature(cfeature.COASTLINE.with_scale("50m"), linewidth=0.75, color=COLORS["coast"], zorder=6)
+    ax.add_feature(cfeature.BORDERS.with_scale("50m"), linewidth=0.42, color="#8f9188", alpha=0.75, zorder=6)
     gl = ax.gridlines(
         crs=ccrs.PlateCarree(),
         draw_labels=True,
@@ -511,7 +514,8 @@ def image_source_screening_map() -> None:
 
     swath = np.array(
         [
-            [88, 43.6],
+            [76.5, 43.1],
+            [84, 45.8],
             [99, 46.2],
             [113, 46.4],
             [126, 44.8],
@@ -522,7 +526,8 @@ def image_source_screening_map() -> None:
             [117, 38.5],
             [104, 39.5],
             [92, 39.6],
-            [88, 41.0],
+            [81, 40.3],
+            [76.5, 41.8],
         ]
     )
     ax.add_patch(
@@ -563,6 +568,123 @@ def image_source_screening_map() -> None:
             zorder=3,
         )
     )
+
+    river_color = "#4f8fa8"
+    lake_fill = "#c8e4ed"
+    lake_edge = "#6b9caf"
+    waterways = [
+        [(75.2, 43.1), (76.9, 43.3), (79.5, 44.4), (78.1, 45.3), (76.2, 46.1)],  # Ili / Balkhash
+        [(103.8, 36.1), (106.6, 37.3), (109.6, 38.2), (111.3, 40.4), (114.4, 40.2)],  # Yellow River
+        [(121.1, 44.0), (123.6, 44.8), (126.6, 45.8), (129.6, 46.2)],  # Songhua
+        [(114.2, 53.3), (119.0, 52.4), (124.0, 51.1), (128.3, 50.0), (133.8, 48.7)],  # Amur
+        [(121.1, 42.8), (123.4, 41.8), (122.5, 40.7)],  # Liao
+        [(103.6, 49.2), (105.8, 50.3), (107.5, 51.7)],  # Selenga / Baikal
+    ]
+    for coords in waterways:
+        lon, lat = np.array(coords).T
+        ax.plot(lon, lat, color=river_color, linewidth=1.15, alpha=0.80, transform=ccrs.PlateCarree(), zorder=6)
+
+    lakes = [
+        (76.9, 46.3, 5.5, 0.8, -8),
+        (108.2, 53.3, 1.5, 4.8, -18),
+        (117.4, 49.0, 2.1, 1.2, -6),
+        (132.5, 45.0, 1.5, 1.0, 14),
+    ]
+    for lon, lat, width, height, angle in lakes:
+        ax.add_patch(
+            Ellipse(
+                (lon, lat),
+                width,
+                height,
+                angle=angle,
+                transform=ccrs.PlateCarree(),
+                facecolor=lake_fill,
+                edgecolor=lake_edge,
+                linewidth=0.8,
+                alpha=0.86,
+                zorder=6,
+            )
+        )
+
+    waterway_labels = [
+        ("Lake Balkhash", 76.9, 46.9),
+        ("Lake Baikal", 108.4, 53.6),
+        ("Yellow River", 109.0, 38.1),
+        ("Songhua River", 126.3, 45.1),
+        ("Amur River", 128.4, 50.8),
+    ]
+    for label, lon, lat in waterway_labels:
+        text = ax.text(
+            lon,
+            lat,
+            label,
+            transform=ccrs.PlateCarree(),
+            fontsize=9.5,
+            color="#346f89",
+            style="italic",
+            ha="center",
+            va="center",
+            zorder=7,
+        )
+        stroke_text(text, lw=2.3)
+
+    terrain_labels = [
+        ("Tian Shan", 78.2, 41.8),
+        ("Altai", 88.5, 48.4),
+        ("Gobi", 103.0, 43.1),
+        ("Loess Plateau", 106.5, 36.4),
+    ]
+    for label, lon, lat in terrain_labels:
+        text = ax.text(
+            lon,
+            lat,
+            label,
+            transform=ccrs.PlateCarree(),
+            fontsize=9.8,
+            color="#7b6842",
+            weight="bold",
+            alpha=0.82,
+            ha="center",
+            va="center",
+            zorder=7,
+        )
+        stroke_text(text, lw=2.4)
+
+    context_cities = [
+        ("Almaty", 76.89, 43.24, 1.1, -1.1),
+        ("Oskemen", 82.61, 49.95, 1.0, 0.6),
+        ("Irkutsk", 104.30, 52.29, 1.0, 0.7),
+        ("Ulaanbaatar", 106.91, 47.92, 1.0, 0.7),
+        ("Sainshand", 110.14, 44.89, 1.0, -1.0),
+        ("Chita", 113.50, 52.03, 1.0, 0.6),
+        ("Choibalsan", 114.54, 48.08, 1.1, 0.5),
+        ("Blagoveshchensk", 127.53, 50.27, -9.6, 0.7),
+        ("Khabarovsk", 135.08, 48.48, -8.0, -0.9),
+        ("Vladivostok", 131.89, 43.12, -8.1, -1.1),
+    ]
+    for city, lon, lat, dx, dy in context_cities:
+        ax.scatter(
+            lon,
+            lat,
+            s=30,
+            marker="s",
+            color="#59645f",
+            edgecolor="white",
+            linewidth=0.7,
+            transform=ccrs.PlateCarree(),
+            zorder=8,
+        )
+        text = ax.text(
+            lon + dx,
+            lat + dy,
+            city,
+            transform=ccrs.PlateCarree(),
+            fontsize=8.8,
+            color="#424b47",
+            weight="bold",
+            zorder=8,
+        )
+        stroke_text(text, lw=2.2)
 
     sites = [
         ("1", "Dunhuang", "Taklamakan edge", 94.66, 40.14, -7.0, 1.6, COLORS["gold"]),
@@ -638,7 +760,7 @@ def image_source_screening_map() -> None:
         zorder=8,
     )
 
-    list_ax.text(0.025, 0.835, "Look here first", transform=list_ax.transAxes, fontsize=19.5, weight="bold", color=COLORS["ink"], zorder=2)
+    list_ax.text(0.025, 0.890, "Look here first", transform=list_ax.transAxes, fontsize=19.5, weight="bold", color=COLORS["ink"], va="top", zorder=2)
     row_y = [0.825, 0.645, 0.465, 0.285, 0.105]
     for i, (num, city, _note, _lon, _lat, _dx, _dy, color) in enumerate(sites):
         col_x = 0.350 if i < 5 else 0.665
@@ -648,13 +770,14 @@ def image_source_screening_map() -> None:
         list_ax.text(col_x + 0.035, y, city, transform=list_ax.transAxes, fontsize=15.2, color=COLORS["ink"], weight="bold", ha="left", va="center", zorder=2)
     list_ax.text(
         0.025,
-        0.430,
-        "Sample:\ndust, soils, crop residue,\nfungi/yeasts, toxins,\nfine aerosols.",
+        0.650,
+        "Layers:\n1-10 = source pins\ngray = cities\nblue = water\nrelief = terrain",
         transform=list_ax.transAxes,
         fontsize=10.6,
         color=COLORS["ink"],
         weight="bold",
-        linespacing=1.25,
+        linespacing=1.18,
+        va="top",
         wrap=True,
         zorder=2,
     )
@@ -663,7 +786,7 @@ def image_source_screening_map() -> None:
     fig.text(
         0.040,
         0.928,
-        "A source-screening map, not an origin claim: use the wind pathway to choose real places for sampling.",
+        "A source-screening map, not an origin claim: terrain, rivers, lakes, and cities help decide where to sample.",
         fontsize=12.3,
         color=COLORS["muted"],
     )
