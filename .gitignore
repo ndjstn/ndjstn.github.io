@@ -27,3 +27,7 @@ _sass/dist
 assets/js/dist
 __pycache__/
 *.py[cod]
+
+# Tool artifacts (repomix bundle output, codex marker)
+.ai/
+.codex

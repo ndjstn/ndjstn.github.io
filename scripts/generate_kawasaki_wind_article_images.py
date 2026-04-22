@@ -1899,6 +1899,140 @@ def image_emergence_context() -> None:
     print("Saved: emergence-context.png")
 
 
+def figure_chemistry_transit() -> None:
+    """Schematic: source-region material transforms chemically during five-day transit."""
+    fig, ax = plt.subplots(figsize=(13.2, 6.4))
+    fig.patch.set_facecolor(COLORS["bg"])
+    ax.set_facecolor(COLORS["panel"])
+    ax.set_xlim(0, 1)
+    ax.set_ylim(0, 1)
+    ax.axis("off")
+    fig.subplots_adjust(left=0.03, right=0.97, top=0.92, bottom=0.06)
+
+    ax.text(
+        0.02, 0.955, "The atmosphere is not a passive conveyor belt",
+        fontsize=16.5, fontweight="bold", color=COLORS["ink"], va="top",
+    )
+    ax.text(
+        0.02, 0.905,
+        "Five days at altitude with UV, ozone, and reactive trace gases — the material at the receptor is not the material at the source.",
+        fontsize=10.2, color=COLORS["muted"], va="top",
+    )
+
+    box_h = 0.46
+    box_y = 0.24
+    box_w = 0.26
+    panels = [
+        {
+            "x": 0.04,
+            "title": "AT THE SOURCE",
+            "subtitle": "NE China / Mongolia, January",
+            "color": COLORS["gold"],
+            "items": [
+                "Mineral dust from Gobi edge",
+                "Crop-residue fragments",
+                "Fungal spores + bacterial cells",
+                "Soil organochlorine residues",
+                "Industrial SO₂, NO₂",
+                "Ammonia from livestock soils",
+            ],
+        },
+        {
+            "x": 0.38,
+            "title": "DURING TRANSIT",
+            "subtitle": "850 hPa, 5 days, UV + O₃",
+            "color": COLORS["blue"],
+            "items": [
+                "SO₂ + NH₃ → ammonium sulfate",
+                "Organic VOCs → secondary organics",
+                "Organochlorines photolyze + oxidize",
+                "Spores adsorb onto dust surfaces",
+                "Protein coatings fragment / recombine",
+                "pH, water content shift continuously",
+            ],
+        },
+        {
+            "x": 0.72,
+            "title": "AT THE RECEPTOR",
+            "subtitle": "Japan / Hawaii / California airway",
+            "color": COLORS["red"],
+            "items": [
+                "Aged sulfate + organic aerosol",
+                "Modified spore surface chemistry",
+                "New compounds absent at source",
+                "Dust-bound protein complexes",
+                "Reaction products, not ingredients",
+                "Size-sorted by deposition en route",
+            ],
+        },
+    ]
+
+    for p in panels:
+        ax.add_patch(Rectangle(
+            (p["x"], box_y), box_w, box_h,
+            facecolor="white", edgecolor=p["color"], linewidth=1.6, zorder=2,
+        ))
+        ax.add_patch(Rectangle(
+            (p["x"], box_y + box_h - 0.085), box_w, 0.085,
+            facecolor=p["color"], edgecolor="none", alpha=0.15, zorder=3,
+        ))
+        ax.text(
+            p["x"] + 0.014, box_y + box_h - 0.028, p["title"],
+            fontsize=10.5, fontweight="bold", color=p["color"], va="center", zorder=4,
+        )
+        ax.text(
+            p["x"] + 0.014, box_y + box_h - 0.058, p["subtitle"],
+            fontsize=8.5, color=COLORS["muted"], va="center", zorder=4,
+        )
+        for j, item in enumerate(p["items"]):
+            y = box_y + box_h - 0.115 - j * 0.050
+            ax.scatter(
+                p["x"] + 0.022, y, s=18, color=p["color"],
+                edgecolor="none", zorder=4,
+            )
+            ax.text(
+                p["x"] + 0.038, y, item,
+                fontsize=9.0, color=COLORS["ink"], va="center", zorder=4,
+            )
+
+    for cx in [0.305, 0.645]:
+        ax.annotate(
+            "",
+            xy=(cx + 0.065, box_y + box_h / 2),
+            xytext=(cx, box_y + box_h / 2),
+            arrowprops={
+                "arrowstyle": "-|>",
+                "color": COLORS["deep_blue"],
+                "lw": 2.4,
+                "mutation_scale": 22,
+            },
+        )
+    ax.text(
+        0.337, box_y + box_h / 2 + 0.055, "5 days",
+        fontsize=8.6, color=COLORS["deep_blue"], fontweight="bold",
+        ha="center", style="italic",
+    )
+    ax.text(
+        0.677, box_y + box_h / 2 + 0.055, "deposition",
+        fontsize=8.6, color=COLORS["deep_blue"], fontweight="bold",
+        ha="center", style="italic",
+    )
+
+    ax.text(
+        0.5, 0.15,
+        "Sampling design consequence",
+        fontsize=10.5, fontweight="bold", color=COLORS["ink"],
+        ha="center", va="top",
+    )
+    ax.text(
+        0.5, 0.115,
+        "Source-region grab samples do not contain the transit reaction products. Flight sampling over the receptor (Rodo 2014) captures what is actually present.",
+        fontsize=9.3, color=COLORS["muted"], ha="center", va="top",
+    )
+
+    save(fig, "chemistry-transit.png")
+
+
 def figure_emergence_animation() -> None:
     """Animated timeline: source-zone disruptions 1950-1967 + Japan's first KD case."""
     C_IND = "#7a2a2a"
@@ -2886,6 +3020,7 @@ def main() -> None:
     figure_incidence_specificity()
     figure_biology_constraints()
     figure_workflow_steps()
+    figure_chemistry_transit()
     figure_emergence_animation()
     print_summary(ds)
 
