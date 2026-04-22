@@ -67,7 +67,16 @@ def ensure_data() -> None:
         return
 
     subprocess.run(
-        ["curl", "-L", "--fail", "--silent", "--show-error", FIGSHARE_URL, "-o", str(ARCHIVE)],
+        [
+            "curl",
+            "-L",
+            "--fail",
+            "--silent",
+            "--show-error",
+            FIGSHARE_URL,
+            "-o",
+            str(ARCHIVE),
+        ],
         check=True,
     )
 
@@ -88,7 +97,9 @@ def load_data() -> pd.DataFrame:
     with tarfile.open(ARCHIVE, "r:gz") as archive:
         member = archive.extractfile("CaliforniaHousing/cal_housing.data")
         if member is None:
-            raise FileNotFoundError("CaliforniaHousing/cal_housing.data not found in archive")
+            raise FileNotFoundError(
+                "CaliforniaHousing/cal_housing.data not found in archive"
+            )
         data = member.read()
 
     df = pd.read_csv(io.BytesIO(data), header=None, names=columns)
@@ -156,7 +167,13 @@ def image_hero(df: pd.DataFrame) -> None:
         alpha=0.82,
         linewidths=0,
     )
-    ax.set_title("1990 median house value by census block group", loc="left", pad=12, fontsize=16, fontweight="bold")
+    ax.set_title(
+        "1990 median house value by census block group",
+        loc="left",
+        pad=12,
+        fontsize=16,
+        fontweight="bold",
+    )
     cbar = fig.colorbar(sc, ax=ax, fraction=0.044, pad=0.022)
     cbar.outline.set_visible(False)
     cbar.ax.yaxis.set_major_formatter(money_tick)
@@ -165,22 +182,44 @@ def image_hero(df: pd.DataFrame) -> None:
 
     ax_stats = fig.add_axes([0.72, 0.16, 0.22, 0.68])
     bins = np.arange(0, 525_001, 25_000)
-    ax_stats.hist(df["MedHouseValUSD"], bins=bins, orientation="horizontal", color=COLORS["blue"], alpha=0.84)
+    ax_stats.hist(
+        df["MedHouseValUSD"],
+        bins=bins,
+        orientation="horizontal",
+        color=COLORS["blue"],
+        alpha=0.84,
+    )
     cap = df["MedHouseValUSD"].max()
     ax_stats.axhline(cap, color=COLORS["red"], linewidth=2.0)
     ax_stats.set_ylim(0, 525_000)
     ax_stats.set_xlabel("block groups")
     ax_stats.set_ylabel("median value")
     ax_stats.yaxis.set_major_formatter(money_tick)
-    ax_stats.set_title("Target distribution", loc="left", pad=12, fontsize=14, fontweight="bold")
+    ax_stats.set_title(
+        "Target distribution", loc="left", pad=12, fontsize=14, fontweight="bold"
+    )
     ax_stats.grid(axis="x", alpha=0.5)
     ax_stats.grid(axis="y", visible=False)
     for spine in ("top", "right"):
         ax_stats.spines[spine].set_visible(False)
 
-    fig.text(0.72, 0.88, "20,640 rows", fontsize=18, fontweight="bold", color=COLORS["ink"])
-    fig.text(0.72, 0.84, "Each row is a census block group, not a sale.", fontsize=10.5, color=COLORS["muted"])
-    fig.text(0.72, 0.07, "Source: StatLib / scikit-learn California housing dataset", fontsize=9.5, color=COLORS["muted"])
+    fig.text(
+        0.72, 0.88, "20,640 rows", fontsize=18, fontweight="bold", color=COLORS["ink"]
+    )
+    fig.text(
+        0.72,
+        0.84,
+        "Each row is a census block group, not a sale.",
+        fontsize=10.5,
+        color=COLORS["muted"],
+    )
+    fig.text(
+        0.72,
+        0.07,
+        "Source: StatLib / scikit-learn California housing dataset",
+        fontsize=9.5,
+        color=COLORS["muted"],
+    )
     fig.savefig(OUT_DIR / "hero.png", dpi=180)
     plt.close(fig)
 
@@ -188,7 +227,13 @@ def image_hero(df: pd.DataFrame) -> None:
 def image_value_distribution(df: pd.DataFrame) -> None:
     fig, ax = plt.subplots(figsize=(12, 6.4))
     bins = np.arange(0, 525_001, 20_000)
-    ax.hist(df["MedHouseValUSD"], bins=bins, color=COLORS["blue"], alpha=0.86, edgecolor="white")
+    ax.hist(
+        df["MedHouseValUSD"],
+        bins=bins,
+        color=COLORS["blue"],
+        alpha=0.86,
+        edgecolor="white",
+    )
     cap = df["MedHouseValUSD"].max()
     capped = int(df["IsCapped"].sum())
     pct = df["IsCapped"].mean() * 100
@@ -236,7 +281,9 @@ def image_income_vs_value(df: pd.DataFrame) -> None:
     ax.axhline(cap, color=COLORS["red"], linewidth=1.8, linestyle="--")
     ax.text(0.3, cap - 22_000, "capped target", color=COLORS["red"], fontsize=10.5)
     corr = df[["MedInc", "MedHouseValUSD"]].corr().iloc[0, 1]
-    ax.set_title("Median income explains the first pass", loc="left", pad=14, fontweight="bold")
+    ax.set_title(
+        "Median income explains the first pass", loc="left", pad=14, fontweight="bold"
+    )
     ax.text(
         0,
         1.01,
@@ -253,7 +300,9 @@ def image_income_vs_value(df: pd.DataFrame) -> None:
 
 
 def image_location_price_map(df: pd.DataFrame) -> None:
-    fig, axes = plt.subplots(1, 2, figsize=(14.2, 7.3), gridspec_kw={"width_ratios": [1.05, 1]})
+    fig, axes = plt.subplots(
+        1, 2, figsize=(14.2, 7.3), gridspec_kw={"width_ratios": [1.05, 1]}
+    )
     ax_map, ax_rank = axes
 
     sc = ax_map.scatter(
@@ -266,7 +315,9 @@ def image_location_price_map(df: pd.DataFrame) -> None:
         linewidths=0,
     )
     format_map(ax_map)
-    ax_map.set_title("Location is not a side variable", loc="left", pad=14, fontweight="bold")
+    ax_map.set_title(
+        "Location is not a side variable", loc="left", pad=14, fontweight="bold"
+    )
     ax_map.text(
         0,
         1.01,
@@ -279,7 +330,16 @@ def image_location_price_map(df: pd.DataFrame) -> None:
     cbar.outline.set_visible(False)
     cbar.ax.yaxis.set_major_formatter(money_tick)
 
-    features = ["MedInc", "Latitude", "AveRooms", "HouseAge", "AveOccup", "Population", "Longitude", "AveBedrms"]
+    features = [
+        "MedInc",
+        "Latitude",
+        "AveRooms",
+        "HouseAge",
+        "AveOccup",
+        "Population",
+        "Longitude",
+        "AveBedrms",
+    ]
     labels = [
         "median income",
         "latitude",
@@ -290,7 +350,11 @@ def image_location_price_map(df: pd.DataFrame) -> None:
         "longitude",
         "avg. bedrooms",
     ]
-    corr = df[features + ["MedHouseValUSD"]].corr(numeric_only=True)["MedHouseValUSD"].drop("MedHouseValUSD")
+    corr = (
+        df[[*features, "MedHouseValUSD"]]
+        .corr(numeric_only=True)["MedHouseValUSD"]
+        .drop("MedHouseValUSD")
+    )
     corr = corr.reindex(features)
     y = np.arange(len(features))
     colors = [COLORS["green"] if value > 0 else COLORS["terracotta"] for value in corr]
@@ -300,7 +364,9 @@ def image_location_price_map(df: pd.DataFrame) -> None:
     ax_rank.invert_yaxis()
     ax_rank.set_xlim(-0.22, 0.76)
     ax_rank.set_xlabel("correlation with median house value")
-    ax_rank.set_title("A simple correlation read", loc="left", pad=14, fontweight="bold")
+    ax_rank.set_title(
+        "A simple correlation read", loc="left", pad=14, fontweight="bold"
+    )
     for i, value in enumerate(corr):
         ax_rank.text(
             value + (0.018 if value >= 0 else -0.018),
@@ -317,10 +383,21 @@ def image_location_price_map(df: pd.DataFrame) -> None:
 
 
 def image_model_check(df: pd.DataFrame) -> dict[str, dict[str, float]]:
-    features = ["MedInc", "HouseAge", "AveRooms", "AveBedrms", "Population", "AveOccup", "Latitude", "Longitude"]
+    features = [
+        "MedInc",
+        "HouseAge",
+        "AveRooms",
+        "AveBedrms",
+        "Population",
+        "AveOccup",
+        "Latitude",
+        "Longitude",
+    ]
     X = df[features]
     y = df["MedHouseValUSD"]
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=17)
+    X_train, X_test, y_train, y_test = train_test_split(
+        X, y, test_size=0.2, random_state=17
+    )
 
     models = {
         "Ridge": make_pipeline(StandardScaler(), Ridge(alpha=1.0)),
@@ -343,7 +420,9 @@ def image_model_check(df: pd.DataFrame) -> dict[str, dict[str, float]]:
             "r2": r2_score(y_test, pred),
         }
 
-    fig, axes = plt.subplots(1, 2, figsize=(14.4, 6.4), gridspec_kw={"width_ratios": [0.82, 1.18]})
+    fig, axes = plt.subplots(
+        1, 2, figsize=(14.4, 6.4), gridspec_kw={"width_ratios": [0.82, 1.18]}
+    )
     ax_bar, ax_scatter = axes
 
     names = list(results)
@@ -372,7 +451,14 @@ def image_model_check(df: pd.DataFrame) -> dict[str, dict[str, float]]:
 
     pred = predictions["Gradient boosting"]
     sample = np.random.default_rng(17).choice(len(y_test), size=1_700, replace=False)
-    ax_scatter.scatter(y_test.to_numpy()[sample], pred[sample], s=11, color=COLORS["blue"], alpha=0.42, linewidths=0)
+    ax_scatter.scatter(
+        y_test.to_numpy()[sample],
+        pred[sample],
+        s=11,
+        color=COLORS["blue"],
+        alpha=0.42,
+        linewidths=0,
+    )
     lims = [0, 525_000]
     ax_scatter.plot(lims, lims, color=COLORS["red"], linewidth=1.5)
     ax_scatter.set_xlim(lims)
@@ -381,7 +467,9 @@ def image_model_check(df: pd.DataFrame) -> dict[str, dict[str, float]]:
     ax_scatter.set_ylabel("predicted median house value")
     ax_scatter.xaxis.set_major_formatter(money_tick)
     ax_scatter.yaxis.set_major_formatter(money_tick)
-    ax_scatter.set_title("Predictions still miss the edges", loc="left", pad=14, fontweight="bold")
+    ax_scatter.set_title(
+        "Predictions still miss the edges", loc="left", pad=14, fontweight="bold"
+    )
     add_note(
         ax_scatter,
         "The cap makes expensive areas\nhard to read as a real tail.",
@@ -394,7 +482,9 @@ def image_model_check(df: pd.DataFrame) -> dict[str, dict[str, float]]:
 
 
 def image_income_animation(df: pd.DataFrame) -> None:
-    bands = pd.qcut(df["MedInc"], 4, labels=["lowest", "lower-middle", "upper-middle", "highest"])
+    bands = pd.qcut(
+        df["MedInc"], 4, labels=["lowest", "lower-middle", "upper-middle", "highest"]
+    )
     df = df.assign(IncomeBand=bands)
     band_names = ["lowest", "lower-middle", "upper-middle", "highest"]
     band_labels = {
@@ -407,10 +497,37 @@ def image_income_animation(df: pd.DataFrame) -> None:
     fig, ax = plt.subplots(figsize=(10.8, 7.2))
     ax.set_facecolor("#f4f1e8")
     format_map(ax, axes=False)
-    ax.scatter(df["Longitude"], df["Latitude"], s=3.6, color="#c8c2b7", alpha=0.22, linewidths=0)
-    highlight = ax.scatter([], [], s=7.2, c=[], cmap=VALUE_CMAP, vmin=0, vmax=df["MedHouseValUSD"].max(), alpha=0.92, linewidths=0)
-    label = ax.text(0.04, 0.93, "", transform=ax.transAxes, fontsize=17, fontweight="bold", color=COLORS["ink"])
-    sublabel = ax.text(0.04, 0.885, "", transform=ax.transAxes, fontsize=10.8, color=COLORS["muted"])
+    ax.scatter(
+        df["Longitude"],
+        df["Latitude"],
+        s=3.6,
+        color="#c8c2b7",
+        alpha=0.22,
+        linewidths=0,
+    )
+    highlight = ax.scatter(
+        [],
+        [],
+        s=7.2,
+        c=[],
+        cmap=VALUE_CMAP,
+        vmin=0,
+        vmax=df["MedHouseValUSD"].max(),
+        alpha=0.92,
+        linewidths=0,
+    )
+    label = ax.text(
+        0.04,
+        0.93,
+        "",
+        transform=ax.transAxes,
+        fontsize=17,
+        fontweight="bold",
+        color=COLORS["ink"],
+    )
+    sublabel = ax.text(
+        0.04, 0.885, "", transform=ax.transAxes, fontsize=10.8, color=COLORS["muted"]
+    )
 
     def update(frame: int):
         band = band_names[frame]
@@ -423,8 +540,14 @@ def image_income_animation(df: pd.DataFrame) -> None:
         sublabel.set_text(f"median block-group value: ${median_value / 1000:.0f}k")
         return highlight, label, sublabel
 
-    ani = animation.FuncAnimation(fig, update, frames=len(band_names), interval=1050, blit=False, repeat=True)
-    ani.save(OUT_DIR / "income-map-animation.gif", writer=animation.PillowWriter(fps=1), dpi=135)
+    ani = animation.FuncAnimation(
+        fig, update, frames=len(band_names), interval=1050, blit=False, repeat=True
+    )
+    ani.save(
+        OUT_DIR / "income-map-animation.gif",
+        writer=animation.PillowWriter(fps=1),
+        dpi=135,
+    )
     plt.close(fig)
 
 
@@ -434,8 +557,12 @@ def print_summary(df: pd.DataFrame, model_results: dict[str, dict[str, float]]) 
     print(f"rows: {len(df):,}")
     print(f"target median: ${df['MedHouseValUSD'].median():,.0f}")
     print(f"target mean: ${df['MedHouseValUSD'].mean():,.0f}")
-    print(f"target cap: ${cap:,.0f}; capped rows: {capped:,} ({df['IsCapped'].mean() * 100:.1f}%)")
-    print(f"MedInc correlation: {df[['MedInc', 'MedHouseValUSD']].corr().iloc[0, 1]:.3f}")
+    print(
+        f"target cap: ${cap:,.0f}; capped rows: {capped:,} ({df['IsCapped'].mean() * 100:.1f}%)"
+    )
+    print(
+        f"MedInc correlation: {df[['MedInc', 'MedHouseValUSD']].corr().iloc[0, 1]:.3f}"
+    )
     for name, values in model_results.items():
         print(
             f"{name}: MAE ${values['mae']:,.0f}; "
