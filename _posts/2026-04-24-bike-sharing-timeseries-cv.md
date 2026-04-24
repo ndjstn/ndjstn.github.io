@@ -15,23 +15,33 @@ categories:
   - "Data Science"
 ---
 
-Run the UCI hourly bike-sharing dataset through a random 5-fold cross-validation and LightGBM comes out at 0.405 RMSLE and looks like the obvious winner. Run the same data through a `TimeSeriesSplit` — train on everything before a certain date, validate on what comes next — and LightGBM lands at 0.595 RMSLE. It gets beaten by a naive "seasonal mean of (weekday, hour)" baseline that scores 0.509.
+Run the UCI hourly bike-sharing dataset through a random 5-fold cross-validation and LightGBM comes out at 0.405 Log-RMSLE and looks like the obvious winner. Run the same data through a `TimeSeriesSplit` — train on everything before a certain date, validate on what comes next — and LightGBM lands at 0.595. That is a 46.6 percent increase in error. The naive "seasonal mean of (weekday, hour)" baseline scores 0.509 under the time-respecting split and beats LightGBM outright.
 
-That's the whole story. Validation strategy matters more than model choice when your data has time structure. Random k-fold shuffles the time dimension away, so training folds always contain information from the future relative to the validation fold. The model learns from data it won't have at inference time, and the CV score flatters it accordingly.
+Validation strategy is the story. Random k-fold shuffles the time dimension away, so training folds always contain observations from the future relative to the validation fold. The model learns from information it will not have at inference time, and the CV score flatters it accordingly.
 
 <!-- YouTube embed will go here once the walkthrough video is published -->
 
 ## The dataset
 
-17,379 hourly observations from UCI's Bike Sharing Dataset (Capital Bikeshare, Washington DC, 2011-2012). The target is `cnt`, the total rentals in that hour. 14 weather and calendar features per row. Data runs continuously from January 2011 through December 2012.
+17,379 hourly observations from UCI's Bike Sharing Dataset (Capital Bikeshare, Washington DC, 2011-2012). The target is `cnt`, the total rentals in that hour. 14 weather and calendar features per row. Data runs continuously from January 2011 through December 2012. Median hourly demand is 142 rentals; the 25th-to-75th percentile range runs from 40 to 281 rentals.
 
 ![Heatmap of mean hourly bike rentals by weekday and hour of day.](/assets/img/posts/bike-sharing-timeseries-cv/hour-weekday-heatmap.png)
 
-*Weekday mornings hit a sharp 8am peak and a bigger 5-6pm peak — classic commuter pattern. Weekends are flatter with one broad afternoon bulge. That bimodal-weekday vs. unimodal-weekend pattern is why a naive seasonal baseline indexed on (weekday, hour) does well.*
+*Weekday mornings hit a sharp 8am peak and a bigger 5-6pm peak — classic commuter pattern. Weekends are flatter with one broad afternoon bulge. The bimodal-weekday vs. unimodal-weekend split is why a naive seasonal baseline indexed on (weekday, hour) does well.*
 
 ![Monthly rental totals across 2011 and 2012 showing strong seasonality and year-over-year growth.](/assets/img/posts/bike-sharing-timeseries-cv/monthly-seasonality.png)
 
-*Summer peaks, winter troughs. 65 percent growth between 2011 and 2012 as the program matured. That growth is another reason time-series CV matters: random k-fold lets a model see 2012 growth during training on "2011 test" folds, which doesn't happen in deployment.*
+*Summer peaks, winter troughs, and 65 percent growth between 2011 and 2012 as the program matured. That growth is another reason time-series CV matters: random k-fold lets a model see 2012 growth during training on "2011 test" folds, which does not happen in deployment.*
+
+## Method primer: time-series cross-validation and why random folds leak
+
+Cross-validation exists to estimate how a model will perform on data it has not seen. The default tool in scikit-learn is `KFold(shuffle=True)`. It partitions the dataset into k random subsets, trains on k-1 of them, validates on the held-out subset, and rotates. That procedure works when observations are exchangeable, meaning any row is as likely to be the validation target as any other.
+
+Hourly demand on a bike-share system is not exchangeable. A row from December 2012 carries information about the ridership level the program has reached by its second year, information that is causally downstream of every row in 2011. If a random fold places December 2012 in training and April 2011 in validation, the model is learning from the future to score on the past. Deploying that model means predicting hours that come after training, not a random mix.
+
+`TimeSeriesSplit` enforces chronology. For fold k, training is everything up to timestamp T(k), and validation is the chunk that comes next. Training grows each fold, the validation window slides forward. That matches deployment and strips out the forward-looking leakage. The downside is that earlier folds are trained on less data, so CV variance is higher. That is an honest cost of evaluating honestly. Bergmeir and Benítez ([2012](#ref-bergmeir)) frame the choice in exactly these terms: random CV is valid only when the time dimension carries no information, and for any series with trend or seasonality it does not.
+
+The leakage shows up even on a model that never fits parameters. The naive baseline used here is `cnt.groupby(["weekday", "hour"]).mean()` — a lookup table. Under random k-fold every validation row sees a seasonal mean computed over the full 24 months, so residuals are small. Under time-series CV the earliest folds have thin training data and the lookup is less accurate, so residuals grow. The baseline's CV score is worse under the honest split. That is the correct direction of movement; the random number was an artefact.
 
 ## The headline comparison
 
@@ -45,35 +55,33 @@ Three models, two cross-validation strategies, six bars.
 | Ridge with cyclical features | 1.151 | 1.230 |
 | LightGBM with seasonal features | **0.405** | 0.595 |
 
-Under random k-fold, LightGBM wins by a wide margin. Under time-series CV, the naive seasonal baseline wins. LightGBM's time-series score is 47 percent worse than its k-fold score. The naive baseline's time-series score is actually 21 percent better than its k-fold score, which is a separate quirk — time-series CV happens to evaluate on the later, more-data-rich second year where the seasonal mean is more stable.
+Under random k-fold, LightGBM wins by a wide margin. Under time-series CV, the naive seasonal baseline wins. LightGBM's time-series score is 46.6 percent worse than its k-fold score. The naive baseline goes the other direction: its time-series score is 21 percent better than its k-fold score. Time-series CV happens to evaluate it mostly on the second year, where year-one data has already built a stable seasonal lookup.
 
-Ridge is terrible under both strategies. Log-RMSLE above 1.0 means multiplicative errors of 2-3x on typical predictions. Linear models with `sin(hour) + cos(hour)` don't capture demand shape well enough; a tree model gets much more of the non-linearity for free.
-
-## Why random k-fold is misleading here
-
-![Animation showing time-series 5-fold being revealed fold by fold: training sets grow, validation windows slide forward through the two-year range.](/assets/img/posts/bike-sharing-timeseries-cv/timeseries-cv-animation.gif)
-
-*Time-series split: for fold k, train on everything before timestamp T(k), validate on what comes after. Training grows each fold; validation slides forward. Mirrors deployment — train on the past, predict the future.*
-
-Random 5-fold ignores the time dimension. A training fold pulled uniformly at random from the 17,379 rows contains observations from December 2012 and April 2011 mixed together. Validating on the held-out 20 percent, which also spans all 24 months, the model sees future-like information during training that it would never see at inference time.
-
-The leakage shows up even in the naive baseline — not a trained model, just `cnt.groupby(["weekday", "hr"]).mean()`. Under random k-fold, the seasonal mean is computed on training data spanning all 24 months; the validation fold also spans 24 months; both see the same year-over-year growth level; residuals are small. Under time-series CV, the seasonal mean is computed on pre-validation data that doesn't include the validation period's growth; residuals are larger. Net: random k-fold overstates generalisation.
+Ridge sits at Log-RMSLE 1.151 under random k-fold and 1.230 under time-series. A Log-RMSLE of 1.15 translates to a typical multiplicative error factor of about 3.2 on back-transformed predictions — a 142-rentals hour comes out as roughly 45 or 450. Linear models with `sin(hour) + cos(hour)` cyclical features cannot bend hard enough to capture the commuter-peak demand shape; a tree model pulls far more of that non-linearity for free.
 
 ## What actually wins
 
-Nothing beats LightGBM's 0.595 among the three models I tested, in isolation. But the naive baseline's 0.509 sits inside what LightGBM achieves — the base rate of "what's the average demand for this weekday and hour" explains more variance than LightGBM's weather + cyclical + interaction features recover on truly unseen future data.
+The time-series column of that table is the leaderboard. Read down it and LightGBM lands at 0.595, the naive seasonal mean at 0.509, Ridge at 1.230. The naive baseline wins by 0.086 Log-RMSLE, which is not a rounding gap. LightGBM with engineered weather, cyclical, and interaction features recovers less unseen-future variance than a lookup table indexed on two columns.
 
-The practical implication is that deploying LightGBM as a residual predictor on top of the naive baseline (model the difference between actual demand and the seasonal mean, then add back) usually works better than deploying LightGBM directly. That approach isn't in this project, but it's the natural next step for anyone continuing the work.
+That does not mean the engineered features are useless. It means the marginal signal they carry above the seasonal mean is smaller than the signal that mean already captures, and a global hyperparameter choice is not recovering it. The natural next move is to model the residual: fit LightGBM to `cnt - seasonal_mean` rather than `cnt`, then add the seasonal mean back at prediction time. That approach is not in this project, but it is the step I would take next if the goal were a production scorer.
+
+## Why random k-fold leaks
+
+![Animation showing time-series 5-fold being revealed fold by fold, then contrasted with a random 5-fold strategy on the same timeline.](/assets/img/posts/bike-sharing-timeseries-cv/timeseries-cv-animation.gif)
+
+*Top panel: expanding-window TimeSeriesSplit. Each fold trains on an earlier slice of the 2011-2012 timeline and validates on the next slice. Bottom panel: random 5-fold. The same data, same five validation sets, but now validation bars are scattered across every month. The scoreboards update fold by fold so you can watch the Log-RMSLE accumulate under each strategy.*
+
+A random training fold pulled uniformly at random from the 17,379 rows contains December 2012 and April 2011 side by side. Validating on the held-out 20 percent, which also spans all 24 months, the model sees future-like information during training that it would never see at inference time. The effect is visible on both the trained models and the untrained baseline.
 
 ## What this isn't
 
-Not a Kaggle-competitive submission. Kaggle's Bike Sharing Demand competition uses a held-out test set from the same time window as training, so random sampling gives a reasonable approximation of what the public leaderboard measures. The point of this project is the opposite — the difference between Kaggle-style random evaluation and what you'd actually hit in deployment.
+Not a Kaggle-competitive submission. Kaggle's Bike Sharing Demand competition uses a held-out test set from the same time window as training, so random sampling gives a reasonable approximation of what the public leaderboard measures. The point of this project is the opposite — the difference between Kaggle-style random evaluation and what you would actually hit in deployment.
 
-Not a test of modern time-series models either. No Prophet, no LSTM, no Temporal Fusion Transformer. The argument isn't that neural nets can't beat LightGBM here; it's that any model bound for production needs time-respecting validation so you know what score it'll actually hit.
+Not a test of modern time-series models either. No Prophet, no LSTM, no Temporal Fusion Transformer. The argument is not that neural nets cannot beat LightGBM here; it is that any model bound for production needs time-respecting validation so you know what score it will actually hit.
 
 ## Reproducibility note
 
-Source code, notebook, outputs at [github.com/ndjstn/bike-sharing-demand](https://github.com/ndjstn/bike-sharing-demand). Dataset is the `hour.csv` from the UCI Bike Sharing Dataset mirror on Kaggle ([Fanaee-T & Gama, 2014](#ref-fanaee)).
+Source code, notebook, outputs at [github.com/ndjstn/bike-sharing-demand](https://github.com/ndjstn/bike-sharing-demand). Dataset is `hour.csv` from the UCI Bike Sharing Dataset mirror on Kaggle ([Fanaee-T & Gama, 2014](#ref-fanaee)).
 
 ## References
 

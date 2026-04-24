@@ -15,9 +15,9 @@ categories:
   - "Data Science"
 ---
 
-Olist is a Brazilian marketplace platform. The public dataset carries 100,000 orders across 93,000 customers from 2016 to 2018, spread across nine CSV tables that join into a clean star schema. No machine learning in this project. The interesting work is joining the tables, building an RFM segmentation that a marketing team could actually use, and looking at cohort retention to answer the question every e-commerce operator wants answered: how many of these customers come back?
+Olist is a Brazilian marketplace. The public dataset carries 96,478 delivered orders across 93,358 unique customers from late 2016 through mid-2018, spread across nine CSV tables that join into a clean star schema. No machine learning in this project. The interesting work is joining the tables, building an RFM segmentation that a marketing team could actually use, and looking at cohort retention to answer the question every e-commerce operator wants answered: how many of these customers come back?
 
-Almost none. More than 97 percent of Olist customers appear in exactly one delivered order during the observation window. Platform revenue growth through 2017-2018 comes from acquiring new customers, not repeat purchases. That shapes everything else.
+Almost none. Of 93,358 unique customers, 97 percent appear in exactly one delivered order during the window. The median order is R$ 105. The repeat-customer rate is 3 percent. First-order revenue accounts for R$ 15.0M of the R$ 15.4M total. Platform revenue growth through 2017-2018 is an acquisition story, not a retention story, and everything else in this post sits under that fact.
 
 <!-- YouTube embed will go here once the walkthrough video is published -->
 
@@ -27,19 +27,25 @@ Almost none. More than 97 percent of Olist customers appear in exactly one deliv
 
 *Row is the month a customer first purchased. Column is months since. Cell is the share of the cohort that ordered again in that month. Month 0 is 100 percent by construction. Months 1 through 11 are nearly dark — almost every cell sits below 3 percent retention.*
 
-This isn't a retention problem, it's a business model. Olist sells mostly one-time-purchase items — appliances, home goods, furniture, electronics. Customers come in when they need a specific thing, buy it, and don't return until they need another specific thing, which may be years later. The effective customer "lifetime" in the data is about 45 days; past that, almost nobody comes back.
+This isn't a retention problem, it's a business model. Olist sells mostly one-time-purchase items — appliances, home goods, furniture, electronics. Customers come in when they need a specific thing, buy it, and don't return until they need another specific thing, which may be years later.
 
-For an operator looking at this data, the practical takeaway is that customer acquisition cost matters more than customer lifetime value, because LTV collapses to first-order value. Acquisition-channel efficiency and order-level economics are where optimisation pays off.
+For an operator looking at this data, the practical takeaway is that customer acquisition cost matters more than customer lifetime value, because LTV collapses to first-order value. With a median order of R$ 105, a repeat rate of 3 percent, and 1.14 items per order on average, the revenue function is almost a linear combination of new-customer count and median order size. Acquisition-channel efficiency and order-level economics, not retention levers, are where optimisation pays off on this data.
+
+## Watching retention build
+
+![Teaching animation: cohort retention matrix filling in cell by cell, starting with the 2016-10 cohort at month 0 and walking through each row's decay before adding the next cohort below.](/assets/img/posts/olist-ecommerce-retention/olist-ecommerce-analytics-teaching.gif)
+
+*The reveal builds the matrix the way an analyst computes it. The October 2016 cohort starts at 100 percent at month 0, then its retention walks rightward as the later months fill in with 3-percent-or-lower values. When row one finishes, the November 2016 cohort begins below it, and so on through August 2018. The point of watching it this way is that retention is conditional on the original cohort size; every cell is a percentage of the cohort that first ordered in that row's month, not of the platform's current active base.*
 
 ## Monthly revenue
 
 ![Monthly Olist revenue 2016-2018 with a November 2017 spike for Brazilian Black Friday.](/assets/img/posts/olist-ecommerce-retention/monthly-revenue.png)
 
-*Revenue ramps from zero in late 2016 through Q1 2017 growth, a clear Black Friday spike in November 2017, and steady 2018 levels around R$ 1M/month. Total across the window: R$ 15.4M.*
+*Revenue ramps from zero in late 2016 through Q1 2017 growth, a clear Black Friday spike in November 2017 at R$ 1.15M, and steady 2018 levels around R$ 1.0-1.1M per month. Total across the window: R$ 15.4M.*
 
 ## RFM segmentation
 
-Six archetypes, quintile-scored on Recency / Frequency / Monetary:
+The segmentation uses the standard e-commerce scoring: each customer gets three scores from 1 to 5, one for each of recency, frequency, and monetary. The 1-to-5 scale comes from **quintile binning on the rank**. Rank every customer on a given axis, split the rank distribution into five equal-sized buckets, and assign scores 1 through 5. Ranking before binning matters because most Olist customers tie at frequency = 1, so `qcut` on the raw values would collapse to fewer than five distinct bins. The three scores combine into six named segments by a short rules table: high recency and high frequency becomes Champions, high recency but low frequency becomes New / Recent, and so on through At risk, Lost, Big spenders, and Others.
 
 | Segment | Customers | Revenue (BRL) | Revenue/customer |
 | --- | ---: | ---: | ---: |
@@ -52,17 +58,17 @@ Six archetypes, quintile-scored on Recency / Frequency / Monetary:
 
 ![Two-panel bar chart: customer count per RFM segment on the left, total revenue per segment on the right.](/assets/img/posts/olist-ecommerce-retention/rfm-segments.png)
 
-*Big spenders is the smallest segment but pulls the highest revenue total at R$ 292 per customer. At-risk customers are where a retention program would point first — 14,919 of them, historically frequent, currently dormant.*
+*Big spenders is the smallest segment by count at 10,337 customers, but carries the highest revenue per customer at R$ 292, nearly three times the R$ 101 for Others. At-risk customers are where a retention program would point first — 14,919 historically frequent buyers who have gone dormant.*
 
 ![Recency-vs-monetary scatter with log y-axis, coloured by frequency. Frequency stays at 1 for most customers.](/assets/img/posts/olist-ecommerce-retention/rfm-scatter.png)
 
-*Most customers sit in a dense low-monetary band across the recency range. The high-monetary tail is sparse and mostly single-purchase customers who bought one expensive item. Frequency barely exceeds 1 anywhere on the chart.*
+*Most customers sit in a dense low-monetary band across the recency range. The high-monetary tail is sparse and mostly single-purchase customers who bought one expensive item. Frequency barely exceeds 1 anywhere on the chart, which is the visual confirmation that frequency is not doing real work on this dataset.*
 
 ## Delivery time drives review scores
 
 ![Bar chart of mean review score against delivery-time bucket.](/assets/img/posts/olist-ecommerce-retention/review-vs-delivery.png)
 
-*0-3 day delivery averages 4.5-star reviews. 15-21 days averages 3.3. Past 30 days, below 3.0 — where customers stop recommending a retailer. Brazilian geography makes 40-day delivery not rare in this data, and the cost shows up directly in the review distribution.*
+*0-3 day delivery averages 4.46-star reviews. 15-21 days averages 4.10. At 22-30 days the mean is 3.49. Past 30 days the mean falls to 2.30, well below the 3.0 threshold where customers stop recommending a retailer. Brazilian geography makes 40-day delivery not rare in this data, and the cost shows up directly in the review distribution.*
 
 ## Revenue by state
 
