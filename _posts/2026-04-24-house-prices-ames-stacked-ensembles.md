@@ -13,7 +13,7 @@ tags:
 description: "A stacked Ridge + XGBoost + LightGBM ensemble on Ames houses reaches 0.126 RMSLE, beating a Ridge baseline by about 8 percent. The stack weights are unbalanced, and that's fine."
 image:
   path: /assets/img/posts/house-prices-ames-stacked-ensembles/hero.png
-  alt: "Title card for an Ames house prices analysis with a craftsman house glyph on a burnt-sienna background."
+  alt: "Model comparison bar chart: Ridge 0.137, XGBoost 0.130, LightGBM 0.136, Stack 0.126 RMSLE."
 ---
 
 The Ames housing dataset is the Kaggle getting-started regression benchmark. 1,460 training rows, 79 features, SalePrice target, RMSLE metric. Nearly every beginner tutorial picks two or three numeric features, fits a linear regression, and calls it a day. I wanted to see how much the harder modelling choices — proper handling of the 43 categorical columns, a stacked ensemble on top of a well-regularised baseline — actually buy on this dataset.

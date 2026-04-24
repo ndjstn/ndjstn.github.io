@@ -4,7 +4,7 @@ date: 2026-04-24 00:00:02 -0500
 description: "A gradient-boosted price model on the 2019 NYC Airbnb snapshot reaches R^2 0.62 and MAE under $50. Sixty-two percent of the splits are about room type, not location."
 image:
   path: /assets/img/posts/airbnb-nyc-price-room-type-geography/hero.png
-  alt: "Title card for an NYC Airbnb price analysis showing a feature-importance bar chart with Private room dominating."
+  alt: "Grouped bar chart of median nightly price by borough split by room type; entire-apartment Manhattan tops the chart."
 tags:
   - "Airbnb"
   - "Price Prediction"

@@ -4,7 +4,7 @@ date: 2026-04-24 00:00:01 -0500
 description: "The IBM Telco churn dataset has 19 features and one of them does most of the work. SHAP ranks contract type first with a mean absolute impact of 0.88, and the raw churn rate across contract types agrees."
 image:
   path: /assets/img/posts/telco-churn-contract-dominates-shap/hero.png
-  alt: "Title card for a telco churn analysis with a SHAP bar chart showing contract type dominating the feature importance ranking."
+  alt: "SHAP bar chart ranking feature importance: Contract at 0.88 dominates, tenure at 0.54, monthly charges at 0.44."
 tags:
   - "Customer Churn"
   - "SHAP"

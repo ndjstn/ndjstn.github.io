@@ -4,7 +4,7 @@ date: 2026-04-24 00:00:04 -0500
 description: "TF-IDF over Netflix title descriptions and genre tags produces top-10 lists that read like a curator's suggestions. The failure mode is not what I expected."
 image:
   path: /assets/img/posts/netflix-content-recommender/hero.png
-  alt: "Title card for a Netflix content-recommender project with a stacked-cards glyph on a merlot background."
+  alt: "Stacked area chart of Netflix catalog by release year split between Movie and TV Show with a post-2016 scale-up."
 tags:
   - "Recommender Systems"
   - "TF-IDF"

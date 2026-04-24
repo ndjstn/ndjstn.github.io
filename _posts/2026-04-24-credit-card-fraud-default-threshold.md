@@ -4,7 +4,7 @@ date: 2026-04-24 00:00:00 -0500
 description: "A fraud classifier reaches 0.98 ROC-AUC on the famous ULB dataset and still ships a policy most fraud teams would reject. The 0.5 decision threshold is the bug."
 image:
   path: /assets/img/posts/credit-card-fraud-default-threshold/hero.png
-  alt: "Title card for a credit card fraud classifier project showing a cost curve bottoming out near threshold zero point zero one."
+  alt: "XGBoost cost curve showing total cost bottoming out at decision threshold 0.01 with min-cost marker."
 tags:
   - "Credit Card Fraud"
   - "Class Imbalance"

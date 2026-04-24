@@ -4,7 +4,7 @@ date: 2026-04-24 00:00:03 -0500
 description: "Cosine similarity on standardised Spotify audio features is the textbook first-pass recommender. Across 2,000 random queries, it lands on the same genre 14.3 percent of the time."
 image:
   path: /assets/img/posts/spotify-recommender-genre-leakage/hero.png
-  alt: "Title card for an audio-similarity recommender project with a hexagonal radar-chart glyph on a deep emerald background."
+  alt: "Histogram showing audio-only same-genre rate packed near zero and genre-blend rate packed near one across 2,000 queries."
 tags:
   - "Recommender Systems"
   - "Content-Based Filtering"
