@@ -60,9 +60,9 @@ The segmentation uses the standard e-commerce scoring: each customer gets three 
 
 *Big spenders is the smallest segment by count at 10,337 customers, but carries the highest revenue per customer at R$ 292, nearly three times the R$ 101 for Others. At-risk customers are where a retention program would point first — 14,919 historically frequent buyers who have gone dormant.*
 
-![Recency-vs-monetary scatter with log y-axis, coloured by frequency. Frequency stays at 1 for most customers.](/assets/img/posts/olist-ecommerce-retention/rfm-scatter.png)
+![Two-panel scatter. Left: recency vs. monetary for all 93,358 customers with single-purchase in muted grey and the 2,801 repeat customers in gold overlaid on top. Right: repeat customers only, coloured by monetary, with the highest repeat spender annotated at R$ 7,572 over two orders.](/assets/img/posts/olist-ecommerce-retention/rfm-scatter.png)
 
-*Most customers sit in a dense low-monetary band across the recency range. The high-monetary tail is sparse and mostly single-purchase customers who bought one expensive item. Frequency barely exceeds 1 anywhere on the chart, which is the visual confirmation that frequency is not doing real work on this dataset.*
+*The left panel puts the 97 percent single-purchase cloud under the 2,801 repeat customers so the gold dots read as the minority they are. The single-purchase cloud medians 219 days of recency at R$ 105 monetary, tight and low. The right panel isolates the repeat tail and colours it by monetary — the spenders are spread across the full recency range, so a retention programme targeting repeats cannot just index on how recently someone last ordered.*
 
 ## Delivery time drives review scores
 
