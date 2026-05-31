@@ -10,6 +10,8 @@ This site is where I publish the projects, notes, experiments, and technical wri
 
 I am less interested in looking busy than in showing real work: things I built, what I learned, what broke, what improved, and what I would do differently the next time.
 
+If you are reviewing the portfolio, start with the [Projects](/projects/) page. It gives a curated list of data science and applied machine learning work, with short summaries and links back to the source repositories.
+
 ## What I care about
 
 Most of my interest clusters around tools and systems that are actually useful in everyday work.
@@ -47,7 +49,8 @@ Some posts will be polished essays. Others will be more like field notes. I am o
 
 The goal is for this site to feel current, grounded, and worth returning to.
 
-## Elsewhere
+## Contact
 
 - [GitHub](https://github.com/ndjstn)
-- [X / Twitter](https://twitter.com/ndjstn)
+- [Portfolio projects](/projects/)
+- [Contact page](/contact/)

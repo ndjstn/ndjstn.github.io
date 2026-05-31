@@ -159,7 +159,7 @@ But as a teaching dataset, it still holds up because it makes the right mistakes
 
 ## Reproducibility note
 
-The figures in this post were generated from the public StatLib archive used by scikit-learn. The script is in the site repository at `scripts/generate_california_housing_article_images.py`. It downloads the archive, recreates the scikit-learn-style derived columns, and writes the post images under `assets/img/posts/california-housing-prices/`.
+The figures in this post were generated from the public StatLib archive used by scikit-learn. The script is in the site repository at [`scripts/generate_california_housing_article_images.py`](https://github.com/ndjstn/ndjstn.github.io/blob/main/scripts/generate_california_housing_article_images.py). It downloads the archive, recreates the scikit-learn-style derived columns, and writes the post images under `assets/img/posts/california-housing-prices/`.
 
 ## References
 

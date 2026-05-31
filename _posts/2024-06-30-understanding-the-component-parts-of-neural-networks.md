@@ -280,6 +280,10 @@ $$
 
 The math stayed hard when it needed to be hard. I just finally had a mental model sturdy enough to hold it.
 
+## Reproducibility note
+
+The explanatory figures for this article were generated and curated in the site repository. The source scripts live under [`scripts/`](https://github.com/ndjstn/ndjstn.github.io/tree/main/scripts), and the rendered figure assets live under [`assets/img/posts/neural-network-components/`](https://github.com/ndjstn/ndjstn.github.io/tree/main/assets/img/posts/neural-network-components).
+
 ## References
 
 <div id="ref-goodfellow2016" style="padding-left: 1.5em; text-indent: -1.5em; margin-bottom: 0.85rem;">
