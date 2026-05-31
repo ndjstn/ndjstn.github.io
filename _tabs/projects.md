@@ -10,6 +10,7 @@ This page collects the portfolio work that best represents my applied data scien
 
 | Project | Focus | Source |
 | --- | --- | --- |
+| [Online Retail RFM customer segmentation](/posts/online-retail-rfm-segmentation/) | UCI Online Retail workflow converting 541,909 invoice lines into 4,338 customer RFM records and four testable marketing segments. | [Repository](https://github.com/ndjstn/online-retail-rfm-segmentation) |
 | [Customer retention and RFM segmentation on Olist](/posts/olist-ecommerce-retention/) | Multi-table e-commerce analytics, cohort retention, RFM segmentation, and delivery-review analysis on Brazilian marketplace data. | [Repository](https://github.com/ndjstn/olist-ecommerce-analytics) |
 | [YouTube creator segmentation](/posts/youtube-top995-five-archetypes/) | KMeans clustering on the Global YouTube Statistics 2023 dataset to identify five creator archetypes. | [Repository](https://github.com/ndjstn/youtube-global-stats) |
 | [Bike-sharing demand with proper time-series validation](/posts/bike-sharing-timeseries-cv/) | Forecasting workflow showing why random cross-validation can overstate model quality on time-dependent demand data. | [Repository](https://github.com/ndjstn/bike-sharing-demand) |
