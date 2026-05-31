@@ -21,6 +21,12 @@ This project turns the invoice lines into customer-level RFM records: recency, f
 
 The main point is restrained. These clusters do not prove business impact. They organize customer behavior into groups that a retailer could test with holdouts, repeat-purchase tracking, conversion measurement, and average-order-value comparisons.
 
+## Project walkthrough
+
+{% include embed/youtube.html id='IOGb3TbebWk' %}
+
+Watch on YouTube: [Customer Segmentation Using Online Retail Transaction Data](https://www.youtube.com/watch?v=IOGb3TbebWk).
+
 ## The unit of analysis changed
 
 ![Bar chart showing the data preparation path from raw transaction rows to final customer RFM records.](/assets/img/posts/online-retail-rfm-segmentation/cleaning_counts.png)
