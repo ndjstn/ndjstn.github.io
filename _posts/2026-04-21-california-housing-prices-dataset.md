@@ -27,6 +27,8 @@ I used the StatLib / scikit-learn version of the dataset for this post because i
 
 The geography is visible before any model shows up. That is the first clue that this is not just a clean tabular regression exercise.
 
+Related housing-regression read: [Quality, Then Area, Then Everything Else: Ames Housing with Stacked Ensembles](/posts/house-prices-ames-stacked-ensembles/). If this post is about understanding what the rows mean before modeling, the Ames post is about what the preprocessing and stacking pipeline actually buys.
+
 ## Start with the unit of analysis
 
 The most important correction is simple: one row is not one house.
@@ -113,6 +115,21 @@ The animation below makes the income story feel less one-dimensional. As the map
 ![Animated map stepping through income quartiles across California block groups.](/assets/img/posts/california-housing-prices/income-map-animation.gif)
 
 *Changing the income band changes the map, but it does not turn the problem into income alone.*
+
+## Interactive: 1990 block groups against current county values
+
+The "not current market data" issue is easier to see on a live map. The embedded Folium view below layers the original 1990 block-group value pattern against current Zillow county values. Click a county bubble to compare the median value assigned from the 1990 census-derived data with the current Zillow value used in the comparison notebook.
+
+<div style="position: relative; width: 100%; min-height: 560px; margin: 1.5rem 0;">
+  <iframe
+    src="/assets/interactive/california-price-map.html"
+    title="Interactive California housing map comparing 1990 census-derived values with current Zillow county values"
+    loading="lazy"
+    style="width: 100%; min-height: 560px; border: 1px solid #d8d8d8; border-radius: 8px;"
+  ></iframe>
+</div>
+
+If the embedded map is cramped on your device, open the [full interactive map](/assets/interactive/california-price-map.html).
 
 This is one of the more useful habits the dataset can teach: when a model improves after adding location, do not stop at "coordinates helped." Ask what the coordinates are proxying for.
 

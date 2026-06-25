@@ -20,6 +20,8 @@ The Ames housing dataset is the Kaggle getting-started regression benchmark. 1,4
 
 About 8 percent reduction in RMSLE, as it happens. The bulk of the gain comes from moving to a tree ensemble. Stacking itself adds another 3 or 4 percent on top. Nothing dramatic, nothing invisible either.
 
+Related housing-regression read: [The California Housing Dataset Is Mostly a Geography Lesson](/posts/california-housing-prices-dataset/). Ames is the pipeline-and-stacking version of the lesson; California Housing is the unit-of-analysis and geography version.
+
 <!-- YouTube embed will go here once the walkthrough video is published -->
 
 ## The shape of the target
@@ -71,11 +73,11 @@ Ridge at alpha=5 as the baseline. XGBoost at depth 4 with 1,500 estimators. Ligh
 
 ## The stack weights are unbalanced
 
-The meta-Ridge coefficients land at roughly ridge=0.15, xgb=0.55, lgbm=0.32. XGBoost does most of the work. LightGBM catches a fraction of the variance XGBoost missed. Ridge corrects a bias neither tree model handled.
+The meta-Ridge coefficients at alpha 0.1 land at roughly ridge=0.18, xgb=0.87, lgbm=-0.03. XGBoost does most of the work. The stacking layer is not treating all three base learners as equal voters; it mostly keeps the XGBoost signal and applies a small linear correction from the other learners.
 
 ![Animation of the stack weights as the meta-Ridge alpha sweeps from 0.001 to 100.](/assets/img/posts/house-prices-ames-stacked-ensembles/stack-weights-animation.gif)
 
-*Alpha has to climb above 10 before the weights start collapsing toward the mean. Below that, the weights are stable. The stacking layer is insensitive to meta-model tuning on this dataset — alpha = 0.1 or 1.0, same result.*
+*Alpha has to climb above 10 before the weights start collapsing toward a more averaged solution. Below that, the practical takeaway is stable: the stack mostly trusts XGBoost on this split.*
 
 ## Residuals
 
