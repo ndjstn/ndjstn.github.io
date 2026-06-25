@@ -54,3 +54,5 @@ The goal is for this site to feel current, grounded, and worth returning to.
 - [GitHub](https://github.com/ndjstn)
 - [Portfolio projects](/projects/)
 - [Contact page](/contact/)
+
+<span data-mesh-deploy-check="2026-06-25-about-canary" style="display:none"></span>
