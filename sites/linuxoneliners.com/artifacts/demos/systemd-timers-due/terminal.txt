@@ -1,0 +1,12 @@
+::fixture-ready::
+$ systemctl list-timers --all --no-pager
+NEXT                         LEFT     LAST                         PASSED UNIT           ACTIVATES
+Thu 2026-06-25 22:00:00 CDT  7h left  Thu 2026-06-25 02:00:00 CDT  12h ago backup.timer   backup.service
+Fri 2026-06-26 00:05:00 CDT  9h left  Thu 2026-06-25 00:05:00 CDT  14h ago certbot.timer  certbot.service
+::exit-code::0
+$ systemctl --failed --no-pager
+  UNIT              LOAD   ACTIVE SUB    DESCRIPTION
+  backup.service    loaded failed failed Nightly backup job
+  app-worker.service loaded failed failed App background worker
+2 loaded units listed.
+::exit-code::0

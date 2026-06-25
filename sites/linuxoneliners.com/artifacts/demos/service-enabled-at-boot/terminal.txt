@@ -1,0 +1,7 @@
+::fixture-ready::
+$ systemctl is-enabled nginx
+enabled
+::exit-code::0
+$ systemctl is-active nginx
+active
+::exit-code::0

@@ -1,0 +1,25 @@
+{
+  "slug": "journal-disk-usage",
+  "title": "Check systemd Journal Disk Usage",
+  "fixture": "containers/systemd-health-lab",
+  "command_count": 2,
+  "container_tool": "docker",
+  "image": "localhost/linuxoneliners-lab:latest",
+  "exit_code": 0,
+  "elapsed_ms": 218,
+  "stdout": "::fixture-ready::\n$ journalctl --disk-usage\nArchived and active journals take up 412.8M in the file system.\n::exit-code::0\n$ free -h\n               total        used        free      shared  buff/cache   available\nMem:           1.9Gi       1.3Gi       120Mi        12Mi       420Mi       390Mi\nSwap:          2.0Gi       128Mi       1.9Gi\n::exit-code::0\n",
+  "stderr": "",
+  "ok": true,
+  "security": {
+    "network": "none",
+    "capabilities": "dropped",
+    "no_new_privileges": true,
+    "memory": "256m",
+    "cpus": "1",
+    "pids_limit": 128,
+    "tmpfs": [
+      "/tmp",
+      "/var"
+    ]
+  }
+}

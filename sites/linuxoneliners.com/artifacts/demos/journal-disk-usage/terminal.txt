@@ -1,0 +1,9 @@
+::fixture-ready::
+$ journalctl --disk-usage
+Archived and active journals take up 412.8M in the file system.
+::exit-code::0
+$ free -h
+               total        used        free      shared  buff/cache   available
+Mem:           1.9Gi       1.3Gi       120Mi        12Mi       420Mi       390Mi
+Swap:          2.0Gi       128Mi       1.9Gi
+::exit-code::0

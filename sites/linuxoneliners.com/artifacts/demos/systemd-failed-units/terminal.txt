@@ -1,0 +1,17 @@
+::fixture-ready::
+$ systemctl --failed --no-pager
+  UNIT              LOAD   ACTIVE SUB    DESCRIPTION
+  backup.service    loaded failed failed Nightly backup job
+  app-worker.service loaded failed failed App background worker
+2 loaded units listed.
+::exit-code::0
+$ systemctl status nginx --no-pager --lines=30
+● nginx.service - A high performance web server
+     Loaded: loaded (/lib/systemd/system/nginx.service; enabled)
+     Active: active (running) since Thu 2026-06-25 14:12:10 CDT; 18min ago
+   Main PID: 842 (nginx)
+      Tasks: 3
+     Memory: 12.4M
+Jun 25 14:12:10 vps nginx[842]: start worker processes
+Jun 25 14:12:11 vps nginx[842]: ready for connections
+::exit-code::0

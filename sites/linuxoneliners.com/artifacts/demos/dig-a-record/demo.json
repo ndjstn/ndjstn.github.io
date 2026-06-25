@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 210,
+  "elapsed_ms": 222,
   "stdout": "::fixture-ready::\n$ dig +short example.com A\n203.0.113.10\n::exit-code::0\n$ dig +short www.example.com CNAME\nexample.com.\n::exit-code::0\n$ curl -I http://example.com\nHTTP/1.1 301 Moved Permanently\nLocation: https://example.com/\n\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

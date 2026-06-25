@@ -1,0 +1,25 @@
+{
+  "slug": "service-enabled-at-boot",
+  "title": "Check Whether a Service Starts at Boot",
+  "fixture": "containers/systemd-health-lab",
+  "command_count": 2,
+  "container_tool": "docker",
+  "image": "localhost/linuxoneliners-lab:latest",
+  "exit_code": 0,
+  "elapsed_ms": 193,
+  "stdout": "::fixture-ready::\n$ systemctl is-enabled nginx\nenabled\n::exit-code::0\n$ systemctl is-active nginx\nactive\n::exit-code::0\n",
+  "stderr": "",
+  "ok": true,
+  "security": {
+    "network": "none",
+    "capabilities": "dropped",
+    "no_new_privileges": true,
+    "memory": "256m",
+    "cpus": "1",
+    "pids_limit": 128,
+    "tmpfs": [
+      "/tmp",
+      "/var"
+    ]
+  }
+}

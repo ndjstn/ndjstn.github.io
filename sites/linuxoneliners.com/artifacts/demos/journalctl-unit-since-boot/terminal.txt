@@ -1,0 +1,9 @@
+::fixture-ready::
+$ journalctl -u nginx -b --no-pager -n 80
+Jun 25 14:12:10 vps nginx[842]: start worker processes
+Jun 25 14:12:11 vps nginx[842]: ready for connections
+Jun 25 14:18:42 vps nginx[842]: reload complete
+::exit-code::0
+$ journalctl --disk-usage
+Archived and active journals take up 412.8M in the file system.
+::exit-code::0

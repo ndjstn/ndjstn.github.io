@@ -1,6 +1,6 @@
 ::fixture-ready::
 $ ls -l /var/www/example/index.html
--rw-r----- 1 root root 14 Jun 25 11:47 /var/www/example/index.html
+-rw-r----- 1 root root 14 Jun 25 11:52 /var/www/example/index.html
 ::exit-code::0
 $ namei -l /var/www/example/index.html
 f: /var/www/example/index.html
@@ -15,8 +15,8 @@ $ stat /var/www/example/index.html
   Size: 14        	Blocks: 8          IO Block: 4096   regular file
 Device: 0,160	Inode: 4           Links: 1
 Access: (0640/-rw-r-----)  Uid: (    0/    root)   Gid: (    0/    root)
-Access: 2026-06-25 11:47:22.537295364 +0000
-Modify: 2026-06-25 11:47:22.537295364 +0000
-Change: 2026-06-25 11:47:22.540295401 +0000
- Birth: 2026-06-25 11:47:22.537295364 +0000
+Access: 2026-06-25 11:52:15.156998240 +0000
+Modify: 2026-06-25 11:52:15.156998240 +0000
+Change: 2026-06-25 11:52:15.158998265 +0000
+ Birth: 2026-06-25 11:52:15.156998240 +0000
 ::exit-code::0

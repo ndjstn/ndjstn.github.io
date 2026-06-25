@@ -1,247 +1,317 @@
 {
-  "generated_at": "2026-06-25T11:47:28Z",
+  "generated_at": "2026-06-25T11:52:22Z",
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
-  "total": 34,
-  "passed": 34,
+  "total": 44,
+  "passed": 44,
   "failed": [],
   "results": [
     {
       "slug": "curl-resolve-site-check",
       "title": "Your Site Is Not Down. DNS Might Be Lying.",
       "ok": true,
-      "elapsed_ms": 216,
+      "elapsed_ms": 204,
       "command_count": 3
     },
     {
       "slug": "find-large-files",
       "title": "Find the Files Eating Your Disk",
       "ok": true,
-      "elapsed_ms": 208,
+      "elapsed_ms": 195,
       "command_count": 3
     },
     {
       "slug": "rsync-dry-run",
       "title": "Run Rsync Without Deleting Your Backup",
       "ok": true,
-      "elapsed_ms": 295,
+      "elapsed_ms": 291,
       "command_count": 3
     },
     {
       "slug": "tail-live-logs",
       "title": "Watch Logs Without Opening the Whole File",
       "ok": true,
-      "elapsed_ms": 4263,
+      "elapsed_ms": 4204,
       "command_count": 3
     },
     {
       "slug": "grep-errors-in-logs",
       "title": "Find Errors Before Reading Every Log Line",
       "ok": true,
-      "elapsed_ms": 195,
+      "elapsed_ms": 206,
       "command_count": 3
     },
     {
       "slug": "check-listening-ports",
       "title": "Check What Is Actually Listening",
       "ok": true,
-      "elapsed_ms": 209,
+      "elapsed_ms": 208,
       "command_count": 3
     },
     {
       "slug": "inspect-permissions",
       "title": "Inspect Permissions Before Changing Them",
       "ok": true,
-      "elapsed_ms": 197,
+      "elapsed_ms": 204,
       "command_count": 3
     },
     {
       "slug": "grep-line-numbers",
       "title": "Find the Exact Log Line Before You Scroll",
       "ok": true,
-      "elapsed_ms": 195,
+      "elapsed_ms": 190,
       "command_count": 3
     },
     {
       "slug": "disk-usage-by-folder",
       "title": "Find Which Folder Is Filling the Disk",
       "ok": true,
-      "elapsed_ms": 196,
+      "elapsed_ms": 199,
       "command_count": 3
     },
     {
       "slug": "recent-log-errors",
       "title": "Show Only Recent Errors",
       "ok": true,
-      "elapsed_ms": 203,
+      "elapsed_ms": 195,
       "command_count": 3
     },
     {
       "slug": "rsync-show-deletes",
       "title": "Preview What Rsync Would Delete",
       "ok": true,
-      "elapsed_ms": 311,
+      "elapsed_ms": 302,
       "command_count": 3
     },
     {
       "slug": "file-owner-and-mode",
       "title": "Check Owner and Mode in One Line",
       "ok": true,
-      "elapsed_ms": 191,
+      "elapsed_ms": 192,
       "command_count": 3
     },
     {
       "slug": "list-processes-by-memory",
       "title": "Find the Processes Using Memory",
       "ok": true,
-      "elapsed_ms": 213,
+      "elapsed_ms": 206,
       "command_count": 3
     },
     {
       "slug": "show-top-files-human",
       "title": "Show Big Files in Human Units",
       "ok": true,
-      "elapsed_ms": 197,
+      "elapsed_ms": 195,
       "command_count": 3
     },
     {
       "slug": "nginx-test-config",
       "title": "Test Nginx Before Reload",
       "ok": true,
-      "elapsed_ms": 214,
+      "elapsed_ms": 210,
       "command_count": 3
     },
     {
       "slug": "nginx-show-enabled-sites",
       "title": "Show Enabled Nginx Sites",
       "ok": true,
-      "elapsed_ms": 202,
+      "elapsed_ms": 204,
       "command_count": 3
     },
     {
       "slug": "nginx-find-server-name",
       "title": "Find Which Nginx Config Owns a Domain",
       "ok": true,
-      "elapsed_ms": 217,
+      "elapsed_ms": 215,
       "command_count": 3
     },
     {
       "slug": "check-http-redirect",
       "title": "Check HTTP to HTTPS Redirect",
       "ok": true,
-      "elapsed_ms": 217,
+      "elapsed_ms": 205,
       "command_count": 3
     },
     {
       "slug": "inspect-response-headers",
       "title": "Inspect Response Headers",
       "ok": true,
-      "elapsed_ms": 211,
+      "elapsed_ms": 226,
       "command_count": 3
     },
     {
       "slug": "dig-a-record",
       "title": "Check a Domain A Record",
       "ok": true,
-      "elapsed_ms": 210,
+      "elapsed_ms": 222,
       "command_count": 3
     },
     {
       "slug": "certbot-list-certs",
       "title": "List Certbot Certificates",
       "ok": true,
-      "elapsed_ms": 207,
+      "elapsed_ms": 209,
       "command_count": 3
     },
     {
       "slug": "check-nginx-symlink-target",
       "title": "Check the Current Release Symlink",
       "ok": true,
-      "elapsed_ms": 201,
+      "elapsed_ms": 214,
       "command_count": 3
     },
     {
       "slug": "nginx-find-404s",
       "title": "Find Top 404 URLs",
       "ok": true,
-      "elapsed_ms": 217,
+      "elapsed_ms": 212,
       "command_count": 3
     },
     {
       "slug": "watch-access-by-referrer",
       "title": "See Top Referrers",
       "ok": true,
-      "elapsed_ms": 202,
+      "elapsed_ms": 220,
       "command_count": 3
+    },
+    {
+      "slug": "systemd-failed-units",
+      "title": "Show Failed systemd Units",
+      "ok": true,
+      "elapsed_ms": 198,
+      "command_count": 2
+    },
+    {
+      "slug": "service-status-no-pager",
+      "title": "Inspect One Service Without Pager Traps",
+      "ok": true,
+      "elapsed_ms": 201,
+      "command_count": 2
+    },
+    {
+      "slug": "journalctl-unit-since-boot",
+      "title": "Read Current-Boot Logs for One Service",
+      "ok": true,
+      "elapsed_ms": 217,
+      "command_count": 2
+    },
+    {
+      "slug": "journal-disk-usage",
+      "title": "Check systemd Journal Disk Usage",
+      "ok": true,
+      "elapsed_ms": 218,
+      "command_count": 2
+    },
+    {
+      "slug": "slow-boot-services",
+      "title": "Find Slow Services During Boot",
+      "ok": true,
+      "elapsed_ms": 205,
+      "command_count": 2
+    },
+    {
+      "slug": "service-enabled-at-boot",
+      "title": "Check Whether a Service Starts at Boot",
+      "ok": true,
+      "elapsed_ms": 193,
+      "command_count": 2
+    },
+    {
+      "slug": "service-active-check",
+      "title": "Check If a Service Is Active",
+      "ok": true,
+      "elapsed_ms": 203,
+      "command_count": 2
+    },
+    {
+      "slug": "recent-reboots",
+      "title": "Show Recent Server Reboots",
+      "ok": true,
+      "elapsed_ms": 209,
+      "command_count": 2
+    },
+    {
+      "slug": "memory-pressure-summary",
+      "title": "Check Memory Pressure Quickly",
+      "ok": true,
+      "elapsed_ms": 206,
+      "command_count": 2
+    },
+    {
+      "slug": "systemd-timers-due",
+      "title": "List Upcoming systemd Timers",
+      "ok": true,
+      "elapsed_ms": 216,
+      "command_count": 2
     },
     {
       "slug": "status-code-summary",
       "title": "Summarize HTTP Status Codes",
       "ok": true,
-      "elapsed_ms": 193,
+      "elapsed_ms": 202,
       "command_count": 3
     },
     {
       "slug": "web-4xx-by-ip",
       "title": "Find the IPs Creating the Most 4xx Noise",
       "ok": true,
-      "elapsed_ms": 203,
+      "elapsed_ms": 194,
       "command_count": 3
     },
     {
       "slug": "web-5xx-by-path",
       "title": "Group Server Errors by URL Path",
       "ok": true,
-      "elapsed_ms": 205,
+      "elapsed_ms": 193,
       "command_count": 3
     },
     {
       "slug": "suspicious-web-methods",
       "title": "Spot Unusual HTTP Methods in Access Logs",
       "ok": true,
-      "elapsed_ms": 205,
+      "elapsed_ms": 192,
       "command_count": 3
     },
     {
       "slug": "top-web-user-agents",
       "title": "Count the Most Common User Agents",
       "ok": true,
-      "elapsed_ms": 205,
+      "elapsed_ms": 193,
       "command_count": 3
     },
     {
       "slug": "admin-probe-paths",
       "title": "Find Common Admin Probe Paths",
       "ok": true,
-      "elapsed_ms": 197,
+      "elapsed_ms": 188,
       "command_count": 3
     },
     {
       "slug": "repeated-404-paths",
       "title": "Find Paths Repeatedly Returning 404",
       "ok": true,
-      "elapsed_ms": 209,
+      "elapsed_ms": 183,
       "command_count": 3
     },
     {
       "slug": "request-bursts-by-minute",
       "title": "Spot Request Bursts by Minute",
       "ok": true,
-      "elapsed_ms": 208,
+      "elapsed_ms": 196,
       "command_count": 3
     },
     {
       "slug": "large-web-responses",
       "title": "Find Unusually Large Web Responses",
       "ok": true,
-      "elapsed_ms": 209,
+      "elapsed_ms": 200,
       "command_count": 3
     },
     {
       "slug": "ip-path-repeaters",
       "title": "Find Clients Repeating the Same Path",
       "ok": true,
-      "elapsed_ms": 194,
+      "elapsed_ms": 189,
       "command_count": 3
     }
   ]

@@ -1,0 +1,11 @@
+::fixture-ready::
+$ systemd-analyze blame | head -20
+12.441s cloud-init.service
+4.982s docker.service
+2.104s nginx.service
+1.660s networking.service
+::exit-code::0
+$ last -x reboot | head -5
+reboot   system boot  6.8.0-60-generic Thu Jun 25 14:09   still running
+reboot   system boot  6.8.0-60-generic Wed Jun 24 03:12 - 14:08  (1+10:56)
+::exit-code::0
