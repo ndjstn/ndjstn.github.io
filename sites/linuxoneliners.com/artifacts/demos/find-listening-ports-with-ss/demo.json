@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 183,
+  "elapsed_ms": 225,
   "stdout": "::fixture-ready::\n$ ss -ltnp\nState  Recv-Q Send-Q Local Address:Port Peer Address:Port Process\nLISTEN 0      511    0.0.0.0:80        0.0.0.0:*     users:((\"nginx\",pid=1907,fd=6))\nLISTEN 0      128    127.0.0.1:5432     0.0.0.0:*     users:((\"postgres\",pid=2011,fd=7))\nLISTEN 0      64     0.0.0.0:22        0.0.0.0:*     users:((\"sshd\",pid=801,fd=3))\n::exit-code::0\n$ ss -tan state established\nState Recv-Q Send-Q Local Address:Port Peer Address:Port\nESTAB 0      0      10.0.0.5:443     198.51.100.20:51422\nESTAB 0      0      10.0.0.5:5432    10.0.0.8:41430\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

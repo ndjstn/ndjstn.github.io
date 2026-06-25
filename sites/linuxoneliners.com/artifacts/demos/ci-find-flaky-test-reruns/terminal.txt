@@ -1,0 +1,17 @@
+::fixture-ready::
+$ cd /lab/ci-artifacts && grep -RInE 'rerun|retry|flaky|passed on retry|failed attempt' artifacts logs
+artifacts/test/pytest.log:6:tests/test_billing.py::test_invoice passed on retry after failed attempt 1
+artifacts/test/pytest.log:7:1 failed, 2 passed, 1 rerun
+::exit-code::0
+$ cd /lab/ci-artifacts && grep -RInE 'rerun|retry|flaky|passed on retry|failed attempt' artifacts logs | cut -d: -f1 | sort -u
+artifacts/test/pytest.log
+::exit-code::0
+$ cd /lab/ci-artifacts && sed -n '1,120p' artifacts/test/pytest.log
+============================= test session starts =============================
+tests/test_api.py::test_health PASSED
+tests/test_api.py::test_create_user FAILED
+Traceback (most recent call last):
+  AssertionError: expected 201 got 500
+tests/test_billing.py::test_invoice passed on retry after failed attempt 1
+1 failed, 2 passed, 1 rerun
+::exit-code::0

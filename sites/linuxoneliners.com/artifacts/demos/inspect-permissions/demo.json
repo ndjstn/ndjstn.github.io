@@ -6,8 +6,8 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 197,
-  "stdout": "::fixture-ready::\n$ ls -l /var/www/example/index.html\n-rw-r----- 1 root root 14 Jun 25 13:19 /var/www/example/index.html\n::exit-code::0\n$ namei -l /var/www/example/index.html\nf: /var/www/example/index.html\ndrwxr-xr-x root root /\ndrwxr-xr-x root root var\ndrwxr-x--- root root www\ndrwxr-x--- root root example\n-rw-r----- root root index.html\n::exit-code::0\n$ stat /var/www/example/index.html\n  File: /var/www/example/index.html\n  Size: 14        \tBlocks: 8          IO Block: 4096   regular file\nDevice: 0,158\tInode: 4           Links: 1\nAccess: (0640/-rw-r-----)  Uid: (    0/    root)   Gid: (    0/    root)\nAccess: 2026-06-25 13:19:21.772065763 +0000\nModify: 2026-06-25 13:19:21.772065763 +0000\nChange: 2026-06-25 13:19:21.774065792 +0000\n Birth: 2026-06-25 13:19:21.772065763 +0000\n::exit-code::0\n",
+  "elapsed_ms": 222,
+  "stdout": "::fixture-ready::\n$ ls -l /var/www/example/index.html\n-rw-r----- 1 root root 14 Jun 25 22:13 /var/www/example/index.html\n::exit-code::0\n$ namei -l /var/www/example/index.html\nf: /var/www/example/index.html\ndrwxr-xr-x root root /\ndrwxr-xr-x root root var\ndrwxr-x--- root root www\ndrwxr-x--- root root example\n-rw-r----- root root index.html\n::exit-code::0\n$ stat /var/www/example/index.html\n  File: /var/www/example/index.html\n  Size: 14        \tBlocks: 8          IO Block: 4096   regular file\nDevice: 0,157\tInode: 4           Links: 1\nAccess: (0640/-rw-r-----)  Uid: (    0/    root)   Gid: (    0/    root)\nAccess: 2026-06-25 22:13:07.731986909 +0000\nModify: 2026-06-25 22:13:07.731986909 +0000\nChange: 2026-06-25 22:13:07.733986966 +0000\n Birth: 2026-06-25 22:13:07.731986909 +0000\n::exit-code::0\n",
   "stderr": "",
   "ok": true,
   "security": {

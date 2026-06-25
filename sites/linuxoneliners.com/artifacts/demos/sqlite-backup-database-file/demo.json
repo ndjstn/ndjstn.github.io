@@ -6,8 +6,8 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 196,
-  "stdout": "::fixture-ready::\n$ ls -lh app.db\n-rw-r--r-- 1 root root 16 Jun 25 13:19 app.db\n::exit-code::0\n$ sqlite3 app.db \".backup backup/app.db\"\n::exit-code::0\n$ ls -lh backup/app.db\n-rw-r--r-- 1 root root 16 Jun 25 13:19 backup/app.db\n::exit-code::0\n",
+  "elapsed_ms": 194,
+  "stdout": "::fixture-ready::\n$ ls -lh app.db\n-rw-r--r-- 1 root root 16 Jun 25 22:13 app.db\n::exit-code::0\n$ sqlite3 app.db \".backup backup/app.db\"\n::exit-code::0\n$ ls -lh backup/app.db\n-rw-r--r-- 1 root root 16 Jun 25 22:13 backup/app.db\n::exit-code::0\n",
   "stderr": "",
   "ok": true,
   "security": {

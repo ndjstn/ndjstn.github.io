@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 205,
+  "elapsed_ms": 227,
   "stdout": "::fixture-ready::\n$ grep -Rni --include='*.html' 'rel=\"canonical\"' public\npublic/draft.html:5:<link rel=\"canonical\" href=\"https://example.com/draft.html\">\npublic/blog/post.html:4:<link rel=\"canonical\" href=\"https://example.com/blog/post.html\">\npublic/index.html:5:<link rel=\"canonical\" href=\"https://example.com/\">\n::exit-code::0\n$ find public -name '*.html' -print | while read -r f; do grep -qi 'rel=\"canonical\"' \"$f\" || echo \"$f\"; done\npublic/about.html\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

@@ -1,0 +1,23 @@
+::fixture-ready::
+$ cd /lab/ci-artifacts && grep -RhoE 'tests="[0-9]+"|failures="[0-9]+"|errors="[0-9]+"|skipped="[0-9]+"' artifacts/test/*.xml
+tests="4"
+failures="1"
+errors="0"
+skipped="1"
+::exit-code::0
+$ cd /lab/ci-artifacts && grep -RhoE 'tests="[0-9]+"|failures="[0-9]+"|errors="[0-9]+"|skipped="[0-9]+"' artifacts/test/*.xml | sort | uniq -c
+      1 errors="0"
+      1 failures="1"
+      1 skipped="1"
+      1 tests="4"
+::exit-code::0
+$ cd /lab/ci-artifacts && sed -n '1,20p' artifacts/test/junit.xml
+<testsuite name="api" tests="4" failures="1" errors="0" skipped="1">
+  <testcase classname="tests.test_api" name="test_health"/>
+  <testcase classname="tests.test_api" name="test_create_user">
+    <failure message="expected 201 got 500">AssertionError</failure>
+  </testcase>
+  <testcase classname="tests.test_billing" name="test_invoice"/>
+  <testcase classname="tests.test_slow" name="test_report"><skipped message="slow"/></testcase>
+</testsuite>
+::exit-code::0

@@ -1,0 +1,26 @@
+::fixture-ready::
+$ cd /lab/ci-artifacts && grep -RInE 'error|failed|failure|exception|traceback' artifacts logs | head -50
+artifacts/build/webpack.log:1:webpack 5.91.0 compiled with 1 error
+artifacts/build/app-build.log:5:Build failed with exit code 1
+artifacts/test/pytest.log:6:tests/test_billing.py::test_invoice passed on retry after failed attempt 1
+artifacts/test/pytest.log:7:1 failed, 2 passed, 1 rerun
+artifacts/test/junit.xml:1:<testsuite name="api" tests="4" failures="1" errors="0" skipped="1">
+artifacts/test/junit.xml:4:    <failure message="expected 201 got 500">AssertionError</failure>
+logs/deploy.log:4:Deploy failed: missing artifacts/dist/robots.txt
+::exit-code::0
+$ cd /lab/ci-artifacts && grep -RInE 'error|failed|failure|exception|traceback' artifacts logs | cut -d: -f1 | sort -u
+artifacts/build/app-build.log
+artifacts/build/webpack.log
+artifacts/test/junit.xml
+artifacts/test/pytest.log
+logs/deploy.log
+::exit-code::0
+$ cd /lab/ci-artifacts && sed -n '1,120p' artifacts/test/pytest.log
+============================= test session starts =============================
+tests/test_api.py::test_health PASSED
+tests/test_api.py::test_create_user FAILED
+Traceback (most recent call last):
+  AssertionError: expected 201 got 500
+tests/test_billing.py::test_invoice passed on retry after failed attempt 1
+1 failed, 2 passed, 1 rerun
+::exit-code::0

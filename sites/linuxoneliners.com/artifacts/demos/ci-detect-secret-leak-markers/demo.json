@@ -1,0 +1,25 @@
+{
+  "slug": "ci-detect-secret-leak-markers",
+  "title": "Detect Secret Leak Markers in Artifacts",
+  "fixture": "containers/ci-artifact-triage-lab",
+  "command_count": 3,
+  "container_tool": "docker",
+  "image": "localhost/linuxoneliners-lab:latest",
+  "exit_code": 0,
+  "elapsed_ms": 231,
+  "stdout": "::fixture-ready::\n$ cd /lab/ci-artifacts && grep -RInE 'AWS_ACCESS_KEY|SECRET|TOKEN|PRIVATE KEY|PASSWORD' artifacts logs | head -50\nlogs/deploy.log:2:Using TOKEN=redacted-demo-token in debug environment\n::exit-code::0\n$ cd /lab/ci-artifacts && grep -RInE 'AWS_ACCESS_KEY|SECRET|TOKEN|PRIVATE KEY|PASSWORD' artifacts logs | cut -d: -f1 | sort -u\nlogs/deploy.log\n::exit-code::0\n$ cd /lab/ci-artifacts && sed -n '1,60p' logs/deploy.log\nDeploy started\nUsing TOKEN=redacted-demo-token in debug environment\nUploading artifacts/dist\nDeploy failed: missing artifacts/dist/robots.txt\n::exit-code::0\n",
+  "stderr": "",
+  "ok": true,
+  "security": {
+    "network": "none",
+    "capabilities": "dropped",
+    "no_new_privileges": true,
+    "memory": "256m",
+    "cpus": "1",
+    "pids_limit": 128,
+    "tmpfs": [
+      "/tmp",
+      "/var"
+    ]
+  }
+}

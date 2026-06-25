@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 181,
+  "elapsed_ms": 214,
   "stdout": "::fixture-ready::\n$ sqlite3 app.db \".schema orders\"\nCREATE TABLE users (id INTEGER PRIMARY KEY, email TEXT NOT NULL, created_at TEXT NOT NULL);\nCREATE UNIQUE INDEX idx_users_email ON users(email);\nCREATE TABLE orders (id INTEGER PRIMARY KEY, user_id INTEGER NOT NULL, total_cents INTEGER NOT NULL, created_at TEXT NOT NULL);\nCREATE INDEX idx_orders_user_id ON orders(user_id);\nCREATE TABLE events (id INTEGER PRIMARY KEY, event_type TEXT NOT NULL, created_at TEXT NOT NULL);\n::exit-code::0\n$ sqlite3 app.db \"PRAGMA index_list('orders');\"\n0|idx_orders_user_id|0|c|0\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

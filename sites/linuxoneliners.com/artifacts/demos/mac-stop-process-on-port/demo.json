@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 187,
+  "elapsed_ms": 191,
   "stdout": "::fixture-ready::\n$ printf '%s\\n' 4242 4243\n4242\n4243\n::exit-code::0\n$ printf '%s\\n' 4242 4243 | xargs -n1 printf 'would kill pid %s\\n'\nwould kill pid 4242\nwould kill pid 4243\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

@@ -1,0 +1,25 @@
+::fixture-ready::
+$ cd /lab/ci-artifacts && du -sh artifacts/*
+12K	artifacts/build
+12K	artifacts/coverage
+20K	artifacts/dist
+12K	artifacts/test
+::exit-code::0
+$ cd /lab/ci-artifacts && find artifacts -type f -printf '%s %p\n' | sort -nr | head -10
+831488 artifacts/dist/assets/vendor.js
+250880 artifacts/dist/assets/main.js
+450 artifacts/test/junit.xml
+338 artifacts/test/pytest.log
+139 artifacts/build/webpack.log
+137 artifacts/build/app-build.log
+131 artifacts/coverage/coverage-summary.txt
+87 artifacts/coverage/coverage-summary.json
+77 artifacts/dist/index.html
+::exit-code::0
+$ cd /lab/ci-artifacts && find artifacts -type f -printf '%s %p\n' | sort -nr | awk 'NR<=5 {printf "%.1f KB %s\n", $1/1024, $2}'
+812.0 KB artifacts/dist/assets/vendor.js
+245.0 KB artifacts/dist/assets/main.js
+0.4 KB artifacts/test/junit.xml
+0.3 KB artifacts/test/pytest.log
+0.1 KB artifacts/build/webpack.log
+::exit-code::0

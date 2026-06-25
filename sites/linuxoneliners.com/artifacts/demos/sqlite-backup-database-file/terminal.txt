@@ -1,9 +1,9 @@
 ::fixture-ready::
 $ ls -lh app.db
--rw-r--r-- 1 root root 16 Jun 25 13:19 app.db
+-rw-r--r-- 1 root root 16 Jun 25 22:13 app.db
 ::exit-code::0
 $ sqlite3 app.db ".backup backup/app.db"
 ::exit-code::0
 $ ls -lh backup/app.db
--rw-r--r-- 1 root root 16 Jun 25 13:19 backup/app.db
+-rw-r--r-- 1 root root 16 Jun 25 22:13 backup/app.db
 ::exit-code::0

@@ -1,0 +1,17 @@
+::fixture-ready::
+$ cd /lab/ci-artifacts && find artifacts/test -name '*.xml' -print
+artifacts/test/junit.xml
+::exit-code::0
+$ cd /lab/ci-artifacts && grep -RIn '<failure\|<error' artifacts/test/*.xml
+4:    <failure message="expected 201 got 500">AssertionError</failure>
+::exit-code::0
+$ cd /lab/ci-artifacts && sed -n '1,80p' artifacts/test/junit.xml
+<testsuite name="api" tests="4" failures="1" errors="0" skipped="1">
+  <testcase classname="tests.test_api" name="test_health"/>
+  <testcase classname="tests.test_api" name="test_create_user">
+    <failure message="expected 201 got 500">AssertionError</failure>
+  </testcase>
+  <testcase classname="tests.test_billing" name="test_invoice"/>
+  <testcase classname="tests.test_slow" name="test_report"><skipped message="slow"/></testcase>
+</testsuite>
+::exit-code::0

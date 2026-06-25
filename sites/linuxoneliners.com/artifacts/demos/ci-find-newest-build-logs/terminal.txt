@@ -1,0 +1,29 @@
+::fixture-ready::
+$ cd /lab/ci-artifacts && find artifacts logs -type f | sort
+artifacts/build/app-build.log
+artifacts/build/webpack.log
+artifacts/coverage/coverage-summary.json
+artifacts/coverage/coverage-summary.txt
+artifacts/dist/assets/main.js
+artifacts/dist/assets/vendor.js
+artifacts/dist/index.html
+artifacts/test/junit.xml
+artifacts/test/pytest.log
+logs/cache.log
+logs/deploy.log
+::exit-code::0
+$ cd /lab/ci-artifacts && find artifacts logs -type f \( -name '*.log' -o -name '*.txt' \) -printf '%TY-%Tm-%Td %TH:%TM %p\n' | sort -r | head
+2026-06-25 10:07 logs/cache.log
+2026-06-25 10:06 logs/deploy.log
+2026-06-25 10:05 artifacts/coverage/coverage-summary.txt
+2026-06-25 10:04 artifacts/build/app-build.log
+2026-06-25 10:03 artifacts/build/webpack.log
+2026-06-25 10:01 artifacts/test/pytest.log
+::exit-code::0
+$ cd /lab/ci-artifacts && sed -n '1,80p' artifacts/build/app-build.log
+Starting build
+Resolving dependencies
+Compiling app
+ERROR in src/server.ts:42: missing export createServer
+Build failed with exit code 1
+::exit-code::0

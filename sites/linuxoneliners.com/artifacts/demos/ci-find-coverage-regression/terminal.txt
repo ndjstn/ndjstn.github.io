@@ -1,0 +1,15 @@
+::fixture-ready::
+$ cd /lab/ci-artifacts && find artifacts/coverage -type f -print
+artifacts/coverage/coverage-summary.txt
+artifacts/coverage/coverage-summary.json
+::exit-code::0
+$ cd /lab/ci-artifacts && grep -RInE 'coverage|threshold|minimum|below' artifacts logs
+artifacts/coverage/coverage-summary.txt:5:ERROR coverage below minimum threshold: statements 78.4 < 80.0
+::exit-code::0
+$ cd /lab/ci-artifacts && sed -n '1,80p' artifacts/coverage/coverage-summary.txt
+Coverage summary
+Statements: 78.4%
+Branches: 71.2%
+Functions: 81.0%
+ERROR coverage below minimum threshold: statements 78.4 < 80.0
+::exit-code::0

@@ -1,0 +1,14 @@
+::fixture-ready::
+$ cd /lab/ci-artifacts && find artifacts/dist -maxdepth 2 -type f | sort
+artifacts/dist/assets/main.js
+artifacts/dist/assets/vendor.js
+artifacts/dist/index.html
+::exit-code::0
+$ cd /lab/ci-artifacts && find artifacts/dist -maxdepth 2 -type f -printf '%s %p\n' | sort -nr
+831488 artifacts/dist/assets/vendor.js
+250880 artifacts/dist/assets/main.js
+77 artifacts/dist/index.html
+::exit-code::0
+$ cd /lab/ci-artifacts && test -f artifacts/dist/index.html && echo 'index present'
+index present
+::exit-code::0

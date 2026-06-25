@@ -1,0 +1,13 @@
+::fixture-ready::
+$ cd /lab/ci-artifacts && grep -RInE 'AWS_ACCESS_KEY|SECRET|TOKEN|PRIVATE KEY|PASSWORD' artifacts logs | head -50
+logs/deploy.log:2:Using TOKEN=redacted-demo-token in debug environment
+::exit-code::0
+$ cd /lab/ci-artifacts && grep -RInE 'AWS_ACCESS_KEY|SECRET|TOKEN|PRIVATE KEY|PASSWORD' artifacts logs | cut -d: -f1 | sort -u
+logs/deploy.log
+::exit-code::0
+$ cd /lab/ci-artifacts && sed -n '1,60p' logs/deploy.log
+Deploy started
+Using TOKEN=redacted-demo-token in debug environment
+Uploading artifacts/dist
+Deploy failed: missing artifacts/dist/robots.txt
+::exit-code::0

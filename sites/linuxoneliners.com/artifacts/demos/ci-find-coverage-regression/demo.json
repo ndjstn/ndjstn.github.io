@@ -1,0 +1,25 @@
+{
+  "slug": "ci-find-coverage-regression",
+  "title": "Find Coverage Regression Lines",
+  "fixture": "containers/ci-artifact-triage-lab",
+  "command_count": 3,
+  "container_tool": "docker",
+  "image": "localhost/linuxoneliners-lab:latest",
+  "exit_code": 0,
+  "elapsed_ms": 206,
+  "stdout": "::fixture-ready::\n$ cd /lab/ci-artifacts && find artifacts/coverage -type f -print\nartifacts/coverage/coverage-summary.txt\nartifacts/coverage/coverage-summary.json\n::exit-code::0\n$ cd /lab/ci-artifacts && grep -RInE 'coverage|threshold|minimum|below' artifacts logs\nartifacts/coverage/coverage-summary.txt:5:ERROR coverage below minimum threshold: statements 78.4 < 80.0\n::exit-code::0\n$ cd /lab/ci-artifacts && sed -n '1,80p' artifacts/coverage/coverage-summary.txt\nCoverage summary\nStatements: 78.4%\nBranches: 71.2%\nFunctions: 81.0%\nERROR coverage below minimum threshold: statements 78.4 < 80.0\n::exit-code::0\n",
+  "stderr": "",
+  "ok": true,
+  "security": {
+    "network": "none",
+    "capabilities": "dropped",
+    "no_new_privileges": true,
+    "memory": "256m",
+    "cpus": "1",
+    "pids_limit": 128,
+    "tmpfs": [
+      "/tmp",
+      "/var"
+    ]
+  }
+}

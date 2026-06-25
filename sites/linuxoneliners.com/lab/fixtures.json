@@ -164,5 +164,31 @@
     "cat > /usr/local/bin/mysqladmin <<'SH'\n#!/usr/bin/env bash\ncase \"$1\" in\n  ping) printf 'mysqld is alive\\n' ;;\n  status) printf 'Uptime: 86400  Threads: 7  Questions: 23890  Slow queries: 3  Opens: 112  Open tables: 64  Queries per second avg: 0.276\\n' ;;\n  *) printf 'mysqladmin fixture: unsupported command\\n'; exit 1 ;;\nesac\nSH\nchmod +x /usr/local/bin/mysqladmin",
     "cat > /usr/local/bin/mysql <<'SH'\n#!/usr/bin/env bash\nargs=\"$*\"\ncase \"$args\" in\n  *\"show full processlist\"*) cat <<'OUT'\nId\tUser\tHost\tdb\tCommand\tTime\tState\tInfo\n17\tapp\t10.0.0.12\tshop\tQuery\t91\tSending data\tselect * from orders join order_items\n18\tapp\t10.0.0.13\tshop\tSleep\t20\t\tNULL\n22\treport\t10.0.0.30\tanalytics\tQuery\t680\tCopying to tmp table\tselect customer_id, sum(total) from orders group by customer_id\nOUT\n    ;;\n  *\"show processlist\"*) cat <<'OUT'\nId\tUser\tHost\tdb\tCommand\tTime\tState\tInfo\n17\tapp\t10.0.0.12\tshop\tQuery\t91\tSending data\tselect * from orders\n18\tapp\t10.0.0.13\tshop\tSleep\t20\t\tNULL\n22\treport\t10.0.0.30\tanalytics\tQuery\t680\tCopying to tmp table\tselect customer_id\nOUT\n    ;;\n  *\"information_schema.processlist where command <> 'Sleep'\"*) cat <<'OUT'\nid\tuser\thost\tdb\tcommand\ttime\tstate\tinfo\n22\treport\t10.0.0.30\tanalytics\tQuery\t680\tCopying to tmp table\tselect customer_id, sum(total) from orders\n17\tapp\t10.0.0.12\tshop\tQuery\t91\tSending data\tselect * from orders join order_items\nOUT\n    ;;\n  *\"command, count(*) from information_schema.processlist\"*) printf 'command\\tcount(*)\\nQuery\\t2\\nSleep\\t1\\n' ;;\n  *\"information_schema.tables group by table_schema\"*) printf 'table_schema\\tmb\\nshop\\t512.4\\nanalytics\\t240.8\\nmysql\\t18.2\\n' ;;\n  *\"show databases\"*) printf 'Database\\nanalytics\\ninformation_schema\\nmysql\\nshop\\n' ;;\n  *) printf 'status\\nok\\n' ;;\nesac\nSH\nchmod +x /usr/local/bin/mysql",
     "cd /lab/db-first-response"
+  ],
+  "containers/ci-artifact-triage-lab": [
+    "rm -rf /lab/ci-artifacts",
+    "mkdir -p /lab/ci-artifacts/artifacts/build /lab/ci-artifacts/artifacts/test /lab/ci-artifacts/artifacts/coverage /lab/ci-artifacts/artifacts/dist/assets /lab/ci-artifacts/logs",
+    "cd /lab/ci-artifacts",
+    "cat > artifacts/build/app-build.log <<'LOG'\nStarting build\nResolving dependencies\nCompiling app\nERROR in src/server.ts:42: missing export createServer\nBuild failed with exit code 1\nLOG",
+    "cat > artifacts/build/webpack.log <<'LOG'\nwebpack 5.91.0 compiled with 1 error\nasset main.js 245 KiB\nasset vendor.js 812 KiB\nERROR Module not found: Cannot resolve ./missing-module\nLOG",
+    "cat > artifacts/test/pytest.log <<'LOG'\n============================= test session starts =============================\ntests/test_api.py::test_health PASSED\ntests/test_api.py::test_create_user FAILED\nTraceback (most recent call last):\n  AssertionError: expected 201 got 500\ntests/test_billing.py::test_invoice passed on retry after failed attempt 1\n1 failed, 2 passed, 1 rerun\nLOG",
+    "cat > artifacts/test/junit.xml <<'XML'\n<testsuite name=\"api\" tests=\"4\" failures=\"1\" errors=\"0\" skipped=\"1\">\n  <testcase classname=\"tests.test_api\" name=\"test_health\"/>\n  <testcase classname=\"tests.test_api\" name=\"test_create_user\">\n    <failure message=\"expected 201 got 500\">AssertionError</failure>\n  </testcase>\n  <testcase classname=\"tests.test_billing\" name=\"test_invoice\"/>\n  <testcase classname=\"tests.test_slow\" name=\"test_report\"><skipped message=\"slow\"/></testcase>\n</testsuite>\nXML",
+    "cat > artifacts/coverage/coverage-summary.txt <<'TXT'\nCoverage summary\nStatements: 78.4%\nBranches: 71.2%\nFunctions: 81.0%\nERROR coverage below minimum threshold: statements 78.4 < 80.0\nTXT",
+    "printf '{\"total\":{\"statements\":{\"pct\":78.4},\"branches\":{\"pct\":71.2},\"functions\":{\"pct\":81.0}}}\\n' > artifacts/coverage/coverage-summary.json",
+    "printf '<!doctype html><title>Demo App</title><script src=\"assets/main.js\"></script>\\n' > artifacts/dist/index.html",
+    "printf 'console.log(\"main bundle\")\\n' > artifacts/dist/assets/main.js",
+    "printf 'console.log(\"vendor bundle\")\\n' > artifacts/dist/assets/vendor.js",
+    "truncate -s 245K artifacts/dist/assets/main.js",
+    "truncate -s 812K artifacts/dist/assets/vendor.js",
+    "cat > logs/deploy.log <<'LOG'\nDeploy started\nUsing TOKEN=redacted-demo-token in debug environment\nUploading artifacts/dist\nDeploy failed: missing artifacts/dist/robots.txt\nLOG",
+    "cat > logs/cache.log <<'LOG'\nCache restore started\nCache key linux-node-abc123\nwarning: cache archive larger than expected\nCache restore complete\nLOG",
+    "touch -t 202606251001 artifacts/test/pytest.log",
+    "touch -t 202606251002 artifacts/test/junit.xml",
+    "touch -t 202606251003 artifacts/build/webpack.log",
+    "touch -t 202606251004 artifacts/build/app-build.log",
+    "touch -t 202606251005 artifacts/coverage/coverage-summary.txt",
+    "touch -t 202606251006 logs/deploy.log",
+    "touch -t 202606251007 logs/cache.log",
+    "cd /lab/ci-artifacts"
   ]
 }
