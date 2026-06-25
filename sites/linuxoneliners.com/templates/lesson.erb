@@ -48,6 +48,12 @@
           <li><code><%= command %></code></li>
         <% end %>
       </ol>
+      <% if demo %>
+        <div class="demo-links">
+          <a data-track="export_click" data-track-label="<%= lesson["slug"] %>_terminal" href="/demos/<%= lesson["slug"] %>/terminal.txt">Terminal transcript</a>
+          <a data-track="export_click" data-track-label="<%= lesson["slug"] %>_demo_json" href="/demos/<%= lesson["slug"] %>/demo.json">Demo JSON</a>
+        </div>
+      <% end %>
     </section>
 
     <section class="section split">

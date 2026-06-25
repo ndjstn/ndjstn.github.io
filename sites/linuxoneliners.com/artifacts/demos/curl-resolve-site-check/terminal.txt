@@ -1,0 +1,13 @@
+::fixture-ready::
+$ dig +short example.com
+198.51.100.44
+::exit-code::0
+$ curl -I https://example.com/
+curl: (6) Could not resolve host: example.com
+::exit-code::6
+$ curl --resolve example.com:443:203.0.113.10 -I https://example.com/
+HTTP/2 200
+server: fake-nginx
+content-type: text/html
+
+::exit-code::0

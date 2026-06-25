@@ -1,0 +1,25 @@
+::fixture-ready::
+$ df -h
+Filesystem      Size  Used Avail Use% Mounted on
+overlay         3.6T  1.2T  2.3T  35% /
+tmpfs            64M     0   64M   0% /dev
+shm              64M     0   64M   0% /dev/shm
+tmpfs            64M     0   64M   0% /tmp
+tmpfs            64M  352K   64M   1% /var
+/dev/nvme0n1p2  3.6T  1.2T  2.3T  35% /lab/demo.sh
+tmpfs            63G     0   63G   0% /proc/asound
+tmpfs            63G     0   63G   0% /proc/acpi
+tmpfs            63G     0   63G   0% /proc/scsi
+tmpfs            63G     0   63G   0% /sys/firmware
+tmpfs            63G     0   63G   0% /sys/devices/virtual/powercap
+::exit-code::0
+$ du -sh /var/* 2>/dev/null | sort -h
+64K	/var/backups
+96K	/var/log
+192K	/var/cache
+::exit-code::0
+$ find /var -type f -printf '%s %p\n' | sort -nr | head -20
+196608 /var/cache/demo/blob.cache
+98304 /var/log/app.log
+65536 /var/backups/site.tar
+::exit-code::0

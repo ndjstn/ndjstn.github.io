@@ -1,0 +1,25 @@
+::fixture-ready::
+$ find source backup -maxdepth 2 -type f | sort
+backup/app.conf
+backup/stale.txt
+source/app.conf
+source/index.html
+::exit-code::0
+$ rsync -avhn --delete ./source/ ./backup/
+sending incremental file list
+deleting stale.txt
+app.conf
+index.html
+
+sent 98 bytes  received 31 bytes  258.00 bytes/sec
+total size is 24  speedup is 0.19 (DRY RUN)
+::exit-code::0
+$ rsync -avh --delete ./source/ ./backup/
+sending incremental file list
+deleting stale.txt
+app.conf
+index.html
+
+sent 206 bytes  received 67 bytes  546.00 bytes/sec
+total size is 24  speedup is 0.09
+::exit-code::0

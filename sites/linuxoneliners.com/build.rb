@@ -11,11 +11,15 @@ ROOT = File.expand_path(__dir__)
 CONTENT = JSON.parse(File.read(File.join(ROOT, "content", "lessons.json")))
 DIST = File.join(ROOT, "dist")
 GENERATED_AT = Time.now.utc.iso8601
+DEMO_ARTIFACTS = File.join(ROOT, "artifacts", "demos")
 
 FileUtils.rm_rf(DIST)
 FileUtils.mkdir_p(DIST)
 FileUtils.cp_r(File.join(ROOT, "assets"), DIST)
 FileUtils.mkdir_p(File.join(DIST, "exports"))
+if Dir.exist?(DEMO_ARTIFACTS)
+  FileUtils.cp_r(DEMO_ARTIFACTS, File.join(DIST, "demos"))
+end
 
 def render_template(name, locals)
   template = File.read(File.join(ROOT, "templates", "#{name}.erb"))
@@ -52,9 +56,17 @@ class TemplateContext
 end
 
 series_by_id = CONTENT["series"].to_h { |series| [series["id"], series] }
+demo_summary_path = File.join(DEMO_ARTIFACTS, "summary.json")
+demo_summary = File.exist?(demo_summary_path) ? JSON.parse(File.read(demo_summary_path)) : nil
+demo_by_slug = if demo_summary
+                 demo_summary.fetch("results", []).to_h { |result| [result["slug"], result] }
+               else
+                 {}
+               end
 
 helpers = {
-  "series_title" => lambda { |id| series_by_id.fetch(id).fetch("title") }
+  "series_title" => lambda { |id| series_by_id.fetch(id).fetch("title") },
+  "demo_for" => lambda { |slug| demo_by_slug[slug] }
 }
 
 def render_page(body:, title:, description:, root_path:, asset_path:)
@@ -78,6 +90,7 @@ index_body = render_template(
     "lessons" => CONTENT["lessons"],
     "series" => CONTENT["series"],
     "site" => CONTENT["site"],
+    "demo_summary" => demo_summary,
     "root_path" => "/",
     "asset_path" => "/",
     **helpers
@@ -103,6 +116,7 @@ CONTENT["lessons"].each do |lesson|
     "lesson",
     {
       "lesson" => lesson,
+      "demo" => demo_by_slug[lesson["slug"]],
       "root_path" => "/",
       "asset_path" => "/",
       **helpers
@@ -124,6 +138,7 @@ end
 feed = {
   "generated_at" => GENERATED_AT,
   "site" => CONTENT["site"],
+  "demo_summary" => demo_summary,
   "lessons" => CONTENT["lessons"].map do |lesson|
     lesson.slice("slug", "title", "series", "hook", "command", "danger", "shorts", "linkedin", "youtube")
   end

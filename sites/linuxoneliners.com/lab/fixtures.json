@@ -1,0 +1,33 @@
+{
+  "containers/network-tools": [
+    "mkdir -p /tmp/lol/site",
+    "printf '<!doctype html><title>Example</title><h1>Example site is alive</h1>\\n' > /tmp/lol/site/index.html",
+    "cat > /usr/local/bin/curl <<'SH'\n#!/usr/bin/env bash\nif [[ \"$*\" == *\"--resolve example.com:443:203.0.113.10\"* ]]; then\n  printf 'HTTP/2 200\\nserver: fake-nginx\\ncontent-type: text/html\\n\\n'\n  exit 0\nfi\nif [[ \"$*\" == *\"http://127.0.0.1:80\"* ]]; then\n  printf 'HTTP/1.1 200 OK\\nserver: fake-nginx\\ncontent-type: text/html\\n\\n'\n  exit 0\nfi\nif [[ \"$*\" == *\"https://example.com\"* ]]; then\n  printf 'curl: (6) Could not resolve host: example.com\\n' >&2\n  exit 6\nfi\nexec /usr/bin/curl \"$@\"\nSH\nchmod +x /usr/local/bin/curl",
+    "cat > /usr/local/bin/dig <<'SH'\n#!/usr/bin/env bash\nif [[ \"$*\" == *\"example.com\"* ]]; then\n  printf '198.51.100.44\\n'\n  exit 0\nfi\nprintf '203.0.113.10\\n'\nSH\nchmod +x /usr/local/bin/dig",
+    "cat > /usr/local/bin/ss <<'SH'\n#!/usr/bin/env bash\ncat <<'OUT'\nNetid State  Recv-Q Send-Q Local Address:Port Peer Address:Port Process\ntcp   LISTEN 0      511          0.0.0.0:80        0.0.0.0:*     users:((\"nginx\",pid=17,fd=6))\ntcp   LISTEN 0      128        127.0.0.1:8091      0.0.0.0:*     users:((\"python3\",pid=41,fd=3))\nOUT\nSH\nchmod +x /usr/local/bin/ss"
+  ],
+  "containers/file-lab": [
+    "mkdir -p /var/log /var/cache/demo /var/backups",
+    "dd if=/dev/zero of=/var/log/app.log bs=1024 count=96 status=none",
+    "dd if=/dev/zero of=/var/cache/demo/blob.cache bs=1024 count=192 status=none",
+    "dd if=/dev/zero of=/var/backups/site.tar bs=1024 count=64 status=none"
+  ],
+  "containers/rsync-lab": [
+    "mkdir -p source backup",
+    "printf 'current config\\n' > source/app.conf",
+    "printf 'new page\\n' > source/index.html",
+    "printf 'old config\\n' > backup/app.conf",
+    "printf 'stale upload\\n' > backup/stale.txt"
+  ],
+  "containers/log-lab": [
+    "mkdir -p /var/log/nginx",
+    "cat > /var/log/nginx/error.log <<'LOG'\n2026/06/25 10:00:01 [notice] 11#11: start worker process\n2026/06/25 10:01:42 [error] 11#11: *7 connect() failed (111: Connection refused) while connecting to upstream\n2026/06/25 10:02:05 [warn] 11#11: upstream server temporarily disabled\n2026/06/25 10:03:16 [error] 11#11: *9 access forbidden by rule, client: 203.0.113.44\n2026/06/25 10:04:33 [error] 11#11: *10 upstream timed out while reading response header\nLOG"
+  ],
+  "containers/permission-lab": [
+    "mkdir -p /var/www/example",
+    "printf '<h1>demo</h1>\\n' > /var/www/example/index.html",
+    "chmod 750 /var/www",
+    "chmod 750 /var/www/example",
+    "chmod 640 /var/www/example/index.html"
+  ]
+}

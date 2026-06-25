@@ -159,6 +159,41 @@ Events currently include:
 
 This is intentionally site-owned data for load planning, content testing, monetization tests, and future sale diligence.
 
+## Disposable Demo Vessels
+
+Run command demos in isolated containers:
+
+```bash
+./scripts/run_linuxoneliners_demos.sh
+```
+
+Artifacts:
+
+```text
+sites/linuxoneliners.com/artifacts/demos/
+```
+
+Published paths after build:
+
+```text
+/demos/summary.json
+/demos/<lesson-slug>/terminal.txt
+/demos/<lesson-slug>/demo.json
+```
+
+Current isolation controls:
+
+- network disabled
+- capabilities dropped
+- no-new-privileges
+- memory limit
+- CPU limit
+- PID limit
+- fake fixtures
+- secret-pattern scan before artifact write
+
+These artifacts are the source material for CI checks, screenshots, terminal animations, Shorts, and voiceover scripts.
+
 ## Build
 
 ```bash

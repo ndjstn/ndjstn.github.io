@@ -101,6 +101,27 @@
       "experiment log"
     ]
   },
+  "backend": {
+    "architecture": "sites/linuxoneliners.com/backend/ARCHITECTURE.md",
+    "future_schema": "sites/linuxoneliners.com/backend/schema.sql",
+    "dashboard_role": "track LinkedIn, YouTube, search, account, comment, command, ad, conversion, load, and valuation signals",
+    "asset_boundary": {
+      "sellable": [
+        "site-specific users",
+        "site-specific comments",
+        "site-specific commands",
+        "site-specific analytics",
+        "site-specific ad and conversion records"
+      ],
+      "retained": [
+        "cross-site dashboard",
+        "content generation engine",
+        "video and voiceover pipeline",
+        "moderation prompts and models",
+        "site factory automation"
+      ]
+    }
+  },
   "handoff": {
     "sale_candidate": true,
     "export_allowed": "aggregate-only",

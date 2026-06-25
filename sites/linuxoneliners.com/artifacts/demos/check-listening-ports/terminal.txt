@@ -1,0 +1,16 @@
+::fixture-ready::
+$ ss -tulpn
+Netid State  Recv-Q Send-Q Local Address:Port Peer Address:Port Process
+tcp   LISTEN 0      511          0.0.0.0:80        0.0.0.0:*     users:(("nginx",pid=17,fd=6))
+tcp   LISTEN 0      128        127.0.0.1:8091      0.0.0.0:*     users:(("python3",pid=41,fd=3))
+::exit-code::0
+$ ss -tulpn | grep ':80\|:443'
+tcp   LISTEN 0      511          0.0.0.0:80        0.0.0.0:*     users:(("nginx",pid=17,fd=6))
+tcp   LISTEN 0      128        127.0.0.1:8091      0.0.0.0:*     users:(("python3",pid=41,fd=3))
+::exit-code::0
+$ curl -I http://127.0.0.1:80
+HTTP/1.1 200 OK
+server: fake-nginx
+content-type: text/html
+
+::exit-code::0

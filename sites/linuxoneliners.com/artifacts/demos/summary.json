@@ -1,0 +1,59 @@
+{
+  "generated_at": "2026-06-25T10:25:59Z",
+  "container_tool": "docker",
+  "image": "localhost/linuxoneliners-lab:latest",
+  "total": 7,
+  "passed": 7,
+  "failed": [],
+  "results": [
+    {
+      "slug": "curl-resolve-site-check",
+      "title": "Your Site Is Not Down. DNS Might Be Lying.",
+      "ok": true,
+      "elapsed_ms": 201,
+      "command_count": 3
+    },
+    {
+      "slug": "find-large-files",
+      "title": "Find the Files Eating Your Disk",
+      "ok": true,
+      "elapsed_ms": 209,
+      "command_count": 3
+    },
+    {
+      "slug": "rsync-dry-run",
+      "title": "Run Rsync Without Deleting Your Backup",
+      "ok": true,
+      "elapsed_ms": 281,
+      "command_count": 3
+    },
+    {
+      "slug": "tail-live-logs",
+      "title": "Watch Logs Without Opening the Whole File",
+      "ok": true,
+      "elapsed_ms": 4204,
+      "command_count": 3
+    },
+    {
+      "slug": "grep-errors-in-logs",
+      "title": "Find Errors Before Reading Every Log Line",
+      "ok": true,
+      "elapsed_ms": 176,
+      "command_count": 3
+    },
+    {
+      "slug": "check-listening-ports",
+      "title": "Check What Is Actually Listening",
+      "ok": true,
+      "elapsed_ms": 185,
+      "command_count": 3
+    },
+    {
+      "slug": "inspect-permissions",
+      "title": "Inspect Permissions Before Changing Them",
+      "ok": true,
+      "elapsed_ms": 171,
+      "command_count": 3
+    }
+  ]
+}

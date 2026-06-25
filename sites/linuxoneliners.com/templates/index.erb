@@ -63,6 +63,24 @@
 
   <section class="section split">
     <div>
+      <p class="eyebrow">demo vessel</p>
+      <h2>Commands run in disposable containers</h2>
+      <p>The demo artifacts are generated from fake fixtures in network-disabled containers. These transcripts become source material for screenshots, Shorts, voiceover, and CI checks.</p>
+    </div>
+    <div class="promo-card">
+      <% if demo_summary %>
+        <h3><%= demo_summary["passed"] %>/<%= demo_summary["total"] %> demos passed</h3>
+        <p>Generated <%= demo_summary["generated_at"] %> with <%= demo_summary["container_tool"] %>.</p>
+        <p><a data-track="export_click" data-track-label="demo_summary" href="demos/summary.json">Demo summary JSON</a></p>
+      <% else %>
+        <h3>Demos not generated yet</h3>
+        <p>Run <code>./scripts/run_linuxoneliners_demos.sh</code> to create vessel outputs.</p>
+      <% end %>
+    </div>
+  </section>
+
+  <section class="section split">
+    <div>
       <p class="eyebrow">curation gate</p>
       <h2>Every lesson has to earn its slot</h2>
       <p>New content is checked for safety notes, reproducible demo steps, Shorts metadata, a LinkedIn question, and an experiment metric before it ships.</p>
