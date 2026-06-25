@@ -8,6 +8,7 @@ Gemfile.lock
 .jekyll-metadata
 _site
 .cache
+sites/linuxoneliners.com/dist
 
 # RubyGems
 *.gem

@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title><%= page_title %></title>
+  <meta name="description" content="<%= meta_description %>">
+  <link rel="stylesheet" href="<%= asset_path %>assets/styles.css">
+  <script defer src="<%= asset_path %>assets/app.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="<%= root_path %>">
+      <span class="prompt">$</span> Linux One Liners
+    </a>
+    <nav aria-label="Primary">
+      <a href="<%= root_path %>#lessons">Lessons</a>
+      <a href="<%= root_path %>#series">Series</a>
+      <a href="<%= root_path %>#workflow">Workflow</a>
+    </nav>
+  </header>
+  <%= body %>
+  <footer class="site-footer">
+    <p>Built as a reproducible command lab. Videos live on YouTube; the notes live here.</p>
+  </footer>
+</body>
+</html>

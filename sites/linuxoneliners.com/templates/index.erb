@@ -1,0 +1,58 @@
+<main>
+  <section class="hero">
+    <p class="eyebrow">shorts-ready linux demos</p>
+    <h1>Tiny commands. Real failures. Safer fixes.</h1>
+    <p class="lede">Linux One Liners is a command rescue library built from reproducible terminal demos. Each lesson can become a web page, YouTube Short, LinkedIn post, transcript, and later a voiceover video.</p>
+    <div class="hero-actions">
+      <a class="button" href="#lessons">Browse lessons</a>
+      <a class="button ghost" href="#workflow">See the pipeline</a>
+    </div>
+  </section>
+
+  <section id="lessons" class="section">
+    <div class="section-heading">
+      <p class="eyebrow">first batch</p>
+      <h2>Command rescue cards</h2>
+    </div>
+    <div class="lesson-grid">
+      <% lessons.each do |lesson| %>
+        <article class="lesson-card">
+          <div class="card-meta">
+            <span><%= series_title(lesson["series"]) %></span>
+            <span class="danger <%= lesson["danger"] %>"><%= lesson["danger"] %></span>
+          </div>
+          <h3><a href="lessons/<%= lesson["slug"] %>/"><%= lesson["title"] %></a></h3>
+          <p><%= lesson["hook"] %></p>
+          <code><%= lesson["command"] %></code>
+        </article>
+      <% end %>
+    </div>
+  </section>
+
+  <section id="series" class="section split">
+    <div>
+      <p class="eyebrow">curriculum engine</p>
+      <h2>Series, not random clips</h2>
+      <p>Shorts are the atomic unit, but the site organizes them into playlists, pages, and future paid packs.</p>
+    </div>
+    <div class="series-list">
+      <% series.each do |item| %>
+        <article>
+          <h3><%= item["title"] %></h3>
+          <p><%= item["summary"] %></p>
+        </article>
+      <% end %>
+    </div>
+  </section>
+
+  <section id="workflow" class="section workflow">
+    <p class="eyebrow">production model</p>
+    <h2>One source, many outputs</h2>
+    <ol>
+      <li>Write a structured lesson with problem, command, danger level, demo steps, and recovery notes.</li>
+      <li>Run it inside a disposable container or VM fixture.</li>
+      <li>Capture terminal frames, captions, transcript, and short-form metadata.</li>
+      <li>Publish the web page, YouTube Short, LinkedIn post, and later a course unit.</li>
+    </ol>
+  </section>
+</main>

@@ -1,0 +1,174 @@
+{
+  "site": {
+    "name": "Linux One Liners",
+    "domain": "linuxoneliners.com",
+    "tagline": "Tiny commands. Real failures. Safer fixes.",
+    "description": "A command rescue library and short-form Linux ops lab built from reproducible terminal demos.",
+    "ads_status": "off_until_traffic_signal",
+    "traffic_gate": {
+      "ads_review_after_monthly_pageviews": 10000,
+      "product_review_after_email_subscribers": 250,
+      "sponsor_review_after_monthly_video_views": 50000
+    }
+  },
+  "series": [
+    {
+      "id": "linux-survival-basics",
+      "title": "Linux Survival Basics",
+      "summary": "The commands to inspect a machine before guessing.",
+      "audience": "new Linux users, analysts, junior admins, and self-hosters"
+    },
+    {
+      "id": "web-server-rescue",
+      "title": "Web Server Rescue",
+      "summary": "Small checks that separate DNS, TLS, Nginx, and app failures.",
+      "audience": "site owners, developers, and solo operators"
+    },
+    {
+      "id": "dangerous-commands",
+      "title": "Dangerous Commands",
+      "summary": "Commands worth understanding before copying from the internet.",
+      "audience": "anyone with shell access to a system they care about"
+    }
+  ],
+  "lessons": [
+    {
+      "slug": "curl-resolve-site-check",
+      "title": "Your Site Is Not Down. DNS Might Be Lying.",
+      "series": "web-server-rescue",
+      "hook": "The browser said the site was gone. The server was answering fine.",
+      "problem": "A domain appears unreachable, but you need to separate a real server outage from stale or wrong DNS.",
+      "command": "curl --resolve example.com:443:203.0.113.10 https://example.com/",
+      "danger": "safe",
+      "starting_state": "A domain lookup may point somewhere unexpected, while the target VPS still serves the site.",
+      "what_changed": "The request bypasses normal DNS for one call and tests the HTTPS server directly.",
+      "when_to_use": "Use this when DNS, browser cache, router DNS, or CDN routing may be hiding the real server state.",
+      "when_not_to_use": "Do not treat a successful forced request as proof that public DNS is correct.",
+      "undo": "No system state is changed. Remove the forced IP and test normal DNS again.",
+      "expected_output": "HTTP response headers or page content from the target server.",
+      "terminal_demo": {
+        "fixture": "containers/network-tools",
+        "commands": [
+          "dig +short example.com",
+          "curl -I https://example.com/",
+          "curl --resolve example.com:443:203.0.113.10 -I https://example.com/"
+        ]
+      },
+      "shorts": {
+        "format": "vertical",
+        "duration_target_seconds": 35,
+        "title": "Your server is not down. DNS is lying.",
+        "voiceover": "Before you blame Nginx, force one request straight to the VPS. If that works, the server is alive and DNS is the suspect.",
+        "caption": "One command separates DNS failure from server failure."
+      },
+      "linkedin": {
+        "question": "When a site disappears, do you check DNS first or the web server first?",
+        "cta": "Full terminal demo and notes"
+      },
+      "youtube": {
+        "playlist": "Web Server Rescue",
+        "description": "A quick Linux one-liner for testing whether DNS is lying about a live web server."
+      },
+      "experiments": [
+        {
+          "id": "hook_dns_lies_vs_server_down",
+          "metric": "short_click_through_rate",
+          "variant_a": "Your server is not down. DNS is lying.",
+          "variant_b": "Before you blame Nginx, run this."
+        }
+      ]
+    },
+    {
+      "slug": "find-large-files",
+      "title": "Find the Files Eating Your Disk",
+      "series": "linux-survival-basics",
+      "hook": "The disk was full, but guessing at folders was the slow part.",
+      "problem": "A machine is low on disk space and you need to quickly find the largest files under a path.",
+      "command": "find /var -type f -printf '%s %p\\n' | sort -nr | head -20",
+      "danger": "safe",
+      "starting_state": "Disk usage is high and broad directory totals are not specific enough.",
+      "what_changed": "Nothing changes. The command lists large files so cleanup is based on evidence.",
+      "when_to_use": "Use this before deleting logs, caches, backups, or uploads.",
+      "when_not_to_use": "Avoid running broad searches on extremely busy systems without considering IO impact.",
+      "undo": "No state is changed.",
+      "expected_output": "A sorted list of byte sizes and file paths.",
+      "terminal_demo": {
+        "fixture": "containers/file-lab",
+        "commands": [
+          "df -h",
+          "du -sh /var/* 2>/dev/null | sort -h",
+          "find /var -type f -printf '%s %p\\n' | sort -nr | head -20"
+        ]
+      },
+      "shorts": {
+        "format": "vertical",
+        "duration_target_seconds": 30,
+        "title": "Find the files eating your disk.",
+        "voiceover": "Do not start deleting random folders. First list the largest files, then decide what is actually safe to remove.",
+        "caption": "Find large files before deleting anything."
+      },
+      "linkedin": {
+        "question": "What is the first disk-space command you usually run?",
+        "cta": "Full command and safer cleanup notes"
+      },
+      "youtube": {
+        "playlist": "Linux Survival Basics",
+        "description": "A quick command for finding large files before guessing at disk cleanup."
+      },
+      "experiments": [
+        {
+          "id": "disk_full_hook",
+          "metric": "linkedin_comment_rate",
+          "variant_a": "The disk was full, but guessing at folders was the slow part.",
+          "variant_b": "This is the command I run before deleting anything."
+        }
+      ]
+    },
+    {
+      "slug": "rsync-dry-run",
+      "title": "Run Rsync Without Deleting Your Backup",
+      "series": "dangerous-commands",
+      "hook": "One rsync flag can save you. Another can erase the wrong side.",
+      "problem": "You need to preview an rsync operation before moving or deleting files.",
+      "command": "rsync -avhn --delete ./source/ ./backup/",
+      "danger": "caution",
+      "starting_state": "A source directory and backup directory may differ.",
+      "what_changed": "The dry run prints intended changes without modifying files.",
+      "when_to_use": "Use this before any sync involving deletes, production data, or backups.",
+      "when_not_to_use": "Do not assume dry-run output is safe if the source and destination paths are reversed.",
+      "undo": "No state is changed during the dry run. If you remove `-n`, make a backup first.",
+      "expected_output": "A list of files that would be copied, updated, or deleted.",
+      "terminal_demo": {
+        "fixture": "containers/rsync-lab",
+        "commands": [
+          "find source backup -maxdepth 2 -type f | sort",
+          "rsync -avhn --delete ./source/ ./backup/",
+          "rsync -avh --delete ./source/ ./backup/"
+        ]
+      },
+      "shorts": {
+        "format": "vertical",
+        "duration_target_seconds": 40,
+        "title": "Preview rsync before it bites.",
+        "voiceover": "The `-n` flag is the pause button. It shows what rsync would do before you let it touch the files.",
+        "caption": "Dry-run destructive syncs first."
+      },
+      "linkedin": {
+        "question": "Have you ever seen `rsync --delete` pointed the wrong way?",
+        "cta": "Full demo and safer checklist"
+      },
+      "youtube": {
+        "playlist": "Dangerous Commands",
+        "description": "A short demo showing why rsync dry runs matter before using --delete."
+      },
+      "experiments": [
+        {
+          "id": "rsync_fear_vs_safety",
+          "metric": "youtube_retention_15s",
+          "variant_a": "One rsync flag can save you. Another can erase the wrong side.",
+          "variant_b": "Run this before `rsync --delete`."
+        }
+      ]
+    }
+  ]
+}

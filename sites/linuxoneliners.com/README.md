@@ -1,0 +1,146 @@
+# Linux One Liners Scaffold
+
+Linux One Liners should be a production pipeline, not just a page collection.
+
+One structured lesson should generate:
+
+- a search-friendly web page
+- a YouTube Shorts script
+- a LinkedIn hook and question
+- a terminal demo plan
+- a transcript/caption seed
+- future course or paid-pack metadata
+- experiment notes for A/B testing
+
+## Current Bet
+
+Build a static command rescue library first:
+
+```text
+commands + failures + safer fixes + short-form video metadata
+```
+
+Do not start with accounts, a database, self-hosted video, comments, or a SaaS dashboard. Those add operating burden before the site has traffic.
+
+## Review Of The Plan
+
+What is good:
+
+- Static pages are cheap, fast, portable, and easy to sell later.
+- YouTube handles video hosting and discovery.
+- LinkedIn gets short practical hooks instead of generic article links.
+- Structured lesson data lets us regenerate pages, Shorts, scripts, captions, and course units.
+- A/B experiments are tracked at the lesson level instead of guessed from memory.
+
+What needs discipline:
+
+- Every lesson needs original terminal output or a reproducible fixture.
+- Dangerous commands need recovery notes and clear warnings.
+- Ads should stay off until traffic is real.
+- User data should not be collected until there is a concrete reason.
+- Runtime containers should be used for demos and generators, not for a simple static site.
+- Security should be boring by default: static releases, no writable web root, no secrets in demos, and no user data until it pays for its complexity.
+
+## Traffic And Monetization Gates
+
+Ads are not first. Useful traffic is first.
+
+Review ads after roughly:
+
+```text
+10,000 monthly page views
+```
+
+Review paid products after roughly:
+
+```text
+250 email subscribers
+```
+
+Review sponsorship or affiliate outreach after roughly:
+
+```text
+50,000 monthly video views
+```
+
+Early monetization should favor:
+
+- affiliate links for VPS, monitoring, books, and tools
+- paid runbook packs
+- downloadable cheat sheets
+- consulting leads
+- sponsored command series once traffic is proven
+
+## A/B Testing
+
+Each lesson can define experiments in `content/lessons.json`.
+
+Start with simple tests:
+
+- LinkedIn hook A vs. B
+- YouTube Short title A vs. B
+- thumbnail/caption first line
+- call-to-action wording
+- page layout: command first vs. problem first
+
+Track:
+
+- YouTube 3-second hold
+- YouTube 15-second retention
+- YouTube click-through rate
+- LinkedIn comment rate
+- LinkedIn save/share rate
+- site click-through to related lessons
+- email or contact conversion
+
+## Buyer Evidence
+
+Track these monthly under `ops/valuation/`:
+
+- traffic by source
+- top pages and search queries
+- YouTube Shorts views and retention
+- LinkedIn click/comment/save rates
+- revenue by source
+- expenses
+- net profit
+- content added
+- experiments run
+- operational incidents
+- transfer risks
+
+This keeps a running valuation defensible instead of vibes-based.
+
+## Security Baseline
+
+Use `ops/security/README.md` as the default gate.
+
+For this site, the safest early shape is:
+
+```text
+Nginx -> static release directory
+```
+
+Generated demos should run in disposable containers or VMs with fake data. The public site should not mount real keys, use real secrets, or collect user data until there is a product reason.
+
+## Build
+
+```bash
+ruby sites/linuxoneliners.com/build.rb
+```
+
+Output:
+
+```text
+sites/linuxoneliners.com/dist/
+```
+
+## Next Granular Build Slices
+
+1. Add ten Linux Survival Basics lessons.
+2. Add a terminal fixture runner that executes commands in disposable containers.
+3. Add terminal capture with asciinema or a screenshot renderer.
+4. Add Shorts metadata export as CSV/JSON.
+5. Add a deployment script for `linuxoneliners.com`.
+6. Add privacy-safe analytics events for copy buttons and outbound video clicks.
+7. Add a local quality gate that blocks lessons missing danger, undo, expected output, or experiment notes.

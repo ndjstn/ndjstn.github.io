@@ -1,0 +1,43 @@
+{
+  "updated_at": "2026-06-25",
+  "sites": [
+    {
+      "domain": "linuxoneliners.com",
+      "model": "content_affiliate_product",
+      "stage": "scaffold",
+      "monthly_metrics": {
+        "page_views": 0,
+        "unique_visitors": 0,
+        "organic_search_visits": 0,
+        "social_visits": 0,
+        "youtube_views": 0,
+        "email_subscribers": 0,
+        "gross_revenue": 0,
+        "hosting_cost": 0,
+        "tooling_cost": 0,
+        "net_profit": 0,
+        "owner_hours": 0
+      },
+      "valuation": {
+        "method": "monthly_net_profit_multiple",
+        "low_multiple": 30,
+        "mid_multiple": 35,
+        "high_multiple": 45,
+        "notes": "Profit-based valuation is not meaningful until the site earns revenue."
+      },
+      "transfer_assets": [
+        "domain",
+        "static site source",
+        "lesson content",
+        "video scripts",
+        "analytics export",
+        "revenue proof when available"
+      ],
+      "risks": [
+        "no traffic yet",
+        "no revenue yet",
+        "content production system not proven yet"
+      ]
+    }
+  ]
+}

@@ -42,6 +42,27 @@
     "schedule": "before major edits",
     "restore_check": "verify static files and Nginx config"
   },
+  "security": {
+    "baseline": "ops/security/README.md",
+    "risk_level": "low while static and pre-user-data",
+    "current_controls": [
+      "static release directory",
+      "nginx reverse proxy",
+      "https",
+      "no database",
+      "no user accounts",
+      "no writable files under web root"
+    ],
+    "before_dynamic_runtime": [
+      "non-root app container",
+      "site-specific env file",
+      "site-specific database",
+      "automated backup and restore check",
+      "rate limits on write endpoints",
+      "security header review",
+      "secret scan of generated assets"
+    ]
+  },
   "communications": {
     "inbound": [
       "none yet"
@@ -55,10 +76,29 @@
     "public_metrics": [
       "page views",
       "search queries",
-      "referrers"
+      "referrers",
+      "youtube video views",
+      "linkedin post clicks"
     ],
     "private_metrics": [
-      "conversion intent if contact capture is added"
+      "conversion intent if contact capture is added",
+      "copy button events",
+      "affiliate click events",
+      "email subscriber count if newsletter is added"
+    ]
+  },
+  "valuation": {
+    "method": "monthly net profit multiple once revenue exists",
+    "tracking_file": "ops/valuation/portfolio.example.json",
+    "current_status": "pre-revenue; track traffic and production system quality, but do not claim sale value yet",
+    "buyer_evidence_to_collect": [
+      "analytics exports",
+      "search console exports",
+      "revenue dashboard screenshots or exports",
+      "expense records",
+      "content inventory",
+      "transfer checklist",
+      "experiment log"
     ]
   },
   "handoff": {

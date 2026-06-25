@@ -1,0 +1,78 @@
+<main>
+  <article class="lesson-page">
+    <a class="back-link" href="<%= root_path %>#lessons">Back to lessons</a>
+    <p class="eyebrow"><%= series_title(lesson["series"]) %></p>
+    <h1><%= lesson["title"] %></h1>
+    <p class="lede"><%= lesson["problem"] %></p>
+
+    <section class="command-panel">
+      <div>
+        <p class="label">Command</p>
+        <pre><code><%= lesson["command"] %></code></pre>
+      </div>
+      <button class="copy-button" data-copy="<%= html_attr(lesson["command"]) %>">Copy</button>
+    </section>
+
+    <section class="details-grid">
+      <div>
+        <h2>What changed</h2>
+        <p><%= lesson["what_changed"] %></p>
+      </div>
+      <div>
+        <h2>Danger</h2>
+        <p><span class="danger <%= lesson["danger"] %>"><%= lesson["danger"] %></span></p>
+      </div>
+      <div>
+        <h2>When to use it</h2>
+        <p><%= lesson["when_to_use"] %></p>
+      </div>
+      <div>
+        <h2>When not to use it</h2>
+        <p><%= lesson["when_not_to_use"] %></p>
+      </div>
+      <div>
+        <h2>Undo or recovery</h2>
+        <p><%= lesson["undo"] %></p>
+      </div>
+      <div>
+        <h2>Expected output</h2>
+        <p><%= lesson["expected_output"] %></p>
+      </div>
+    </section>
+
+    <section class="section">
+      <p class="eyebrow">demo script</p>
+      <h2>Disposable terminal steps</h2>
+      <ol class="terminal-steps">
+        <% lesson["terminal_demo"]["commands"].each do |command| %>
+          <li><code><%= command %></code></li>
+        <% end %>
+      </ol>
+    </section>
+
+    <section class="section split">
+      <div>
+        <p class="eyebrow">YouTube Short</p>
+        <h2><%= lesson["shorts"]["title"] %></h2>
+        <p><%= lesson["shorts"]["voiceover"] %></p>
+      </div>
+      <div class="promo-card">
+        <h3>LinkedIn hook</h3>
+        <p><%= lesson["hook"] %></p>
+        <p><strong>Question:</strong> <%= lesson["linkedin"]["question"] %></p>
+      </div>
+    </section>
+
+    <section class="section">
+      <p class="eyebrow">experiments</p>
+      <h2>A/B tests to run</h2>
+      <% lesson["experiments"].each do |experiment| %>
+        <div class="experiment">
+          <p><strong>Metric:</strong> <%= experiment["metric"] %></p>
+          <p><strong>A:</strong> <%= experiment["variant_a"] %></p>
+          <p><strong>B:</strong> <%= experiment["variant_b"] %></p>
+        </div>
+      <% end %>
+    </section>
+  </article>
+</main>
