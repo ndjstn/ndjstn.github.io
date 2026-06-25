@@ -1,0 +1,25 @@
+{
+  "slug": "sqlite-count-events-by-type",
+  "title": "Count SQLite Events by Type",
+  "fixture": "containers/sqlite-inspection-lab",
+  "command_count": 2,
+  "container_tool": "docker",
+  "image": "localhost/linuxoneliners-lab:latest",
+  "exit_code": 0,
+  "elapsed_ms": 204,
+  "stdout": "::fixture-ready::\n$ sqlite3 app.db \"SELECT created_at, event_type FROM events ORDER BY created_at DESC LIMIT 5;\"\n2026-06-25T12:10:00Z|checkout_completed\n2026-06-25T12:08:00Z|login\n2026-06-25T12:05:00Z|page_view\n::exit-code::0\n$ sqlite3 app.db \"SELECT event_type, count(*) FROM events GROUP BY event_type ORDER BY count(*) DESC;\"\npage_view|6\nlogin|3\ncheckout_completed|2\nerror|1\n::exit-code::0\n",
+  "stderr": "",
+  "ok": true,
+  "security": {
+    "network": "none",
+    "capabilities": "dropped",
+    "no_new_privileges": true,
+    "memory": "256m",
+    "cpus": "1",
+    "pids_limit": 128,
+    "tmpfs": [
+      "/tmp",
+      "/var"
+    ]
+  }
+}

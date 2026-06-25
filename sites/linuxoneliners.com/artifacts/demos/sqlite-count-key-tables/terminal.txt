@@ -1,0 +1,9 @@
+::fixture-ready::
+$ sqlite3 app.db ".tables"
+events  orders  schema_migrations  users
+::exit-code::0
+$ sqlite3 app.db "SELECT 'users', count(*) FROM users UNION ALL SELECT 'orders', count(*) FROM orders UNION ALL SELECT 'events', count(*) FROM events;"
+users|4
+orders|7
+events|12
+::exit-code::0

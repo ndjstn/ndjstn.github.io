@@ -1,0 +1,12 @@
+::fixture-ready::
+$ sqlite3 app.db "SELECT created_at, event_type FROM events ORDER BY created_at DESC LIMIT 5;"
+2026-06-25T12:10:00Z|checkout_completed
+2026-06-25T12:08:00Z|login
+2026-06-25T12:05:00Z|page_view
+::exit-code::0
+$ sqlite3 app.db "SELECT event_type, count(*) FROM events GROUP BY event_type ORDER BY count(*) DESC;"
+page_view|6
+login|3
+checkout_completed|2
+error|1
+::exit-code::0

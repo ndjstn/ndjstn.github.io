@@ -1,7 +1,7 @@
 ::fixture-ready::
 $ ls -l /etc/nginx/sites-enabled/
 total 0
-lrwxrwxrwx 1 root root 38 Jun 25 12:37 example.com -> /etc/nginx/sites-available/example.com
+lrwxrwxrwx 1 root root 38 Jun 25 12:41 example.com -> /etc/nginx/sites-available/example.com
 ::exit-code::0
 $ readlink -f /etc/nginx/sites-enabled/example.com
 /etc/nginx/sites-available/example.com

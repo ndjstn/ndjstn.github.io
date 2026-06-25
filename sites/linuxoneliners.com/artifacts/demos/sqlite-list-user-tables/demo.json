@@ -1,0 +1,25 @@
+{
+  "slug": "sqlite-list-user-tables",
+  "title": "List SQLite User Tables Only",
+  "fixture": "containers/sqlite-inspection-lab",
+  "command_count": 2,
+  "container_tool": "docker",
+  "image": "localhost/linuxoneliners-lab:latest",
+  "exit_code": 0,
+  "elapsed_ms": 189,
+  "stdout": "::fixture-ready::\n$ sqlite3 app.db \".tables\"\nevents  orders  schema_migrations  users\n::exit-code::0\n$ sqlite3 app.db \"SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;\"\nusers\norders\nevents\nschema_migrations\n::exit-code::0\n",
+  "stderr": "",
+  "ok": true,
+  "security": {
+    "network": "none",
+    "capabilities": "dropped",
+    "no_new_privileges": true,
+    "memory": "256m",
+    "cpus": "1",
+    "pids_limit": 128,
+    "tmpfs": [
+      "/tmp",
+      "/var"
+    ]
+  }
+}

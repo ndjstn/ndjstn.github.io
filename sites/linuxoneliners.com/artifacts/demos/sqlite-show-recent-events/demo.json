@@ -1,0 +1,25 @@
+{
+  "slug": "sqlite-show-recent-events",
+  "title": "Show Recent SQLite Events",
+  "fixture": "containers/sqlite-inspection-lab",
+  "command_count": 2,
+  "container_tool": "docker",
+  "image": "localhost/linuxoneliners-lab:latest",
+  "exit_code": 0,
+  "elapsed_ms": 199,
+  "stdout": "::fixture-ready::\n$ sqlite3 app.db \".schema events\"\nCREATE TABLE users (id INTEGER PRIMARY KEY, email TEXT NOT NULL, created_at TEXT NOT NULL);\nCREATE UNIQUE INDEX idx_users_email ON users(email);\nCREATE TABLE orders (id INTEGER PRIMARY KEY, user_id INTEGER NOT NULL, total_cents INTEGER NOT NULL, created_at TEXT NOT NULL);\nCREATE INDEX idx_orders_user_id ON orders(user_id);\nCREATE TABLE events (id INTEGER PRIMARY KEY, event_type TEXT NOT NULL, created_at TEXT NOT NULL);\n::exit-code::0\n$ sqlite3 app.db \"SELECT created_at, event_type FROM events ORDER BY created_at DESC LIMIT 5;\"\n2026-06-25T12:10:00Z|checkout_completed\n2026-06-25T12:08:00Z|login\n2026-06-25T12:05:00Z|page_view\n::exit-code::0\n",
+  "stderr": "",
+  "ok": true,
+  "security": {
+    "network": "none",
+    "capabilities": "dropped",
+    "no_new_privileges": true,
+    "memory": "256m",
+    "cpus": "1",
+    "pids_limit": 128,
+    "tmpfs": [
+      "/tmp",
+      "/var"
+    ]
+  }
+}

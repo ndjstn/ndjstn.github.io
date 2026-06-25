@@ -1,0 +1,10 @@
+::fixture-ready::
+$ sqlite3 app.db ".tables"
+events  orders  schema_migrations  users
+::exit-code::0
+$ sqlite3 app.db "SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;"
+users
+orders
+events
+schema_migrations
+::exit-code::0

@@ -1,0 +1,25 @@
+{
+  "slug": "sqlite-check-integrity",
+  "title": "Check SQLite Database Integrity",
+  "fixture": "containers/sqlite-inspection-lab",
+  "command_count": 2,
+  "container_tool": "docker",
+  "image": "localhost/linuxoneliners-lab:latest",
+  "exit_code": 0,
+  "elapsed_ms": 194,
+  "stdout": "::fixture-ready::\n$ ls -lh app.db\n-rw-r--r-- 1 root root 16 Jun 25 12:41 app.db\n::exit-code::0\n$ sqlite3 app.db \"PRAGMA integrity_check;\"\nok\n::exit-code::0\n",
+  "stderr": "",
+  "ok": true,
+  "security": {
+    "network": "none",
+    "capabilities": "dropped",
+    "no_new_privileges": true,
+    "memory": "256m",
+    "cpus": "1",
+    "pids_limit": 128,
+    "tmpfs": [
+      "/tmp",
+      "/var"
+    ]
+  }
+}

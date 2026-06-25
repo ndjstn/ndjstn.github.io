@@ -6,8 +6,8 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 208,
-  "stdout": "::fixture-ready::\n$ ls -l releases\ntotal 8\ndrwxr-xr-x 2 root root 4096 Jun 25 12:37 2026-06-25-1200\ndrwxr-xr-x 2 root root 4096 Jun 25 12:37 2026-06-25-1215\nlrwxrwxrwx 1 root root   15 Jun 25 12:37 current -> 2026-06-25-1215\n::exit-code::0\n$ readlink -f releases/current && ls -ld releases/current\n/lab/releases/2026-06-25-1215\nlrwxrwxrwx 1 root root 15 Jun 25 12:37 releases/current -> 2026-06-25-1215\n::exit-code::0\n",
+  "elapsed_ms": 204,
+  "stdout": "::fixture-ready::\n$ ls -l releases\ntotal 8\ndrwxr-xr-x 2 root root 4096 Jun 25 12:41 2026-06-25-1200\ndrwxr-xr-x 2 root root 4096 Jun 25 12:41 2026-06-25-1215\nlrwxrwxrwx 1 root root   15 Jun 25 12:41 current -> 2026-06-25-1215\n::exit-code::0\n$ readlink -f releases/current && ls -ld releases/current\n/lab/releases/2026-06-25-1215\nlrwxrwxrwx 1 root root 15 Jun 25 12:41 releases/current -> 2026-06-25-1215\n::exit-code::0\n",
   "stderr": "",
   "ok": true,
   "security": {

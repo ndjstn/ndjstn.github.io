@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 193,
+  "elapsed_ms": 176,
   "stdout": "::fixture-ready::\n$ docker inspect --format '{{.Name}} {{range $name, $net := .NetworkSettings.Networks}}{{$name}} {{$net.IPAddress}} {{end}}' api\n/api app_net 172.18.0.5 \n::exit-code::0\n$ docker network ls\nNETWORK ID   NAME      DRIVER\nn1           bridge    bridge\nn2           app_net   bridge\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

@@ -1,0 +1,25 @@
+{
+  "slug": "sqlite-find-duplicate-emails",
+  "title": "Find Duplicate Emails in SQLite",
+  "fixture": "containers/sqlite-inspection-lab",
+  "command_count": 2,
+  "container_tool": "docker",
+  "image": "localhost/linuxoneliners-lab:latest",
+  "exit_code": 0,
+  "elapsed_ms": 196,
+  "stdout": "::fixture-ready::\n$ sqlite3 app.db \".schema users\"\nCREATE TABLE users (\n  id INTEGER PRIMARY KEY,\n  email TEXT NOT NULL,\n  created_at TEXT NOT NULL\n);\nCREATE UNIQUE INDEX idx_users_email ON users(email);\n::exit-code::0\n$ sqlite3 app.db \"SELECT email, count(*) FROM users GROUP BY email HAVING count(*) > 1;\"\nalex@example.com|2\n::exit-code::0\n",
+  "stderr": "",
+  "ok": true,
+  "security": {
+    "network": "none",
+    "capabilities": "dropped",
+    "no_new_privileges": true,
+    "memory": "256m",
+    "cpus": "1",
+    "pids_limit": 128,
+    "tmpfs": [
+      "/tmp",
+      "/var"
+    ]
+  }
+}

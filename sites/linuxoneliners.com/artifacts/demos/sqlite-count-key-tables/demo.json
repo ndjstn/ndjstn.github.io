@@ -1,0 +1,25 @@
+{
+  "slug": "sqlite-count-key-tables",
+  "title": "Count Rows in Key SQLite Tables",
+  "fixture": "containers/sqlite-inspection-lab",
+  "command_count": 2,
+  "container_tool": "docker",
+  "image": "localhost/linuxoneliners-lab:latest",
+  "exit_code": 0,
+  "elapsed_ms": 199,
+  "stdout": "::fixture-ready::\n$ sqlite3 app.db \".tables\"\nevents  orders  schema_migrations  users\n::exit-code::0\n$ sqlite3 app.db \"SELECT 'users', count(*) FROM users UNION ALL SELECT 'orders', count(*) FROM orders UNION ALL SELECT 'events', count(*) FROM events;\"\nusers|4\norders|7\nevents|12\n::exit-code::0\n",
+  "stderr": "",
+  "ok": true,
+  "security": {
+    "network": "none",
+    "capabilities": "dropped",
+    "no_new_privileges": true,
+    "memory": "256m",
+    "cpus": "1",
+    "pids_limit": 128,
+    "tmpfs": [
+      "/tmp",
+      "/var"
+    ]
+  }
+}
