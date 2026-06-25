@@ -1,0 +1,13 @@
+::fixture-ready::
+$ cd restore-dr && cat backups/2026-06-25/MANIFEST.txt
+backup_id=2026-06-25
+created_at=2026-06-25T12:00:00Z
+archive=site.tar
+status=complete
+total_files=7
+::exit-code::0
+$ cd restore-dr && grep -E 'backup_id=|created_at=|status=' backups/2026-06-25/MANIFEST.txt
+backup_id=2026-06-25
+created_at=2026-06-25T12:00:00Z
+status=complete
+::exit-code::0

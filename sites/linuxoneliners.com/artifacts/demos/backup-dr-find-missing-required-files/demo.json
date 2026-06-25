@@ -1,0 +1,25 @@
+{
+  "slug": "backup-dr-find-missing-required-files",
+  "title": "Find Missing Files in an Old Backup",
+  "fixture": "containers/backup-restore-dr-lab",
+  "command_count": 2,
+  "container_tool": "docker",
+  "image": "localhost/linuxoneliners-lab:latest",
+  "exit_code": 0,
+  "elapsed_ms": 245,
+  "stdout": "::fixture-ready::\n$ cd restore-dr && cat required-files.txt\napp/config.yml\napp/orders.csv\napp/secrets.env\nbin/deploy.sh\npublic/index.html\nuploads/avatar.txt\n::exit-code::0\n$ cd restore-dr && tar -tf backups/2026-06-24/site.tar | sed 's#^./##' | sort | comm -23 required-files.txt -\napp/orders.csv\napp/secrets.env\nbin/deploy.sh\nuploads/avatar.txt\n::exit-code::0\n",
+  "stderr": "",
+  "ok": true,
+  "security": {
+    "network": "none",
+    "capabilities": "dropped",
+    "no_new_privileges": true,
+    "memory": "256m",
+    "cpus": "1",
+    "pids_limit": 128,
+    "tmpfs": [
+      "/tmp",
+      "/var"
+    ]
+  }
+}

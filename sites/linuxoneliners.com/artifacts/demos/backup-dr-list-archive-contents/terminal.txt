@@ -1,0 +1,29 @@
+::fixture-ready::
+$ cd restore-dr && tar -tf backups/2026-06-25/site.tar | sort
+./
+./CHECKSUMS.sha256
+./app/
+./app/config.yml
+./app/orders.csv
+./app/secrets.env
+./bin/
+./bin/deploy.sh
+./public/
+./public/index.html
+./uploads/
+./uploads/avatar.txt
+::exit-code::0
+$ cd restore-dr && tar -tf backups/2026-06-25/site.tar | sed 's#^./##' | sort | sed -n '1,12p'
+
+CHECKSUMS.sha256
+app/
+app/config.yml
+app/orders.csv
+app/secrets.env
+bin/
+bin/deploy.sh
+public/
+public/index.html
+uploads/
+uploads/avatar.txt
+::exit-code::0

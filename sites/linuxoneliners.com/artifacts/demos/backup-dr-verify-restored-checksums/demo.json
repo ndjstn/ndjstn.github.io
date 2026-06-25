@@ -1,0 +1,25 @@
+{
+  "slug": "backup-dr-verify-restored-checksums",
+  "title": "Verify Restored File Checksums",
+  "fixture": "containers/backup-restore-dr-lab",
+  "command_count": 2,
+  "container_tool": "docker",
+  "image": "localhost/linuxoneliners-lab:latest",
+  "exit_code": 0,
+  "elapsed_ms": 208,
+  "stdout": "::fixture-ready::\n$ cd restore-dr && rm -rf restore-sandbox/full && mkdir -p restore-sandbox/full && tar -xf backups/2026-06-25/site.tar -C restore-sandbox/full\n::exit-code::0\n$ cd restore-dr && (cd restore-sandbox/full && sha256sum -c CHECKSUMS.sha256)\napp/config.yml: OK\napp/secrets.env: OK\npublic/index.html: OK\napp/orders.csv: OK\nuploads/avatar.txt: OK\nbin/deploy.sh: OK\n::exit-code::0\n",
+  "stderr": "",
+  "ok": true,
+  "security": {
+    "network": "none",
+    "capabilities": "dropped",
+    "no_new_privileges": true,
+    "memory": "256m",
+    "cpus": "1",
+    "pids_limit": 128,
+    "tmpfs": [
+      "/tmp",
+      "/var"
+    ]
+  }
+}

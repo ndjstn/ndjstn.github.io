@@ -1,0 +1,18 @@
+::fixture-ready::
+$ cd restore-dr && cat reports/restore-dr-2026-06-25.txt
+restore_dr=2026-06-25
+backup_id=2026-06-25
+status=pass
+rpo_minutes=15
+rto_seconds=42
+checksum=pass
+file_count=pass
+permissions=reviewed
+::exit-code::0
+$ cd restore-dr && grep -E 'status=|rpo_minutes=|rto_seconds=|checksum=|file_count=' reports/restore-dr-2026-06-25.txt
+status=pass
+rpo_minutes=15
+rto_seconds=42
+checksum=pass
+file_count=pass
+::exit-code::0

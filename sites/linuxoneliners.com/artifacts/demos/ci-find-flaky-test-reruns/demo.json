@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 217,
+  "elapsed_ms": 223,
   "stdout": "::fixture-ready::\n$ cd /lab/ci-artifacts && grep -RInE 'rerun|retry|flaky|passed on retry|failed attempt' artifacts logs\nartifacts/test/pytest.log:6:tests/test_billing.py::test_invoice passed on retry after failed attempt 1\nartifacts/test/pytest.log:7:1 failed, 2 passed, 1 rerun\n::exit-code::0\n$ cd /lab/ci-artifacts && grep -RInE 'rerun|retry|flaky|passed on retry|failed attempt' artifacts logs | cut -d: -f1 | sort -u\nartifacts/test/pytest.log\n::exit-code::0\n$ cd /lab/ci-artifacts && sed -n '1,120p' artifacts/test/pytest.log\n============================= test session starts =============================\ntests/test_api.py::test_health PASSED\ntests/test_api.py::test_create_user FAILED\nTraceback (most recent call last):\n  AssertionError: expected 201 got 500\ntests/test_billing.py::test_invoice passed on retry after failed attempt 1\n1 failed, 2 passed, 1 rerun\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

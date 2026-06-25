@@ -6,8 +6,8 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 217,
-  "stdout": "::fixture-ready::\n$ find artifacts/ -type f -maxdepth 1 -print\nartifacts/checksums.txt\nartifacts/app.tar.gz\n::exit-code::0\n$ find artifacts/ -type f -printf '%TY-%Tm-%Td %TH:%TM %10s %p\\n' | sort | tail -20\n2026-06-25 23:27         13 artifacts/app.tar.gz\n2026-06-25 23:27         18 artifacts/checksums.txt\n::exit-code::0\n",
+  "elapsed_ms": 213,
+  "stdout": "::fixture-ready::\n$ find artifacts/ -type f -maxdepth 1 -print\nartifacts/checksums.txt\nartifacts/app.tar.gz\n::exit-code::0\n$ find artifacts/ -type f -printf '%TY-%Tm-%Td %TH:%TM %10s %p\\n' | sort | tail -20\n2026-06-25 23:32         13 artifacts/app.tar.gz\n2026-06-25 23:32         18 artifacts/checksums.txt\n::exit-code::0\n",
   "stderr": "",
   "ok": true,
   "security": {

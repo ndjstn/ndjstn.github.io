@@ -6,8 +6,8 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 193,
-  "stdout": "::fixture-ready::\n$ ls -lh archives/site-backup.tar\n-rw-r--r-- 1 root root 10K Jun 25 23:27 archives/site-backup.tar\n::exit-code::0\n$ tar -tf archives/site-backup.tar | sort | head\n./\n./app/\n./app/config.yml\n./assets/\n./assets/logo.svg\n./content/\n./content/about.md\n./content/index.md\n::exit-code::0\n",
+  "elapsed_ms": 202,
+  "stdout": "::fixture-ready::\n$ ls -lh archives/site-backup.tar\n-rw-r--r-- 1 root root 10K Jun 25 23:31 archives/site-backup.tar\n::exit-code::0\n$ tar -tf archives/site-backup.tar | sort | head\n./\n./app/\n./app/config.yml\n./assets/\n./assets/logo.svg\n./content/\n./content/about.md\n./content/index.md\n::exit-code::0\n",
   "stderr": "",
   "ok": true,
   "security": {

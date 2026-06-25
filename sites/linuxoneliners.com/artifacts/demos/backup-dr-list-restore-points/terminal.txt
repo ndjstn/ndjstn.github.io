@@ -1,0 +1,9 @@
+::fixture-ready::
+$ cd restore-dr && find backups -maxdepth 2 -type f -name MANIFEST.txt -print | sort
+backups/2026-06-24/MANIFEST.txt
+backups/2026-06-25/MANIFEST.txt
+::exit-code::0
+$ cd restore-dr && find backups -maxdepth 2 -type f -name MANIFEST.txt -printf '%TY-%Tm-%Td %TH:%TM %h\n' | sort -r
+2026-06-25 12:00 backups/2026-06-25
+2026-06-25 12:00 backups/2026-06-24
+::exit-code::0

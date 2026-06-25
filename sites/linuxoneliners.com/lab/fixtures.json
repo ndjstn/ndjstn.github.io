@@ -233,5 +233,31 @@
     "chmod 2755 fixtures/perm-audit/releases/2026-06-25/bin/report-sync",
     "chmod 0664 fixtures/perm-audit/releases/2026-06-25/uploads/customer-export.csv",
     "chmod 0600 fixtures/perm-audit/shared/secrets/prod.token"
+  ],
+  "containers/backup-restore-dr-lab": [
+    "rm -rf restore-dr",
+    "mkdir -p restore-dr/source/app restore-dr/source/public restore-dr/source/uploads restore-dr/source/bin restore-dr/backups/2026-06-25 restore-dr/backups/2026-06-24 restore-dr/expected restore-dr/reports restore-dr/restore-sandbox",
+    "printf 'app: storefront\\nregion: us-central\\ndebug: false\\n' > restore-dr/source/app/config.yml",
+    "printf 'DATABASE_URL=postgres://redacted@example.invalid/app\\nAPI_TOKEN=redacted-demo-token\\n' > restore-dr/source/app/secrets.env",
+    "printf '<html><body>Storefront OK</body></html>\\n' > restore-dr/source/public/index.html",
+    "printf 'order_id,total_cents\\n1001,2599\\n1002,1099\\n' > restore-dr/source/app/orders.csv",
+    "printf 'avatar demo bytes\\n' > restore-dr/source/uploads/avatar.txt",
+    "printf '#!/usr/bin/env bash\\necho deploy\\n' > restore-dr/source/bin/deploy.sh",
+    "chmod 640 restore-dr/source/app/secrets.env",
+    "chmod 755 restore-dr/source/bin/deploy.sh",
+    "touch -d '2026-06-25 12:00:00 UTC' restore-dr/source/app/config.yml restore-dr/source/app/secrets.env restore-dr/source/public/index.html restore-dr/source/app/orders.csv restore-dr/source/uploads/avatar.txt restore-dr/source/bin/deploy.sh",
+    "cp -a restore-dr/source/. restore-dr/expected/",
+    "find restore-dr/expected -type f | sed 's#^restore-dr/expected/##' | sort > restore-dr/required-files.txt",
+    "( cd restore-dr/source && sha256sum app/config.yml app/secrets.env public/index.html app/orders.csv uploads/avatar.txt bin/deploy.sh > CHECKSUMS.sha256 )",
+    "tar --sort=name --mtime='2026-06-25 12:00:00 UTC' --owner=0 --group=0 --numeric-owner -cf restore-dr/backups/2026-06-25/site.tar -C restore-dr/source .",
+    "printf 'backup_id=2026-06-25\\ncreated_at=2026-06-25T12:00:00Z\\narchive=site.tar\\nstatus=complete\\ntotal_files=7\\n' > restore-dr/backups/2026-06-25/MANIFEST.txt",
+    "mkdir -p restore-dr/old-source/app restore-dr/old-source/public",
+    "printf 'app: storefront\\nregion: us-central\\ndebug: false\\n' > restore-dr/old-source/app/config.yml",
+    "printf '<html><body>Old Storefront</body></html>\\n' > restore-dr/old-source/public/index.html",
+    "tar --sort=name --mtime='2026-06-24 12:00:00 UTC' --owner=0 --group=0 --numeric-owner -cf restore-dr/backups/2026-06-24/site.tar -C restore-dr/old-source .",
+    "printf 'backup_id=2026-06-24\\ncreated_at=2026-06-24T12:00:00Z\\narchive=site.tar\\nstatus=incomplete\\ntotal_files=2\\n' > restore-dr/backups/2026-06-24/MANIFEST.txt",
+    "( cd restore-dr/expected && sha256sum app/config.yml app/secrets.env public/index.html app/orders.csv uploads/avatar.txt bin/deploy.sh > ../reports/dr-expected-checksums.sha256 )",
+    "printf 'restore_dr=2026-06-25\\nbackup_id=2026-06-25\\nstatus=pass\\nrpo_minutes=15\\nrto_seconds=42\\nchecksum=pass\\nfile_count=pass\\npermissions=reviewed\\n' > restore-dr/reports/restore-dr-2026-06-25.txt",
+    "touch -d '2026-06-25 12:00:00 UTC' restore-dr/backups/2026-06-25/MANIFEST.txt restore-dr/backups/2026-06-24/MANIFEST.txt restore-dr/reports/restore-dr-2026-06-25.txt restore-dr/reports/dr-expected-checksums.sha256 restore-dr/required-files.txt"
   ]
 }

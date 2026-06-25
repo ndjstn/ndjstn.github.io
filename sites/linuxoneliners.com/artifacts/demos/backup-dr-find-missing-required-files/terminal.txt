@@ -1,0 +1,15 @@
+::fixture-ready::
+$ cd restore-dr && cat required-files.txt
+app/config.yml
+app/orders.csv
+app/secrets.env
+bin/deploy.sh
+public/index.html
+uploads/avatar.txt
+::exit-code::0
+$ cd restore-dr && tar -tf backups/2026-06-24/site.tar | sed 's#^./##' | sort | comm -23 required-files.txt -
+app/orders.csv
+app/secrets.env
+bin/deploy.sh
+uploads/avatar.txt
+::exit-code::0

@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 180,
+  "elapsed_ms": 192,
   "stdout": "::fixture-ready::\n$ printf '%s\\n' '4.0K ./notes' '850M ./node_modules' '1.2G ./video-export'\n4.0K ./notes\n850M ./node_modules\n1.2G ./video-export\n::exit-code::0\n$ printf '%s\\n' '4.0K ./notes' '850M ./node_modules' '1.2G ./video-export' | sort -h\n4.0K ./notes\n850M ./node_modules\n1.2G ./video-export\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

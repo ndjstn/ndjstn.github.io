@@ -1,0 +1,19 @@
+::fixture-ready::
+$ cd restore-dr && tar -tvf backups/2026-06-25/site.tar | sed -n '1,12p'
+drwxr-xr-x 0/0               0 2026-06-25 12:00 ./
+-rw-r--r-- 0/0             493 2026-06-25 12:00 ./CHECKSUMS.sha256
+drwxr-xr-x 0/0               0 2026-06-25 12:00 ./app/
+-rw-r--r-- 0/0              48 2026-06-25 12:00 ./app/config.yml
+-rw-r--r-- 0/0              41 2026-06-25 12:00 ./app/orders.csv
+-rw-r----- 0/0              83 2026-06-25 12:00 ./app/secrets.env
+drwxr-xr-x 0/0               0 2026-06-25 12:00 ./bin/
+-rwxr-xr-x 0/0              32 2026-06-25 12:00 ./bin/deploy.sh
+drwxr-xr-x 0/0               0 2026-06-25 12:00 ./public/
+-rw-r--r-- 0/0              40 2026-06-25 12:00 ./public/index.html
+drwxr-xr-x 0/0               0 2026-06-25 12:00 ./uploads/
+-rw-r--r-- 0/0              18 2026-06-25 12:00 ./uploads/avatar.txt
+::exit-code::0
+$ cd restore-dr && tar -tvf backups/2026-06-25/site.tar | awk '/secrets.env|deploy.sh/ {print $1, $6}'
+-rw-r----- ./app/secrets.env
+-rwxr-xr-x ./bin/deploy.sh
+::exit-code::0

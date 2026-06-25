@@ -1,0 +1,12 @@
+::fixture-ready::
+$ cd restore-dr && rm -rf restore-sandbox/full && mkdir -p restore-sandbox/full && tar -xf backups/2026-06-25/site.tar -C restore-sandbox/full
+::exit-code::0
+$ cd restore-dr && find restore-sandbox/full -type f | sed 's#^restore-sandbox/full/##' | sort
+CHECKSUMS.sha256
+app/config.yml
+app/orders.csv
+app/secrets.env
+bin/deploy.sh
+public/index.html
+uploads/avatar.txt
+::exit-code::0

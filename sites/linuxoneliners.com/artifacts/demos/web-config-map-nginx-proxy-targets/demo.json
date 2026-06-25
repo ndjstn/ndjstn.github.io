@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 229,
+  "elapsed_ms": 222,
   "stdout": "::fixture-ready::\n$ grep -RInE '^[[:space:]]*proxy_pass[[:space:]]' fixtures/nginx/conf.d fixtures/nginx/sites-enabled\nfixtures/nginx/conf.d/admin.conf:6:        proxy_pass http://localhost:9100;\nfixtures/nginx/sites-enabled/example.conf:16:        proxy_pass http://127.0.0.1:9000/;\n::exit-code::0\n$ grep -RInE 'proxy_set_header[[:space:]]+Host' fixtures/nginx/conf.d fixtures/nginx/sites-enabled\nfixtures/nginx/sites-enabled/example.conf:15:        proxy_set_header Host $host;\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

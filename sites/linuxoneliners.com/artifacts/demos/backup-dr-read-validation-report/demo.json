@@ -1,0 +1,25 @@
+{
+  "slug": "backup-dr-read-validation-report",
+  "title": "Read the Restore Drill Validation Report",
+  "fixture": "containers/backup-restore-dr-lab",
+  "command_count": 2,
+  "container_tool": "docker",
+  "image": "localhost/linuxoneliners-lab:latest",
+  "exit_code": 0,
+  "elapsed_ms": 231,
+  "stdout": "::fixture-ready::\n$ cd restore-dr && cat reports/restore-dr-2026-06-25.txt\nrestore_dr=2026-06-25\nbackup_id=2026-06-25\nstatus=pass\nrpo_minutes=15\nrto_seconds=42\nchecksum=pass\nfile_count=pass\npermissions=reviewed\n::exit-code::0\n$ cd restore-dr && grep -E 'status=|rpo_minutes=|rto_seconds=|checksum=|file_count=' reports/restore-dr-2026-06-25.txt\nstatus=pass\nrpo_minutes=15\nrto_seconds=42\nchecksum=pass\nfile_count=pass\n::exit-code::0\n",
+  "stderr": "",
+  "ok": true,
+  "security": {
+    "network": "none",
+    "capabilities": "dropped",
+    "no_new_privileges": true,
+    "memory": "256m",
+    "cpus": "1",
+    "pids_limit": 128,
+    "tmpfs": [
+      "/tmp",
+      "/var"
+    ]
+  }
+}
