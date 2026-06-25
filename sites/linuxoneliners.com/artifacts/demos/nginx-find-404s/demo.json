@@ -1,0 +1,25 @@
+{
+  "slug": "nginx-find-404s",
+  "title": "Find Top 404 URLs",
+  "fixture": "containers/hosting-lab",
+  "command_count": 3,
+  "container_tool": "docker",
+  "image": "localhost/linuxoneliners-lab:latest",
+  "exit_code": 0,
+  "elapsed_ms": 232,
+  "stdout": "::fixture-ready::\n$ awk '{print $9, $7}' /var/log/nginx/access.log\n200 /\n404 /missing.css\n502 /api\n::exit-code::0\n$ awk '$9==404 {print $7}' /var/log/nginx/access.log | sort | uniq -c | sort -nr | head\n      1 /missing.css\n::exit-code::0\n$ awk '$9 ~ /^5/ {print $7}' /var/log/nginx/access.log | sort | uniq -c | sort -nr | head\n      1 /api\n::exit-code::0\n",
+  "stderr": "",
+  "ok": true,
+  "security": {
+    "network": "none",
+    "capabilities": "dropped",
+    "no_new_privileges": true,
+    "memory": "256m",
+    "cpus": "1",
+    "pids_limit": 128,
+    "tmpfs": [
+      "/tmp",
+      "/var"
+    ]
+  }
+}

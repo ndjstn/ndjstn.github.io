@@ -17,6 +17,7 @@ from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 CONTENT = ROOT / "content" / "lessons.json"
+PACK_DIR = ROOT / "content" / "packs"
 FIXTURES = ROOT / "lab" / "fixtures.json"
 CONTAINERFILE = ROOT / "lab" / "Containerfile"
 ARTIFACT_DIR = ROOT / "artifacts" / "demos"
@@ -164,6 +165,8 @@ def main() -> None:
     args = parser.parse_args()
 
     lessons = json.loads(CONTENT.read_text())["lessons"]
+    for path in sorted(PACK_DIR.glob("*.json")):
+        lessons.extend(json.loads(path.read_text()))
     fixtures = json.loads(FIXTURES.read_text())
     if args.slug:
         lessons = [lesson for lesson in lessons if lesson["slug"] == args.slug]

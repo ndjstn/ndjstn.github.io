@@ -1,0 +1,25 @@
+{
+  "slug": "nginx-find-server-name",
+  "title": "Find Which Nginx Config Owns a Domain",
+  "fixture": "containers/hosting-lab",
+  "command_count": 3,
+  "container_tool": "docker",
+  "image": "localhost/linuxoneliners-lab:latest",
+  "exit_code": 0,
+  "elapsed_ms": 226,
+  "stdout": "::fixture-ready::\n$ grep -R \"server_name\" /etc/nginx/sites-enabled/\n/etc/nginx/sites-enabled/example.com:    server_name example.com www.example.com;\n::exit-code::0\n$ grep -R \"root\" /etc/nginx/sites-enabled/\n/etc/nginx/sites-enabled/example.com:    root /srv/www/example.com/current;\n::exit-code::0\n$ nginx -t\nnginx: the configuration file /etc/nginx/nginx.conf syntax is ok\nnginx: configuration file /etc/nginx/nginx.conf test is successful\n::exit-code::0\n",
+  "stderr": "",
+  "ok": true,
+  "security": {
+    "network": "none",
+    "capabilities": "dropped",
+    "no_new_privileges": true,
+    "memory": "256m",
+    "cpus": "1",
+    "pids_limit": 128,
+    "tmpfs": [
+      "/tmp",
+      "/var"
+    ]
+  }
+}

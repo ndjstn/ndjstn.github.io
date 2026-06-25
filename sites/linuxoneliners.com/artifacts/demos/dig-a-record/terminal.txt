@@ -1,0 +1,12 @@
+::fixture-ready::
+$ dig +short example.com A
+203.0.113.10
+::exit-code::0
+$ dig +short www.example.com CNAME
+example.com.
+::exit-code::0
+$ curl -I http://example.com
+HTTP/1.1 301 Moved Permanently
+Location: https://example.com/
+
+::exit-code::0

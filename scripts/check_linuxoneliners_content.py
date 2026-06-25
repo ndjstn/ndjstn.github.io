@@ -8,6 +8,7 @@ import sys
 from pathlib import Path
 
 CONTENT = Path("sites/linuxoneliners.com/content/lessons.json")
+PACK_DIR = Path("sites/linuxoneliners.com/content/packs")
 REQUIRED_LESSON_FIELDS = [
     "slug",
     "title",
@@ -41,6 +42,11 @@ def main() -> None:
     slugs: set[str] = set()
 
     lessons = data.get("lessons", [])
+    for path in sorted(PACK_DIR.glob("*.json")):
+        pack = json.loads(path.read_text())
+        if not isinstance(pack, list):
+            fail(f"{path} must contain a JSON array")
+        lessons.extend(pack)
     if not lessons:
         fail("no lessons found")
 

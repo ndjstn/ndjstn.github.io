@@ -1,0 +1,14 @@
+::fixture-ready::
+$ readlink -f /srv/www/example.com/current
+/srv/www/example.com/releases/20260625T110000Z
+::exit-code::0
+$ find /srv/www/example.com/releases -maxdepth 1 -type d | sort
+/srv/www/example.com/releases
+/srv/www/example.com/releases/20260625T100000Z
+/srv/www/example.com/releases/20260625T110000Z
+::exit-code::0
+$ curl -I http://127.0.0.1
+HTTP/1.1 200 OK
+server: fake-nginx
+
+::exit-code::0

@@ -1,0 +1,15 @@
+::fixture-ready::
+$ awk -F'"' '{print $4}' /var/log/nginx/access.log
+https://www.linkedin.com/
+-
+-
+::exit-code::0
+$ awk -F'"' '{print $4}' /var/log/nginx/access.log | sort | uniq -c | sort -nr | head
+      2 -
+      1 https://www.linkedin.com/
+::exit-code::0
+$ tail -n 3 /var/log/nginx/access.log
+198.51.100.20 - - [25/Jun/2026:10:01:00 +0000] "GET / HTTP/1.1" 200 512 "https://www.linkedin.com/" "Mozilla/5.0"
+198.51.100.21 - - [25/Jun/2026:10:02:00 +0000] "GET /missing.css HTTP/1.1" 404 120 "-" "ScannerBot"
+198.51.100.22 - - [25/Jun/2026:10:03:00 +0000] "GET /api HTTP/1.1" 502 90 "-" "curl/8"
+::exit-code::0

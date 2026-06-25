@@ -6,14 +6,18 @@ base="${LOL_BASE_URL:-https://linuxoneliners.com}"
 check_contains() {
   local url="$1"
   local pattern="$2"
-  curl -sk "$url" | rg -Fq "$pattern"
+  local body
+  body="$(curl -sk "$url")"
+  rg -Fq "$pattern" <<<"$body"
   printf 'ok %s contains %s\n' "$url" "$pattern"
 }
 
 check_header() {
   local url="$1"
   local pattern="$2"
-  curl -skI "$url" | rg -qi "$pattern"
+  local headers
+  headers="$(curl -skI "$url")"
+  rg -qi "$pattern" <<<"$headers"
   printf 'ok %s header %s\n' "$url" "$pattern"
 }
 

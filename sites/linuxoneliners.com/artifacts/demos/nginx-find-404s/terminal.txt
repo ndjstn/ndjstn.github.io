@@ -1,0 +1,12 @@
+::fixture-ready::
+$ awk '{print $9, $7}' /var/log/nginx/access.log
+200 /
+404 /missing.css
+502 /api
+::exit-code::0
+$ awk '$9==404 {print $7}' /var/log/nginx/access.log | sort | uniq -c | sort -nr | head
+      1 /missing.css
+::exit-code::0
+$ awk '$9 ~ /^5/ {print $7}' /var/log/nginx/access.log | sort | uniq -c | sort -nr | head
+      1 /api
+::exit-code::0

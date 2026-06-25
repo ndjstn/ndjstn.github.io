@@ -1,0 +1,25 @@
+{
+  "slug": "nginx-show-enabled-sites",
+  "title": "Show Enabled Nginx Sites",
+  "fixture": "containers/hosting-lab",
+  "command_count": 3,
+  "container_tool": "docker",
+  "image": "localhost/linuxoneliners-lab:latest",
+  "exit_code": 0,
+  "elapsed_ms": 225,
+  "stdout": "::fixture-ready::\n$ ls -l /etc/nginx/sites-enabled/\ntotal 0\nlrwxrwxrwx 1 root root 38 Jun 25 11:42 example.com -> /etc/nginx/sites-available/example.com\n::exit-code::0\n$ readlink -f /etc/nginx/sites-enabled/example.com\n/etc/nginx/sites-available/example.com\n::exit-code::0\n$ nginx -t\nnginx: the configuration file /etc/nginx/nginx.conf syntax is ok\nnginx: configuration file /etc/nginx/nginx.conf test is successful\n::exit-code::0\n",
+  "stderr": "",
+  "ok": true,
+  "security": {
+    "network": "none",
+    "capabilities": "dropped",
+    "no_new_privileges": true,
+    "memory": "256m",
+    "cpus": "1",
+    "pids_limit": 128,
+    "tmpfs": [
+      "/tmp",
+      "/var"
+    ]
+  }
+}

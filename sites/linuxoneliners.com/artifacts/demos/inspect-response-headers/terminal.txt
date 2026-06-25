@@ -1,0 +1,16 @@
+::fixture-ready::
+$ curl -sI https://example.com
+HTTP/2 200
+server: fake-nginx
+x-content-type-options: nosniff
+
+::exit-code::0
+$ curl -sI https://example.com | grep -i "x-content-type-options\|server"
+server: fake-nginx
+x-content-type-options: nosniff
+::exit-code::0
+$ curl -I http://example.com
+HTTP/1.1 301 Moved Permanently
+Location: https://example.com/
+
+::exit-code::0

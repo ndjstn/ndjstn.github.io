@@ -208,6 +208,22 @@ ruby sites/linuxoneliners.com/build.rb
 
 The curation gate blocks lessons that are missing safety notes, demo steps, Shorts metadata, LinkedIn prompts, or experiment fields.
 
+## Lesson Packs
+
+Seed lessons live in:
+
+```text
+content/lessons.json
+```
+
+Scaled batches live in:
+
+```text
+content/packs/*.json
+```
+
+The builder, content checker, and demo vessel runner load both. This keeps the site workable when the library grows from dozens to hundreds or thousands of one-liners.
+
 ## Template Model
 
 The site extends shared ERB templates:

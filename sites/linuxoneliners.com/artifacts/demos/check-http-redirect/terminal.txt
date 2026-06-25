@@ -1,0 +1,15 @@
+::fixture-ready::
+$ curl -I http://example.com
+HTTP/1.1 301 Moved Permanently
+Location: https://example.com/
+
+::exit-code::0
+$ curl -I https://example.com
+HTTP/2 200
+server: fake-nginx
+x-content-type-options: nosniff
+
+::exit-code::0
+$ grep -R "server_name" /etc/nginx/sites-enabled/
+/etc/nginx/sites-enabled/example.com:    server_name example.com www.example.com;
+::exit-code::0

@@ -29,5 +29,19 @@
     "chmod 750 /var/www",
     "chmod 750 /var/www/example",
     "chmod 640 /var/www/example/index.html"
+  ],
+  "containers/hosting-lab": [
+    "mkdir -p /etc/nginx/sites-enabled /etc/nginx/sites-available /var/log/nginx /srv/www/example.com/releases/20260625T100000Z /srv/www/example.com/releases/20260625T110000Z /srv/www/example.com/current /var/www/html /etc/letsencrypt/live/example.com",
+    "cat > /etc/nginx/sites-available/example.com <<'CONF'\nserver {\n    listen 80;\n    server_name example.com www.example.com;\n    root /srv/www/example.com/current;\n}\nCONF\nln -sfn /etc/nginx/sites-available/example.com /etc/nginx/sites-enabled/example.com",
+    "printf 'ok\\n' > /srv/www/example.com/releases/20260625T110000Z/index.html",
+    "rm -rf /srv/www/example.com/current && ln -s /srv/www/example.com/releases/20260625T110000Z /srv/www/example.com/current",
+    "printf '198.51.100.20 - - [25/Jun/2026:10:01:00 +0000] \"GET / HTTP/1.1\" 200 512 \"https://www.linkedin.com/\" \"Mozilla/5.0\"\\n198.51.100.21 - - [25/Jun/2026:10:02:00 +0000] \"GET /missing.css HTTP/1.1\" 404 120 \"-\" \"ScannerBot\"\\n198.51.100.22 - - [25/Jun/2026:10:03:00 +0000] \"GET /api HTTP/1.1\" 502 90 \"-\" \"curl/8\"\\n' > /var/log/nginx/access.log",
+    "printf '2026/06/25 10:03:00 [error] 22#22: *9 connect() failed (111: Connection refused) while connecting to upstream\\n' > /var/log/nginx/error.log",
+    "printf -- '-----BEGIN CERTIFICATE-----\\nfake\\n-----END CERTIFICATE-----\\n' > /etc/letsencrypt/live/example.com/cert.pem",
+    "cat > /usr/local/bin/nginx <<'SH'\n#!/usr/bin/env bash\nif [[ \"$*\" == \"-t\" ]]; then\n  printf 'nginx: the configuration file /etc/nginx/nginx.conf syntax is ok\\nnginx: configuration file /etc/nginx/nginx.conf test is successful\\n'\n  exit 0\nfi\nprintf 'fake nginx\\n'\nSH\nchmod +x /usr/local/bin/nginx",
+    "cat > /usr/local/bin/systemctl <<'SH'\n#!/usr/bin/env bash\nif [[ \"$*\" == *\"--failed\"* ]]; then\n  printf '  UNIT LOAD ACTIVE SUB DESCRIPTION\\n0 loaded units listed.\\n'\n  exit 0\nfi\nif [[ \"$*\" == *\"reload nginx\"* ]]; then\n  printf 'nginx reload queued\\n'\n  exit 0\nfi\nprintf 'fake systemctl %s\\n' \"$*\"\nSH\nchmod +x /usr/local/bin/systemctl",
+    "cat > /usr/local/bin/certbot <<'SH'\n#!/usr/bin/env bash\nif [[ \"$*\" == *\"certificates\"* ]]; then\n  printf 'Certificate Name: example.com\\n    Domains: example.com www.example.com\\n    Expiry Date: 2026-09-23 10:00:00+00:00 (VALID: 90 days)\\n'\n  exit 0\nfi\nprintf 'fake certbot\\n'\nSH\nchmod +x /usr/local/bin/certbot",
+    "cat > /usr/local/bin/dig <<'SH'\n#!/usr/bin/env bash\ncase \"$*\" in\n  *' A'*) printf '203.0.113.10\\n' ;;\n  *' CNAME'*) printf 'example.com.\\n' ;;\n  *' NS'*) printf 'ns1.example.net.\\nns2.example.net.\\n' ;;\n  *) printf '203.0.113.10\\n' ;;\nesac\nSH\nchmod +x /usr/local/bin/dig",
+    "cat > /usr/local/bin/curl <<'SH'\n#!/usr/bin/env bash\nif [[ \"$*\" == *\"http://example.com\"* ]]; then\n  printf 'HTTP/1.1 301 Moved Permanently\\nLocation: https://example.com/\\n\\n'\n  exit 0\nfi\nif [[ \"$*\" == *\"https://example.com\"* ]]; then\n  printf 'HTTP/2 200\\nserver: fake-nginx\\nx-content-type-options: nosniff\\n\\n'\n  exit 0\nfi\nif [[ \"$*\" == *\"http://127.0.0.1\"* ]]; then\n  printf 'HTTP/1.1 200 OK\\nserver: fake-nginx\\n\\n'\n  exit 0\nfi\nexec /usr/bin/curl \"$@\"\nSH\nchmod +x /usr/local/bin/curl"
   ]
 }

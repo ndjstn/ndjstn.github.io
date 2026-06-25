@@ -9,6 +9,10 @@ require "time"
 
 ROOT = File.expand_path(__dir__)
 CONTENT = JSON.parse(File.read(File.join(ROOT, "content", "lessons.json")))
+PACK_DIR = File.join(ROOT, "content", "packs")
+LESSONS = CONTENT.fetch("lessons") + Dir.glob(File.join(PACK_DIR, "*.json")).sort.flat_map do |path|
+  JSON.parse(File.read(path))
+end
 DIST = File.join(ROOT, "dist")
 GENERATED_AT = Time.now.utc.iso8601
 DEMO_ARTIFACTS = File.join(ROOT, "artifacts", "demos")
@@ -91,7 +95,7 @@ end
 index_body = render_template(
   "index",
   {
-    "lessons" => CONTENT["lessons"],
+    "lessons" => LESSONS,
     "series" => CONTENT["series"],
     "site" => CONTENT["site"],
     "demo_summary" => demo_summary,
@@ -112,7 +116,7 @@ File.write(
   )
 )
 
-CONTENT["lessons"].each do |lesson|
+LESSONS.each do |lesson|
   lesson_dir = File.join(DIST, "lessons", lesson["slug"])
   FileUtils.mkdir_p(lesson_dir)
 
@@ -143,7 +147,7 @@ end
 CONTENT["series"].each do |series|
   series_dir = File.join(DIST, "series", series["id"])
   FileUtils.mkdir_p(series_dir)
-  series_lessons = CONTENT["lessons"].select { |lesson| lesson["series"] == series["id"] }
+  series_lessons = LESSONS.select { |lesson| lesson["series"] == series["id"] }
 
   body = render_template(
     "series",
@@ -172,13 +176,13 @@ feed = {
   "generated_at" => GENERATED_AT,
   "site" => CONTENT["site"],
   "demo_summary" => demo_summary,
-  "lessons" => CONTENT["lessons"].map do |lesson|
+  "lessons" => LESSONS.map do |lesson|
     lesson.slice("slug", "title", "series", "hook", "command", "danger", "shorts", "linkedin", "youtube")
   end
 }
 
 File.write(File.join(DIST, "feed.json"), JSON.pretty_generate(feed))
-shorts_export = CONTENT["lessons"].map do |lesson|
+shorts_export = LESSONS.map do |lesson|
   {
     "slug" => lesson["slug"],
     "title" => lesson["shorts"]["title"],
@@ -225,7 +229,7 @@ analytics_events = {
 
 File.write(File.join(DIST, "exports", "analytics-events.json"), JSON.pretty_generate(analytics_events))
 
-linkedin_posts = CONTENT["lessons"].map do |lesson|
+linkedin_posts = LESSONS.map do |lesson|
   <<~POST
     ## #{lesson["title"]}
 
@@ -246,4 +250,4 @@ File.write(
   File.join(DIST, "exports", "linkedin-posts.md"),
   "# LinkedIn Post Seeds\n\nGenerated: #{GENERATED_AT}\n\n#{linkedin_posts.join("\n---\n\n")}"
 )
-puts "Built #{CONTENT["lessons"].length} lessons into #{DIST}"
+puts "Built #{LESSONS.length} lessons into #{DIST}"

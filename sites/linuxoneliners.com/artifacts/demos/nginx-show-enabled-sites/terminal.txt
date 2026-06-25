@@ -1,0 +1,12 @@
+::fixture-ready::
+$ ls -l /etc/nginx/sites-enabled/
+total 0
+lrwxrwxrwx 1 root root 38 Jun 25 11:42 example.com -> /etc/nginx/sites-available/example.com
+::exit-code::0
+$ readlink -f /etc/nginx/sites-enabled/example.com
+/etc/nginx/sites-available/example.com
+::exit-code::0
+$ nginx -t
+nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
+nginx: configuration file /etc/nginx/nginx.conf test is successful
+::exit-code::0

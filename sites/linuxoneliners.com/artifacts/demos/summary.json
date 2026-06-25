@@ -1,93 +1,93 @@
 {
-  "generated_at": "2026-06-25T11:15:04Z",
+  "generated_at": "2026-06-25T11:42:32Z",
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
-  "total": 14,
-  "passed": 14,
+  "total": 24,
+  "passed": 24,
   "failed": [],
   "results": [
     {
       "slug": "curl-resolve-site-check",
       "title": "Your Site Is Not Down. DNS Might Be Lying.",
       "ok": true,
-      "elapsed_ms": 182,
+      "elapsed_ms": 218,
       "command_count": 3
     },
     {
       "slug": "find-large-files",
       "title": "Find the Files Eating Your Disk",
       "ok": true,
-      "elapsed_ms": 159,
+      "elapsed_ms": 206,
       "command_count": 3
     },
     {
       "slug": "rsync-dry-run",
       "title": "Run Rsync Without Deleting Your Backup",
       "ok": true,
-      "elapsed_ms": 268,
+      "elapsed_ms": 302,
       "command_count": 3
     },
     {
       "slug": "tail-live-logs",
       "title": "Watch Logs Without Opening the Whole File",
       "ok": true,
-      "elapsed_ms": 4178,
+      "elapsed_ms": 4217,
       "command_count": 3
     },
     {
       "slug": "grep-errors-in-logs",
       "title": "Find Errors Before Reading Every Log Line",
       "ok": true,
-      "elapsed_ms": 207,
+      "elapsed_ms": 240,
       "command_count": 3
     },
     {
       "slug": "check-listening-ports",
       "title": "Check What Is Actually Listening",
       "ok": true,
-      "elapsed_ms": 197,
+      "elapsed_ms": 219,
       "command_count": 3
     },
     {
       "slug": "inspect-permissions",
       "title": "Inspect Permissions Before Changing Them",
       "ok": true,
-      "elapsed_ms": 171,
+      "elapsed_ms": 204,
       "command_count": 3
     },
     {
       "slug": "grep-line-numbers",
       "title": "Find the Exact Log Line Before You Scroll",
       "ok": true,
-      "elapsed_ms": 177,
+      "elapsed_ms": 210,
       "command_count": 3
     },
     {
       "slug": "disk-usage-by-folder",
       "title": "Find Which Folder Is Filling the Disk",
       "ok": true,
-      "elapsed_ms": 184,
+      "elapsed_ms": 198,
       "command_count": 3
     },
     {
       "slug": "recent-log-errors",
       "title": "Show Only Recent Errors",
       "ok": true,
-      "elapsed_ms": 185,
+      "elapsed_ms": 199,
       "command_count": 3
     },
     {
       "slug": "rsync-show-deletes",
       "title": "Preview What Rsync Would Delete",
       "ok": true,
-      "elapsed_ms": 312,
+      "elapsed_ms": 399,
       "command_count": 3
     },
     {
       "slug": "file-owner-and-mode",
       "title": "Check Owner and Mode in One Line",
       "ok": true,
-      "elapsed_ms": 174,
+      "elapsed_ms": 211,
       "command_count": 3
     },
     {
@@ -101,7 +101,77 @@
       "slug": "show-top-files-human",
       "title": "Show Big Files in Human Units",
       "ok": true,
-      "elapsed_ms": 193,
+      "elapsed_ms": 214,
+      "command_count": 3
+    },
+    {
+      "slug": "nginx-test-config",
+      "title": "Test Nginx Before Reload",
+      "ok": true,
+      "elapsed_ms": 215,
+      "command_count": 3
+    },
+    {
+      "slug": "nginx-show-enabled-sites",
+      "title": "Show Enabled Nginx Sites",
+      "ok": true,
+      "elapsed_ms": 225,
+      "command_count": 3
+    },
+    {
+      "slug": "nginx-find-server-name",
+      "title": "Find Which Nginx Config Owns a Domain",
+      "ok": true,
+      "elapsed_ms": 226,
+      "command_count": 3
+    },
+    {
+      "slug": "check-http-redirect",
+      "title": "Check HTTP to HTTPS Redirect",
+      "ok": true,
+      "elapsed_ms": 223,
+      "command_count": 3
+    },
+    {
+      "slug": "inspect-response-headers",
+      "title": "Inspect Response Headers",
+      "ok": true,
+      "elapsed_ms": 276,
+      "command_count": 3
+    },
+    {
+      "slug": "dig-a-record",
+      "title": "Check a Domain A Record",
+      "ok": true,
+      "elapsed_ms": 225,
+      "command_count": 3
+    },
+    {
+      "slug": "certbot-list-certs",
+      "title": "List Certbot Certificates",
+      "ok": true,
+      "elapsed_ms": 224,
+      "command_count": 3
+    },
+    {
+      "slug": "check-nginx-symlink-target",
+      "title": "Check the Current Release Symlink",
+      "ok": true,
+      "elapsed_ms": 216,
+      "command_count": 3
+    },
+    {
+      "slug": "nginx-find-404s",
+      "title": "Find Top 404 URLs",
+      "ok": true,
+      "elapsed_ms": 232,
+      "command_count": 3
+    },
+    {
+      "slug": "watch-access-by-referrer",
+      "title": "See Top Referrers",
+      "ok": true,
+      "elapsed_ms": 222,
       "command_count": 3
     }
   ]
