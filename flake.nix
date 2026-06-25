@@ -32,6 +32,7 @@
               ruby_3_3
               bundler
               nodejs_22
+              curl
               git
               openssh
               rsync
@@ -44,6 +45,7 @@
 
             shellHook = ''
               export BUNDLE_PATH=.bundle
+              export LD_LIBRARY_PATH=${pkgs.lib.makeLibraryPath [ pkgs.curl pkgs.libxml2 pkgs.libxslt pkgs.vips ]}:''${LD_LIBRARY_PATH:-}
               echo "Portfolio shell: bundle install, then bundle exec jekyll build"
             '';
           };

@@ -166,6 +166,29 @@ host. Until then, preventive resource management is the right goal.
 6. Point Hostinger DNS for `justinstone.online` and `www.justinstone.online` to the VPS.
 7. Issue TLS with Certbot after DNS resolves to the VPS.
 
+## CI/CD
+
+The repository has two GitHub Actions lanes:
+
+- `Site CI`: runs on pushes and pull requests. It validates ops manifests,
+  generates the private site registry, builds Jekyll, checks that private
+  `ops/` and `deploy/` files do not leak into `_site`, and runs internal-link
+  checks.
+- `Deploy justinstone.online to VPS`: manual workflow for production deploys.
+  It runs the same public build checks, installs an SSH key from GitHub
+  secrets, and runs `scripts/deploy_static_vps.sh`.
+
+Required GitHub secrets for VPS deploy:
+
+```text
+VPS_DEPLOY_HOST=root@31.220.54.145
+VPS_SSH_PRIVATE_KEY=<private deploy key>
+VPS_KNOWN_HOSTS=<known_hosts line for 31.220.54.145>
+```
+
+Use a deploy-only SSH key once the VPS is ready. Avoid using a personal key for
+long-term automation.
+
 ## DNS target
 
 The VPS currently serving `linuxoneliners.com` resolves to:
