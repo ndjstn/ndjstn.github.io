@@ -8,7 +8,7 @@
     "build_status": {
       "phase": "live scaffold",
       "status": "shipping small slices",
-      "now_building": "seven lessons, owned analytics, isolated demo vessels, and a backend plan for conversions, ads, comments, and sale carve-outs",
+      "now_building": "eight lessons, owned analytics, isolated demo vessels, and a backend plan for conversions, ads, comments, and sale carve-outs",
       "next_up": [
         "publish ten Linux Survival Basics lessons to test search demand",
         "export Shorts and LinkedIn copy to drive traffic back here",
@@ -365,6 +365,52 @@
           "metric": "linkedin_comment_rate",
           "variant_a": "Inspect permissions before changing them.",
           "variant_b": "This is what I run before `chmod -R`."
+        }
+      ]
+    },
+    {
+      "slug": "grep-line-numbers",
+      "title": "Find the Exact Log Line Before You Scroll",
+      "series": "linux-survival-basics",
+      "hook": "The error was there. The useful part was knowing exactly where it was.",
+      "problem": "A log file contains likely failures, but you need line numbers so you can inspect context around the match.",
+      "command": "grep -inE 'error|failed|denied|timeout' /var/log/nginx/error.log",
+      "danger": "safe",
+      "starting_state": "A log file has multiple warnings and errors mixed with normal service output.",
+      "what_changed": "Nothing changes. The command prints matching lines with line numbers for follow-up inspection.",
+      "when_to_use": "Use this when a first-pass grep finds failures and you need the surrounding context next.",
+      "when_not_to_use": "Do not assume these four words catch every failure; applications often log custom error language.",
+      "undo": "No state is changed.",
+      "expected_output": "Matching log lines prefixed by their line numbers.",
+      "terminal_demo": {
+        "fixture": "containers/log-lab",
+        "commands": [
+          "grep -inE 'error|failed|denied|timeout' /var/log/nginx/error.log",
+          "grep -inE 'error|failed|denied|timeout' /var/log/nginx/error.log | tail -20",
+          "sed -n '2,5p' /var/log/nginx/error.log"
+        ]
+      },
+      "shorts": {
+        "format": "vertical",
+        "duration_target_seconds": 30,
+        "title": "Find the exact log line first.",
+        "voiceover": "Line numbers make log debugging faster. First find the failure, then inspect the few lines around it instead of scrolling forever.",
+        "caption": "Use `grep -n` before reading the whole log."
+      },
+      "linkedin": {
+        "question": "Do you jump straight into logs, or search for line numbers first?",
+        "cta": "Full line-number grep demo"
+      },
+      "youtube": {
+        "playlist": "Linux Survival Basics",
+        "description": "A short demo for using grep line numbers before inspecting log context."
+      },
+      "experiments": [
+        {
+          "id": "grep_line_numbers_hook",
+          "metric": "linkedin_save_rate",
+          "variant_a": "Find the exact log line before you scroll.",
+          "variant_b": "Use `grep -n` before reading the whole log."
         }
       ]
     }
