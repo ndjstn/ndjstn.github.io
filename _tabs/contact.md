@@ -4,9 +4,9 @@ icon: fas fa-envelope
 order: 3
 ---
 
-The best starting point is my GitHub profile:
+The best starting point is the curated Projects page:
 
-- [github.com/ndjstn](https://github.com/ndjstn)
+- [Portfolio projects](/projects/)
 
 For portfolio review, the most useful paths are:
 
