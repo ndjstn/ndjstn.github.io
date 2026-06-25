@@ -1,0 +1,10 @@
+::fixture-ready::
+$ printf '%s\n' 'HTTP/2 200' 'content-type: text/html' 'cache-control: max-age=300'
+HTTP/2 200
+content-type: text/html
+cache-control: max-age=300
+::exit-code::0
+$ printf '%s\n' 'HTTP/2 301' 'location: https://www.example.com/' | awk 'BEGIN{IGNORECASE=1} /HTTP|location|content-type|cache-control/'
+HTTP/2 301
+location: https://www.example.com/
+::exit-code::0

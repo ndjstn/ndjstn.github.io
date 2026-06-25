@@ -70,5 +70,11 @@
     "cat > config/app.env.example <<'ENV'\nAPP_ENV=staging\nNODE_ENV=production\nRAILS_ENV=production\nENV",
     "cat > deploy/app.yaml <<'YAML'\nimage: registry.example/app:v1.2.3\nimage: registry.example/worker:v1.2.3\nYAML",
     "cat > /usr/local/bin/curl <<'SH'\n#!/usr/bin/env bash\nif [[ \"$*\" == *\"https://example.com/health\"* ]]; then\n  printf '200 0.042000s\\n'\n  exit 0\nfi\nexec /usr/bin/curl \"$@\"\nSH\nchmod +x /usr/local/bin/curl"
+  ],
+  "containers/apple-terminal-lab": [
+    "mkdir -p project/export project/logs",
+    "printf 'server started\\nloading config\\nERROR missing API_KEY\\nretry disabled\\nexit\\n' > project/logs/app.log",
+    "printf 'demo export\\n' > project/export/export.mov",
+    "printf 'placeholder\\n' > project/trusted-tool"
   ]
 }

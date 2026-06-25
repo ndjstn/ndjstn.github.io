@@ -1,0 +1,9 @@
+::fixture-ready::
+$ printf '%s\n' './src/app.ts' './export/final.mov' './dist/bundle.js'
+./src/app.ts
+./export/final.mov
+./dist/bundle.js
+::exit-code::0
+$ printf '%s\n' './export/final.mov'
+./export/final.mov
+::exit-code::0

@@ -1,0 +1,10 @@
+::fixture-ready::
+$ PATH_FIXTURE='/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin'; echo "$PATH_FIXTURE"
+/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin
+::exit-code::0
+$ PATH_FIXTURE='/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin'; echo "$PATH_FIXTURE" | tr ':' '\n' | nl -ba
+     1	/opt/homebrew/bin
+     2	/usr/local/bin
+     3	/usr/bin
+     4	/bin
+::exit-code::0

@@ -1,0 +1,9 @@
+::fixture-ready::
+$ printf '%s\n' 4242 4243
+4242
+4243
+::exit-code::0
+$ printf '%s\n' 4242 4243 | xargs -n1 printf 'would kill pid %s\n'
+would kill pid 4242
+would kill pid 4243
+::exit-code::0

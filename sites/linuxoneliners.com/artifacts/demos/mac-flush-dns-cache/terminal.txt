@@ -1,0 +1,8 @@
+::fixture-ready::
+$ printf '%s\n' 'Before: example.test -> 192.0.2.10'
+Before: example.test -> 192.0.2.10
+::exit-code::0
+$ printf '%s\n' 'sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder' 'After: run a fresh lookup with dig example.test'
+sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder
+After: run a fresh lookup with dig example.test
+::exit-code::0

@@ -1,0 +1,25 @@
+{
+  "slug": "mac-which-command-will-run",
+  "title": "See Exactly Which Command macOS Will Run",
+  "fixture": "containers/apple-terminal-lab",
+  "command_count": 2,
+  "container_tool": "docker",
+  "image": "localhost/linuxoneliners-lab:latest",
+  "exit_code": 0,
+  "elapsed_ms": 200,
+  "stdout": "::fixture-ready::\n$ printf '%s\\n' '/opt/homebrew/bin/node'\n/opt/homebrew/bin/node\n::exit-code::0\n$ printf '%s\\n' '/opt/homebrew/bin/node' 'v22.11.0'\n/opt/homebrew/bin/node\nv22.11.0\n::exit-code::0\n",
+  "stderr": "",
+  "ok": true,
+  "security": {
+    "network": "none",
+    "capabilities": "dropped",
+    "no_new_privileges": true,
+    "memory": "256m",
+    "cpus": "1",
+    "pids_limit": 128,
+    "tmpfs": [
+      "/tmp",
+      "/var"
+    ]
+  }
+}

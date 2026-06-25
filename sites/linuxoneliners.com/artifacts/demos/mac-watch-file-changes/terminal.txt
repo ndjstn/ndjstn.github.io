@@ -1,0 +1,8 @@
+::fixture-ready::
+$ tail -n 1 project/logs/app.log
+exit
+::exit-code::0
+$ printf '%s\n' 'request GET /health' >> project/logs/app.log; tail -n 2 project/logs/app.log
+exit
+request GET /health
+::exit-code::0

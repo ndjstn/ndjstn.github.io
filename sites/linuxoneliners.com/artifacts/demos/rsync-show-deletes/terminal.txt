@@ -11,8 +11,8 @@ deleting stale.txt
 app.conf
 index.html
 
-sent 98 bytes  received 31 bytes  258.00 bytes/sec
-total size is 24  speedup is 0.19 (DRY RUN)
+sent 101 bytes  received 31 bytes  264.00 bytes/sec
+total size is 24  speedup is 0.18 (DRY RUN)
 ::exit-code::0
 $ rsync -avhn --delete ./source/ ./backup/ | grep '^deleting'
 deleting stale.txt

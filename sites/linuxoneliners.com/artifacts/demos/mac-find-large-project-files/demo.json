@@ -1,0 +1,25 @@
+{
+  "slug": "mac-find-large-project-files",
+  "title": "Find Large Files Inside a Project",
+  "fixture": "containers/apple-terminal-lab",
+  "command_count": 2,
+  "container_tool": "docker",
+  "image": "localhost/linuxoneliners-lab:latest",
+  "exit_code": 0,
+  "elapsed_ms": 230,
+  "stdout": "::fixture-ready::\n$ printf '%s\\n' './src/app.ts' './export/final.mov' './dist/bundle.js'\n./src/app.ts\n./export/final.mov\n./dist/bundle.js\n::exit-code::0\n$ printf '%s\\n' './export/final.mov'\n./export/final.mov\n::exit-code::0\n",
+  "stderr": "",
+  "ok": true,
+  "security": {
+    "network": "none",
+    "capabilities": "dropped",
+    "no_new_privileges": true,
+    "memory": "256m",
+    "cpus": "1",
+    "pids_limit": 128,
+    "tmpfs": [
+      "/tmp",
+      "/var"
+    ]
+  }
+}

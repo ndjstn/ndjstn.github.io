@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 186,
+  "elapsed_ms": 191,
   "stdout": "::fixture-ready::\n$ cat deploy/app.yaml\nimage: registry.example/app:v1.2.3\nimage: registry.example/worker:v1.2.3\n::exit-code::0\n$ grep -RhoE 'image:[[:space:]]*[^[:space:]]+' deploy/ | sort -u\nimage: registry.example/app:v1.2.3\nimage: registry.example/worker:v1.2.3\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

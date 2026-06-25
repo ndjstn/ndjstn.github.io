@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 196,
+  "elapsed_ms": 180,
   "stdout": "::fixture-ready::\n$ systemd-analyze blame | head -20\n12.441s cloud-init.service\n4.982s docker.service\n2.104s nginx.service\n1.660s networking.service\n::exit-code::0\n$ last -x reboot | head -5\nreboot   system boot  6.8.0-60-generic Thu Jun 25 14:09   still running\nreboot   system boot  6.8.0-60-generic Wed Jun 24 03:12 - 14:08  (1+10:56)\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

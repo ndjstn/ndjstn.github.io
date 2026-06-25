@@ -1,0 +1,15 @@
+::fixture-ready::
+$ nl -ba project/logs/app.log | sed -n '1,8p'
+     1	server started
+     2	loading config
+     3	ERROR missing API_KEY
+     4	retry disabled
+     5	exit
+::exit-code::0
+$ grep -n -C 2 'ERROR' project/logs/app.log
+1-server started
+2-loading config
+3:ERROR missing API_KEY
+4-retry disabled
+5-exit
+::exit-code::0

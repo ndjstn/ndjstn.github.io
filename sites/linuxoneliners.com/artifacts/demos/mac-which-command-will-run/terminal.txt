@@ -1,0 +1,8 @@
+::fixture-ready::
+$ printf '%s\n' '/opt/homebrew/bin/node'
+/opt/homebrew/bin/node
+::exit-code::0
+$ printf '%s\n' '/opt/homebrew/bin/node' 'v22.11.0'
+/opt/homebrew/bin/node
+v22.11.0
+::exit-code::0

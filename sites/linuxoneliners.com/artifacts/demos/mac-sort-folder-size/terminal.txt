@@ -1,0 +1,11 @@
+::fixture-ready::
+$ printf '%s\n' '4.0K ./notes' '850M ./node_modules' '1.2G ./video-export'
+4.0K ./notes
+850M ./node_modules
+1.2G ./video-export
+::exit-code::0
+$ printf '%s\n' '4.0K ./notes' '850M ./node_modules' '1.2G ./video-export' | sort -h
+4.0K ./notes
+850M ./node_modules
+1.2G ./video-export
+::exit-code::0

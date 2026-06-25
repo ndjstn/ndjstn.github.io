@@ -1,0 +1,25 @@
+{
+  "slug": "mac-watch-file-changes",
+  "title": "Watch a Log or Build File Update",
+  "fixture": "containers/apple-terminal-lab",
+  "command_count": 2,
+  "container_tool": "docker",
+  "image": "localhost/linuxoneliners-lab:latest",
+  "exit_code": 0,
+  "elapsed_ms": 219,
+  "stdout": "::fixture-ready::\n$ tail -n 1 project/logs/app.log\nexit\n::exit-code::0\n$ printf '%s\\n' 'request GET /health' >> project/logs/app.log; tail -n 2 project/logs/app.log\nexit\nrequest GET /health\n::exit-code::0\n",
+  "stderr": "",
+  "ok": true,
+  "security": {
+    "network": "none",
+    "capabilities": "dropped",
+    "no_new_privileges": true,
+    "memory": "256m",
+    "cpus": "1",
+    "pids_limit": 128,
+    "tmpfs": [
+      "/tmp",
+      "/var"
+    ]
+  }
+}

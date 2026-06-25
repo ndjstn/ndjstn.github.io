@@ -1,0 +1,25 @@
+{
+  "slug": "mac-sort-folder-size",
+  "title": "Find Which Folder Is Eating Disk Space",
+  "fixture": "containers/apple-terminal-lab",
+  "command_count": 2,
+  "container_tool": "docker",
+  "image": "localhost/linuxoneliners-lab:latest",
+  "exit_code": 0,
+  "elapsed_ms": 203,
+  "stdout": "::fixture-ready::\n$ printf '%s\\n' '4.0K ./notes' '850M ./node_modules' '1.2G ./video-export'\n4.0K ./notes\n850M ./node_modules\n1.2G ./video-export\n::exit-code::0\n$ printf '%s\\n' '4.0K ./notes' '850M ./node_modules' '1.2G ./video-export' | sort -h\n4.0K ./notes\n850M ./node_modules\n1.2G ./video-export\n::exit-code::0\n",
+  "stderr": "",
+  "ok": true,
+  "security": {
+    "network": "none",
+    "capabilities": "dropped",
+    "no_new_privileges": true,
+    "memory": "256m",
+    "cpus": "1",
+    "pids_limit": 128,
+    "tmpfs": [
+      "/tmp",
+      "/var"
+    ]
+  }
+}

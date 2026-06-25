@@ -1,7 +1,7 @@
 ::fixture-ready::
 $ ls -lh artifacts/app.tar.gz releases/current/app.tar.gz
--rw-r--r-- 1 root root 13 Jun 25 12:01 artifacts/app.tar.gz
--rw-r--r-- 1 root root 13 Jun 25 12:01 releases/current/app.tar.gz
+-rw-r--r-- 1 root root 13 Jun 25 12:28 artifacts/app.tar.gz
+-rw-r--r-- 1 root root 13 Jun 25 12:28 releases/current/app.tar.gz
 ::exit-code::0
 $ sha256sum artifacts/app.tar.gz releases/current/app.tar.gz
 020de28e3ded8ea3aa27c978e387b7604413181b1ce846f057bcbd8b36054244  artifacts/app.tar.gz
