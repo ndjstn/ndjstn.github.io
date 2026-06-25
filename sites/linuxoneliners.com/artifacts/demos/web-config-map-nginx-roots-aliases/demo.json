@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 243,
+  "elapsed_ms": 205,
   "stdout": "::fixture-ready::\n$ grep -RInE '^[[:space:]]*(root|alias)[[:space:]]' fixtures/nginx/conf.d fixtures/nginx/sites-enabled\nfixtures/nginx/conf.d/admin.conf:4:    root /srv/www/admin;\nfixtures/nginx/sites-enabled/example.conf:9:    root /srv/www/example/current/public;\nfixtures/nginx/sites-enabled/example.conf:12:        alias /srv/www/example/current/assets/;\n::exit-code::0\n$ grep -RInE '^[[:space:]]*location[[:space:]]' fixtures/nginx/conf.d fixtures/nginx/sites-enabled\nfixtures/nginx/conf.d/admin.conf:5:    location / {\nfixtures/nginx/sites-enabled/example.conf:11:    location /assets/ {\nfixtures/nginx/sites-enabled/example.conf:14:    location /api/ {\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

@@ -1,0 +1,7 @@
+::fixture-ready::
+$ dpkg-query -W -f='${Status} ${Version}\n' openssl
+install ok installed 3.0.13-0ubuntu3.5
+::exit-code::0
+$ dpkg-query -W -f='${Status} ${Version}\n' nginx
+install ok installed 1.24.0-2ubuntu7.3
+::exit-code::0

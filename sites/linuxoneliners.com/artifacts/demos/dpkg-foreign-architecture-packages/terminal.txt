@@ -1,0 +1,16 @@
+::fixture-ready::
+$ dpkg-query -W -f='${Architecture}\t${Package}\n' | sort
+amd64	base-files
+amd64	bash
+amd64	curl
+amd64	libc6
+amd64	linux-image-6.8.0-60-generic
+amd64	nginx
+amd64	openssl
+amd64	python3
+amd64	zlib1g
+i386	zlib1g:i386
+::exit-code::0
+$ dpkg-query -W -f='${Architecture}\t${Package}\n' | awk '$1 != "amd64" && $1 != "all"'
+i386	zlib1g:i386
+::exit-code::0

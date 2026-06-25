@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 260,
+  "elapsed_ms": 212,
   "stdout": "::fixture-ready::\n$ ss -ltnp | grep ':22'\nLISTEN 0      128          0.0.0.0:22        0.0.0.0:*     users:((\"sshd\",pid=801,fd=3))\n::exit-code::0\n$ ufw status numbered | grep '22/tcp'\n[ 1] 22/tcp                     ALLOW IN    203.0.113.0/24\n::exit-code::0\n$ ss -ltnp | awk '$4 ~ /:22$/ && $4 !~ /^127[.]/ {print}'\nLISTEN 0      128          0.0.0.0:22        0.0.0.0:*     users:((\"sshd\",pid=801,fd=3))\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

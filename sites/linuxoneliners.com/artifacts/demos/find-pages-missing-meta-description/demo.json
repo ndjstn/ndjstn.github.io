@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 205,
+  "elapsed_ms": 202,
   "stdout": "::fixture-ready::\n$ grep -Rni --include='*.html' 'name=\"description\"' public\npublic/about.html:4:<meta name=\"description\" content=\"About the demo site.\">\npublic/index.html:4:<meta name=\"description\" content=\"A small static site for SEO triage demos.\">\n::exit-code::0\n$ find public -name '*.html' -print | while read -r f; do grep -qi 'name=\"description\"' \"$f\" || echo \"$f\"; done\npublic/draft.html\npublic/blog/post.html\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

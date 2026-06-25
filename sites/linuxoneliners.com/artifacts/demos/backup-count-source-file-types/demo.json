@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 190,
+  "elapsed_ms": 207,
   "stdout": "::fixture-ready::\n$ find source -type f -printf '%f\\n' | sort\nabout.md\nconfig.yml\nindex.md\nlogo.svg\n::exit-code::0\n$ find source -type f -printf '%f\\n' | sed -n 's/.*\\.//p' | sort | uniq -c | sort -nr\n      2 md\n      1 yml\n      1 svg\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

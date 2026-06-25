@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 189,
+  "elapsed_ms": 186,
   "stdout": "::fixture-ready::\n$ PATH_FIXTURE='/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin'; echo \"$PATH_FIXTURE\"\n/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin\n::exit-code::0\n$ PATH_FIXTURE='/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin'; echo \"$PATH_FIXTURE\" | tr ':' '\\n' | nl -ba\n     1\t/opt/homebrew/bin\n     2\t/usr/local/bin\n     3\t/usr/bin\n     4\t/bin\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

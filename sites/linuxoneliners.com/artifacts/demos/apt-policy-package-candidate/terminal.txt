@@ -1,0 +1,21 @@
+::fixture-ready::
+$ apt policy nginx
+nginx:
+  Installed: 1.24.0-2ubuntu7.3
+  Candidate: 1.24.0-2ubuntu7.4
+  Version table:
+     1.24.0-2ubuntu7.4 500
+        500 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 Packages
+ *** 1.24.0-2ubuntu7.3 100
+        100 /var/lib/dpkg/status
+::exit-code::0
+$ apt policy openssl
+openssl:
+  Installed: 3.0.13-0ubuntu3.5
+  Candidate: 3.0.13-0ubuntu3.6
+  Version table:
+     3.0.13-0ubuntu3.6 500
+        500 http://security.ubuntu.com/ubuntu noble-security/main amd64 Packages
+ *** 3.0.13-0ubuntu3.5 100
+        100 /var/lib/dpkg/status
+::exit-code::0

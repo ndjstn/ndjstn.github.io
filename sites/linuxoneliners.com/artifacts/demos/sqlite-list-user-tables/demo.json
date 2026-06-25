@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 196,
+  "elapsed_ms": 206,
   "stdout": "::fixture-ready::\n$ sqlite3 app.db \".tables\"\nevents  orders  schema_migrations  users\n::exit-code::0\n$ sqlite3 app.db \"SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;\"\nusers\norders\nevents\nschema_migrations\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

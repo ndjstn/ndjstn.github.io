@@ -1,0 +1,25 @@
+{
+  "slug": "debian-ubuntu-release-fingerprint",
+  "title": "Fingerprint a Debian or Ubuntu Host",
+  "fixture": "containers/debian-ubuntu-package-inventory-lab",
+  "command_count": 2,
+  "container_tool": "docker",
+  "image": "localhost/linuxoneliners-lab:latest",
+  "exit_code": 0,
+  "elapsed_ms": 219,
+  "stdout": "::fixture-ready::\n$ cat /etc/os-release\nPRETTY_NAME=\"Ubuntu 24.04.2 LTS\"\nNAME=\"Ubuntu\"\nVERSION_ID=\"24.04\"\nVERSION=\"24.04.2 LTS (Noble Numbat)\"\nVERSION_CODENAME=noble\nID=ubuntu\nID_LIKE=debian\nHOME_URL=\"https://www.ubuntu.com/\"\nSUPPORT_URL=\"https://help.ubuntu.com/\"\n::exit-code::0\n$ . /etc/os-release && printf '%s %s %s\\n' \"$ID\" \"$VERSION_ID\" \"$VERSION_CODENAME\"\nubuntu 24.04 noble\n::exit-code::0\n",
+  "stderr": "",
+  "ok": true,
+  "security": {
+    "network": "none",
+    "capabilities": "dropped",
+    "no_new_privileges": true,
+    "memory": "256m",
+    "cpus": "1",
+    "pids_limit": 128,
+    "tmpfs": [
+      "/tmp",
+      "/var"
+    ]
+  }
+}

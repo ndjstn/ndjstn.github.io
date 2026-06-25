@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 225,
+  "elapsed_ms": 210,
   "stdout": "::fixture-ready::\n$ find public -name '*.html' -print\npublic/about.html\npublic/draft.html\npublic/blog/post.html\npublic/index.html\n::exit-code::0\n$ grep -Rni --include='*.html' 'noindex' public\npublic/draft.html:4:<meta name=\"robots\" content=\"noindex,nofollow\">\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

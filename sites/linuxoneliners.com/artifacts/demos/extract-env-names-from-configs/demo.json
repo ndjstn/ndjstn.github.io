@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 211,
+  "elapsed_ms": 222,
   "stdout": "::fixture-ready::\n$ sed -n '1,20p' config/app.env.example\nAPP_ENV=staging\nNODE_ENV=production\nRAILS_ENV=production\n::exit-code::0\n$ grep -RhoE 'ENVIRONMENT|NODE_ENV|APP_ENV|RAILS_ENV' config deploy | sort -u\nAPP_ENV\nNODE_ENV\nRAILS_ENV\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

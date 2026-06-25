@@ -1,0 +1,25 @@
+{
+  "slug": "dpkg-foreign-architecture-packages",
+  "title": "Spot Foreign-Architecture Packages",
+  "fixture": "containers/debian-ubuntu-package-inventory-lab",
+  "command_count": 2,
+  "container_tool": "docker",
+  "image": "localhost/linuxoneliners-lab:latest",
+  "exit_code": 0,
+  "elapsed_ms": 226,
+  "stdout": "::fixture-ready::\n$ dpkg-query -W -f='${Architecture}\\t${Package}\\n' | sort\namd64\tbase-files\namd64\tbash\namd64\tcurl\namd64\tlibc6\namd64\tlinux-image-6.8.0-60-generic\namd64\tnginx\namd64\topenssl\namd64\tpython3\namd64\tzlib1g\ni386\tzlib1g:i386\n::exit-code::0\n$ dpkg-query -W -f='${Architecture}\\t${Package}\\n' | awk '$1 != \"amd64\" && $1 != \"all\"'\ni386\tzlib1g:i386\n::exit-code::0\n",
+  "stderr": "",
+  "ok": true,
+  "security": {
+    "network": "none",
+    "capabilities": "dropped",
+    "no_new_privileges": true,
+    "memory": "256m",
+    "cpus": "1",
+    "pids_limit": 128,
+    "tmpfs": [
+      "/tmp",
+      "/var"
+    ]
+  }
+}

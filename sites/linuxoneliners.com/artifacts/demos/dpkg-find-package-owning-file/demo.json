@@ -1,0 +1,25 @@
+{
+  "slug": "dpkg-find-package-owning-file",
+  "title": "Find Which Package Owns a File",
+  "fixture": "containers/debian-ubuntu-package-inventory-lab",
+  "command_count": 2,
+  "container_tool": "docker",
+  "image": "localhost/linuxoneliners-lab:latest",
+  "exit_code": 0,
+  "elapsed_ms": 200,
+  "stdout": "::fixture-ready::\n$ dpkg-query -S /usr/sbin/nginx\nnginx: /usr/sbin/nginx\n::exit-code::0\n$ dpkg-query -S /usr/bin/curl\ncurl: /usr/bin/curl\n::exit-code::0\n",
+  "stderr": "",
+  "ok": true,
+  "security": {
+    "network": "none",
+    "capabilities": "dropped",
+    "no_new_privileges": true,
+    "memory": "256m",
+    "cpus": "1",
+    "pids_limit": 128,
+    "tmpfs": [
+      "/tmp",
+      "/var"
+    ]
+  }
+}

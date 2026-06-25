@@ -1,0 +1,25 @@
+{
+  "slug": "apt-policy-package-candidate",
+  "title": "Check the Installed and Candidate Package Version",
+  "fixture": "containers/debian-ubuntu-package-inventory-lab",
+  "command_count": 2,
+  "container_tool": "docker",
+  "image": "localhost/linuxoneliners-lab:latest",
+  "exit_code": 0,
+  "elapsed_ms": 215,
+  "stdout": "::fixture-ready::\n$ apt policy nginx\nnginx:\n  Installed: 1.24.0-2ubuntu7.3\n  Candidate: 1.24.0-2ubuntu7.4\n  Version table:\n     1.24.0-2ubuntu7.4 500\n        500 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 Packages\n *** 1.24.0-2ubuntu7.3 100\n        100 /var/lib/dpkg/status\n::exit-code::0\n$ apt policy openssl\nopenssl:\n  Installed: 3.0.13-0ubuntu3.5\n  Candidate: 3.0.13-0ubuntu3.6\n  Version table:\n     3.0.13-0ubuntu3.6 500\n        500 http://security.ubuntu.com/ubuntu noble-security/main amd64 Packages\n *** 3.0.13-0ubuntu3.5 100\n        100 /var/lib/dpkg/status\n::exit-code::0\n",
+  "stderr": "",
+  "ok": true,
+  "security": {
+    "network": "none",
+    "capabilities": "dropped",
+    "no_new_privileges": true,
+    "memory": "256m",
+    "cpus": "1",
+    "pids_limit": 128,
+    "tmpfs": [
+      "/tmp",
+      "/var"
+    ]
+  }
+}

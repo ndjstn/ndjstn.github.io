@@ -1,0 +1,7 @@
+::fixture-ready::
+$ dpkg-query -S /usr/sbin/nginx
+nginx: /usr/sbin/nginx
+::exit-code::0
+$ dpkg-query -S /usr/bin/curl
+curl: /usr/bin/curl
+::exit-code::0

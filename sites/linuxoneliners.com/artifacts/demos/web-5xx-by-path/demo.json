@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 227,
+  "elapsed_ms": 211,
   "stdout": "::fixture-ready::\n$ awk '$9 ~ /^5/ {print $1, $7, $9}' ./fixtures/nginx/access.log\n198.51.100.21 /api/report 500\n198.51.100.22 /api/report 502\n198.51.100.23 /api/report 503\n::exit-code::0\n$ awk '$9 ~ /^5/ {count[$7]++} END {for (path in count) print count[path], path}' ./fixtures/nginx/access.log | sort -nr | head\n3 /api/report\n::exit-code::0\n$ awk '{count[$9]++} END {for (code in count) print count[code], code}' ./fixtures/nginx/access.log | sort -nr\n13 200\n5 404\n2 405\n2 403\n1 503\n1 502\n1 500\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

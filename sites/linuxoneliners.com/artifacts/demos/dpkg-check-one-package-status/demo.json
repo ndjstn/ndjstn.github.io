@@ -1,0 +1,25 @@
+{
+  "slug": "dpkg-check-one-package-status",
+  "title": "Check One Installed Package Cleanly",
+  "fixture": "containers/debian-ubuntu-package-inventory-lab",
+  "command_count": 2,
+  "container_tool": "docker",
+  "image": "localhost/linuxoneliners-lab:latest",
+  "exit_code": 0,
+  "elapsed_ms": 192,
+  "stdout": "::fixture-ready::\n$ dpkg-query -W -f='${Status} ${Version}\\n' openssl\ninstall ok installed 3.0.13-0ubuntu3.5\n::exit-code::0\n$ dpkg-query -W -f='${Status} ${Version}\\n' nginx\ninstall ok installed 1.24.0-2ubuntu7.3\n::exit-code::0\n",
+  "stderr": "",
+  "ok": true,
+  "security": {
+    "network": "none",
+    "capabilities": "dropped",
+    "no_new_privileges": true,
+    "memory": "256m",
+    "cpus": "1",
+    "pids_limit": 128,
+    "tmpfs": [
+      "/tmp",
+      "/var"
+    ]
+  }
+}

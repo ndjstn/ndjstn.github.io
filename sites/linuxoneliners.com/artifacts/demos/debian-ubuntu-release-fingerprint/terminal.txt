@@ -1,0 +1,15 @@
+::fixture-ready::
+$ cat /etc/os-release
+PRETTY_NAME="Ubuntu 24.04.2 LTS"
+NAME="Ubuntu"
+VERSION_ID="24.04"
+VERSION="24.04.2 LTS (Noble Numbat)"
+VERSION_CODENAME=noble
+ID=ubuntu
+ID_LIKE=debian
+HOME_URL="https://www.ubuntu.com/"
+SUPPORT_URL="https://help.ubuntu.com/"
+::exit-code::0
+$ . /etc/os-release && printf '%s %s %s\n' "$ID" "$VERSION_ID" "$VERSION_CODENAME"
+ubuntu 24.04 noble
+::exit-code::0

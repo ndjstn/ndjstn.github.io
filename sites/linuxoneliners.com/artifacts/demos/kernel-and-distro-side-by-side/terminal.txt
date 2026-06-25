@@ -1,0 +1,7 @@
+::fixture-ready::
+$ uname -a
+Linux pkg-demo 6.8.0-60-generic #63-Ubuntu SMP PREEMPT_DYNAMIC x86_64 GNU/Linux
+::exit-code::0
+$ printf 'kernel=%s arch=%s distro=%s\n' "$(uname -r)" "$(uname -m)" "$(lsb_release -ds)"
+kernel=6.8.0-60-generic arch=x86_64 distro=Ubuntu 24.04.2 LTS
+::exit-code::0

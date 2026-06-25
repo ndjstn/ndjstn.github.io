@@ -1,0 +1,20 @@
+::fixture-ready::
+$ dpkg-query -W -f='${Installed-Size}\t${Package}\n' | sort -nr | head -20
+132904	linux-image-6.8.0-60-generic
+52288	python3
+18320	nginx
+8420	openssl
+7488	curl
+7240	libc6
+6800	bash
+980	base-files
+256	zlib1g
+250	zlib1g:i386
+::exit-code::0
+$ dpkg-query -W -f='${Installed-Size}\t${Package}\n' | sort -nr | head -5
+132904	linux-image-6.8.0-60-generic
+52288	python3
+18320	nginx
+8420	openssl
+7488	curl
+::exit-code::0
