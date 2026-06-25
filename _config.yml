@@ -199,6 +199,12 @@ compress_html:
     envs: [development]
 
 exclude:
+  - app.py
+  - pyrightconfig.json
+  - requirements-kawasaki-wind.txt
+  - references
+  - scripts
+  - weights-bias-variants.md
   - "*.gem"
   - "*.gemspec"
   - docs
