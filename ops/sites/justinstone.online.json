@@ -1,0 +1,78 @@
+{
+  "domain": "justinstone.online",
+  "owner": "Justin Stone",
+  "purpose": "Canonical portfolio and hiring surface",
+  "repo": "https://github.com/ndjstn/ndjstn.github.io",
+  "runtime": "static-jekyll",
+  "stage": "production-candidate",
+  "state": "live",
+  "success_metric": "recruiter conversations, qualified work leads, and article traffic",
+  "kill_date": null,
+  "promotion_status": "canonical",
+  "automation": {
+    "deploy": "manual",
+    "backup": "automatic",
+    "promote_content": "manual",
+    "pause": "manual",
+    "health_check": "automatic"
+  },
+  "edge": {
+    "proxy": "nginx",
+    "tls": "certbot"
+  },
+  "deployment": {
+    "strategy": "immutable-release-folder",
+    "release_root": "/srv/www/justinstone.online/releases",
+    "current_symlink": "/srv/www/justinstone.online/current"
+  },
+  "database": {
+    "engine": "none",
+    "name": null,
+    "user": null
+  },
+  "data": {
+    "collected": [
+      "aggregate analytics",
+      "inbound contact intent"
+    ],
+    "personal_data": false,
+    "privacy_policy_url": null,
+    "retention_period": "aggregate analytics retained indefinitely, raw contact data only if contact capture is added"
+  },
+  "backups": {
+    "schedule": "after each deploy plus VPS snapshots",
+    "restore_check": "verify static release rollback"
+  },
+  "communications": {
+    "inbound": [
+      "LinkedIn",
+      "GitHub",
+      "email when published"
+    ],
+    "outbound": [
+      "LinkedIn posts",
+      "GitHub project links"
+    ]
+  },
+  "analytics": {
+    "public_metrics": [
+      "page views",
+      "referrers",
+      "article clicks"
+    ],
+    "private_metrics": [
+      "recruiter inquiries",
+      "qualified lead source"
+    ]
+  },
+  "handoff": {
+    "sale_candidate": false,
+    "export_allowed": "aggregate-only",
+    "package": [
+      "source code",
+      "deployment docs",
+      "static assets",
+      "anonymized analytics summary"
+    ]
+  }
+}

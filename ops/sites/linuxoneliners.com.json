@@ -1,0 +1,74 @@
+{
+  "domain": "linuxoneliners.com",
+  "owner": "Justin Stone",
+  "purpose": "Search-friendly Linux reference experiment",
+  "repo": "/home/uri/Desktop/github-repos/linuxoneliners",
+  "runtime": "static",
+  "stage": "experiment",
+  "state": "live",
+  "success_metric": "organic search traffic, newsletter/contact capture, or sale interest",
+  "kill_date": null,
+  "promotion_status": "not-promoted",
+  "automation": {
+    "deploy": "manual",
+    "backup": "manual",
+    "promote_content": "paused",
+    "pause": "manual",
+    "health_check": "automatic"
+  },
+  "edge": {
+    "proxy": "nginx",
+    "tls": "existing-or-certbot"
+  },
+  "deployment": {
+    "strategy": "static-release-or-current-nginx-root",
+    "release_root": "/srv/www/linuxoneliners.com/releases",
+    "current_symlink": "/srv/www/linuxoneliners.com/current"
+  },
+  "database": {
+    "engine": "none",
+    "name": null,
+    "user": null
+  },
+  "data": {
+    "collected": [
+      "aggregate analytics"
+    ],
+    "personal_data": false,
+    "privacy_policy_url": null,
+    "retention_period": "aggregate analytics retained while site remains active"
+  },
+  "backups": {
+    "schedule": "before major edits",
+    "restore_check": "verify static files and Nginx config"
+  },
+  "communications": {
+    "inbound": [
+      "none yet"
+    ],
+    "outbound": [
+      "search",
+      "LinkedIn if revived"
+    ]
+  },
+  "analytics": {
+    "public_metrics": [
+      "page views",
+      "search queries",
+      "referrers"
+    ],
+    "private_metrics": [
+      "conversion intent if contact capture is added"
+    ]
+  },
+  "handoff": {
+    "sale_candidate": true,
+    "export_allowed": "aggregate-only",
+    "package": [
+      "source code",
+      "domain transfer instructions",
+      "static assets",
+      "anonymized analytics summary"
+    ]
+  }
+}

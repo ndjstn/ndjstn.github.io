@@ -200,6 +200,10 @@ compress_html:
 
 exclude:
   - app.py
+  - deploy
+  - flake.lock
+  - flake.nix
+  - ops
   - pyrightconfig.json
   - requirements-kawasaki-wind.txt
   - references
