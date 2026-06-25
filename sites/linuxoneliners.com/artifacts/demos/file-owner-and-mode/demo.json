@@ -6,8 +6,8 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 227,
-  "stdout": "::fixture-ready::\n$ stat -c '%A %U:%G %n' /var/www/example/index.html\n-rw-r----- root:root /var/www/example/index.html\n::exit-code::0\n$ namei -l /var/www/example/index.html\nf: /var/www/example/index.html\ndrwxr-xr-x root root /\ndrwxr-xr-x root root var\ndrwxr-x--- root root www\ndrwxr-x--- root root example\n-rw-r----- root root index.html\n::exit-code::0\n$ ls -ld /var/www /var/www/example\ndrwxr-x--- 3 root root 60 Jun 25 22:26 /var/www\ndrwxr-x--- 2 root root 60 Jun 25 22:26 /var/www/example\n::exit-code::0\n",
+  "elapsed_ms": 202,
+  "stdout": "::fixture-ready::\n$ stat -c '%A %U:%G %n' /var/www/example/index.html\n-rw-r----- root:root /var/www/example/index.html\n::exit-code::0\n$ namei -l /var/www/example/index.html\nf: /var/www/example/index.html\ndrwxr-xr-x root root /\ndrwxr-xr-x root root var\ndrwxr-x--- root root www\ndrwxr-x--- root root example\n-rw-r----- root root index.html\n::exit-code::0\n$ ls -ld /var/www /var/www/example\ndrwxr-x--- 3 root root 60 Jun 25 23:27 /var/www\ndrwxr-x--- 2 root root 60 Jun 25 23:27 /var/www/example\n::exit-code::0\n",
   "stderr": "",
   "ok": true,
   "security": {

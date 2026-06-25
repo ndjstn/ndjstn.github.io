@@ -1,0 +1,15 @@
+::fixture-ready::
+$ find fixtures/perm-audit/releases/2026-06-25 -type f -printf '%M %u:%g %p\n' | sort
+-rw-r----- root:root fixtures/perm-audit/releases/2026-06-25/config/app.env
+-rw-r--r-- root:root fixtures/perm-audit/releases/2026-06-25/config/secret.key
+-rw-r--r-- root:root fixtures/perm-audit/releases/2026-06-25/public/index.html
+-rw-r--r-- root:root fixtures/perm-audit/releases/2026-06-25/uploads/orphaned-upload.txt
+-rw-rw-r-- root:root fixtures/perm-audit/releases/2026-06-25/uploads/customer-export.csv
+-rwsr-xr-x root:root fixtures/perm-audit/releases/2026-06-25/bin/escalate-helper
+-rwxr-sr-x root:root fixtures/perm-audit/releases/2026-06-25/bin/report-sync
+-rwxr-xr-x root:root fixtures/perm-audit/releases/2026-06-25/bin/healthcheck
+-rwxr-xr-x root:root fixtures/perm-audit/releases/2026-06-25/config/worker.conf
+::exit-code::0
+$ find fixtures/perm-audit/releases/2026-06-25 -type f -perm /0022 -printf '%M %u:%g %p\n' | sort
+-rw-rw-r-- root:root fixtures/perm-audit/releases/2026-06-25/uploads/customer-export.csv
+::exit-code::0

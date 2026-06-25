@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 196,
+  "elapsed_ms": 206,
   "stdout": "::fixture-ready::\n$ df -h /var/lib/mysql\nFilesystem      Size  Used Avail Use% Mounted on\n/dev/vdb1        80G   59G   17G  78% /var/lib/mysql\n::exit-code::0\n$ mysql -e \"select table_schema, round(sum(data_length + index_length)/1024/1024, 1) as mb from information_schema.tables group by table_schema order by mb desc;\"\ntable_schema\tmb\nshop\t512.4\nanalytics\t240.8\nmysql\t18.2\n::exit-code::0\n$ mysql -e \"show databases;\"\nDatabase\nanalytics\ninformation_schema\nmysql\nshop\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

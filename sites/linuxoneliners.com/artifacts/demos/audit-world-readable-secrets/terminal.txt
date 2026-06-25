@@ -1,0 +1,9 @@
+::fixture-ready::
+$ find fixtures/perm-audit -type f \( -iname '*secret*' -o -iname '*.env' -o -iname '*token*' -o -iname '*key*' \) -printf '%M %u:%g %p\n' | sort
+-rw------- root:root fixtures/perm-audit/shared/secrets/prod.token
+-rw-r----- root:root fixtures/perm-audit/releases/2026-06-25/config/app.env
+-rw-r--r-- root:root fixtures/perm-audit/releases/2026-06-25/config/secret.key
+::exit-code::0
+$ find fixtures/perm-audit -type f -perm -0004 \( -iname '*secret*' -o -iname '*.env' -o -iname '*token*' -o -iname '*key*' \) -printf '%M %u:%g %p\n' | sort
+-rw-r--r-- root:root fixtures/perm-audit/releases/2026-06-25/config/secret.key
+::exit-code::0

@@ -1,0 +1,8 @@
+::fixture-ready::
+$ find fixtures/perm-audit/releases/2026-06-25/uploads -type f -printf '%M %u:%g %p\n' | sort
+-rw-r--r-- root:root fixtures/perm-audit/releases/2026-06-25/uploads/orphaned-upload.txt
+-rw-rw-r-- root:root fixtures/perm-audit/releases/2026-06-25/uploads/customer-export.csv
+::exit-code::0
+$ find fixtures/perm-audit/releases/2026-06-25/uploads -type f -perm /0022 -printf '%M %u:%g %p\n' | sort
+-rw-rw-r-- root:root fixtures/perm-audit/releases/2026-06-25/uploads/customer-export.csv
+::exit-code::0

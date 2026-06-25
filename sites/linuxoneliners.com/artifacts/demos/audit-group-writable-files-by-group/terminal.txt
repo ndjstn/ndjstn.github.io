@@ -1,0 +1,7 @@
+::fixture-ready::
+$ find fixtures/perm-audit -type f -perm -0020 -printf '%g %M %p\n' | sort
+root -rw-rw-r-- fixtures/perm-audit/releases/2026-06-25/uploads/customer-export.csv
+::exit-code::0
+$ find fixtures/perm-audit -type f -perm -0020 -printf '%g\n' | sort | uniq -c
+      1 root
+::exit-code::0

@@ -1,0 +1,12 @@
+::fixture-ready::
+$ find fixtures/perm-audit/releases/2026-06-25/storage fixtures/perm-audit/releases/2026-06-25/uploads -type d -printf '%M %u:%g %p\n' | sort
+drwxr-xr-x root:root fixtures/perm-audit/releases/2026-06-25/uploads
+drwxrwxr-x root:root fixtures/perm-audit/releases/2026-06-25/storage
+drwxrwxr-x root:root fixtures/perm-audit/releases/2026-06-25/storage/cache
+drwxrwxrwx root:root fixtures/perm-audit/releases/2026-06-25/storage/logs
+::exit-code::0
+$ find fixtures/perm-audit/releases/2026-06-25/storage fixtures/perm-audit/releases/2026-06-25/uploads -type d -perm /0022 -printf '%M %u:%g %p\n' | sort
+drwxrwxr-x root:root fixtures/perm-audit/releases/2026-06-25/storage
+drwxrwxr-x root:root fixtures/perm-audit/releases/2026-06-25/storage/cache
+drwxrwxrwx root:root fixtures/perm-audit/releases/2026-06-25/storage/logs
+::exit-code::0

@@ -1,0 +1,25 @@
+{
+  "slug": "audit-writable-runtime-directories",
+  "title": "Find Runtime Directories Writable Outside the Owner",
+  "fixture": "containers/permission-ownership-audit-lab",
+  "command_count": 2,
+  "container_tool": "docker",
+  "image": "localhost/linuxoneliners-lab:latest",
+  "exit_code": 0,
+  "elapsed_ms": 204,
+  "stdout": "::fixture-ready::\n$ find fixtures/perm-audit/releases/2026-06-25/storage fixtures/perm-audit/releases/2026-06-25/uploads -type d -printf '%M %u:%g %p\\n' | sort\ndrwxr-xr-x root:root fixtures/perm-audit/releases/2026-06-25/uploads\ndrwxrwxr-x root:root fixtures/perm-audit/releases/2026-06-25/storage\ndrwxrwxr-x root:root fixtures/perm-audit/releases/2026-06-25/storage/cache\ndrwxrwxrwx root:root fixtures/perm-audit/releases/2026-06-25/storage/logs\n::exit-code::0\n$ find fixtures/perm-audit/releases/2026-06-25/storage fixtures/perm-audit/releases/2026-06-25/uploads -type d -perm /0022 -printf '%M %u:%g %p\\n' | sort\ndrwxrwxr-x root:root fixtures/perm-audit/releases/2026-06-25/storage\ndrwxrwxr-x root:root fixtures/perm-audit/releases/2026-06-25/storage/cache\ndrwxrwxrwx root:root fixtures/perm-audit/releases/2026-06-25/storage/logs\n::exit-code::0\n",
+  "stderr": "",
+  "ok": true,
+  "security": {
+    "network": "none",
+    "capabilities": "dropped",
+    "no_new_privileges": true,
+    "memory": "256m",
+    "cpus": "1",
+    "pids_limit": 128,
+    "tmpfs": [
+      "/tmp",
+      "/var"
+    ]
+  }
+}

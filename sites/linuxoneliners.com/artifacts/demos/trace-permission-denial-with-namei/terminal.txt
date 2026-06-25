@@ -1,0 +1,22 @@
+::fixture-ready::
+$ stat -c '%A %U:%G %n' fixtures/perm-audit/current/app/config/prod.token
+lrwxrwxrwx root:root fixtures/perm-audit/current/app/config/prod.token
+::exit-code::0
+$ namei -l fixtures/perm-audit/current/app/config/prod.token
+f: fixtures/perm-audit/current/app/config/prod.token
+drwxr-xr-x root root fixtures
+drwxr-xr-x root root perm-audit
+drwxr-xr-x root root current
+lrwxrwxrwx root root app -> ../releases/2026-06-25
+drwxr-xr-x root root   ..
+drwxr-xr-x root root   releases
+drwxr-xr-x root root   2026-06-25
+drwxr-xr-x root root config
+lrwxrwxrwx root root prod.token -> ../../../shared/secrets/prod.token
+drwxr-xr-x root root   ..
+drwxr-xr-x root root   ..
+drwxr-xr-x root root   ..
+drwxr-xr-x root root   shared
+drwxr-xr-x root root   secrets
+-rw------- root root   prod.token
+::exit-code::0

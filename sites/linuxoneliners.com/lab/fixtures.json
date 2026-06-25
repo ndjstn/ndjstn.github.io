@@ -207,5 +207,31 @@
     "cat > /usr/local/bin/journalctl <<'SH'\n#!/usr/bin/env bash\ncase \"$*\" in\n  \"-u backup.service -n 20 --no-pager\") printf 'Jun 25 02:00:01 vps backup[1200]: started\\nJun 25 02:04:42 vps backup[1200]: completed snapshot demo-20260625\\n' ;;\n  \"-u logrotate.service -n 20 --no-pager\") printf 'Jun 25 00:00:10 vps logrotate[901]: rotating /var/log/nginx/access.log\\nJun 25 00:00:11 vps logrotate[901]: rotating /var/log/app/app.log\\n' ;;\n  *) printf 'fake journalctl: %s\\n' \"$*\" ;;\nesac\nSH\nchmod +x /usr/local/bin/journalctl",
     "cat > /etc/logrotate.conf <<'OUT'\nweekly\nrotate 4\ncreate\ninclude /etc/logrotate.d\nOUT\ncat > /etc/logrotate.d/nginx <<'OUT'\n/var/log/nginx/*.log {\n  daily\n  rotate 14\n  missingok\n  compress\n}\nOUT\ncat > /etc/logrotate.d/app <<'OUT'\n/var/log/app/app.log {\n  size 50M\n  rotate 7\n  missingok\n  copytruncate\n}\nOUT\nprintf 'ok\\n' > /var/log/nginx/access.log\nprintf 'error\\n' > /var/log/nginx/error.log\nprintf 'app line\\n' > /var/log/app/app.log\nprintf 'unmanaged\\n' > /var/log/app/debug.log",
     "cat > /usr/local/bin/logrotate <<'SH'\n#!/usr/bin/env bash\nif [[ \"$1\" == \"-d\" ]]; then\ncat <<'OUT'\nreading config file /etc/logrotate.conf\nincluding /etc/logrotate.d\nreading config file nginx\nreading config file app\nrotating pattern: /var/log/nginx/*.log  after 1 days (14 rotations)\nconsidering log /var/log/nginx/access.log\n  log does not need rotating\nconsidering log /var/log/nginx/error.log\n  log does not need rotating\nrotating pattern: /var/log/app/app.log  52428800 bytes (7 rotations)\nconsidering log /var/log/app/app.log\n  log does not need rotating\nOUT\nelse\nprintf 'fake logrotate fixture: use -d /etc/logrotate.conf for read-only debug\\n'\nfi\nSH\nchmod +x /usr/local/bin/logrotate"
+  ],
+  "containers/permission-ownership-audit-lab": [
+    "rm -rf fixtures/perm-audit",
+    "mkdir -p fixtures/perm-audit/releases/2026-06-25/bin fixtures/perm-audit/releases/2026-06-25/config fixtures/perm-audit/releases/2026-06-25/public fixtures/perm-audit/releases/2026-06-25/storage/cache fixtures/perm-audit/releases/2026-06-25/storage/logs fixtures/perm-audit/releases/2026-06-25/uploads fixtures/perm-audit/shared/secrets fixtures/perm-audit/current",
+    "printf 'APP_ENV=production\\n' > fixtures/perm-audit/releases/2026-06-25/config/app.env",
+    "printf 'api-key-placeholder\\n' > fixtures/perm-audit/releases/2026-06-25/config/secret.key",
+    "printf 'worker_threads=4\\n' > fixtures/perm-audit/releases/2026-06-25/config/worker.conf",
+    "printf '#!/bin/sh\\nprintf ok\\\\n\\n' > fixtures/perm-audit/releases/2026-06-25/bin/healthcheck",
+    "printf '#!/bin/sh\\nexit 0\\n' > fixtures/perm-audit/releases/2026-06-25/bin/escalate-helper",
+    "printf '#!/bin/sh\\nexit 0\\n' > fixtures/perm-audit/releases/2026-06-25/bin/report-sync",
+    "printf '<h1>ok</h1>\\n' > fixtures/perm-audit/releases/2026-06-25/public/index.html",
+    "printf 'customer export\\n' > fixtures/perm-audit/releases/2026-06-25/uploads/customer-export.csv",
+    "printf 'orphaned artifact\\n' > fixtures/perm-audit/releases/2026-06-25/uploads/orphaned-upload.txt",
+    "printf 'private token\\n' > fixtures/perm-audit/shared/secrets/prod.token",
+    "ln -s ../releases/2026-06-25 fixtures/perm-audit/current/app",
+    "ln -s ../../../shared/secrets/prod.token fixtures/perm-audit/releases/2026-06-25/config/prod.token",
+    "chmod 0755 fixtures/perm-audit fixtures/perm-audit/releases fixtures/perm-audit/releases/2026-06-25 fixtures/perm-audit/releases/2026-06-25/bin fixtures/perm-audit/releases/2026-06-25/config fixtures/perm-audit/releases/2026-06-25/public fixtures/perm-audit/releases/2026-06-25/uploads",
+    "chmod 0775 fixtures/perm-audit/releases/2026-06-25/storage fixtures/perm-audit/releases/2026-06-25/storage/cache",
+    "chmod 0777 fixtures/perm-audit/releases/2026-06-25/storage/logs",
+    "chmod 0640 fixtures/perm-audit/releases/2026-06-25/config/app.env",
+    "chmod 0644 fixtures/perm-audit/releases/2026-06-25/config/secret.key fixtures/perm-audit/releases/2026-06-25/public/index.html",
+    "chmod 0755 fixtures/perm-audit/releases/2026-06-25/config/worker.conf fixtures/perm-audit/releases/2026-06-25/bin/healthcheck",
+    "chmod 4755 fixtures/perm-audit/releases/2026-06-25/bin/escalate-helper",
+    "chmod 2755 fixtures/perm-audit/releases/2026-06-25/bin/report-sync",
+    "chmod 0664 fixtures/perm-audit/releases/2026-06-25/uploads/customer-export.csv",
+    "chmod 0600 fixtures/perm-audit/shared/secrets/prod.token"
   ]
 }

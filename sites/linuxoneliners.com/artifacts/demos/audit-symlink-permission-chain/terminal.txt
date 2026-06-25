@@ -1,0 +1,30 @@
+::fixture-ready::
+$ find fixtures/perm-audit -type l -printf '%p -> %l\n' | sort
+fixtures/perm-audit/current/app -> ../releases/2026-06-25
+fixtures/perm-audit/releases/2026-06-25/config/prod.token -> ../../../shared/secrets/prod.token
+::exit-code::0
+$ find fixtures/perm-audit -type l -printf '%p -> %l\n' -exec namei -l {} \;
+fixtures/perm-audit/current/app -> ../releases/2026-06-25
+f: fixtures/perm-audit/current/app
+drwxr-xr-x root root fixtures
+drwxr-xr-x root root perm-audit
+drwxr-xr-x root root current
+lrwxrwxrwx root root app -> ../releases/2026-06-25
+drwxr-xr-x root root   ..
+drwxr-xr-x root root   releases
+drwxr-xr-x root root   2026-06-25
+fixtures/perm-audit/releases/2026-06-25/config/prod.token -> ../../../shared/secrets/prod.token
+f: fixtures/perm-audit/releases/2026-06-25/config/prod.token
+drwxr-xr-x root root fixtures
+drwxr-xr-x root root perm-audit
+drwxr-xr-x root root releases
+drwxr-xr-x root root 2026-06-25
+drwxr-xr-x root root config
+lrwxrwxrwx root root prod.token -> ../../../shared/secrets/prod.token
+drwxr-xr-x root root   ..
+drwxr-xr-x root root   ..
+drwxr-xr-x root root   ..
+drwxr-xr-x root root   shared
+drwxr-xr-x root root   secrets
+-rw------- root root   prod.token
+::exit-code::0

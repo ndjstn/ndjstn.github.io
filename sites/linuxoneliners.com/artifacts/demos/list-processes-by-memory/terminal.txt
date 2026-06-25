@@ -2,14 +2,14 @@
 $ ps -eo pid,comm,%mem,%cpu --sort=-%mem | head
     PID COMMAND         %MEM %CPU
      14 ps               0.0  0.0
-      1 bash             0.0 33.3
+      1 bash             0.0 28.5
      13 bash             0.0  0.0
      12 timeout          0.0  0.0
      15 head             0.0  0.0
 ::exit-code::0
 $ free -h
                total        used        free      shared  buff/cache   available
-Mem:           125Gi        48Gi       3.9Gi       226Mi        72Gi        77Gi
+Mem:           125Gi        47Gi       4.9Gi       227Mi        72Gi        78Gi
 Swap:             0B          0B          0B
 ::exit-code::0
 $ df -h

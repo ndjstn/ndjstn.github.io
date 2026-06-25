@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 255,
+  "elapsed_ms": 242,
   "stdout": "::fixture-ready::\n$ dig +short example.com\n198.51.100.44\n::exit-code::0\n$ curl -I https://example.com/\ncurl: (6) Could not resolve host: example.com\n::exit-code::6\n$ curl --resolve example.com:443:203.0.113.10 -I https://example.com/\nHTTP/2 200\nserver: fake-nginx\ncontent-type: text/html\n\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

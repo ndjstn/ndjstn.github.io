@@ -1,0 +1,10 @@
+::fixture-ready::
+$ find fixtures/perm-audit -perm /7000 -printf '%M %m %u:%g %p\n' | sort
+-rwsr-xr-x 4755 root:root fixtures/perm-audit/releases/2026-06-25/bin/escalate-helper
+-rwxr-sr-x 2755 root:root fixtures/perm-audit/releases/2026-06-25/bin/report-sync
+::exit-code::0
+$ stat -c '%A %a %U:%G %n' fixtures/perm-audit/releases/2026-06-25/bin/*
+-rwsr-xr-x 4755 root:root fixtures/perm-audit/releases/2026-06-25/bin/escalate-helper
+-rwxr-xr-x 755 root:root fixtures/perm-audit/releases/2026-06-25/bin/healthcheck
+-rwxr-sr-x 2755 root:root fixtures/perm-audit/releases/2026-06-25/bin/report-sync
+::exit-code::0

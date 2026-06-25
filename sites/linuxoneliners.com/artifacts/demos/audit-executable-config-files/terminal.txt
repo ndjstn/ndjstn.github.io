@@ -1,0 +1,9 @@
+::fixture-ready::
+$ find fixtures/perm-audit/releases/2026-06-25/config -type f -printf '%M %u:%g %p\n' | sort
+-rw-r----- root:root fixtures/perm-audit/releases/2026-06-25/config/app.env
+-rw-r--r-- root:root fixtures/perm-audit/releases/2026-06-25/config/secret.key
+-rwxr-xr-x root:root fixtures/perm-audit/releases/2026-06-25/config/worker.conf
+::exit-code::0
+$ find fixtures/perm-audit -type f -perm /111 \( -path '*/config/*' -o -name '*.env' -o -name '*.conf' \) -printf '%M %u:%g %p\n' | sort
+-rwxr-xr-x root:root fixtures/perm-audit/releases/2026-06-25/config/worker.conf
+::exit-code::0

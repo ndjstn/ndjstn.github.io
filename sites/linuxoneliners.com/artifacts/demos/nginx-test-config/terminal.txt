@@ -5,7 +5,7 @@ nginx: configuration file /etc/nginx/nginx.conf test is successful
 ::exit-code::0
 $ ls -l /etc/nginx/sites-enabled/
 total 0
-lrwxrwxrwx 1 root root 38 Jun 25 22:26 example.com -> /etc/nginx/sites-available/example.com
+lrwxrwxrwx 1 root root 38 Jun 25 23:27 example.com -> /etc/nginx/sites-available/example.com
 ::exit-code::0
 $ grep -R "server_name" /etc/nginx/sites-enabled/
 /etc/nginx/sites-enabled/example.com:    server_name example.com www.example.com;
