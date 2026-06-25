@@ -123,11 +123,55 @@ Nginx -> static release directory
 
 Generated demos should run in disposable containers or VMs with fake data. The public site should not mount real keys, use real secrets, or collect user data until there is a product reason.
 
+## First-Party Analytics
+
+The site now has an owned analytics collector:
+
+```text
+Nginx -> /api/events -> linuxoneliners-analytics.service -> SQLite
+```
+
+Current database:
+
+```text
+/srv/data/linuxoneliners.com/analytics.sqlite3
+```
+
+Quick report:
+
+```bash
+./scripts/report_linuxoneliners_analytics.sh
+```
+
+Events currently include:
+
+- page views
+- command copy clicks
+- export link clicks
+- scroll depth
+- referrer
+- browser language
+- timezone
+- viewport
+- connection hints where the browser exposes them
+- navigation timing
+- user agent and request IP from the server side
+
+This is intentionally site-owned data for load planning, content testing, monetization tests, and future sale diligence.
+
 ## Build
 
 ```bash
 ruby sites/linuxoneliners.com/build.rb
 ```
+
+## Content Check
+
+```bash
+./scripts/check_linuxoneliners_content.py
+```
+
+The curation gate blocks lessons that are missing safety notes, demo steps, Shorts metadata, LinkedIn prompts, or experiment fields.
 
 Output:
 

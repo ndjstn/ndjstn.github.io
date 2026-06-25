@@ -25,6 +25,41 @@ body {
   color: var(--text);
 }
 
+.build-strip {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  border-bottom: 1px solid rgba(158, 228, 147, .28);
+  background: rgba(11, 13, 17, .92);
+  color: var(--muted);
+  padding: .55rem 1rem;
+  font-size: .9rem;
+  backdrop-filter: blur(12px);
+}
+
+.build-strip strong {
+  color: var(--text);
+}
+
+.pulse {
+  width: .65rem;
+  height: .65rem;
+  margin-top: .28rem;
+  border-radius: 999px;
+  background: var(--accent);
+  box-shadow: 0 0 0 0 rgba(158, 228, 147, .72);
+  animation: heartbeat 1.8s infinite;
+}
+
+@keyframes heartbeat {
+  0% { box-shadow: 0 0 0 0 rgba(158, 228, 147, .72); }
+  70% { box-shadow: 0 0 0 .55rem rgba(158, 228, 147, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(158, 228, 147, 0); }
+}
+
 a {
   color: inherit;
 }
@@ -136,6 +171,22 @@ li {
   flex-wrap: wrap;
   gap: .75rem;
   margin-top: 1.25rem;
+}
+
+.status-panel {
+  max-width: 42rem;
+  margin-top: 1.25rem;
+  border-left: .28rem solid var(--accent);
+  background: rgba(23, 26, 33, .72);
+  padding: 1rem;
+}
+
+.status-panel p:last-child {
+  margin-bottom: 0;
+}
+
+.small-note {
+  font-size: .9rem;
 }
 
 .button,
@@ -256,8 +307,19 @@ li {
 }
 
 .workflow ol,
-.terminal-steps {
+.terminal-steps,
+.queue-list {
   padding-left: 1.25rem;
+}
+
+.queue-list {
+  margin: 0;
+  border-left: 1px solid var(--line);
+}
+
+.queue-list li {
+  margin-bottom: .75rem;
+  padding-left: .4rem;
 }
 
 .site-footer {
@@ -331,6 +393,12 @@ pre code {
   .details-grid,
   .command-panel {
     grid-template-columns: 1fr;
+  }
+
+  .build-strip {
+    align-items: start;
+    flex-direction: column;
+    gap: .25rem;
   }
 
   h1 {

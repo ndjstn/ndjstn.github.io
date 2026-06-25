@@ -3,6 +3,11 @@
     <p class="eyebrow">shorts-ready linux demos</p>
     <h1>Tiny commands. Real failures. Safer fixes.</h1>
     <p class="lede">Linux One Liners is a command rescue library built from reproducible terminal demos. Each lesson can become a web page, YouTube Short, LinkedIn post, transcript, and later a voiceover video.</p>
+    <div class="status-panel">
+      <p class="label">Now building</p>
+      <p><%= site["build_status"]["now_building"] %></p>
+      <p class="small-note">First-party analytics are active so traffic, load, and buyer diligence can be measured from day one.</p>
+    </div>
     <div class="hero-actions">
       <a class="button" href="#lessons">Browse lessons</a>
       <a class="button ghost" href="#workflow">See the pipeline</a>
@@ -53,6 +58,63 @@
       <li>Run it inside a disposable container or VM fixture.</li>
       <li>Capture terminal frames, captions, transcript, and short-form metadata.</li>
       <li>Publish the web page, YouTube Short, LinkedIn post, and later a course unit.</li>
+    </ol>
+  </section>
+
+  <section class="section split">
+    <div>
+      <p class="eyebrow">curation gate</p>
+      <h2>Every lesson has to earn its slot</h2>
+      <p>New content is checked for safety notes, reproducible demo steps, Shorts metadata, a LinkedIn question, and an experiment metric before it ships.</p>
+    </div>
+    <div class="series-list">
+      <article>
+        <h3>Required</h3>
+        <p>Problem, command, danger rating, when not to use it, undo or recovery, expected output, and demo commands.</p>
+      </article>
+      <article>
+        <h3>Distribution</h3>
+        <p>Shorts title, voiceover seed, caption, YouTube playlist, LinkedIn question, and CTA.</p>
+      </article>
+      <article>
+        <h3>Business signal</h3>
+        <p>Each lesson gets an A/B test metric so we can learn what attracts traffic, saves, clicks, and eventual revenue.</p>
+      </article>
+    </div>
+  </section>
+
+  <section id="exports" class="section split">
+    <div>
+      <p class="eyebrow">distribution</p>
+      <h2>Platform copy is generated too</h2>
+      <p>Each lesson carries Shorts, YouTube, and LinkedIn metadata so traffic loops can be produced from one source file.</p>
+    </div>
+    <div class="series-list">
+      <article>
+        <h3><a data-track="export_click" data-track-label="shorts_json" href="exports/shorts.json">Shorts metadata</a></h3>
+        <p>Titles, captions, target duration, playlist, and voiceover seed text.</p>
+      </article>
+      <article>
+        <h3><a data-track="export_click" data-track-label="linkedin_posts" href="exports/linkedin-posts.md">LinkedIn post seeds</a></h3>
+        <p>Hooks, command snippets, questions, and calls to action for engagement testing.</p>
+      </article>
+      <article>
+        <h3><a data-track="export_click" data-track-label="analytics_events" href="exports/analytics-events.json">Analytics event contract</a></h3>
+        <p>Privacy-light events to measure copy clicks, export clicks, lesson depth, and outbound video intent.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="section split">
+    <div>
+      <p class="eyebrow">profit path</p>
+      <h2>Build, measure, monetize, package</h2>
+      <p>The goal is not decoration. Each deploy should make the site easier to grow, measure, monetize, or sell.</p>
+    </div>
+    <ol class="queue-list">
+      <% site["build_status"]["next_up"].each do |item| %>
+        <li><%= item %></li>
+      <% end %>
     </ol>
   </section>
 </main>

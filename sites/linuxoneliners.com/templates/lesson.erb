@@ -10,7 +10,7 @@
         <p class="label">Command</p>
         <pre><code><%= lesson["command"] %></code></pre>
       </div>
-      <button class="copy-button" data-copy="<%= html_attr(lesson["command"]) %>">Copy</button>
+      <button class="copy-button" data-copy="<%= html_attr(lesson["command"]) %>" data-track="command_copy" data-track-label="<%= lesson["slug"] %>">Copy</button>
     </section>
 
     <section class="details-grid">

@@ -1,0 +1,21 @@
+[Unit]
+Description=LinuxOneLiners first-party analytics collector
+After=network.target
+
+[Service]
+Type=simple
+User=www-data
+Group=www-data
+Environment=LOL_ANALYTICS_HOST=127.0.0.1
+Environment=LOL_ANALYTICS_PORT=8091
+Environment=LOL_ANALYTICS_DB=/srv/data/linuxoneliners.com/analytics.sqlite3
+ExecStart=/usr/bin/python3 /srv/apps/linuxoneliners.com/analytics/event_collector.py
+Restart=always
+RestartSec=3
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ReadWritePaths=/srv/data/linuxoneliners.com
+
+[Install]
+WantedBy=multi-user.target

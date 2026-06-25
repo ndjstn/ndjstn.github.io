@@ -9,6 +9,11 @@
   <script defer src="<%= asset_path %>assets/app.js"></script>
 </head>
 <body>
+  <aside class="build-strip" aria-label="Build status">
+    <span class="pulse"></span>
+    <span><strong><%= site["build_status"]["phase"] %>:</strong> <%= site["build_status"]["status"] %></span>
+    <span>release <%= generated_at %></span>
+  </aside>
   <header class="site-header">
     <a class="brand" href="<%= root_path %>">
       <span class="prompt">$</span> Linux One Liners
@@ -16,12 +21,13 @@
     <nav aria-label="Primary">
       <a href="<%= root_path %>#lessons">Lessons</a>
       <a href="<%= root_path %>#series">Series</a>
+      <a href="<%= root_path %>#exports">Exports</a>
       <a href="<%= root_path %>#workflow">Workflow</a>
     </nav>
   </header>
   <%= body %>
   <footer class="site-footer">
-    <p>Built as a reproducible command lab. Videos live on YouTube; the notes live here.</p>
+    <p>Built as a reproducible command lab. Videos live on YouTube; the notes live here. Last generated: <%= generated_at %>.</p>
   </footer>
 </body>
 </html>

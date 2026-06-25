@@ -5,6 +5,18 @@
     "tagline": "Tiny commands. Real failures. Safer fixes.",
     "description": "A command rescue library and short-form Linux ops lab built from reproducible terminal demos.",
     "ads_status": "off_until_traffic_signal",
+    "build_status": {
+      "phase": "live scaffold",
+      "status": "shipping small slices",
+      "now_building": "seven lesson pages plus owned event analytics for traffic, load, and sale diligence",
+      "next_up": [
+        "publish ten Linux Survival Basics lessons to test search demand",
+        "export Shorts and LinkedIn copy to drive traffic back here",
+        "collect first-party page, click, copy, scroll, referrer, viewport, and timing events",
+        "test affiliate/product placements only after traffic shows intent",
+        "keep monthly revenue, expense, and traffic proof ready for sale diligence"
+      ]
+    },
     "traffic_gate": {
       "ads_review_after_monthly_pageviews": 10000,
       "product_review_after_email_subscribers": 250,
@@ -167,6 +179,190 @@
           "metric": "youtube_retention_15s",
           "variant_a": "One rsync flag can save you. Another can erase the wrong side.",
           "variant_b": "Run this before `rsync --delete`."
+        }
+      ]
+    },
+    {
+      "slug": "tail-live-logs",
+      "title": "Watch Logs Without Opening the Whole File",
+      "series": "linux-survival-basics",
+      "hook": "The app was failing now. Opening a giant log file was the wrong move.",
+      "problem": "You need to watch recent log lines while a service or script is actively failing.",
+      "command": "tail -n 80 -f /var/log/nginx/error.log",
+      "danger": "safe",
+      "starting_state": "A log file is large or changing quickly, and you only need recent lines.",
+      "what_changed": "Nothing changes. The command streams the end of the file so new failures are visible immediately.",
+      "when_to_use": "Use this while reproducing a web server, script, cron, or service failure.",
+      "when_not_to_use": "Do not leave noisy log tails running forever on a shared terminal.",
+      "undo": "Press Ctrl-C to stop following the file.",
+      "expected_output": "Recent log lines followed by new lines as they are written.",
+      "terminal_demo": {
+        "fixture": "containers/log-lab",
+        "commands": [
+          "tail -n 20 /var/log/nginx/error.log",
+          "tail -n 80 -f /var/log/nginx/error.log",
+          "printf 'simulate a new error line\\n' >> /var/log/nginx/error.log"
+        ]
+      },
+      "shorts": {
+        "format": "vertical",
+        "duration_target_seconds": 30,
+        "title": "Watch the failure happen live.",
+        "voiceover": "Do not open the whole log file. Tail the last useful lines, reproduce the issue, and watch the error arrive.",
+        "caption": "Use `tail -f` while reproducing the bug."
+      },
+      "linkedin": {
+        "question": "Do you inspect logs before or after reproducing a bug?",
+        "cta": "Full log-watching demo"
+      },
+      "youtube": {
+        "playlist": "Linux Survival Basics",
+        "description": "A quick demo for watching live log output without opening a giant file."
+      },
+      "experiments": [
+        {
+          "id": "tail_live_failure_hook",
+          "metric": "youtube_retention_15s",
+          "variant_a": "Watch the failure happen live.",
+          "variant_b": "Stop opening giant log files."
+        }
+      ]
+    },
+    {
+      "slug": "grep-errors-in-logs",
+      "title": "Find Errors Before Reading Every Log Line",
+      "series": "linux-survival-basics",
+      "hook": "The error was in the log. The problem was finding it without reading noise.",
+      "problem": "A log file has too much output and you need a quick first pass for failure words.",
+      "command": "grep -iE 'error|failed|denied|timeout' /var/log/nginx/error.log | tail -40",
+      "danger": "safe",
+      "starting_state": "A log exists, but most lines are not relevant to the current failure.",
+      "what_changed": "Nothing changes. The command filters for common failure terms and shows the most recent matches.",
+      "when_to_use": "Use this as a first pass before deeper log parsing.",
+      "when_not_to_use": "Do not assume no matches means no failure. Logs may use different wording.",
+      "undo": "No state is changed.",
+      "expected_output": "Recent matching lines containing likely failure terms.",
+      "terminal_demo": {
+        "fixture": "containers/log-lab",
+        "commands": [
+          "wc -l /var/log/nginx/error.log",
+          "grep -iE 'error|failed|denied|timeout' /var/log/nginx/error.log | tail -40",
+          "grep -inE 'error|failed|denied|timeout' /var/log/nginx/error.log | tail -20"
+        ]
+      },
+      "shorts": {
+        "format": "vertical",
+        "duration_target_seconds": 30,
+        "title": "Find the failure words first.",
+        "voiceover": "Before reading every line, filter for the words that usually matter: error, failed, denied, and timeout.",
+        "caption": "Filter noisy logs before deep reading."
+      },
+      "linkedin": {
+        "question": "What failure words do you grep for first?",
+        "cta": "Full grep pattern and caveats"
+      },
+      "youtube": {
+        "playlist": "Linux Survival Basics",
+        "description": "A simple grep pattern for finding likely error lines in noisy logs."
+      },
+      "experiments": [
+        {
+          "id": "grep_noise_vs_error",
+          "metric": "linkedin_save_rate",
+          "variant_a": "Find errors before reading every log line.",
+          "variant_b": "This grep pattern cuts through noisy logs."
+        }
+      ]
+    },
+    {
+      "slug": "check-listening-ports",
+      "title": "Check What Is Actually Listening",
+      "series": "web-server-rescue",
+      "hook": "The app was running. The port was not listening.",
+      "problem": "A service appears started, but you need to confirm whether anything is listening on the expected port.",
+      "command": "ss -tulpn | grep ':80\\|:443'",
+      "danger": "safe",
+      "starting_state": "A service status may say running, while the network port may still be closed or bound elsewhere.",
+      "what_changed": "Nothing changes. The command lists listening sockets and the owning process when available.",
+      "when_to_use": "Use this when debugging web server, API, SSH, or database connectivity.",
+      "when_not_to_use": "Do not expose closed services just because a port is not listening; check config first.",
+      "undo": "No state is changed.",
+      "expected_output": "Listening TCP or UDP sockets with local addresses, ports, and process names.",
+      "terminal_demo": {
+        "fixture": "containers/network-tools",
+        "commands": [
+          "ss -tulpn",
+          "ss -tulpn | grep ':80\\|:443'",
+          "curl -I http://127.0.0.1:80"
+        ]
+      },
+      "shorts": {
+        "format": "vertical",
+        "duration_target_seconds": 35,
+        "title": "Running is not the same as listening.",
+        "voiceover": "A service can look alive and still not answer on the port you expect. Check the socket before chasing the wrong layer.",
+        "caption": "Confirm the port before blaming the app."
+      },
+      "linkedin": {
+        "question": "When a service is up but unreachable, do you check the port or the logs first?",
+        "cta": "Full listener check demo"
+      },
+      "youtube": {
+        "playlist": "Web Server Rescue",
+        "description": "A quick command for checking whether a Linux service is actually listening on a port."
+      },
+      "experiments": [
+        {
+          "id": "running_vs_listening",
+          "metric": "short_click_through_rate",
+          "variant_a": "The app was running. The port was not listening.",
+          "variant_b": "Running is not the same as listening."
+        }
+      ]
+    },
+    {
+      "slug": "inspect-permissions",
+      "title": "Inspect Permissions Before Changing Them",
+      "series": "dangerous-commands",
+      "hook": "The permission fix was easy. Knowing what not to chmod was the hard part.",
+      "problem": "A file or directory has a permission issue, but recursive fixes could break more than they repair.",
+      "command": "namei -l /var/www/example/index.html",
+      "danger": "safe",
+      "starting_state": "A path may fail because one parent directory, owner, or mode blocks access.",
+      "what_changed": "Nothing changes. The command shows permissions for each path component.",
+      "when_to_use": "Use this before `chmod -R` or `chown -R` so you know which layer actually blocks access.",
+      "when_not_to_use": "Do not use inspection as the final fix; it only identifies where the permission problem is.",
+      "undo": "No state is changed.",
+      "expected_output": "A component-by-component permission and owner listing for the path.",
+      "terminal_demo": {
+        "fixture": "containers/permission-lab",
+        "commands": [
+          "ls -l /var/www/example/index.html",
+          "namei -l /var/www/example/index.html",
+          "stat /var/www/example/index.html"
+        ]
+      },
+      "shorts": {
+        "format": "vertical",
+        "duration_target_seconds": 35,
+        "title": "Inspect before you chmod.",
+        "voiceover": "Recursive chmod is tempting because it is fast. Inspect the path first so you fix the layer that is actually blocking access.",
+        "caption": "Find the permission problem before changing permissions."
+      },
+      "linkedin": {
+        "question": "What permission command do you trust before reaching for `chmod -R`?",
+        "cta": "Full permission inspection demo"
+      },
+      "youtube": {
+        "playlist": "Dangerous Commands",
+        "description": "A safer first step for Linux permission debugging before recursive chmod or chown."
+      },
+      "experiments": [
+        {
+          "id": "inspect_before_chmod",
+          "metric": "linkedin_comment_rate",
+          "variant_a": "Inspect permissions before changing them.",
+          "variant_b": "This is what I run before `chmod -R`."
         }
       ]
     }
