@@ -1,0 +1,9 @@
+::fixture-ready::
+$ grep -Rni --include='*.html' 'name="description"' public
+public/about.html:4:<meta name="description" content="About the demo site.">
+public/index.html:4:<meta name="description" content="A small static site for SEO triage demos.">
+::exit-code::0
+$ find public -name '*.html' -print | while read -r f; do grep -qi 'name="description"' "$f" || echo "$f"; done
+public/draft.html
+public/blog/post.html
+::exit-code::0

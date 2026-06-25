@@ -1,0 +1,10 @@
+::fixture-ready::
+$ find public -name '*.html' -print
+public/about.html
+public/draft.html
+public/blog/post.html
+public/index.html
+::exit-code::0
+$ grep -Rni --include='*.html' 'noindex' public
+public/draft.html:4:<meta name="robots" content="noindex,nofollow">
+::exit-code::0

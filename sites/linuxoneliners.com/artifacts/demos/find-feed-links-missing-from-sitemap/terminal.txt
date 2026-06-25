@@ -1,0 +1,8 @@
+::fixture-ready::
+$ grep -o '<link>https://example.com/[^<]*</link>' public/feed.xml | sed 's#<link>##;s#</link>##'
+https://example.com/blog/post.html
+https://example.com/news/missing.html
+::exit-code::0
+$ grep -o '<link>https://example.com/[^<]*</link>' public/feed.xml | sed 's#<link>##;s#</link>##' | while read -r url; do grep -q "$url" public/sitemap.xml || echo "$url"; done
+https://example.com/news/missing.html
+::exit-code::0

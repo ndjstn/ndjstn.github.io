@@ -1,0 +1,9 @@
+::fixture-ready::
+$ grep -Rni --include='*.html' 'rel="canonical"' public
+public/draft.html:5:<link rel="canonical" href="https://example.com/draft.html">
+public/blog/post.html:4:<link rel="canonical" href="https://example.com/blog/post.html">
+public/index.html:5:<link rel="canonical" href="https://example.com/">
+::exit-code::0
+$ find public -name '*.html' -print | while read -r f; do grep -qi 'rel="canonical"' "$f" || echo "$f"; done
+public/about.html
+::exit-code::0

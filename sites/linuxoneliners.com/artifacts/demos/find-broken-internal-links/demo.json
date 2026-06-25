@@ -1,0 +1,25 @@
+{
+  "slug": "find-broken-internal-links",
+  "title": "Find Broken Internal Links in Built HTML",
+  "fixture": "containers/static-seo-lab",
+  "command_count": 2,
+  "container_tool": "docker",
+  "image": "localhost/linuxoneliners-lab:latest",
+  "exit_code": 0,
+  "elapsed_ms": 197,
+  "stdout": "::fixture-ready::\n$ grep -Rho --include='*.html' 'href=\"/[^\"]*\"' public | sed 's#href=\"##;s#\"##' | sort -u\n/\n/assets/site.css\n/blog/post.html\n/missing.html\n::exit-code::0\n$ grep -Rho --include='*.html' 'href=\"/[^\"]*\"' public | sed 's#href=\"##;s#\"##' | while read -r path; do test -e \"public${path}\" || echo \"$path\"; done | sort -u\n/missing.html\n::exit-code::0\n",
+  "stderr": "",
+  "ok": true,
+  "security": {
+    "network": "none",
+    "capabilities": "dropped",
+    "no_new_privileges": true,
+    "memory": "256m",
+    "cpus": "1",
+    "pids_limit": 128,
+    "tmpfs": [
+      "/tmp",
+      "/var"
+    ]
+  }
+}

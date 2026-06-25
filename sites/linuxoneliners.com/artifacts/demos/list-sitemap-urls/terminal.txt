@@ -1,0 +1,14 @@
+::fixture-ready::
+$ sed -n '1,12p' public/sitemap.xml
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://example.com/</loc></url>
+  <url><loc>https://example.com/about.html</loc></url>
+  <url><loc>https://example.com/blog/post.html</loc></url>
+</urlset>
+::exit-code::0
+$ grep -o '<loc>[^<]*</loc>' public/sitemap.xml | sed 's#<loc>##;s#</loc>##'
+https://example.com/
+https://example.com/about.html
+https://example.com/blog/post.html
+::exit-code::0

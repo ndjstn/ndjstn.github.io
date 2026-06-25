@@ -1,0 +1,25 @@
+{
+  "slug": "check-robots-sitemap-line",
+  "title": "Check robots.txt for a Sitemap Line",
+  "fixture": "containers/static-seo-lab",
+  "command_count": 2,
+  "container_tool": "docker",
+  "image": "localhost/linuxoneliners-lab:latest",
+  "exit_code": 0,
+  "elapsed_ms": 197,
+  "stdout": "::fixture-ready::\n$ cat public/robots.txt\nUser-agent: *\nDisallow: /admin\nSitemap: https://example.com/sitemap.xml\n::exit-code::0\n$ grep -n '^Sitemap:' public/robots.txt\n3:Sitemap: https://example.com/sitemap.xml\n::exit-code::0\n",
+  "stderr": "",
+  "ok": true,
+  "security": {
+    "network": "none",
+    "capabilities": "dropped",
+    "no_new_privileges": true,
+    "memory": "256m",
+    "cpus": "1",
+    "pids_limit": 128,
+    "tmpfs": [
+      "/tmp",
+      "/var"
+    ]
+  }
+}

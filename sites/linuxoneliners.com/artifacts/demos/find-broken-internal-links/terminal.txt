@@ -1,0 +1,10 @@
+::fixture-ready::
+$ grep -Rho --include='*.html' 'href="/[^"]*"' public | sed 's#href="##;s#"##' | sort -u
+/
+/assets/site.css
+/blog/post.html
+/missing.html
+::exit-code::0
+$ grep -Rho --include='*.html' 'href="/[^"]*"' public | sed 's#href="##;s#"##' | while read -r path; do test -e "public${path}" || echo "$path"; done | sort -u
+/missing.html
+::exit-code::0

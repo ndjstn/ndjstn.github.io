@@ -1,0 +1,11 @@
+::fixture-ready::
+$ find public -name '*.html' -print
+public/about.html
+public/draft.html
+public/blog/post.html
+public/index.html
+::exit-code::0
+$ find public -name '*.html' -print | sed 's#^public#https://example.com#' | while read -r url; do grep -q "$url" public/sitemap.xml || echo "$url"; done
+https://example.com/draft.html
+https://example.com/index.html
+::exit-code::0

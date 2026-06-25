@@ -1,0 +1,9 @@
+::fixture-ready::
+$ cat public/robots.txt
+User-agent: *
+Disallow: /admin
+Sitemap: https://example.com/sitemap.xml
+::exit-code::0
+$ grep -n '^Sitemap:' public/robots.txt
+3:Sitemap: https://example.com/sitemap.xml
+::exit-code::0

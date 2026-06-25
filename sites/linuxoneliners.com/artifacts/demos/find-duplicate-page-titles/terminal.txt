@@ -1,0 +1,12 @@
+::fixture-ready::
+$ find public -name '*.html' -maxdepth 3 -print
+public/about.html
+public/draft.html
+public/blog/post.html
+public/index.html
+::exit-code::0
+$ grep -Rho --include='*.html' '<title>[^<]*</title>' public | sed 's#<title>##;s#</title>##' | sort | uniq -c | sort -nr
+      2 Demo Site
+      1 Post One
+      1 Draft Page
+::exit-code::0

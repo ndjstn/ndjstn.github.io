@@ -1,0 +1,25 @@
+{
+  "slug": "find-pages-missing-canonical",
+  "title": "Find Pages Missing Canonical Links",
+  "fixture": "containers/static-seo-lab",
+  "command_count": 2,
+  "container_tool": "docker",
+  "image": "localhost/linuxoneliners-lab:latest",
+  "exit_code": 0,
+  "elapsed_ms": 221,
+  "stdout": "::fixture-ready::\n$ grep -Rni --include='*.html' 'rel=\"canonical\"' public\npublic/draft.html:5:<link rel=\"canonical\" href=\"https://example.com/draft.html\">\npublic/blog/post.html:4:<link rel=\"canonical\" href=\"https://example.com/blog/post.html\">\npublic/index.html:5:<link rel=\"canonical\" href=\"https://example.com/\">\n::exit-code::0\n$ find public -name '*.html' -print | while read -r f; do grep -qi 'rel=\"canonical\"' \"$f\" || echo \"$f\"; done\npublic/about.html\n::exit-code::0\n",
+  "stderr": "",
+  "ok": true,
+  "security": {
+    "network": "none",
+    "capabilities": "dropped",
+    "no_new_privileges": true,
+    "memory": "256m",
+    "cpus": "1",
+    "pids_limit": 128,
+    "tmpfs": [
+      "/tmp",
+      "/var"
+    ]
+  }
+}
