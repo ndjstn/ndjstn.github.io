@@ -1,0 +1,462 @@
+[
+  {
+    "slug": "status-code-summary",
+    "title": "Summarize HTTP Status Codes",
+    "series": "hosting-operations",
+    "hook": "Before chasing individual lines, get the shape of the whole log.",
+    "problem": "You need a quick count of HTTP response codes in a web access log.",
+    "command": "awk '{count[$9]++} END {for (code in count) print count[code], code}' ./fixtures/nginx/access.log | sort -nr",
+    "danger": "safe",
+    "starting_state": "A synthetic Nginx access log contains mixed 2xx, 4xx, and 5xx responses.",
+    "what_changed": "Nothing changes. The command counts response codes across the log.",
+    "when_to_use": "Use this as the first pass when deciding whether a log problem is mostly redirects, client errors, or server errors.",
+    "when_not_to_use": "Do not stop at the summary; follow up by grouping suspicious code families by IP, path, and time.",
+    "undo": "No undo needed because the command is read-only.",
+    "expected_output": "Counts followed by HTTP status codes.",
+    "terminal_demo": {
+      "fixture": "containers/web-log-triage-lab",
+      "commands": [
+        "head -5 ./fixtures/nginx/access.log",
+        "awk '{count[$9]++} END {for (code in count) print count[code], code}' ./fixtures/nginx/access.log | sort -nr",
+        "awk '$9 ~ /^5/ {print $1, $7, $9}' ./fixtures/nginx/access.log"
+      ]
+    },
+    "shorts": {
+      "format": "vertical",
+      "duration_target_seconds": 35,
+      "title": "Start with status codes.",
+      "voiceover": "A status-code summary gives you the shape of the log before you dive into details. It is the fast way to see whether the problem is mostly 4xx, 5xx, or something else.",
+      "caption": "Summarize first. Drill down next."
+    },
+    "linkedin": {
+      "question": "What is your first command when opening a web access log?",
+      "cta": "Use this before blaming the app, proxy, DNS, or CDN."
+    },
+    "youtube": {
+      "playlist": "Hosting Operations",
+      "description": "A simple one-liner for summarizing HTTP status codes in a fake Nginx access log."
+    },
+    "experiments": [
+      {
+        "id": "status_code_summary",
+        "metric": "youtube_retention_15s",
+        "variant_a": "Get the shape of the log first.",
+        "variant_b": "Start triage with status-code counts."
+      }
+    ]
+  },
+  {
+    "slug": "web-4xx-by-ip",
+    "title": "Find the IPs Creating the Most 4xx Noise",
+    "series": "cybersecurity-triage",
+    "hook": "One address can turn a normal access log into a wall of failed requests.",
+    "problem": "You need to identify which client IPs are generating the most client-side errors in a web access log.",
+    "command": "awk '$9 ~ /^4/ {count[$1]++} END {for (ip in count) print count[ip], ip}' ./fixtures/nginx/access.log | sort -nr | head",
+    "danger": "safe",
+    "starting_state": "A synthetic Nginx access log contains normal requests plus repeated 403, 404, and 405 responses from documentation-range IPs.",
+    "what_changed": "Nothing changes. The command counts matching log lines and prints the busiest 4xx sources.",
+    "when_to_use": "Use this during defensive web-log triage when you want to separate normal missing pages from noisy clients.",
+    "when_not_to_use": "Do not block an IP from this count alone; review paths, time windows, and business context first.",
+    "undo": "No undo needed because the command is read-only.",
+    "expected_output": "A descending list of request counts followed by source IP addresses.",
+    "terminal_demo": {
+      "fixture": "containers/web-log-triage-lab",
+      "commands": [
+        "awk '$9 ~ /^4/ {print $1, $7, $9}' ./fixtures/nginx/access.log | head",
+        "awk '$9 ~ /^4/ {count[$1]++} END {for (ip in count) print count[ip], ip}' ./fixtures/nginx/access.log | sort -nr | head",
+        "awk '$9 ~ /^4/ {print $1, $7, $9}' ./fixtures/nginx/access.log"
+      ]
+    },
+    "shorts": {
+      "format": "vertical",
+      "duration_target_seconds": 35,
+      "title": "Find the loudest 4xx source.",
+      "voiceover": "When the access log gets noisy, count 4xx responses by IP first. It shows which clients are generating the most failed requests without changing anything on the server.",
+      "caption": "Count client errors before guessing."
+    },
+    "linkedin": {
+      "question": "When web logs get noisy, do you group failures by IP or by URL first?",
+      "cta": "Use the count as a lead, then inspect the paths."
+    },
+    "youtube": {
+      "playlist": "Cybersecurity Triage",
+      "description": "A safe Linux one-liner for counting 4xx web responses by source IP in a fake Nginx access log."
+    },
+    "experiments": [
+      {
+        "id": "web_4xx_by_ip_noise",
+        "metric": "short_click_through_rate",
+        "variant_a": "One IP can explain the whole 4xx spike.",
+        "variant_b": "Find the noisiest client in your access log."
+      }
+    ]
+  },
+  {
+    "slug": "web-5xx-by-path",
+    "title": "Group Server Errors by URL Path",
+    "series": "hosting-operations",
+    "hook": "A 500 spike is easier to triage when the broken path is obvious.",
+    "problem": "You need to see which URL paths are associated with server-side errors in an access log.",
+    "command": "awk '$9 ~ /^5/ {count[$7]++} END {for (path in count) print count[path], path}' ./fixtures/nginx/access.log | sort -nr | head",
+    "danger": "safe",
+    "starting_state": "A synthetic Nginx access log contains a mix of successful requests and repeated 500, 502, and 503 responses.",
+    "what_changed": "Nothing changes. The command groups 5xx responses by request path.",
+    "when_to_use": "Use this when deciding whether a server-error spike is site-wide or concentrated on one route.",
+    "when_not_to_use": "Do not assume the path is the root cause; upstream app logs are still needed.",
+    "undo": "No undo needed because the command is read-only.",
+    "expected_output": "A descending list of 5xx counts followed by URL paths.",
+    "terminal_demo": {
+      "fixture": "containers/web-log-triage-lab",
+      "commands": [
+        "awk '$9 ~ /^5/ {print $1, $7, $9}' ./fixtures/nginx/access.log",
+        "awk '$9 ~ /^5/ {count[$7]++} END {for (path in count) print count[path], path}' ./fixtures/nginx/access.log | sort -nr | head",
+        "awk '{count[$9]++} END {for (code in count) print count[code], code}' ./fixtures/nginx/access.log | sort -nr"
+      ]
+    },
+    "shorts": {
+      "format": "vertical",
+      "duration_target_seconds": 35,
+      "title": "Find which route is throwing 5xx.",
+      "voiceover": "A server error spike is vague until you group it by path. This one-liner shows whether one route is failing or the whole site is in trouble.",
+      "caption": "Group 5xx errors by path."
+    },
+    "linkedin": {
+      "question": "For a 500 spike, do you check the access-log path or the app logs first?",
+      "cta": "Use this to decide where to drill next."
+    },
+    "youtube": {
+      "playlist": "Hosting Operations",
+      "description": "A safe one-liner for grouping fake Nginx 5xx responses by URL path."
+    },
+    "experiments": [
+      {
+        "id": "web_5xx_by_path_spike",
+        "metric": "youtube_retention_15s",
+        "variant_a": "A 500 spike usually has a path.",
+        "variant_b": "Find the broken route before blaming the server."
+      }
+    ]
+  },
+  {
+    "slug": "suspicious-web-methods",
+    "title": "Spot Unusual HTTP Methods in Access Logs",
+    "series": "cybersecurity-triage",
+    "hook": "Most site traffic is boring. The weird methods are worth a look.",
+    "problem": "You need to identify requests using HTTP methods outside the small set your site normally expects.",
+    "command": "awk '$6 !~ /^\"(GET|POST|HEAD|OPTIONS)$/ {print $1, $6, $7, $9}' ./fixtures/nginx/access.log | sort | uniq -c | sort -nr",
+    "danger": "safe",
+    "starting_state": "A synthetic Nginx access log contains normal GET and POST traffic plus a few uncommon method names.",
+    "what_changed": "Nothing changes. The command filters and counts unusual request methods.",
+    "when_to_use": "Use this during defensive triage to find traffic that does not match expected browser or API behavior.",
+    "when_not_to_use": "Do not label every uncommon method as hostile; APIs, monitors, and load balancers can produce legitimate exceptions.",
+    "undo": "No undo needed because the command is read-only.",
+    "expected_output": "Counts with source IP, method, path, and response status for unusual methods.",
+    "terminal_demo": {
+      "fixture": "containers/web-log-triage-lab",
+      "commands": [
+        "awk '{print $6}' ./fixtures/nginx/access.log | sort | uniq -c | sort -nr",
+        "awk '$6 !~ /^\"(GET|POST|HEAD|OPTIONS)$/ {print $1, $6, $7, $9}' ./fixtures/nginx/access.log | sort | uniq -c | sort -nr",
+        "awk '$6 !~ /^\"(GET|POST|HEAD|OPTIONS)$/ {print}' ./fixtures/nginx/access.log"
+      ]
+    },
+    "shorts": {
+      "format": "vertical",
+      "duration_target_seconds": 35,
+      "title": "Look for weird HTTP methods.",
+      "voiceover": "Most access logs are GET, POST, HEAD, and OPTIONS. When something else appears, pull it into a short list and review it defensively.",
+      "caption": "Unusual methods deserve review."
+    },
+    "linkedin": {
+      "question": "Do you baseline expected HTTP methods for your public sites?",
+      "cta": "Use method counts as a quick traffic-shape check."
+    },
+    "youtube": {
+      "playlist": "Cybersecurity Triage",
+      "description": "A defensive one-liner for spotting unusual HTTP methods in a fake Nginx access log."
+    },
+    "experiments": [
+      {
+        "id": "suspicious_web_methods",
+        "metric": "short_click_through_rate",
+        "variant_a": "The weird method is the line to review.",
+        "variant_b": "Most web traffic should be boring."
+      }
+    ]
+  },
+  {
+    "slug": "top-web-user-agents",
+    "title": "Count the Most Common User Agents",
+    "series": "cybersecurity-triage",
+    "hook": "A strange traffic spike often has a strange user agent.",
+    "problem": "You need a quick view of which user agents dominate a web access log.",
+    "command": "awk -F'\"' '{print $6}' ./fixtures/nginx/access.log | sort | uniq -c | sort -nr | head",
+    "danger": "safe",
+    "starting_state": "A synthetic Nginx access log contains browser-like user agents, monitoring clients, and synthetic bot labels.",
+    "what_changed": "Nothing changes. The command extracts the user-agent field and counts repeated values.",
+    "when_to_use": "Use this when investigating scraping, monitoring noise, or sudden traffic-composition changes.",
+    "when_not_to_use": "Do not trust user agents as identity; they are client-supplied strings and can be inaccurate.",
+    "undo": "No undo needed because the command is read-only.",
+    "expected_output": "A descending count of user-agent strings.",
+    "terminal_demo": {
+      "fixture": "containers/web-log-triage-lab",
+      "commands": [
+        "awk -F'\"' '{print $6}' ./fixtures/nginx/access.log | head",
+        "awk -F'\"' '{print $6}' ./fixtures/nginx/access.log | sort | uniq -c | sort -nr | head",
+        "awk -F'\"' '{print $6}' ./fixtures/nginx/access.log | sort | uniq -c | sort -nr | tail"
+      ]
+    },
+    "shorts": {
+      "format": "vertical",
+      "duration_target_seconds": 35,
+      "title": "Count user agents fast.",
+      "voiceover": "When traffic changes, user agents are a useful clue. They are not proof of identity, but they quickly show what kind of clients dominate the log.",
+      "caption": "User agents are clues, not proof."
+    },
+    "linkedin": {
+      "question": "Do you treat user agents as evidence, clues, or noise?",
+      "cta": "Use this as a starting point, not an identity claim."
+    },
+    "youtube": {
+      "playlist": "Cybersecurity Triage",
+      "description": "A safe one-liner for counting user-agent strings in a fake Nginx access log."
+    },
+    "experiments": [
+      {
+        "id": "top_web_user_agents",
+        "metric": "short_click_through_rate",
+        "variant_a": "A traffic spike usually leaves a user-agent clue.",
+        "variant_b": "Count user agents before reading the whole log."
+      }
+    ]
+  },
+  {
+    "slug": "admin-probe-paths",
+    "title": "Find Common Admin Probe Paths",
+    "series": "cybersecurity-triage",
+    "hook": "A site does not need WordPress to receive WordPress-looking probes.",
+    "problem": "You need to find repeated requests for common administrative or login-looking paths in a web log.",
+    "command": "awk '$7 ~ /(admin|login|wp-|phpmyadmin)/ {print $1, $7, $9}' ./fixtures/nginx/access.log | sort | uniq -c | sort -nr | head",
+    "danger": "safe",
+    "starting_state": "A synthetic Nginx access log contains normal site paths plus harmless examples of administrative-looking probe paths.",
+    "what_changed": "Nothing changes. The command filters log lines by path keywords and counts repeated combinations.",
+    "when_to_use": "Use this to spot broad internet background noise and decide whether a path is being repeatedly requested.",
+    "when_not_to_use": "Do not assume a keyword match means compromise; this only shows requested paths.",
+    "undo": "No undo needed because the command is read-only.",
+    "expected_output": "Counts with source IP, requested path, and HTTP status.",
+    "terminal_demo": {
+      "fixture": "containers/web-log-triage-lab",
+      "commands": [
+        "awk '{print $7}' ./fixtures/nginx/access.log | sort | uniq -c | sort -nr | head",
+        "awk '$7 ~ /(admin|login|wp-|phpmyadmin)/ {print $1, $7, $9}' ./fixtures/nginx/access.log | sort | uniq -c | sort -nr | head",
+        "awk '$7 ~ /(admin|login|wp-|phpmyadmin)/ {print}' ./fixtures/nginx/access.log"
+      ]
+    },
+    "shorts": {
+      "format": "vertical",
+      "duration_target_seconds": 35,
+      "title": "Find admin-looking probes.",
+      "voiceover": "Public web servers receive requests for software they do not run. This one-liner pulls out admin-looking paths so you can review the noise without changing anything.",
+      "caption": "Requested path is not compromise."
+    },
+    "linkedin": {
+      "question": "How much background admin-probe traffic do your public sites receive?",
+      "cta": "Use this to separate background noise from real app paths."
+    },
+    "youtube": {
+      "playlist": "Cybersecurity Triage",
+      "description": "A defensive one-liner for finding common admin-looking probe paths in a fake access log."
+    },
+    "experiments": [
+      {
+        "id": "admin_probe_paths",
+        "metric": "youtube_retention_15s",
+        "variant_a": "Your non-WordPress site still gets WordPress probes.",
+        "variant_b": "Requested paths are evidence to review, not panic."
+      }
+    ]
+  },
+  {
+    "slug": "repeated-404-paths",
+    "title": "Find Paths Repeatedly Returning 404",
+    "series": "cybersecurity-triage",
+    "hook": "One missing URL is normal. A repeated missing URL is a signal.",
+    "problem": "You need to identify missing paths that are being requested repeatedly.",
+    "command": "awk '$9==404 {count[$7]++} END {for (path in count) if (count[path] >= 3) print count[path], path}' ./fixtures/nginx/access.log | sort -nr | head",
+    "danger": "safe",
+    "starting_state": "A synthetic Nginx access log includes ordinary 404s and repeated missing paths from synthetic clients.",
+    "what_changed": "Nothing changes. The command counts repeated 404 paths and hides one-off misses.",
+    "when_to_use": "Use this when distinguishing harmless broken links from suspicious or noisy repeated requests.",
+    "when_not_to_use": "Do not treat every repeated 404 as malicious; it may be a stale link, deployment mistake, or crawler behavior.",
+    "undo": "No undo needed because the command is read-only.",
+    "expected_output": "A descending list of 404 counts followed by requested paths.",
+    "terminal_demo": {
+      "fixture": "containers/web-log-triage-lab",
+      "commands": [
+        "awk '$9==404 {print $1, $7}' ./fixtures/nginx/access.log | head",
+        "awk '$9==404 {count[$7]++} END {for (path in count) if (count[path] >= 3) print count[path], path}' ./fixtures/nginx/access.log | sort -nr | head",
+        "awk '$9==404 {count[$1]++} END {for (ip in count) print count[ip], ip}' ./fixtures/nginx/access.log | sort -nr | head"
+      ]
+    },
+    "shorts": {
+      "format": "vertical",
+      "duration_target_seconds": 35,
+      "title": "Repeated 404s are a clue.",
+      "voiceover": "A single 404 is boring. Repeated 404s on the same path are worth grouping so you can tell broken links from noisy probing.",
+      "caption": "Ignore one-offs. Count repeats."
+    },
+    "linkedin": {
+      "question": "Do you review repeated 404s as broken-link cleanup, security triage, or both?",
+      "cta": "Prioritize repeated misses before one-off noise."
+    },
+    "youtube": {
+      "playlist": "Cybersecurity Triage",
+      "description": "A safe one-liner for finding repeatedly requested 404 paths in a fake Nginx access log."
+    },
+    "experiments": [
+      {
+        "id": "repeated_404_paths",
+        "metric": "short_click_through_rate",
+        "variant_a": "One 404 is boring. Repeated 404s are a signal.",
+        "variant_b": "Find the missing paths people keep requesting."
+      }
+    ]
+  },
+  {
+    "slug": "request-bursts-by-minute",
+    "title": "Spot Request Bursts by Minute",
+    "series": "cybersecurity-triage",
+    "hook": "Traffic spikes are easier to read when you bucket them by time.",
+    "problem": "You need to find the busiest minute-level windows in an access log.",
+    "command": "awk '{minute=substr($4,2,17); count[minute]++} END {for (m in count) print count[m], m}' ./fixtures/nginx/access.log | sort -nr | head",
+    "danger": "safe",
+    "starting_state": "A synthetic Nginx access log has timestamps spread across several minutes with one synthetic burst window.",
+    "what_changed": "Nothing changes. The command groups requests by minute and prints the busiest buckets.",
+    "when_to_use": "Use this when checking whether suspicious traffic is steady background noise or a short burst.",
+    "when_not_to_use": "Do not use minute buckets for precise incident timelines; preserve raw logs for detailed analysis.",
+    "undo": "No undo needed because the command is read-only.",
+    "expected_output": "A descending list of request counts followed by minute timestamps.",
+    "terminal_demo": {
+      "fixture": "containers/web-log-triage-lab",
+      "commands": [
+        "awk '{print substr($4,2,17)}' ./fixtures/nginx/access.log | head",
+        "awk '{minute=substr($4,2,17); count[minute]++} END {for (m in count) print count[m], m}' ./fixtures/nginx/access.log | sort -nr | head",
+        "awk '{minute=substr($4,2,17); count[minute]++} END {for (m in count) print count[m], m}' ./fixtures/nginx/access.log | sort"
+      ]
+    },
+    "shorts": {
+      "format": "vertical",
+      "duration_target_seconds": 35,
+      "title": "Bucket requests by minute.",
+      "voiceover": "Before reading hundreds of log lines, group requests by minute. A burst stands out immediately, and you still have the raw log for deeper review.",
+      "caption": "Time buckets make spikes visible."
+    },
+    "linkedin": {
+      "question": "When traffic spikes, do you inspect raw lines first or bucket by time?",
+      "cta": "Use buckets to find the hot window first."
+    },
+    "youtube": {
+      "playlist": "Cybersecurity Triage",
+      "description": "A safe one-liner for finding minute-level request bursts in a fake web access log."
+    },
+    "experiments": [
+      {
+        "id": "request_bursts_by_minute",
+        "metric": "youtube_retention_15s",
+        "variant_a": "The spike is obvious once you bucket by minute.",
+        "variant_b": "Stop reading every line. Count the burst."
+      }
+    ]
+  },
+  {
+    "slug": "large-web-responses",
+    "title": "Find Unusually Large Web Responses",
+    "series": "hosting-operations",
+    "hook": "A few huge responses can explain bandwidth, latency, and suspicious download patterns.",
+    "problem": "You need to list large responses from a web access log for operational and defensive review.",
+    "command": "awk '$10 ~ /^[0-9]+$/ && $10 > 1000000 {print $10, $1, $7, $9}' ./fixtures/nginx/access.log | sort -nr | head",
+    "danger": "safe",
+    "starting_state": "A synthetic Nginx access log contains normal response sizes plus several large synthetic downloads.",
+    "what_changed": "Nothing changes. The command filters log entries by byte count.",
+    "when_to_use": "Use this when investigating bandwidth spikes, slow responses, or repeated downloads of large assets.",
+    "when_not_to_use": "Do not assume a large response is suspicious; backups, media files, and releases may be expected.",
+    "undo": "No undo needed because the command is read-only.",
+    "expected_output": "Large byte counts followed by source IP, path, and status code.",
+    "terminal_demo": {
+      "fixture": "containers/web-log-triage-lab",
+      "commands": [
+        "awk '{print $10, $7}' ./fixtures/nginx/access.log | sort -nr | head",
+        "awk '$10 ~ /^[0-9]+$/ && $10 > 1000000 {print $10, $1, $7, $9}' ./fixtures/nginx/access.log | sort -nr | head",
+        "awk '$10 ~ /^[0-9]+$/ {sum+=$10} END {print sum}' ./fixtures/nginx/access.log"
+      ]
+    },
+    "shorts": {
+      "format": "vertical",
+      "duration_target_seconds": 35,
+      "title": "Find huge responses fast.",
+      "voiceover": "When bandwidth jumps, sort by response size. This does not prove anything by itself, but it shows which paths deserve review.",
+      "caption": "Large responses explain bandwidth spikes."
+    },
+    "linkedin": {
+      "question": "Do you check response size when investigating traffic spikes?",
+      "cta": "Use byte counts to separate bandwidth from request-count problems."
+    },
+    "youtube": {
+      "playlist": "Hosting Operations",
+      "description": "A safe one-liner for finding unusually large responses in a fake Nginx access log."
+    },
+    "experiments": [
+      {
+        "id": "large_web_responses",
+        "metric": "short_click_through_rate",
+        "variant_a": "Bandwidth spikes often start with response size.",
+        "variant_b": "Find the huge web responses first."
+      }
+    ]
+  },
+  {
+    "slug": "ip-path-repeaters",
+    "title": "Find Clients Repeating the Same Path",
+    "series": "cybersecurity-triage",
+    "hook": "The suspicious pattern is sometimes one client hammering one URL.",
+    "problem": "You need to find IP and path pairs that appear repeatedly in a web access log.",
+    "command": "awk '{key=$1 \" \" $7; count[key]++} END {for (k in count) if (count[k] >= 5) print count[k], k}' ./fixtures/nginx/access.log | sort -nr | head",
+    "danger": "safe",
+    "starting_state": "A synthetic Nginx access log contains normal browsing plus repeated requests from one synthetic IP to the same path.",
+    "what_changed": "Nothing changes. The command counts repeated source-IP and path combinations.",
+    "when_to_use": "Use this when looking for repeated polling, scraping, broken clients, or suspicious request loops.",
+    "when_not_to_use": "Do not use this alone to decide intent; repeated requests can come from health checks, retries, or caches.",
+    "undo": "No undo needed because the command is read-only.",
+    "expected_output": "Counts followed by source IP and requested path.",
+    "terminal_demo": {
+      "fixture": "containers/web-log-triage-lab",
+      "commands": [
+        "awk '{print $1, $7}' ./fixtures/nginx/access.log | head",
+        "awk '{key=$1 \" \" $7; count[key]++} END {for (k in count) if (count[k] >= 5) print count[k], k}' ./fixtures/nginx/access.log | sort -nr | head",
+        "awk '{count[$1]++} END {for (ip in count) print count[ip], ip}' ./fixtures/nginx/access.log | sort -nr | head"
+      ]
+    },
+    "shorts": {
+      "format": "vertical",
+      "duration_target_seconds": 35,
+      "title": "Find IP-path repeaters.",
+      "voiceover": "Counting requests by IP is useful, but pairing IP with path shows a tighter pattern: one client repeating one URL again and again.",
+      "caption": "Pair IP and path to see loops."
+    },
+    "linkedin": {
+      "question": "Do you group web traffic by IP alone, or by IP plus path?",
+      "cta": "Use this to separate broad activity from repeated loops."
+    },
+    "youtube": {
+      "playlist": "Cybersecurity Triage",
+      "description": "A defensive one-liner for finding repeated IP and path pairs in a fake Nginx access log."
+    },
+    "experiments": [
+      {
+        "id": "ip_path_repeaters",
+        "metric": "youtube_retention_15s",
+        "variant_a": "One IP hammering one URL is easy to miss.",
+        "variant_b": "Pair the client with the path."
+      }
+    ]
+  }
+]

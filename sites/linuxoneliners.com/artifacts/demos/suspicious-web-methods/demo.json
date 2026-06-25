@@ -1,0 +1,25 @@
+{
+  "slug": "suspicious-web-methods",
+  "title": "Spot Unusual HTTP Methods in Access Logs",
+  "fixture": "containers/web-log-triage-lab",
+  "command_count": 3,
+  "container_tool": "docker",
+  "image": "localhost/linuxoneliners-lab:latest",
+  "exit_code": 0,
+  "elapsed_ms": 205,
+  "stdout": "::fixture-ready::\n$ awk '{print $6}' ./fixtures/nginx/access.log | sort | uniq -c | sort -nr\n     22 \"GET\n      1 \"PUT\n      1 \"POST\n      1 \"DELETE\n::exit-code::0\n$ awk '$6 !~ /^\"(GET|POST|HEAD|OPTIONS)$/ {print $1, $6, $7, $9}' ./fixtures/nginx/access.log | sort | uniq -c | sort -nr\n      1 203.0.113.46 \"PUT /api/profile 405\n      1 203.0.113.46 \"DELETE /api/profile 405\n::exit-code::0\n$ awk '$6 !~ /^\"(GET|POST|HEAD|OPTIONS)$/ {print}' ./fixtures/nginx/access.log\n203.0.113.46 - - [25/Jun/2026:10:02:01 +0000] \"PUT /api/profile HTTP/1.1\" 405 90 \"-\" \"curl/8\"\n203.0.113.46 - - [25/Jun/2026:10:02:03 +0000] \"DELETE /api/profile HTTP/1.1\" 405 90 \"-\" \"curl/8\"\n::exit-code::0\n",
+  "stderr": "",
+  "ok": true,
+  "security": {
+    "network": "none",
+    "capabilities": "dropped",
+    "no_new_privileges": true,
+    "memory": "256m",
+    "cpus": "1",
+    "pids_limit": 128,
+    "tmpfs": [
+      "/tmp",
+      "/var"
+    ]
+  }
+}

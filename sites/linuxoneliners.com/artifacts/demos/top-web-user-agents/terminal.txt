@@ -1,0 +1,27 @@
+::fixture-ready::
+$ awk -F'"' '{print $6}' ./fixtures/nginx/access.log | head
+Mozilla/5.0
+Mozilla/5.0
+Mozilla/5.0
+ScannerBot/1.0
+ScannerBot/1.0
+ScannerBot/1.0
+ScannerBot/1.0
+ScannerBot/1.0
+SyntheticAudit/0.1
+SyntheticAudit/0.1
+::exit-code::0
+$ awk -F'"' '{print $6}' ./fixtures/nginx/access.log | sort | uniq -c | sort -nr | head
+     11 Mozilla/5.0
+      5 UptimeCheck/2.0
+      5 ScannerBot/1.0
+      2 curl/8
+      2 SyntheticAudit/0.1
+::exit-code::0
+$ awk -F'"' '{print $6}' ./fixtures/nginx/access.log | sort | uniq -c | sort -nr | tail
+     11 Mozilla/5.0
+      5 UptimeCheck/2.0
+      5 ScannerBot/1.0
+      2 curl/8
+      2 SyntheticAudit/0.1
+::exit-code::0

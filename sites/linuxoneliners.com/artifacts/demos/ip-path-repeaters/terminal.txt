@@ -1,0 +1,28 @@
+::fixture-ready::
+$ awk '{print $1, $7}' ./fixtures/nginx/access.log | head
+198.51.100.10 /
+198.51.100.11 /docs
+198.51.100.12 /api/search
+203.0.113.44 /missing
+203.0.113.44 /missing
+203.0.113.44 /missing
+203.0.113.44 /wp-login.php
+203.0.113.44 /wp-admin
+203.0.113.45 /admin
+203.0.113.45 /login
+::exit-code::0
+$ awk '{key=$1 " " $7; count[key]++} END {for (k in count) if (count[k] >= 5) print count[k], k}' ./fixtures/nginx/access.log | sort -nr | head
+5 198.51.100.30 /health
+::exit-code::0
+$ awk '{count[$1]++} END {for (ip in count) print count[ip], ip}' ./fixtures/nginx/access.log | sort -nr | head
+5 203.0.113.44
+5 198.51.100.30
+3 198.51.100.25
+2 203.0.113.46
+2 203.0.113.45
+2 198.51.100.24
+1 198.51.100.23
+1 198.51.100.22
+1 198.51.100.21
+1 198.51.100.12
+::exit-code::0

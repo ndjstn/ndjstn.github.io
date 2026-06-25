@@ -1,0 +1,15 @@
+::fixture-ready::
+$ awk '{print $6}' ./fixtures/nginx/access.log | sort | uniq -c | sort -nr
+     22 "GET
+      1 "PUT
+      1 "POST
+      1 "DELETE
+::exit-code::0
+$ awk '$6 !~ /^"(GET|POST|HEAD|OPTIONS)$/ {print $1, $6, $7, $9}' ./fixtures/nginx/access.log | sort | uniq -c | sort -nr
+      1 203.0.113.46 "PUT /api/profile 405
+      1 203.0.113.46 "DELETE /api/profile 405
+::exit-code::0
+$ awk '$6 !~ /^"(GET|POST|HEAD|OPTIONS)$/ {print}' ./fixtures/nginx/access.log
+203.0.113.46 - - [25/Jun/2026:10:02:01 +0000] "PUT /api/profile HTTP/1.1" 405 90 "-" "curl/8"
+203.0.113.46 - - [25/Jun/2026:10:02:03 +0000] "DELETE /api/profile HTTP/1.1" 405 90 "-" "curl/8"
+::exit-code::0

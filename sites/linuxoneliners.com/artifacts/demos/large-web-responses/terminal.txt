@@ -1,0 +1,20 @@
+::fixture-ready::
+$ awk '{print $10, $7}' ./fixtures/nginx/access.log | sort -nr | head
+2500000 /download/site-backup.tar
+2500000 /download/site-backup.tar
+2048 /docs
+1700 /search?q=nginx&page=1
+1700 /search?q=nginx&page=1
+1700 /search?q=nginx&page=1
+900 /api/search
+512 /
+180 /login
+180 /admin
+::exit-code::0
+$ awk '$10 ~ /^[0-9]+$/ && $10 > 1000000 {print $10, $1, $7, $9}' ./fixtures/nginx/access.log | sort -nr | head
+2500000 198.51.100.24 /download/site-backup.tar 200
+2500000 198.51.100.24 /download/site-backup.tar 200
+::exit-code::0
+$ awk '$10 ~ /^[0-9]+$/ {sum+=$10} END {print sum}' ./fixtures/nginx/access.log
+5010164
+::exit-code::0

@@ -1,0 +1,22 @@
+::fixture-ready::
+$ head -5 ./fixtures/nginx/access.log
+198.51.100.10 - - [25/Jun/2026:10:00:01 +0000] "GET / HTTP/1.1" 200 512 "-" "Mozilla/5.0"
+198.51.100.11 - - [25/Jun/2026:10:00:03 +0000] "GET /docs HTTP/1.1" 200 2048 "https://example.test/" "Mozilla/5.0"
+198.51.100.12 - - [25/Jun/2026:10:00:08 +0000] "POST /api/search HTTP/1.1" 200 900 "-" "Mozilla/5.0"
+203.0.113.44 - - [25/Jun/2026:10:01:01 +0000] "GET /missing HTTP/1.1" 404 120 "-" "ScannerBot/1.0"
+203.0.113.44 - - [25/Jun/2026:10:01:03 +0000] "GET /missing HTTP/1.1" 404 120 "-" "ScannerBot/1.0"
+::exit-code::0
+$ awk '{count[$9]++} END {for (code in count) print count[code], code}' ./fixtures/nginx/access.log | sort -nr
+13 200
+5 404
+2 405
+2 403
+1 503
+1 502
+1 500
+::exit-code::0
+$ awk '$9 ~ /^5/ {print $1, $7, $9}' ./fixtures/nginx/access.log
+198.51.100.21 /api/report 500
+198.51.100.22 /api/report 502
+198.51.100.23 /api/report 503
+::exit-code::0

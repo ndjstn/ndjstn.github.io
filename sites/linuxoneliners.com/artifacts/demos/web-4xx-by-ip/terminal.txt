@@ -1,0 +1,28 @@
+::fixture-ready::
+$ awk '$9 ~ /^4/ {print $1, $7, $9}' ./fixtures/nginx/access.log | head
+203.0.113.44 /missing 404
+203.0.113.44 /missing 404
+203.0.113.44 /missing 404
+203.0.113.44 /wp-login.php 404
+203.0.113.44 /wp-admin 404
+203.0.113.45 /admin 403
+203.0.113.45 /login 403
+203.0.113.46 /api/profile 405
+203.0.113.46 /api/profile 405
+::exit-code::0
+$ awk '$9 ~ /^4/ {count[$1]++} END {for (ip in count) print count[ip], ip}' ./fixtures/nginx/access.log | sort -nr | head
+5 203.0.113.44
+2 203.0.113.46
+2 203.0.113.45
+::exit-code::0
+$ awk '$9 ~ /^4/ {print $1, $7, $9}' ./fixtures/nginx/access.log
+203.0.113.44 /missing 404
+203.0.113.44 /missing 404
+203.0.113.44 /missing 404
+203.0.113.44 /wp-login.php 404
+203.0.113.44 /wp-admin 404
+203.0.113.45 /admin 403
+203.0.113.45 /login 403
+203.0.113.46 /api/profile 405
+203.0.113.46 /api/profile 405
+::exit-code::0

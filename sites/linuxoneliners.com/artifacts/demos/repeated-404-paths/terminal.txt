@@ -1,0 +1,14 @@
+::fixture-ready::
+$ awk '$9==404 {print $1, $7}' ./fixtures/nginx/access.log | head
+203.0.113.44 /missing
+203.0.113.44 /missing
+203.0.113.44 /missing
+203.0.113.44 /wp-login.php
+203.0.113.44 /wp-admin
+::exit-code::0
+$ awk '$9==404 {count[$7]++} END {for (path in count) if (count[path] >= 3) print count[path], path}' ./fixtures/nginx/access.log | sort -nr | head
+3 /missing
+::exit-code::0
+$ awk '$9==404 {count[$1]++} END {for (ip in count) print count[ip], ip}' ./fixtures/nginx/access.log | sort -nr | head
+5 203.0.113.44
+::exit-code::0
