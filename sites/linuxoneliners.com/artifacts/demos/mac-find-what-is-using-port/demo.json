@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 185,
+  "elapsed_ms": 192,
   "stdout": "::fixture-ready::\n$ printf '%s\\n' 'COMMAND PID USER FD TYPE DEVICE SIZE/OFF NODE NAME' 'node 4242 uri 23u IPv6 0xabc 0t0 TCP *:3000 (LISTEN)'\nCOMMAND PID USER FD TYPE DEVICE SIZE/OFF NODE NAME\nnode 4242 uri 23u IPv6 0xabc 0t0 TCP *:3000 (LISTEN)\n::exit-code::0\n$ printf '%s\\n' 'COMMAND PID USER FD TYPE DEVICE SIZE/OFF NODE NAME' 'node 4242 uri 23u IPv6 0xabc 0t0 TCP *:3000 (LISTEN)' | awk 'NR==1 || /LISTEN/'\nCOMMAND PID USER FD TYPE DEVICE SIZE/OFF NODE NAME\nnode 4242 uri 23u IPv6 0xabc 0t0 TCP *:3000 (LISTEN)\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

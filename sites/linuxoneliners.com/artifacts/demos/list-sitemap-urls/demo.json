@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 192,
+  "elapsed_ms": 201,
   "stdout": "::fixture-ready::\n$ sed -n '1,12p' public/sitemap.xml\n<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n  <url><loc>https://example.com/</loc></url>\n  <url><loc>https://example.com/about.html</loc></url>\n  <url><loc>https://example.com/blog/post.html</loc></url>\n</urlset>\n::exit-code::0\n$ grep -o '<loc>[^<]*</loc>' public/sitemap.xml | sed 's#<loc>##;s#</loc>##'\nhttps://example.com/\nhttps://example.com/about.html\nhttps://example.com/blog/post.html\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

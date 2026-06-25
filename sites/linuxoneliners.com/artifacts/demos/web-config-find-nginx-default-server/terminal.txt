@@ -1,0 +1,9 @@
+::fixture-ready::
+$ grep -RIn 'default_server' fixtures/nginx/conf.d fixtures/nginx/sites-enabled
+fixtures/nginx/sites-enabled/example.conf:2:    listen 80 default_server;
+::exit-code::0
+$ grep -RInE '^[[:space:]]*server_name[[:space:]]' fixtures/nginx/conf.d fixtures/nginx/sites-enabled
+fixtures/nginx/conf.d/admin.conf:3:    server_name admin.internal;
+fixtures/nginx/sites-enabled/example.conf:3:    server_name example.com www.example.com;
+fixtures/nginx/sites-enabled/example.conf:8:    server_name example.com www.example.com;
+::exit-code::0

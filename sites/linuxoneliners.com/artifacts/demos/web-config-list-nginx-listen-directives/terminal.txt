@@ -1,0 +1,15 @@
+::fixture-ready::
+$ find fixtures/nginx -type f | sort
+fixtures/nginx/conf.d/admin.conf
+fixtures/nginx/nginx.conf
+fixtures/nginx/sites-enabled/example.conf
+::exit-code::0
+$ grep -RInE '^[[:space:]]*listen[[:space:]]' fixtures/nginx/conf.d fixtures/nginx/sites-enabled
+fixtures/nginx/conf.d/admin.conf:2:    listen 127.0.0.1:8080;
+fixtures/nginx/sites-enabled/example.conf:2:    listen 80 default_server;
+fixtures/nginx/sites-enabled/example.conf:7:    listen 443 ssl;
+::exit-code::0
+$ grep -RInE 'default_server|ssl' fixtures/nginx/conf.d fixtures/nginx/sites-enabled
+fixtures/nginx/sites-enabled/example.conf:2:    listen 80 default_server;
+fixtures/nginx/sites-enabled/example.conf:7:    listen 443 ssl;
+::exit-code::0

@@ -1,0 +1,15 @@
+::fixture-ready::
+$ find fixtures/apache/sites-enabled -maxdepth 1 -type l -printf '%f -> %l\n' | sort
+app.conf -> ../sites-available/app.conf
+example.conf -> ../sites-available/example.conf
+::exit-code::0
+$ find fixtures/apache/sites-available -maxdepth 1 -type f | sort
+fixtures/apache/sites-available/app.conf
+fixtures/apache/sites-available/example.conf
+::exit-code::0
+$ grep -RInE '<VirtualHost|ServerName' fixtures/apache/sites-enabled
+fixtures/apache/sites-enabled/app.conf:1:<VirtualHost *:443>
+fixtures/apache/sites-enabled/app.conf:2:    ServerName app.example.com
+fixtures/apache/sites-enabled/example.conf:1:<VirtualHost *:80>
+fixtures/apache/sites-enabled/example.conf:2:    ServerName legacy.example.com
+::exit-code::0

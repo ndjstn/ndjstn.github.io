@@ -1,0 +1,17 @@
+::fixture-ready::
+$ cat fixtures/nginx/nginx.conf
+events {}
+http {
+  include conf.d/*.conf;
+  include sites-enabled/*;
+}
+::exit-code::0
+$ grep -RInE '^[[:space:]]*include[[:space:]]' fixtures/nginx/nginx.conf fixtures/nginx/conf.d fixtures/nginx/sites-enabled
+fixtures/nginx/nginx.conf:3:  include conf.d/*.conf;
+fixtures/nginx/nginx.conf:4:  include sites-enabled/*;
+::exit-code::0
+$ find fixtures/nginx -maxdepth 3 -type f | sort
+fixtures/nginx/conf.d/admin.conf
+fixtures/nginx/nginx.conf
+fixtures/nginx/sites-enabled/example.conf
+::exit-code::0

@@ -1,0 +1,11 @@
+::fixture-ready::
+$ grep -RInE '^[[:space:]]*DocumentRoot[[:space:]]' fixtures/apache/sites-enabled
+fixtures/apache/sites-enabled/app.conf:3:    DocumentRoot /srv/www/app/public
+fixtures/apache/sites-enabled/example.conf:4:    DocumentRoot /srv/www/legacy/public
+::exit-code::0
+$ grep -RInE '<VirtualHost|ServerName' fixtures/apache/sites-enabled
+fixtures/apache/sites-enabled/app.conf:1:<VirtualHost *:443>
+fixtures/apache/sites-enabled/app.conf:2:    ServerName app.example.com
+fixtures/apache/sites-enabled/example.conf:1:<VirtualHost *:80>
+fixtures/apache/sites-enabled/example.conf:2:    ServerName legacy.example.com
+::exit-code::0

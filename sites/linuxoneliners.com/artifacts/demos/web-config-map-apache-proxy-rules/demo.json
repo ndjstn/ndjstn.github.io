@@ -1,0 +1,25 @@
+{
+  "slug": "web-config-map-apache-proxy-rules",
+  "title": "Map Apache Proxy Rules",
+  "fixture": "containers/web-config-triage-lab",
+  "command_count": 2,
+  "container_tool": "docker",
+  "image": "localhost/linuxoneliners-lab:latest",
+  "exit_code": 0,
+  "elapsed_ms": 231,
+  "stdout": "::fixture-ready::\n$ grep -RInE '^[[:space:]]*(ProxyPass|ProxyPassReverse)[[:space:]]' fixtures/apache/sites-enabled\nfixtures/apache/sites-enabled/app.conf:5:    ProxyPass / http://127.0.0.1:7000/\nfixtures/apache/sites-enabled/app.conf:6:    ProxyPassReverse / http://127.0.0.1:7000/\n::exit-code::0\n$ grep -RInE 'ProxyPreserveHost|ServerName' fixtures/apache/sites-enabled\nfixtures/apache/sites-enabled/app.conf:2:    ServerName app.example.com\nfixtures/apache/sites-enabled/app.conf:4:    ProxyPreserveHost On\nfixtures/apache/sites-enabled/example.conf:2:    ServerName legacy.example.com\n::exit-code::0\n",
+  "stderr": "",
+  "ok": true,
+  "security": {
+    "network": "none",
+    "capabilities": "dropped",
+    "no_new_privileges": true,
+    "memory": "256m",
+    "cpus": "1",
+    "pids_limit": 128,
+    "tmpfs": [
+      "/tmp",
+      "/var"
+    ]
+  }
+}

@@ -1,0 +1,10 @@
+::fixture-ready::
+$ grep -RInE '^[[:space:]]*(ProxyPass|ProxyPassReverse)[[:space:]]' fixtures/apache/sites-enabled
+fixtures/apache/sites-enabled/app.conf:5:    ProxyPass / http://127.0.0.1:7000/
+fixtures/apache/sites-enabled/app.conf:6:    ProxyPassReverse / http://127.0.0.1:7000/
+::exit-code::0
+$ grep -RInE 'ProxyPreserveHost|ServerName' fixtures/apache/sites-enabled
+fixtures/apache/sites-enabled/app.conf:2:    ServerName app.example.com
+fixtures/apache/sites-enabled/app.conf:4:    ProxyPreserveHost On
+fixtures/apache/sites-enabled/example.conf:2:    ServerName legacy.example.com
+::exit-code::0

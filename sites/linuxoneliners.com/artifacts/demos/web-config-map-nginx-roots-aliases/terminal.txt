@@ -1,0 +1,11 @@
+::fixture-ready::
+$ grep -RInE '^[[:space:]]*(root|alias)[[:space:]]' fixtures/nginx/conf.d fixtures/nginx/sites-enabled
+fixtures/nginx/conf.d/admin.conf:4:    root /srv/www/admin;
+fixtures/nginx/sites-enabled/example.conf:9:    root /srv/www/example/current/public;
+fixtures/nginx/sites-enabled/example.conf:12:        alias /srv/www/example/current/assets/;
+::exit-code::0
+$ grep -RInE '^[[:space:]]*location[[:space:]]' fixtures/nginx/conf.d fixtures/nginx/sites-enabled
+fixtures/nginx/conf.d/admin.conf:5:    location / {
+fixtures/nginx/sites-enabled/example.conf:11:    location /assets/ {
+fixtures/nginx/sites-enabled/example.conf:14:    location /api/ {
+::exit-code::0

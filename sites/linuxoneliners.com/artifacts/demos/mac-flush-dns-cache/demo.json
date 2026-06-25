@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 193,
+  "elapsed_ms": 208,
   "stdout": "::fixture-ready::\n$ printf '%s\\n' 'Before: example.test -> 192.0.2.10'\nBefore: example.test -> 192.0.2.10\n::exit-code::0\n$ printf '%s\\n' 'sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder' 'After: run a fresh lookup with dig example.test'\nsudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder\nAfter: run a fresh lookup with dig example.test\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

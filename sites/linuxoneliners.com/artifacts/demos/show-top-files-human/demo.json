@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 195,
+  "elapsed_ms": 211,
   "stdout": "::fixture-ready::\n$ find /var -type f -printf '%s %p\\n' | sort -nr | head -10\n196608 /var/cache/demo/blob.cache\n98304 /var/log/app.log\n65536 /var/backups/site.tar\n::exit-code::0\n$ find /var -type f -printf '%s %p\\n' | sort -nr | head -10 | awk '{printf \"%.1f MB %s\\n\", $1/1024/1024, $2}'\n0.2 MB /var/cache/demo/blob.cache\n0.1 MB /var/log/app.log\n0.1 MB /var/backups/site.tar\n::exit-code::0\n$ du -sh /var/* 2>/dev/null | sort -h\n64K\t/var/backups\n96K\t/var/log\n192K\t/var/cache\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

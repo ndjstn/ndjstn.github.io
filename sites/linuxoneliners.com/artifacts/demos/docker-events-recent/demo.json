@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 180,
+  "elapsed_ms": 200,
   "stdout": "::fixture-ready::\n$ docker events --since 30m --until 0s\n2026-06-25T14:14:50 image pull registry.example/api:v1.9.4\n2026-06-25T14:15:01 container start web\n2026-06-25T14:18:05 container die api exitCode=1\n2026-06-25T14:18:06 container restart api\n::exit-code::0\n$ docker events --since 30m --until 0s --filter type=container\n2026-06-25T14:15:01 container start web\n2026-06-25T14:18:05 container die api exitCode=1\n2026-06-25T14:18:06 container restart api\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

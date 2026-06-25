@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 181,
+  "elapsed_ms": 223,
   "stdout": "::fixture-ready::\n$ docker ps -a --filter status=restarting --format 'table {{.Names}}\\t{{.Status}}\\t{{.Image}}'\nNAMES     STATUS                         IMAGE\napi       Restarting (1) 18 seconds ago  registry.example/api:v1.9.4\n::exit-code::0\n$ docker logs --tail 40 api\napi: loading config\napi: ERROR database connection refused\napi: exiting with code 1\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

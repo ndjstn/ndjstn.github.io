@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 185,
+  "elapsed_ms": 206,
   "stdout": "::fixture-ready::\n$ free -h\n               total        used        free      shared  buff/cache   available\nMem:           1.9Gi       1.4Gi        94Mi        18Mi       410Mi       312Mi\nSwap:          2.0Gi       620Mi       1.4Gi\n::exit-code::0\n$ ps -eo pid,ppid,stat,pcpu,pmem,rss,comm,args --sort=-pmem | head -n 10\n  PID  PPID STAT %CPU %MEM   RSS COMMAND        COMMAND\n 2011     1 S     4.5  37.9 776M postgres      postgres: main\n 1842     1 R    86.4  14.2 291M app-worker    /srv/app/worker --jobs\n 1907     1 S    12.8   3.1  63M nginx         nginx: worker process\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

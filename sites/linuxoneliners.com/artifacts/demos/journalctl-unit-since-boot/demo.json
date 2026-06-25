@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 191,
+  "elapsed_ms": 210,
   "stdout": "::fixture-ready::\n$ journalctl -u nginx -b --no-pager -n 80\nJun 25 14:12:10 vps nginx[842]: start worker processes\nJun 25 14:12:11 vps nginx[842]: ready for connections\nJun 25 14:18:42 vps nginx[842]: reload complete\n::exit-code::0\n$ journalctl --disk-usage\nArchived and active journals take up 412.8M in the file system.\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

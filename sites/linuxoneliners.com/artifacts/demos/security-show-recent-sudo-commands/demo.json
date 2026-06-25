@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 184,
+  "elapsed_ms": 225,
   "stdout": "::fixture-ready::\n$ grep 'sudo:' logs/auth.log\nJun 25 12:03:12 vps sudo:     alex : TTY=pts/0 ; PWD=/srv/www ; USER=root ; COMMAND=/usr/bin/systemctl reload nginx\nJun 25 12:04:33 vps sudo:   deploy : TTY=pts/1 ; PWD=/srv/app ; USER=root ; COMMAND=/usr/bin/journalctl -u app\n::exit-code::0\n$ grep 'sudo:' logs/auth.log | tail -n 10\nJun 25 12:03:12 vps sudo:     alex : TTY=pts/0 ; PWD=/srv/www ; USER=root ; COMMAND=/usr/bin/systemctl reload nginx\nJun 25 12:04:33 vps sudo:   deploy : TTY=pts/1 ; PWD=/srv/app ; USER=root ; COMMAND=/usr/bin/journalctl -u app\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

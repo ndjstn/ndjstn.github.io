@@ -131,5 +131,15 @@
     "chmod 777 srv/www/uploads",
     "chmod 750 srv/www/private",
     "cat > /usr/local/bin/ss <<'SH'\n#!/usr/bin/env bash\ncat <<'OUT'\nState  Recv-Q Send-Q Local Address:Port Peer Address:Port Process\nLISTEN 0      128          0.0.0.0:22        0.0.0.0:*     users:((\"sshd\",pid=801,fd=3))\nLISTEN 0      511          0.0.0.0:80        0.0.0.0:*     users:((\"nginx\",pid=1907,fd=6))\nLISTEN 0      511          0.0.0.0:443       0.0.0.0:*     users:((\"nginx\",pid=1907,fd=7))\nLISTEN 0      128        127.0.0.1:5432      0.0.0.0:*     users:((\"postgres\",pid=2011,fd=7))\nOUT\nSH\nchmod +x /usr/local/bin/ss"
+  ],
+  "containers/web-config-triage-lab": [
+    "mkdir -p fixtures/nginx/conf.d fixtures/nginx/sites-enabled fixtures/apache/sites-available fixtures/apache/sites-enabled",
+    "cat > fixtures/nginx/nginx.conf <<'CONF'\nevents {}\nhttp {\n  include conf.d/*.conf;\n  include sites-enabled/*;\n}\nCONF",
+    "cat > fixtures/nginx/sites-enabled/example.conf <<'CONF'\nserver {\n    listen 80 default_server;\n    server_name example.com www.example.com;\n    return 301 https://example.com$request_uri;\n}\nserver {\n    listen 443 ssl;\n    server_name example.com www.example.com;\n    root /srv/www/example/current/public;\n    index index.html;\n    location /assets/ {\n        alias /srv/www/example/current/assets/;\n    }\n    location /api/ {\n        proxy_set_header Host $host;\n        proxy_pass http://127.0.0.1:9000/;\n    }\n}\nCONF",
+    "cat > fixtures/nginx/conf.d/admin.conf <<'CONF'\nserver {\n    listen 127.0.0.1:8080;\n    server_name admin.internal;\n    root /srv/www/admin;\n    location / {\n        proxy_pass http://localhost:9100;\n    }\n}\nCONF",
+    "cat > fixtures/apache/sites-available/example.conf <<'CONF'\n<VirtualHost *:80>\n    ServerName legacy.example.com\n    ServerAlias www.legacy.example.com\n    DocumentRoot /srv/www/legacy/public\n    Redirect permanent / https://example.com/\n</VirtualHost>\nCONF",
+    "cat > fixtures/apache/sites-available/app.conf <<'CONF'\n<VirtualHost *:443>\n    ServerName app.example.com\n    DocumentRoot /srv/www/app/public\n    ProxyPreserveHost On\n    ProxyPass / http://127.0.0.1:7000/\n    ProxyPassReverse / http://127.0.0.1:7000/\n</VirtualHost>\nCONF",
+    "ln -s ../sites-available/example.conf fixtures/apache/sites-enabled/example.conf",
+    "ln -s ../sites-available/app.conf fixtures/apache/sites-enabled/app.conf"
   ]
 }

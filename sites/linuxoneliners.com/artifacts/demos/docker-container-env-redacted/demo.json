@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 187,
+  "elapsed_ms": 206,
   "stdout": "::fixture-ready::\n$ docker inspect --format '{{range .Config.Env}}{{println .}}{{end}}' api | sed 's/=.*$/=<redacted>/'\nAPP_ENV=<redacted>\nDATABASE_URL=<redacted>\nREDIS_URL=<redacted>\n::exit-code::0\n$ docker inspect --format '{{json .Config.Labels}}' api\n{\"com.example.service\":\"api\",\"com.example.release\":\"2026-06-25\"}\n::exit-code::0\n",
   "stderr": "",
   "ok": true,
