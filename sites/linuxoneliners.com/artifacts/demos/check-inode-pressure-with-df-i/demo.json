@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 210,
+  "elapsed_ms": 195,
   "stdout": "::fixture-ready::\n$ df -h\nFilesystem      Size  Used Avail Use% Mounted on\n/dev/vda1        25G   23G  1.1G  96% /\ntmpfs           982M   12M  970M   2% /run\n::exit-code::0\n$ df -ih\nFilesystem     Inodes IUsed IFree IUse% Mounted on\n/dev/vda1        512K  501K   11K   98% /\ntmpfs            245K    12  245K    1% /run\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

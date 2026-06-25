@@ -1,0 +1,22 @@
+::fixture-ready::
+$ logrotate -d /etc/logrotate.conf
+reading config file /etc/logrotate.conf
+including /etc/logrotate.d
+reading config file nginx
+reading config file app
+rotating pattern: /var/log/nginx/*.log  after 1 days (14 rotations)
+considering log /var/log/nginx/access.log
+  log does not need rotating
+considering log /var/log/nginx/error.log
+  log does not need rotating
+rotating pattern: /var/log/app/app.log  52428800 bytes (7 rotations)
+considering log /var/log/app/app.log
+  log does not need rotating
+::exit-code::0
+$ logrotate -d /etc/logrotate.conf 2>&1 | sed -n '/rotating pattern/p;/considering log/p;/error:/p'
+rotating pattern: /var/log/nginx/*.log  after 1 days (14 rotations)
+considering log /var/log/nginx/access.log
+considering log /var/log/nginx/error.log
+rotating pattern: /var/log/app/app.log  52428800 bytes (7 rotations)
+considering log /var/log/app/app.log
+::exit-code::0

@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 203,
+  "elapsed_ms": 176,
   "stdout": "::fixture-ready::\n$ find source -type f -print | sort\nsource/app/config.yml\nsource/assets/logo.svg\nsource/content/about.md\nsource/content/index.md\n::exit-code::0\n$ sha256sum source/app/config.yml source/content/index.md source/content/about.md source/assets/logo.svg\n5a453a017f0c3bfb78e8205c21f7fcba3e26b1cc406b48664217931d26c1c50d  source/app/config.yml\n5836e81dfa7b529b8773edf3addc5a43e3397d0bf8afc1534728f5090e7b2a5f  source/content/index.md\n1dc8e74b2fc81bc174426952064e702cd22719d42ae1290df8f5081df42a758f  source/content/about.md\n6d6ddf6160dbd0685f29b421c8f85ad7ae4e7c6eb12ef9987cc699c7debd046a  source/assets/logo.svg\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

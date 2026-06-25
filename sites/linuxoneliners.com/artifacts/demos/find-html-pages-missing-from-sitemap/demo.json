@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 201,
+  "elapsed_ms": 263,
   "stdout": "::fixture-ready::\n$ find public -name '*.html' -print\npublic/about.html\npublic/draft.html\npublic/blog/post.html\npublic/index.html\n::exit-code::0\n$ find public -name '*.html' -print | sed 's#^public#https://example.com#' | while read -r url; do grep -q \"$url\" public/sitemap.xml || echo \"$url\"; done\nhttps://example.com/draft.html\nhttps://example.com/index.html\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

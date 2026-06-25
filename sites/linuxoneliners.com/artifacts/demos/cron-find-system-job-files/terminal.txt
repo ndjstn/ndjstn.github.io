@@ -1,0 +1,19 @@
+::fixture-ready::
+$ find /etc/cron.d /etc/cron.daily -maxdepth 1 -type f -print | sort
+/etc/cron.d/app-heartbeat
+/etc/cron.d/db-backup
+/etc/cron.d/e2scrub_all
+/etc/cron.daily/apt-compat
+/etc/cron.daily/db.backup
+/etc/cron.daily/dpkg
+/etc/cron.daily/logrotate
+::exit-code::0
+$ find /etc/cron.d /etc/cron.hourly /etc/cron.daily /etc/cron.weekly /etc/cron.monthly -maxdepth 1 -type f -print 2>/dev/null | sort
+/etc/cron.d/app-heartbeat
+/etc/cron.d/db-backup
+/etc/cron.d/e2scrub_all
+/etc/cron.daily/apt-compat
+/etc/cron.daily/db.backup
+/etc/cron.daily/dpkg
+/etc/cron.daily/logrotate
+::exit-code::0

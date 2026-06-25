@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 225,
+  "elapsed_ms": 171,
   "stdout": "::fixture-ready::\n$ find releases -maxdepth 2 -type f -print\nreleases/2026-06-25-1215/app.tar.gz\nreleases/2026-06-25-1215/app.txt\nreleases/2026-06-25-1200/app.txt\n::exit-code::0\n$ du -sh releases/* 2>/dev/null | sort -h | tail -10\n0\treleases/current\n8.0K\treleases/2026-06-25-1200\n12K\treleases/2026-06-25-1215\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

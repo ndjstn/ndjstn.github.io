@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 230,
+  "elapsed_ms": 181,
   "stdout": "::fixture-ready::\n$ find source backup -type f | sort\nbackup/.snapshot\nbackup/app/config.yml\nbackup/content/index.md\nbackup/old-report.csv\nbackup/tmp/empty.cache\nsource/app/config.yml\nsource/assets/logo.svg\nsource/content/about.md\nsource/content/index.md\n::exit-code::0\n$ comm -3 <(find source -type f | sed 's#^source/##' | sort) <(find backup -type f | sed 's#^backup/##' | sort)\n\t.snapshot\nassets/logo.svg\ncontent/about.md\n\told-report.csv\n\ttmp/empty.cache\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

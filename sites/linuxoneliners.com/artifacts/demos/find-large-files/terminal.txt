@@ -4,8 +4,8 @@ Filesystem      Size  Used Avail Use% Mounted on
 overlay         3.6T  1.2T  2.3T  35% /
 tmpfs            64M     0   64M   0% /dev
 shm              64M     0   64M   0% /dev/shm
-tmpfs            64M  352K   64M   1% /var
 tmpfs            64M     0   64M   0% /tmp
+tmpfs            64M  352K   64M   1% /var
 /dev/nvme0n1p2  3.6T  1.2T  2.3T  35% /lab/demo.sh
 tmpfs            63G     0   63G   0% /proc/asound
 tmpfs            63G     0   63G   0% /proc/acpi

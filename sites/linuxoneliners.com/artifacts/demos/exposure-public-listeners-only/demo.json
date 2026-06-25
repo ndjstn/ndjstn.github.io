@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 198,
+  "elapsed_ms": 182,
   "stdout": "::fixture-ready::\n$ ss -ltnp\nState  Recv-Q Send-Q Local Address:Port Peer Address:Port Process\nLISTEN 0      128          0.0.0.0:22        0.0.0.0:*     users:((\"sshd\",pid=801,fd=3))\nLISTEN 0      511          0.0.0.0:80        0.0.0.0:*     users:((\"nginx\",pid=1907,fd=6))\nLISTEN 0      511          0.0.0.0:443       0.0.0.0:*     users:((\"nginx\",pid=1907,fd=7))\nLISTEN 0      128        127.0.0.1:5432      0.0.0.0:*     users:((\"postgres\",pid=2011,fd=7))\nLISTEN 0      128        127.0.0.1:6379      0.0.0.0:*     users:((\"redis-server\",pid=2112,fd=6))\nLISTEN 0      64           0.0.0.0:9000      0.0.0.0:*     users:((\"node\",pid=2219,fd=18))\n::exit-code::0\n$ ss -ltnp | awk 'NR==1 || $4 ~ /^(0[.]0[.]0[.]0|[[]::[]]|[*]):/'\nState  Recv-Q Send-Q Local Address:Port Peer Address:Port Process\nLISTEN 0      128          0.0.0.0:22        0.0.0.0:*     users:((\"sshd\",pid=801,fd=3))\nLISTEN 0      511          0.0.0.0:80        0.0.0.0:*     users:((\"nginx\",pid=1907,fd=6))\nLISTEN 0      511          0.0.0.0:443       0.0.0.0:*     users:((\"nginx\",pid=1907,fd=7))\nLISTEN 0      64           0.0.0.0:9000      0.0.0.0:*     users:((\"node\",pid=2219,fd=18))\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

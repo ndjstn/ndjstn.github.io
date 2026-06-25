@@ -1,0 +1,25 @@
+{
+  "slug": "cron-detect-silent-jobs-missing-logging",
+  "title": "Find Cron Jobs With No Log Trail",
+  "fixture": "containers/scheduler-logrotate-triage-lab",
+  "command_count": 2,
+  "container_tool": "docker",
+  "image": "localhost/linuxoneliners-lab:latest",
+  "exit_code": 0,
+  "elapsed_ms": 186,
+  "stdout": "::fixture-ready::\n$ crontab -l\n# user crontab for demo\nSHELL=/bin/bash\nPATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin\n5 * * * * /usr/local/bin/check-disk >> /var/log/cron-disk.log 2>&1\n17 2 * * * /usr/local/bin/backup-db\n0 4 * * 0 /usr/local/bin/report-weekly | /usr/bin/mail -s report ops@example.invalid\n::exit-code::0\n$ crontab -l | awk 'NF && $1 !~ /^#/ && $0 !~ /(>>|2>|logger|mail)/ {print}'\nSHELL=/bin/bash\nPATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin\n17 2 * * * /usr/local/bin/backup-db\n::exit-code::0\n",
+  "stderr": "",
+  "ok": true,
+  "security": {
+    "network": "none",
+    "capabilities": "dropped",
+    "no_new_privileges": true,
+    "memory": "256m",
+    "cpus": "1",
+    "pids_limit": 128,
+    "tmpfs": [
+      "/tmp",
+      "/var"
+    ]
+  }
+}

@@ -1,0 +1,12 @@
+::fixture-ready::
+$ find /etc/cron.daily -maxdepth 1 -type f -printf '%f\n' | sort
+apt-compat
+db.backup
+dpkg
+logrotate
+::exit-code::0
+$ run-parts --test /etc/cron.daily
+/etc/cron.daily/apt-compat
+/etc/cron.daily/dpkg
+/etc/cron.daily/logrotate
+::exit-code::0

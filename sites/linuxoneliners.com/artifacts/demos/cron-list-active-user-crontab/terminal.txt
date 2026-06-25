@@ -1,0 +1,16 @@
+::fixture-ready::
+$ crontab -l
+# user crontab for demo
+SHELL=/bin/bash
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+5 * * * * /usr/local/bin/check-disk >> /var/log/cron-disk.log 2>&1
+17 2 * * * /usr/local/bin/backup-db
+0 4 * * 0 /usr/local/bin/report-weekly | /usr/bin/mail -s report ops@example.invalid
+::exit-code::0
+$ crontab -l | sed -n '/^[[:space:]]*#/d;/^[[:space:]]*$/d;p'
+SHELL=/bin/bash
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+5 * * * * /usr/local/bin/check-disk >> /var/log/cron-disk.log 2>&1
+17 2 * * * /usr/local/bin/backup-db
+0 4 * * 0 /usr/local/bin/report-weekly | /usr/bin/mail -s report ops@example.invalid
+::exit-code::0

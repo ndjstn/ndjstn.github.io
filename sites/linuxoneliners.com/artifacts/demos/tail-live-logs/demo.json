@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 4236,
+  "elapsed_ms": 4214,
   "stdout": "::fixture-ready::\n$ tail -n 20 /var/log/nginx/error.log\n2026/06/25 10:00:01 [notice] 11#11: start worker process\n2026/06/25 10:01:42 [error] 11#11: *7 connect() failed (111: Connection refused) while connecting to upstream\n2026/06/25 10:02:05 [warn] 11#11: upstream server temporarily disabled\n2026/06/25 10:03:16 [error] 11#11: *9 access forbidden by rule, client: 203.0.113.44\n2026/06/25 10:04:33 [error] 11#11: *10 upstream timed out while reading response header\n::exit-code::0\n$ tail -n 80 -f /var/log/nginx/error.log\n2026/06/25 10:00:01 [notice] 11#11: start worker process\n2026/06/25 10:01:42 [error] 11#11: *7 connect() failed (111: Connection refused) while connecting to upstream\n2026/06/25 10:02:05 [warn] 11#11: upstream server temporarily disabled\n2026/06/25 10:03:16 [error] 11#11: *9 access forbidden by rule, client: 203.0.113.44\n2026/06/25 10:04:33 [error] 11#11: *10 upstream timed out while reading response header\n::exit-code::124\n$ printf 'simulate a new error line\\n' >> /var/log/nginx/error.log\n::exit-code::0\n",
   "stderr": "",
   "ok": true,
