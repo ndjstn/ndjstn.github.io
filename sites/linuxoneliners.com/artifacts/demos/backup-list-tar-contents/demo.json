@@ -1,0 +1,25 @@
+{
+  "slug": "backup-list-tar-contents",
+  "title": "List Contents of a Backup Tarball",
+  "fixture": "containers/backup-integrity-lab",
+  "command_count": 2,
+  "container_tool": "docker",
+  "image": "localhost/linuxoneliners-lab:latest",
+  "exit_code": 0,
+  "elapsed_ms": 191,
+  "stdout": "::fixture-ready::\n$ ls -lh archives/site-backup.tar\n-rw-r--r-- 1 root root 10K Jun 25 12:45 archives/site-backup.tar\n::exit-code::0\n$ tar -tf archives/site-backup.tar | sort | head\n./\n./app/\n./app/config.yml\n./assets/\n./assets/logo.svg\n./content/\n./content/about.md\n./content/index.md\n::exit-code::0\n",
+  "stderr": "",
+  "ok": true,
+  "security": {
+    "network": "none",
+    "capabilities": "dropped",
+    "no_new_privileges": true,
+    "memory": "256m",
+    "cpus": "1",
+    "pids_limit": 128,
+    "tmpfs": [
+      "/tmp",
+      "/var"
+    ]
+  }
+}

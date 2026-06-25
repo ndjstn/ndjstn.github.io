@@ -1,0 +1,11 @@
+::fixture-ready::
+$ stat -c '%y %n' backup/.snapshot source/content/index.md
+2026-06-25 12:05:00.000000000 +0000 backup/.snapshot
+2026-06-25 12:10:00.000000000 +0000 source/content/index.md
+::exit-code::0
+$ find source -type f -newer backup/.snapshot -print | sort
+source/app/config.yml
+source/assets/logo.svg
+source/content/about.md
+source/content/index.md
+::exit-code::0

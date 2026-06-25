@@ -1,0 +1,19 @@
+::fixture-ready::
+$ find source backup -type f | sort
+backup/.snapshot
+backup/app/config.yml
+backup/content/index.md
+backup/old-report.csv
+backup/tmp/empty.cache
+source/app/config.yml
+source/assets/logo.svg
+source/content/about.md
+source/content/index.md
+::exit-code::0
+$ comm -3 <(find source -type f | sed 's#^source/##' | sort) <(find backup -type f | sed 's#^backup/##' | sort)
+	.snapshot
+assets/logo.svg
+content/about.md
+	old-report.csv
+	tmp/empty.cache
+::exit-code::0

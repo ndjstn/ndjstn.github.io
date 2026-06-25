@@ -1,0 +1,12 @@
+::fixture-ready::
+$ find source -type f -printf '%f\n' | sort
+about.md
+config.yml
+index.md
+logo.svg
+::exit-code::0
+$ find source -type f -printf '%f\n' | sed -n 's/.*\.//p' | sort | uniq -c | sort -nr
+      2 md
+      1 yml
+      1 svg
+::exit-code::0

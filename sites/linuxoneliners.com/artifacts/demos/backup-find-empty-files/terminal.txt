@@ -1,0 +1,12 @@
+::fixture-ready::
+$ find backup -type f -printf '%s %p\n' | sort -n
+0 backup/.snapshot
+0 backup/tmp/empty.cache
+13 backup/old-report.csv
+26 backup/content/index.md
+39 backup/app/config.yml
+::exit-code::0
+$ find backup -type f -size 0 -print
+backup/tmp/empty.cache
+backup/.snapshot
+::exit-code::0

@@ -1,0 +1,22 @@
+::fixture-ready::
+$ find source backup -type f | sort
+backup/.snapshot
+backup/app/config.yml
+backup/content/index.md
+backup/old-report.csv
+backup/tmp/empty.cache
+source/app/config.yml
+source/assets/logo.svg
+source/content/about.md
+source/content/index.md
+::exit-code::0
+$ rsync -ain --delete source/ backup/
+*deleting   tmp/empty.cache
+*deleting   tmp/
+*deleting   old-report.csv
+*deleting   .snapshot
+cd+++++++++ assets/
+>f+++++++++ assets/logo.svg
+>f+++++++++ content/about.md
+>f.st...... content/index.md
+::exit-code::0

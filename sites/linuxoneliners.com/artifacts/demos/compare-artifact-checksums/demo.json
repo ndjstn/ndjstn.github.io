@@ -6,8 +6,8 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 212,
-  "stdout": "::fixture-ready::\n$ ls -lh artifacts/app.tar.gz releases/current/app.tar.gz\n-rw-r--r-- 1 root root 13 Jun 25 12:41 artifacts/app.tar.gz\n-rw-r--r-- 1 root root 13 Jun 25 12:41 releases/current/app.tar.gz\n::exit-code::0\n$ sha256sum artifacts/app.tar.gz releases/current/app.tar.gz\n020de28e3ded8ea3aa27c978e387b7604413181b1ce846f057bcbd8b36054244  artifacts/app.tar.gz\n020de28e3ded8ea3aa27c978e387b7604413181b1ce846f057bcbd8b36054244  releases/current/app.tar.gz\n::exit-code::0\n",
+  "elapsed_ms": 175,
+  "stdout": "::fixture-ready::\n$ ls -lh artifacts/app.tar.gz releases/current/app.tar.gz\n-rw-r--r-- 1 root root 13 Jun 25 12:45 artifacts/app.tar.gz\n-rw-r--r-- 1 root root 13 Jun 25 12:45 releases/current/app.tar.gz\n::exit-code::0\n$ sha256sum artifacts/app.tar.gz releases/current/app.tar.gz\n020de28e3ded8ea3aa27c978e387b7604413181b1ce846f057bcbd8b36054244  artifacts/app.tar.gz\n020de28e3ded8ea3aa27c978e387b7604413181b1ce846f057bcbd8b36054244  releases/current/app.tar.gz\n::exit-code::0\n",
   "stderr": "",
   "ok": true,
   "security": {

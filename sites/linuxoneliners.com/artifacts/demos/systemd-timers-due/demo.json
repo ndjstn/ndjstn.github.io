@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 204,
+  "elapsed_ms": 203,
   "stdout": "::fixture-ready::\n$ systemctl list-timers --all --no-pager\nNEXT                         LEFT     LAST                         PASSED UNIT           ACTIVATES\nThu 2026-06-25 22:00:00 CDT  7h left  Thu 2026-06-25 02:00:00 CDT  12h ago backup.timer   backup.service\nFri 2026-06-26 00:05:00 CDT  9h left  Thu 2026-06-25 00:05:00 CDT  14h ago certbot.timer  certbot.service\n::exit-code::0\n$ systemctl --failed --no-pager\n  UNIT              LOAD   ACTIVE SUB    DESCRIPTION\n  backup.service    loaded failed failed Nightly backup job\n  app-worker.service loaded failed failed App background worker\n2 loaded units listed.\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

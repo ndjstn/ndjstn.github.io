@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 289,
+  "elapsed_ms": 296,
   "stdout": "::fixture-ready::\n$ find source backup -maxdepth 2 -type f | sort\nbackup/app.conf\nbackup/stale.txt\nsource/app.conf\nsource/index.html\n::exit-code::0\n$ rsync -avhn --delete ./source/ ./backup/\nsending incremental file list\ndeleting stale.txt\napp.conf\nindex.html\n\nsent 101 bytes  received 31 bytes  264.00 bytes/sec\ntotal size is 24  speedup is 0.18 (DRY RUN)\n::exit-code::0\n$ rsync -avh --delete ./source/ ./backup/\nsending incremental file list\ndeleting stale.txt\napp.conf\nindex.html\n\nsent 209 bytes  received 67 bytes  552.00 bytes/sec\ntotal size is 24  speedup is 0.09\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

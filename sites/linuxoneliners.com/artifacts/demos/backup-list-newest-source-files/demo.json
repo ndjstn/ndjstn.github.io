@@ -1,0 +1,25 @@
+{
+  "slug": "backup-list-newest-source-files",
+  "title": "List Newest Source Files Before Backup",
+  "fixture": "containers/backup-integrity-lab",
+  "command_count": 2,
+  "container_tool": "docker",
+  "image": "localhost/linuxoneliners-lab:latest",
+  "exit_code": 0,
+  "elapsed_ms": 186,
+  "stdout": "::fixture-ready::\n$ find source -type f -print | sort\nsource/app/config.yml\nsource/assets/logo.svg\nsource/content/about.md\nsource/content/index.md\n::exit-code::0\n$ find source -type f -printf '%TY-%Tm-%Td %TH:%TM %p\\n' | sort\n2026-06-25 12:10 source/content/index.md\n2026-06-25 12:45 source/app/config.yml\n2026-06-25 12:45 source/assets/logo.svg\n2026-06-25 12:45 source/content/about.md\n::exit-code::0\n",
+  "stderr": "",
+  "ok": true,
+  "security": {
+    "network": "none",
+    "capabilities": "dropped",
+    "no_new_privileges": true,
+    "memory": "256m",
+    "cpus": "1",
+    "pids_limit": 128,
+    "tmpfs": [
+      "/tmp",
+      "/var"
+    ]
+  }
+}

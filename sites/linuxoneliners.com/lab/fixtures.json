@@ -102,5 +102,20 @@
     "mkdir -p backup",
     "printf 'SQLite format 3\\n' > app.db",
     "cat > /usr/local/bin/sqlite3 <<'SH'\n#!/usr/bin/env bash\nall=\"$*\"\ncase \"$all\" in\n  *\".tables\"*) printf 'events  orders  schema_migrations  users\\n' ;;\n  *\".schema users\"*) cat <<'OUT'\nCREATE TABLE users (\n  id INTEGER PRIMARY KEY,\n  email TEXT NOT NULL,\n  created_at TEXT NOT NULL\n);\nCREATE UNIQUE INDEX idx_users_email ON users(email);\nOUT\n    ;;\n  *\".schema\"*) cat <<'OUT'\nCREATE TABLE users (id INTEGER PRIMARY KEY, email TEXT NOT NULL, created_at TEXT NOT NULL);\nCREATE UNIQUE INDEX idx_users_email ON users(email);\nCREATE TABLE orders (id INTEGER PRIMARY KEY, user_id INTEGER NOT NULL, total_cents INTEGER NOT NULL, created_at TEXT NOT NULL);\nCREATE INDEX idx_orders_user_id ON orders(user_id);\nCREATE TABLE events (id INTEGER PRIMARY KEY, event_type TEXT NOT NULL, created_at TEXT NOT NULL);\nOUT\n    ;;\n  *\"PRAGMA integrity_check\"*) printf 'ok\\n' ;;\n  *\"sqlite_master\"*\"table\"*) cat <<'OUT'\nusers\norders\nevents\nschema_migrations\nOUT\n    ;;\n  *\"UNION ALL SELECT 'orders'\"*) cat <<'OUT'\nusers|4\norders|7\nevents|12\nOUT\n    ;;\n  *\"PRAGMA index_list('orders')\"*) cat <<'OUT'\n0|idx_orders_user_id|0|c|0\nOUT\n    ;;\n  *\"ORDER BY created_at DESC\"*) cat <<'OUT'\n2026-06-25T12:10:00Z|checkout_completed\n2026-06-25T12:08:00Z|login\n2026-06-25T12:05:00Z|page_view\nOUT\n    ;;\n  *\"GROUP BY event_type\"*) cat <<'OUT'\npage_view|6\nlogin|3\ncheckout_completed|2\nerror|1\nOUT\n    ;;\n  *\"GROUP BY email\"*) cat <<'OUT'\nalex@example.com|2\nOUT\n    ;;\n  *\".backup backup/app.db\"*) mkdir -p backup; printf 'SQLite format 3\\n' > backup/app.db ;;\n  *) printf 'fake sqlite3: %s\\n' \"$all\" ;;\nesac\nSH\nchmod +x /usr/local/bin/sqlite3"
+  ],
+  "containers/backup-integrity-lab": [
+    "mkdir -p source/app source/content source/assets backup/app backup/content backup/tmp archives reports",
+    "printf 'version: 2026-06-25\\nregion: us-central\\n' > source/app/config.yml",
+    "printf '# Home\\nCurrent landing page\\n' > source/content/index.md",
+    "printf '# About\\nCurrent about page\\n' > source/content/about.md",
+    "printf '<svg></svg>\\n' > source/assets/logo.svg",
+    "printf 'version: 2026-06-20\\nregion: us-central\\n' > backup/app/config.yml",
+    "printf '# Home\\nOlder landing page\\n' > backup/content/index.md",
+    "printf '' > backup/tmp/empty.cache",
+    "printf 'stale export\\n' > backup/old-report.csv",
+    "touch -d '2026-06-25 12:10:00 UTC' source/content/index.md",
+    "touch -d '2026-06-25 12:05:00 UTC' backup/.snapshot",
+    "sha256sum source/app/config.yml source/content/index.md source/content/about.md source/assets/logo.svg > checksums.sha256",
+    "tar -cf archives/site-backup.tar -C source ."
   ]
 }
