@@ -1,0 +1,95 @@
+
+
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <id>https://justinstone.online/</id>
+  <title>Justin Stone</title>
+  <subtitle>I build practical systems across software, automation, local AI tooling, data workflows, and technical problem-solving.</subtitle>
+  <updated>2026-06-25T03:34:09-05:00</updated>
+  <author>
+    <name>Justin Stone</name>
+    <uri>https://justinstone.online/</uri>
+  </author>
+  <link rel="self" type="application/atom+xml" href="https://justinstone.online/feed.xml"/>
+  <link rel="alternate" type="text/html" hreflang="en"
+    href="https://justinstone.online/"/>
+  <generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator>
+  <rights> © 2026 Justin Stone </rights>
+  <icon>/assets/img/favicons/favicon.ico</icon>
+  <logo>/assets/img/favicons/favicon-96x96.png</logo>
+
+
+  
+  <entry>
+    <title>Quality, Then Area, Then Everything Else: Ames Housing with Stacked Ensembles</title>
+    <link href="https://justinstone.online/posts/house-prices-ames-stacked-ensembles/" rel="alternate" type="text/html" title="Quality, Then Area, Then Everything Else: Ames Housing with Stacked Ensembles" />
+    <published>2026-04-24T00:00:05-05:00</published>
+  
+    <updated>2026-06-24T23:24:28-05:00</updated>
+  
+    <id>https://justinstone.online/posts/house-prices-ames-stacked-ensembles/</id>
+    <content type="text/html" src="https://justinstone.online/posts/house-prices-ames-stacked-ensembles/" />
+    <author>
+      <name>Justin Stone</name>
+    </author>
+
+  
+    
+    <category term="Data Science" />
+    
+  
+
+  <summary>A stacked Ridge + XGBoost + LightGBM ensemble on Ames houses reaches 0.126 RMSLE, beating a Ridge baseline by about 8 percent. The stack weights are unbalanced, and that's fine.</summary>
+
+  </entry>
+
+  
+  <entry>
+    <title>The Default Threshold Is the Bug: Credit Card Fraud on the ULB Benchmark</title>
+    <link href="https://justinstone.online/posts/credit-card-fraud-default-threshold/" rel="alternate" type="text/html" title="The Default Threshold Is the Bug: Credit Card Fraud on the ULB Benchmark" />
+    <published>2026-04-24T00:00:00-05:00</published>
+  
+    <updated>2026-04-24T02:34:45-05:00</updated>
+  
+    <id>https://justinstone.online/posts/credit-card-fraud-default-threshold/</id>
+    <content type="text/html" src="https://justinstone.online/posts/credit-card-fraud-default-threshold/" />
+    <author>
+      <name>Justin Stone</name>
+    </author>
+
+  
+    
+    <category term="Data Science" />
+    
+  
+
+  <summary>A fraud classifier reaches 0.98 ROC-AUC on the famous ULB dataset and still ships a policy most fraud teams would reject. The 0.5 decision threshold is the bug.</summary>
+
+  </entry>
+
+  
+  <entry>
+    <title>The California Housing Dataset Is Mostly a Geography Lesson</title>
+    <link href="https://justinstone.online/posts/california-housing-prices-dataset/" rel="alternate" type="text/html" title="The California Housing Dataset Is Mostly a Geography Lesson" />
+    <published>2026-04-21T00:00:00-05:00</published>
+  
+    <updated>2026-06-24T23:24:28-05:00</updated>
+  
+    <id>https://justinstone.online/posts/california-housing-prices-dataset/</id>
+    <content type="text/html" src="https://justinstone.online/posts/california-housing-prices-dataset/" />
+    <author>
+      <name>Justin Stone</name>
+    </author>
+
+  
+    
+    <category term="Data Science" />
+    
+  
+
+  <summary>A practical look at the California housing prices dataset: what the rows actually mean, why the target is capped, and what this dataset is good for teaching.</summary>
+
+  </entry>
+
+</feed>
+
+
