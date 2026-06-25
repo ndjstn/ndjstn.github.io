@@ -1,0 +1,25 @@
+{
+  "slug": "list-newest-build-artifacts",
+  "title": "List Newest Build Artifacts",
+  "fixture": "containers/deployment-triage-lab",
+  "command_count": 2,
+  "container_tool": "docker",
+  "image": "localhost/linuxoneliners-lab:latest",
+  "exit_code": 0,
+  "elapsed_ms": 183,
+  "stdout": "::fixture-ready::\n$ find artifacts/ -type f -maxdepth 1 -print\nartifacts/checksums.txt\nartifacts/app.tar.gz\n::exit-code::0\n$ find artifacts/ -type f -printf '%TY-%Tm-%Td %TH:%TM %10s %p\\n' | sort | tail -20\n2026-06-25 12:01         13 artifacts/app.tar.gz\n2026-06-25 12:01         18 artifacts/checksums.txt\n::exit-code::0\n",
+  "stderr": "",
+  "ok": true,
+  "security": {
+    "network": "none",
+    "capabilities": "dropped",
+    "no_new_privileges": true,
+    "memory": "256m",
+    "cpus": "1",
+    "pids_limit": 128,
+    "tmpfs": [
+      "/tmp",
+      "/var"
+    ]
+  }
+}

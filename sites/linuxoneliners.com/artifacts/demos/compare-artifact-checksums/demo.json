@@ -1,0 +1,25 @@
+{
+  "slug": "compare-artifact-checksums",
+  "title": "Compare Artifact Checksums",
+  "fixture": "containers/deployment-triage-lab",
+  "command_count": 2,
+  "container_tool": "docker",
+  "image": "localhost/linuxoneliners-lab:latest",
+  "exit_code": 0,
+  "elapsed_ms": 198,
+  "stdout": "::fixture-ready::\n$ ls -lh artifacts/app.tar.gz releases/current/app.tar.gz\n-rw-r--r-- 1 root root 13 Jun 25 12:01 artifacts/app.tar.gz\n-rw-r--r-- 1 root root 13 Jun 25 12:01 releases/current/app.tar.gz\n::exit-code::0\n$ sha256sum artifacts/app.tar.gz releases/current/app.tar.gz\n020de28e3ded8ea3aa27c978e387b7604413181b1ce846f057bcbd8b36054244  artifacts/app.tar.gz\n020de28e3ded8ea3aa27c978e387b7604413181b1ce846f057bcbd8b36054244  releases/current/app.tar.gz\n::exit-code::0\n",
+  "stderr": "",
+  "ok": true,
+  "security": {
+    "network": "none",
+    "capabilities": "dropped",
+    "no_new_privileges": true,
+    "memory": "256m",
+    "cpus": "1",
+    "pids_limit": 128,
+    "tmpfs": [
+      "/tmp",
+      "/var"
+    ]
+  }
+}

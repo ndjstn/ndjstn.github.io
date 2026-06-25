@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 200,
+  "elapsed_ms": 216,
   "stdout": "::fixture-ready::\n$ systemctl is-enabled nginx\nenabled\n::exit-code::0\n$ systemctl is-active nginx\nactive\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

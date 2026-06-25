@@ -1,0 +1,9 @@
+::fixture-ready::
+$ cat deploy/app.yaml
+image: registry.example/app:v1.2.3
+image: registry.example/worker:v1.2.3
+::exit-code::0
+$ grep -RhoE 'image:[[:space:]]*[^[:space:]]+' deploy/ | sort -u
+image: registry.example/app:v1.2.3
+image: registry.example/worker:v1.2.3
+::exit-code::0

@@ -1,0 +1,11 @@
+::fixture-ready::
+$ sed -n '1,20p' logs/build.log
+INFO setup complete
+error test failed in checkout.spec.ts
+fatal deploy stopped before release switch
+Traceback: deploy.py line 42
+::exit-code::0
+$ grep -RInE 'error|failed|exception|traceback|fatal' logs/ | tail -50
+logs/build.log:2:error test failed in checkout.spec.ts
+logs/build.log:3:fatal deploy stopped before release switch
+::exit-code::0

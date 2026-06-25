@@ -1,0 +1,11 @@
+::fixture-ready::
+$ cat logs/test.log
+fail tests/checkout.spec.ts
+fail tests/login.spec.ts
+fail tests/checkout.spec.ts
+::exit-code::0
+$ grep -RhoE '[A-Za-z0-9_./-]+\.(test|spec)\.(js|ts|py|rb)' logs/ | sort | uniq -c | sort -nr | head
+      2 tests/checkout.spec.ts
+      1 tests/login.spec.ts
+      1 checkout.spec.ts
+::exit-code::0

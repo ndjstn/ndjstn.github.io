@@ -1,0 +1,25 @@
+{
+  "slug": "smoke-check-http-status",
+  "title": "Smoke Check an HTTP Status",
+  "fixture": "containers/deployment-triage-lab",
+  "command_count": 2,
+  "container_tool": "docker",
+  "image": "localhost/linuxoneliners-lab:latest",
+  "exit_code": 0,
+  "elapsed_ms": 242,
+  "stdout": "::fixture-ready::\n$ printf 'Checking endpoint status\\n'\nChecking endpoint status\n::exit-code::0\n$ curl -fsS -o /dev/null -w '%{http_code} %{time_total}s\\n' https://example.com/health\n200 0.042000s\n::exit-code::0\n",
+  "stderr": "",
+  "ok": true,
+  "security": {
+    "network": "none",
+    "capabilities": "dropped",
+    "no_new_privileges": true,
+    "memory": "256m",
+    "cpus": "1",
+    "pids_limit": 128,
+    "tmpfs": [
+      "/tmp",
+      "/var"
+    ]
+  }
+}

@@ -1,0 +1,7 @@
+::fixture-ready::
+$ printf 'Checking endpoint status\n'
+Checking endpoint status
+::exit-code::0
+$ curl -fsS -o /dev/null -w '%{http_code} %{time_total}s\n' https://example.com/health
+200 0.042000s
+::exit-code::0

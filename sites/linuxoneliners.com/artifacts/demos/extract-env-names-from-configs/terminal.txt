@@ -1,0 +1,11 @@
+::fixture-ready::
+$ sed -n '1,20p' config/app.env.example
+APP_ENV=staging
+NODE_ENV=production
+RAILS_ENV=production
+::exit-code::0
+$ grep -RhoE 'ENVIRONMENT|NODE_ENV|APP_ENV|RAILS_ENV' config deploy | sort -u
+APP_ENV
+NODE_ENV
+RAILS_ENV
+::exit-code::0

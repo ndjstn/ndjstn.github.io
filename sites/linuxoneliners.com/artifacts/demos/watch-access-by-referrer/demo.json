@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 201,
+  "elapsed_ms": 180,
   "stdout": "::fixture-ready::\n$ awk -F'\"' '{print $4}' /var/log/nginx/access.log\nhttps://www.linkedin.com/\n-\n-\n::exit-code::0\n$ awk -F'\"' '{print $4}' /var/log/nginx/access.log | sort | uniq -c | sort -nr | head\n      2 -\n      1 https://www.linkedin.com/\n::exit-code::0\n$ tail -n 3 /var/log/nginx/access.log\n198.51.100.20 - - [25/Jun/2026:10:01:00 +0000] \"GET / HTTP/1.1\" 200 512 \"https://www.linkedin.com/\" \"Mozilla/5.0\"\n198.51.100.21 - - [25/Jun/2026:10:02:00 +0000] \"GET /missing.css HTTP/1.1\" 404 120 \"-\" \"ScannerBot\"\n198.51.100.22 - - [25/Jun/2026:10:03:00 +0000] \"GET /api HTTP/1.1\" 502 90 \"-\" \"curl/8\"\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

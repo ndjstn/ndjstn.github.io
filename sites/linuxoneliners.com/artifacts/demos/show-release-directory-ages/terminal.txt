@@ -1,0 +1,9 @@
+::fixture-ready::
+$ find releases/ -mindepth 1 -maxdepth 1 -type d -print
+releases/2026-06-25-1215
+releases/2026-06-25-1200
+::exit-code::0
+$ find releases/ -mindepth 1 -maxdepth 1 -type d -printf '%T@ %TY-%Tm-%Td %TH:%TM %p\n' | sort -nr | head -10 | cut -d' ' -f2-
+2026-06-25 12:01 releases/2026-06-25-1215
+2026-06-25 12:01 releases/2026-06-25-1200
+::exit-code::0

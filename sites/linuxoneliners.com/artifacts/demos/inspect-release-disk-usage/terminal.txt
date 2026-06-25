@@ -1,0 +1,11 @@
+::fixture-ready::
+$ find releases -maxdepth 2 -type f -print
+releases/2026-06-25-1215/app.tar.gz
+releases/2026-06-25-1215/app.txt
+releases/2026-06-25-1200/app.txt
+::exit-code::0
+$ du -sh releases/* 2>/dev/null | sort -h | tail -10
+0	releases/current
+8.0K	releases/2026-06-25-1200
+12K	releases/2026-06-25-1215
+::exit-code::0

@@ -1,0 +1,25 @@
+{
+  "slug": "check-current-release-symlink",
+  "title": "Check the Current Release Symlink",
+  "fixture": "containers/deployment-triage-lab",
+  "command_count": 2,
+  "container_tool": "docker",
+  "image": "localhost/linuxoneliners-lab:latest",
+  "exit_code": 0,
+  "elapsed_ms": 175,
+  "stdout": "::fixture-ready::\n$ ls -l releases\ntotal 8\ndrwxr-xr-x 2 root root 4096 Jun 25 12:01 2026-06-25-1200\ndrwxr-xr-x 2 root root 4096 Jun 25 12:01 2026-06-25-1215\nlrwxrwxrwx 1 root root   15 Jun 25 12:01 current -> 2026-06-25-1215\n::exit-code::0\n$ readlink -f releases/current && ls -ld releases/current\n/lab/releases/2026-06-25-1215\nlrwxrwxrwx 1 root root 15 Jun 25 12:01 releases/current -> 2026-06-25-1215\n::exit-code::0\n",
+  "stderr": "",
+  "ok": true,
+  "security": {
+    "network": "none",
+    "capabilities": "dropped",
+    "no_new_privileges": true,
+    "memory": "256m",
+    "cpus": "1",
+    "pids_limit": 128,
+    "tmpfs": [
+      "/tmp",
+      "/var"
+    ]
+  }
+}
