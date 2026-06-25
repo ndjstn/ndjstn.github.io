@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 231,
+  "elapsed_ms": 193,
   "stdout": "::fixture-ready::\n$ cd /lab/ci-artifacts && find artifacts logs -type f | sort\nartifacts/build/app-build.log\nartifacts/build/webpack.log\nartifacts/coverage/coverage-summary.json\nartifacts/coverage/coverage-summary.txt\nartifacts/dist/assets/main.js\nartifacts/dist/assets/vendor.js\nartifacts/dist/index.html\nartifacts/test/junit.xml\nartifacts/test/pytest.log\nlogs/cache.log\nlogs/deploy.log\n::exit-code::0\n$ cd /lab/ci-artifacts && find artifacts logs -type f \\( -name '*.log' -o -name '*.txt' \\) -printf '%TY-%Tm-%Td %TH:%TM %p\\n' | sort -r | head\n2026-06-25 10:07 logs/cache.log\n2026-06-25 10:06 logs/deploy.log\n2026-06-25 10:05 artifacts/coverage/coverage-summary.txt\n2026-06-25 10:04 artifacts/build/app-build.log\n2026-06-25 10:03 artifacts/build/webpack.log\n2026-06-25 10:01 artifacts/test/pytest.log\n::exit-code::0\n$ cd /lab/ci-artifacts && sed -n '1,80p' artifacts/build/app-build.log\nStarting build\nResolving dependencies\nCompiling app\nERROR in src/server.ts:42: missing export createServer\nBuild failed with exit code 1\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

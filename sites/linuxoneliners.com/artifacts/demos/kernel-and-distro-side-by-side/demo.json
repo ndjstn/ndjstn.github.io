@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 211,
+  "elapsed_ms": 222,
   "stdout": "::fixture-ready::\n$ uname -a\nLinux pkg-demo 6.8.0-60-generic #63-Ubuntu SMP PREEMPT_DYNAMIC x86_64 GNU/Linux\n::exit-code::0\n$ printf 'kernel=%s arch=%s distro=%s\\n' \"$(uname -r)\" \"$(uname -m)\" \"$(lsb_release -ds)\"\nkernel=6.8.0-60-generic arch=x86_64 distro=Ubuntu 24.04.2 LTS\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

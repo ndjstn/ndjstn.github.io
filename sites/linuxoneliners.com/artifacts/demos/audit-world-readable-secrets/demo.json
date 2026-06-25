@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 232,
+  "elapsed_ms": 183,
   "stdout": "::fixture-ready::\n$ find fixtures/perm-audit -type f \\( -iname '*secret*' -o -iname '*.env' -o -iname '*token*' -o -iname '*key*' \\) -printf '%M %u:%g %p\\n' | sort\n-rw------- root:root fixtures/perm-audit/shared/secrets/prod.token\n-rw-r----- root:root fixtures/perm-audit/releases/2026-06-25/config/app.env\n-rw-r--r-- root:root fixtures/perm-audit/releases/2026-06-25/config/secret.key\n::exit-code::0\n$ find fixtures/perm-audit -type f -perm -0004 \\( -iname '*secret*' -o -iname '*.env' -o -iname '*token*' -o -iname '*key*' \\) -printf '%M %u:%g %p\\n' | sort\n-rw-r--r-- root:root fixtures/perm-audit/releases/2026-06-25/config/secret.key\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

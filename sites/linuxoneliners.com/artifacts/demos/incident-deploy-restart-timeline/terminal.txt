@@ -1,0 +1,14 @@
+::fixture-ready::
+$ ls fixtures/incidents/*.log
+fixtures/incidents/app.log
+fixtures/incidents/deploy.log
+::exit-code::0
+$ grep -Eh 'deploy|release|restart|started|stopped|rolled back' fixtures/incidents/*.log | sort
+2026-06-25T13:58:00Z deploy started release=2026.06.25.2 actor=ci
+2026-06-25T14:00:01Z level=INFO service=api request_id=req-100 msg=started release=2026.06.25.1
+2026-06-25T14:04:44Z deploy release_switch release=2026.06.25.2
+2026-06-25T14:04:44Z level=INFO service=deploy request_id=req-104 msg=release_switch release=2026.06.25.2
+2026-06-25T14:05:12Z level=INFO service=system request_id=req-106 msg=worker_restarted
+2026-06-25T14:05:12Z supervisor worker restarted after exit_code=137
+2026-06-25T14:09:30Z deploy rolled back release=2026.06.25.1 reason=error_rate
+::exit-code::0

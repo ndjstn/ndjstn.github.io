@@ -1,11 +1,11 @@
 ::fixture-ready::
 $ ls -l releases
 total 8
-drwxr-xr-x 2 root root 4096 Jun 25 23:32 2026-06-25-1200
-drwxr-xr-x 2 root root 4096 Jun 25 23:32 2026-06-25-1215
-lrwxrwxrwx 1 root root   15 Jun 25 23:32 current -> 2026-06-25-1215
+drwxr-xr-x 2 root root 4096 Jun 25 23:36 2026-06-25-1200
+drwxr-xr-x 2 root root 4096 Jun 25 23:36 2026-06-25-1215
+lrwxrwxrwx 1 root root   15 Jun 25 23:36 current -> 2026-06-25-1215
 ::exit-code::0
 $ readlink -f releases/current && ls -ld releases/current
 /lab/releases/2026-06-25-1215
-lrwxrwxrwx 1 root root 15 Jun 25 23:32 releases/current -> 2026-06-25-1215
+lrwxrwxrwx 1 root root 15 Jun 25 23:36 releases/current -> 2026-06-25-1215
 ::exit-code::0

@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 223,
+  "elapsed_ms": 190,
   "stdout": "::fixture-ready::\n$ nft list ruleset\ntable inet filter {\n  chain input {\n    type filter hook input priority 0; policy drop;\n    ct state established,related accept\n    iif \"lo\" accept\n    tcp dport 22 ip saddr 203.0.113.0/24 accept\n    tcp dport { 80, 443 } accept\n    tcp dport 25 accept\n    tcp dport 5432 drop\n  }\n}\n::exit-code::0\n$ nft list ruleset | sed -n '/chain input/,/}/p'\n  chain input {\n    type filter hook input priority 0; policy drop;\n    ct state established,related accept\n    iif \"lo\" accept\n    tcp dport 22 ip saddr 203.0.113.0/24 accept\n    tcp dport { 80, 443 } accept\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

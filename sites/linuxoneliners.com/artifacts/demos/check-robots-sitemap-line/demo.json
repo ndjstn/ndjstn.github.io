@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 210,
+  "elapsed_ms": 200,
   "stdout": "::fixture-ready::\n$ cat public/robots.txt\nUser-agent: *\nDisallow: /admin\nSitemap: https://example.com/sitemap.xml\n::exit-code::0\n$ grep -n '^Sitemap:' public/robots.txt\n3:Sitemap: https://example.com/sitemap.xml\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

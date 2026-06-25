@@ -1,0 +1,14 @@
+::fixture-ready::
+$ journalctl -p warning..alert --since "2 hours ago" --no-pager -o short-iso
+2026-06-25T14:02:06+00:00 vps api[1842]: warning upstream_slow upstream=db latency_ms=2200
+2026-06-25T14:03:08+00:00 vps api[1842]: err request_id=req-103 ERROR database timeout after 30000ms
+2026-06-25T14:03:12+00:00 vps api[1842]: err request_id=req-103 ERROR retry failed upstream=db
+2026-06-25T14:05:10+00:00 vps worker[2201]: crit FATAL job runner exited code=137
+2026-06-25T14:05:12+00:00 vps systemd[1]: warning worker.service restarted
+2026-06-25T14:06:33+00:00 vps api[1842]: err request_id=req-107 ERROR payment provider returned 500
+::exit-code::0
+$ journalctl -p warning..alert --since "2 hours ago" --no-pager -o short-iso | awk '{count[$4]++} END {for (level in count) print count[level], level}' | sort -nr
+3 err
+2 warning
+1 crit
+::exit-code::0

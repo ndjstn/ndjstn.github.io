@@ -1,0 +1,9 @@
+::fixture-ready::
+$ journalctl -k --since "2 hours ago" --no-pager -o short-iso
+2026-06-25T14:05:09+00:00 vps kernel: warning Memory cgroup out of memory: Killed process 2201 worker total-vm:512000kB
+2026-06-25T14:05:10+00:00 vps kernel: err oom_reaper: reaped process 2201 worker
+::exit-code::0
+$ journalctl -k --since "2 hours ago" --no-pager -o short-iso | grep -Ei 'out of memory|oom|killed process'
+2026-06-25T14:05:09+00:00 vps kernel: warning Memory cgroup out of memory: Killed process 2201 worker total-vm:512000kB
+2026-06-25T14:05:10+00:00 vps kernel: err oom_reaper: reaped process 2201 worker
+::exit-code::0

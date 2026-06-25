@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 208,
+  "elapsed_ms": 182,
   "stdout": "::fixture-ready::\n$ grep -Rho --include='*.html' 'href=\"/[^\"]*\"' public | sed 's#href=\"##;s#\"##' | sort -u\n/\n/assets/site.css\n/blog/post.html\n/missing.html\n::exit-code::0\n$ grep -Rho --include='*.html' 'href=\"/[^\"]*\"' public | sed 's#href=\"##;s#\"##' | while read -r path; do test -e \"public${path}\" || echo \"$path\"; done | sort -u\n/missing.html\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

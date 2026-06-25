@@ -1,0 +1,12 @@
+::fixture-ready::
+$ ls fixtures/incidents
+app.log
+deploy.log
+kernel.journal
+system.journal
+::exit-code::0
+$ wc -l fixtures/incidents/*.log | sort -nr
+  14 total
+  10 fixtures/incidents/app.log
+   4 fixtures/incidents/deploy.log
+::exit-code::0

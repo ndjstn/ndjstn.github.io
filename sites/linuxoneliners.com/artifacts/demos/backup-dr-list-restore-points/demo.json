@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 231,
+  "elapsed_ms": 202,
   "stdout": "::fixture-ready::\n$ cd restore-dr && find backups -maxdepth 2 -type f -name MANIFEST.txt -print | sort\nbackups/2026-06-24/MANIFEST.txt\nbackups/2026-06-25/MANIFEST.txt\n::exit-code::0\n$ cd restore-dr && find backups -maxdepth 2 -type f -name MANIFEST.txt -printf '%TY-%Tm-%Td %TH:%TM %h\\n' | sort -r\n2026-06-25 12:00 backups/2026-06-25\n2026-06-25 12:00 backups/2026-06-24\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

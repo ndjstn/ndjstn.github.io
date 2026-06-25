@@ -1,6 +1,6 @@
 ::fixture-ready::
 $ ls -lh archives/site-backup.tar
--rw-r--r-- 1 root root 10K Jun 25 23:31 archives/site-backup.tar
+-rw-r--r-- 1 root root 10K Jun 25 23:36 archives/site-backup.tar
 ::exit-code::0
 $ tar -tf archives/site-backup.tar | sort | head
 ./
