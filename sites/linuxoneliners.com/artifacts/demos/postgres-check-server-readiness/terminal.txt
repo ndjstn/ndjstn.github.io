@@ -1,0 +1,10 @@
+::fixture-ready::
+$ pg_isready -h 127.0.0.1 -p 5432
+127.0.0.1:5432 - accepting connections
+::exit-code::0
+$ pg_isready -h 127.0.0.1 -p 15432 || true
+127.0.0.1:15432 - no response
+::exit-code::0
+$ ss -ltnp | grep ':5432'
+LISTEN 0      128    127.0.0.1:5432      0.0.0.0:* users:(("postgres",pid=421,fd=5))
+::exit-code::0

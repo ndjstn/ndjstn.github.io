@@ -1,0 +1,18 @@
+::fixture-ready::
+$ df -h /var/lib/mysql
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/vdb1        80G   59G   17G  78% /var/lib/mysql
+::exit-code::0
+$ mysql -e "select table_schema, round(sum(data_length + index_length)/1024/1024, 1) as mb from information_schema.tables group by table_schema order by mb desc;"
+table_schema	mb
+shop	512.4
+analytics	240.8
+mysql	18.2
+::exit-code::0
+$ mysql -e "show databases;"
+Database
+analytics
+information_schema
+mysql
+shop
+::exit-code::0

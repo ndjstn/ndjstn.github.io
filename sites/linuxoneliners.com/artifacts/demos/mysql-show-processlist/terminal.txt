@@ -1,0 +1,16 @@
+::fixture-ready::
+$ mysqladmin status
+Uptime: 86400  Threads: 7  Questions: 23890  Slow queries: 3  Opens: 112  Open tables: 64  Queries per second avg: 0.276
+::exit-code::0
+$ mysql -e "show processlist;"
+Id	User	Host	db	Command	Time	State	Info
+17	app	10.0.0.12	shop	Query	91	Sending data	select * from orders
+18	app	10.0.0.13	shop	Sleep	20		NULL
+22	report	10.0.0.30	analytics	Query	680	Copying to tmp table	select customer_id
+::exit-code::0
+$ mysql -e "show full processlist;"
+Id	User	Host	db	Command	Time	State	Info
+17	app	10.0.0.12	shop	Query	91	Sending data	select * from orders join order_items
+18	app	10.0.0.13	shop	Sleep	20		NULL
+22	report	10.0.0.30	analytics	Query	680	Copying to tmp table	select customer_id, sum(total) from orders group by customer_id
+::exit-code::0

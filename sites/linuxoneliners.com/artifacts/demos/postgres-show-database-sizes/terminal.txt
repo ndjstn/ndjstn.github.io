@@ -1,0 +1,21 @@
+::fixture-ready::
+$ df -h /var/lib/postgresql
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/vda1        40G   27G   11G  72% /var/lib/postgresql
+::exit-code::0
+$ psql -X -c "select datname, pg_size_pretty(pg_database_size(datname)) as size from pg_database order by pg_database_size(datname) desc;"
+ datname  |  size
+----------+--------
+ app_prod | 384 MB
+ app_test | 42 MB
+ postgres | 11 MB
+(3 rows)
+::exit-code::0
+$ psql -X -c "select datname from pg_database order by datname;"
+ datname
+----------
+ app_prod
+ app_test
+ postgres
+(3 rows)
+::exit-code::0

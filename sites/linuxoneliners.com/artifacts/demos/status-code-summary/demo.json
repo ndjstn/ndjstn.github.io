@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 214,
+  "elapsed_ms": 182,
   "stdout": "::fixture-ready::\n$ head -5 ./fixtures/nginx/access.log\n198.51.100.10 - - [25/Jun/2026:10:00:01 +0000] \"GET / HTTP/1.1\" 200 512 \"-\" \"Mozilla/5.0\"\n198.51.100.11 - - [25/Jun/2026:10:00:03 +0000] \"GET /docs HTTP/1.1\" 200 2048 \"https://example.test/\" \"Mozilla/5.0\"\n198.51.100.12 - - [25/Jun/2026:10:00:08 +0000] \"POST /api/search HTTP/1.1\" 200 900 \"-\" \"Mozilla/5.0\"\n203.0.113.44 - - [25/Jun/2026:10:01:01 +0000] \"GET /missing HTTP/1.1\" 404 120 \"-\" \"ScannerBot/1.0\"\n203.0.113.44 - - [25/Jun/2026:10:01:03 +0000] \"GET /missing HTTP/1.1\" 404 120 \"-\" \"ScannerBot/1.0\"\n::exit-code::0\n$ awk '{count[$9]++} END {for (code in count) print count[code], code}' ./fixtures/nginx/access.log | sort -nr\n13 200\n5 404\n2 405\n2 403\n1 503\n1 502\n1 500\n::exit-code::0\n$ awk '$9 ~ /^5/ {print $1, $7, $9}' ./fixtures/nginx/access.log\n198.51.100.21 /api/report 500\n198.51.100.22 /api/report 502\n198.51.100.23 /api/report 503\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

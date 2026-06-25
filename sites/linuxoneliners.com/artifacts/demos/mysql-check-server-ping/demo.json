@@ -1,0 +1,25 @@
+{
+  "slug": "mysql-check-server-ping",
+  "title": "Check Whether MySQL Responds",
+  "fixture": "containers/db-first-response-lab",
+  "command_count": 3,
+  "container_tool": "docker",
+  "image": "localhost/linuxoneliners-lab:latest",
+  "exit_code": 0,
+  "elapsed_ms": 190,
+  "stdout": "::fixture-ready::\n$ mysqladmin ping -h 127.0.0.1 -P 3306\nmysqld is alive\n::exit-code::0\n$ mysqladmin status\nUptime: 86400  Threads: 7  Questions: 23890  Slow queries: 3  Opens: 112  Open tables: 64  Queries per second avg: 0.276\n::exit-code::0\n$ ss -ltnp | grep ':3306'\nLISTEN 0      151    0.0.0.0:3306       0.0.0.0:* users:((\"mysqld\",pid=733,fd=22))\n::exit-code::0\n",
+  "stderr": "",
+  "ok": true,
+  "security": {
+    "network": "none",
+    "capabilities": "dropped",
+    "no_new_privileges": true,
+    "memory": "256m",
+    "cpus": "1",
+    "pids_limit": 128,
+    "tmpfs": [
+      "/tmp",
+      "/var"
+    ]
+  }
+}

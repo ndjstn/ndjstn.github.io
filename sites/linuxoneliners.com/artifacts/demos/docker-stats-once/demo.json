@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 208,
+  "elapsed_ms": 176,
   "stdout": "::fixture-ready::\n$ docker stats --no-stream --format 'table {{.Name}}\\t{{.CPUPerc}}\\t{{.MemUsage}}\\t{{.NetIO}}\\t{{.BlockIO}}'\nNAME    CPU %     MEM USAGE / LIMIT     NET I/O        BLOCK I/O\nweb     0.12%     42.1MiB / 512MiB      1.2MB / 880kB  4.1MB / 0B\napi     8.40%     180.4MiB / 512MiB     3.8MB / 1.1MB  18MB / 2MB\n::exit-code::0\n$ docker stats --no-stream web\nCONTAINER ID   NAME  CPU %  MEM USAGE / LIMIT\nabc123         web   0.12%  42.1MiB / 512MiB\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

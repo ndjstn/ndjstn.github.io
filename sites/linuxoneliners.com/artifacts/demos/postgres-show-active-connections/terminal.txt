@@ -1,0 +1,20 @@
+::fixture-ready::
+$ psql -X -c "select count(*) from pg_stat_activity;"
+ count
+-------
+     5
+(1 row)
+::exit-code::0
+$ psql -X -A -F '|' -c "select pid,usename,datname,state,client_addr from pg_stat_activity order by state, pid;"
+pid|usename|datname|state|client_addr
+511|app|app_prod|active|10.0.0.12
+512|app|app_prod|idle|10.0.0.13
+518|migrator|app_prod|active|10.0.0.20
+::exit-code::0
+$ psql -X -c "select state, count(*) from pg_stat_activity group by state order by state;"
+ state  | count
+--------+-------
+ active |     2
+ idle   |     2
+(2 rows)
+::exit-code::0

@@ -1,0 +1,10 @@
+::fixture-ready::
+$ mysqladmin ping -h 127.0.0.1 -P 3306
+mysqld is alive
+::exit-code::0
+$ mysqladmin status
+Uptime: 86400  Threads: 7  Questions: 23890  Slow queries: 3  Opens: 112  Open tables: 64  Queries per second avg: 0.276
+::exit-code::0
+$ ss -ltnp | grep ':3306'
+LISTEN 0      151    0.0.0.0:3306       0.0.0.0:* users:(("mysqld",pid=733,fd=22))
+::exit-code::0
