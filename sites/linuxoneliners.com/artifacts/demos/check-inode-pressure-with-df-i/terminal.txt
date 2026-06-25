@@ -1,0 +1,11 @@
+::fixture-ready::
+$ df -h
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/vda1        25G   23G  1.1G  96% /
+tmpfs           982M   12M  970M   2% /run
+::exit-code::0
+$ df -ih
+Filesystem     Inodes IUsed IFree IUse% Mounted on
+/dev/vda1        512K  501K   11K   98% /
+tmpfs            245K    12  245K    1% /run
+::exit-code::0

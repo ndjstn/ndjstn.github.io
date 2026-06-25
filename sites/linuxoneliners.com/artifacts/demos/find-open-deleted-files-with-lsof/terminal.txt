@@ -1,0 +1,11 @@
+::fixture-ready::
+$ df -h
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/vda1        25G   23G  1.1G  96% /
+tmpfs           982M   12M  970M   2% /run
+::exit-code::0
+$ lsof +L1
+COMMAND   PID USER   FD   TYPE DEVICE SIZE/OFF NLINK NODE NAME
+nginx    1907 www    12w   REG  253,1 524288000     0 9123 /var/log/nginx/access.log (deleted)
+worker   1842 app     5w   REG  253,1 104857600     0 9911 /tmp/job-output.log (deleted)
+::exit-code::0

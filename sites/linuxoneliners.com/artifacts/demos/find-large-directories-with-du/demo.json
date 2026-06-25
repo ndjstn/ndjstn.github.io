@@ -1,0 +1,25 @@
+{
+  "slug": "find-large-directories-with-du",
+  "title": "Find Large Directories with du",
+  "fixture": "containers/process-resource-lab",
+  "command_count": 2,
+  "container_tool": "docker",
+  "image": "localhost/linuxoneliners-lab:latest",
+  "exit_code": 0,
+  "elapsed_ms": 203,
+  "stdout": "::fixture-ready::\n$ df -h\nFilesystem      Size  Used Avail Use% Mounted on\n/dev/vda1        25G   23G  1.1G  96% /\ntmpfs           982M   12M  970M   2% /run\n::exit-code::0\n$ du -xh --max-depth=1 /var 2>/dev/null | sort -h\n24M\t/var/tmp\n180M\t/var/cache\n1.4G\t/var/log\n3.8G\t/var/lib\n::exit-code::0\n",
+  "stderr": "",
+  "ok": true,
+  "security": {
+    "network": "none",
+    "capabilities": "dropped",
+    "no_new_privileges": true,
+    "memory": "256m",
+    "cpus": "1",
+    "pids_limit": 128,
+    "tmpfs": [
+      "/tmp",
+      "/var"
+    ]
+  }
+}

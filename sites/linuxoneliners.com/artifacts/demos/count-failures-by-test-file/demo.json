@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 189,
+  "elapsed_ms": 222,
   "stdout": "::fixture-ready::\n$ cat logs/test.log\nfail tests/checkout.spec.ts\nfail tests/login.spec.ts\nfail tests/checkout.spec.ts\n::exit-code::0\n$ grep -RhoE '[A-Za-z0-9_./-]+\\.(test|spec)\\.(js|ts|py|rb)' logs/ | sort | uniq -c | sort -nr | head\n      2 tests/checkout.spec.ts\n      1 tests/login.spec.ts\n      1 checkout.spec.ts\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

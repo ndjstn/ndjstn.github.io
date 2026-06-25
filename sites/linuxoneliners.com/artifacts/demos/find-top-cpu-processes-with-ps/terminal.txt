@@ -1,0 +1,10 @@
+::fixture-ready::
+$ uptime
+ 12:32:44 up 18 days,  3:11,  2 users,  load average: 3.91, 2.44, 1.08
+::exit-code::0
+$ ps -eo pid,ppid,stat,pcpu,pmem,comm,args --sort=-pcpu | head -n 10
+  PID  PPID STAT %CPU %MEM COMMAND         COMMAND
+ 1842     1 R    86.4  4.2  app-worker     /srv/app/worker --jobs
+ 1907     1 S    12.8  1.1  nginx          nginx: worker process
+ 2011     1 S     4.5  7.9  postgres       postgres: checkpointer
+::exit-code::0
