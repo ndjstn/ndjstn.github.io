@@ -52,6 +52,47 @@ Start with one site-specific backend, then extract shared operator tooling later
 /admin               private dashboard
 ```
 
+## SSO And Comments
+
+Comments should use SSO, not local passwords, unless there is a strong reason later.
+
+Recommended providers:
+
+- Google
+- GitHub
+- Apple
+- LinkedIn only if API access and terms make sense
+
+Minimum comment flow:
+
+```text
+visitor -> SSO -> profile record -> comment draft -> moderation check -> publish or queue
+```
+
+Do not ship anonymous public comments first. They create spam and moderation debt.
+
+User profile fields to store:
+
+- provider
+- provider subject id
+- display name
+- email only if provider grants it and policy discloses it
+- avatar URL only if needed
+- role
+- status
+
+Comment controls:
+
+- rate limit by user/session/IP
+- block repeated links
+- block secrets and private keys
+- block destructive command suggestions until reviewed
+- keep audit history
+- allow user deletion/anonymization policy
+- mark expert/maintainer comments separately
+
+The moderation engine belongs to the retained operator platform unless sold explicitly.
+
 ## Dashboard Jobs
 
 The dashboard should answer:

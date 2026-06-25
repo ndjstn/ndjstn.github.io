@@ -1,65 +1,107 @@
 {
-  "generated_at": "2026-06-25T11:03:06Z",
+  "generated_at": "2026-06-25T11:15:04Z",
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
-  "total": 8,
-  "passed": 8,
+  "total": 14,
+  "passed": 14,
   "failed": [],
   "results": [
     {
       "slug": "curl-resolve-site-check",
       "title": "Your Site Is Not Down. DNS Might Be Lying.",
       "ok": true,
-      "elapsed_ms": 203,
+      "elapsed_ms": 182,
       "command_count": 3
     },
     {
       "slug": "find-large-files",
       "title": "Find the Files Eating Your Disk",
       "ok": true,
-      "elapsed_ms": 185,
+      "elapsed_ms": 159,
       "command_count": 3
     },
     {
       "slug": "rsync-dry-run",
       "title": "Run Rsync Without Deleting Your Backup",
       "ok": true,
-      "elapsed_ms": 278,
+      "elapsed_ms": 268,
       "command_count": 3
     },
     {
       "slug": "tail-live-logs",
       "title": "Watch Logs Without Opening the Whole File",
       "ok": true,
-      "elapsed_ms": 4204,
+      "elapsed_ms": 4178,
       "command_count": 3
     },
     {
       "slug": "grep-errors-in-logs",
       "title": "Find Errors Before Reading Every Log Line",
       "ok": true,
-      "elapsed_ms": 180,
+      "elapsed_ms": 207,
       "command_count": 3
     },
     {
       "slug": "check-listening-ports",
       "title": "Check What Is Actually Listening",
       "ok": true,
-      "elapsed_ms": 205,
+      "elapsed_ms": 197,
       "command_count": 3
     },
     {
       "slug": "inspect-permissions",
       "title": "Inspect Permissions Before Changing Them",
       "ok": true,
-      "elapsed_ms": 172,
+      "elapsed_ms": 171,
       "command_count": 3
     },
     {
       "slug": "grep-line-numbers",
       "title": "Find the Exact Log Line Before You Scroll",
       "ok": true,
-      "elapsed_ms": 186,
+      "elapsed_ms": 177,
+      "command_count": 3
+    },
+    {
+      "slug": "disk-usage-by-folder",
+      "title": "Find Which Folder Is Filling the Disk",
+      "ok": true,
+      "elapsed_ms": 184,
+      "command_count": 3
+    },
+    {
+      "slug": "recent-log-errors",
+      "title": "Show Only Recent Errors",
+      "ok": true,
+      "elapsed_ms": 185,
+      "command_count": 3
+    },
+    {
+      "slug": "rsync-show-deletes",
+      "title": "Preview What Rsync Would Delete",
+      "ok": true,
+      "elapsed_ms": 312,
+      "command_count": 3
+    },
+    {
+      "slug": "file-owner-and-mode",
+      "title": "Check Owner and Mode in One Line",
+      "ok": true,
+      "elapsed_ms": 174,
+      "command_count": 3
+    },
+    {
+      "slug": "list-processes-by-memory",
+      "title": "Find the Processes Using Memory",
+      "ok": true,
+      "elapsed_ms": 210,
+      "command_count": 3
+    },
+    {
+      "slug": "show-top-files-human",
+      "title": "Show Big Files in Human Units",
+      "ok": true,
+      "elapsed_ms": 193,
       "command_count": 3
     }
   ]

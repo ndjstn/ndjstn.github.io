@@ -1,0 +1,16 @@
+::fixture-ready::
+$ stat -c '%A %U:%G %n' /var/www/example/index.html
+-rw-r----- root:root /var/www/example/index.html
+::exit-code::0
+$ namei -l /var/www/example/index.html
+f: /var/www/example/index.html
+drwxr-xr-x root root /
+drwxr-xr-x root root var
+drwxr-x--- root root www
+drwxr-x--- root root example
+-rw-r----- root root index.html
+::exit-code::0
+$ ls -ld /var/www /var/www/example
+drwxr-x--- 3 root root 60 Jun 25 11:15 /var/www
+drwxr-x--- 2 root root 60 Jun 25 11:15 /var/www/example
+::exit-code::0

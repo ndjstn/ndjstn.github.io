@@ -66,7 +66,11 @@ demo_by_slug = if demo_summary
 
 helpers = {
   "series_title" => lambda { |id| series_by_id.fetch(id).fetch("title") },
-  "demo_for" => lambda { |slug| demo_by_slug[slug] }
+  "demo_for" => lambda { |slug| demo_by_slug[slug] },
+  "demo_terminal" => lambda { |slug|
+    path = File.join(DEMO_ARTIFACTS, slug, "terminal.txt")
+    File.exist?(path) ? File.read(path) : nil
+  }
 }
 
 def render_page(body:, title:, description:, root_path:, asset_path:)
@@ -117,6 +121,7 @@ CONTENT["lessons"].each do |lesson|
     {
       "lesson" => lesson,
       "demo" => demo_by_slug[lesson["slug"]],
+      "terminal_output" => helpers["demo_terminal"].call(lesson["slug"]),
       "root_path" => "/",
       "asset_path" => "/",
       **helpers
@@ -129,6 +134,34 @@ CONTENT["lessons"].each do |lesson|
       body: body,
       title: "#{lesson["title"]} | #{CONTENT["site"]["name"]}",
       description: lesson["problem"],
+      root_path: "/",
+      asset_path: "/"
+    )
+  )
+end
+
+CONTENT["series"].each do |series|
+  series_dir = File.join(DIST, "series", series["id"])
+  FileUtils.mkdir_p(series_dir)
+  series_lessons = CONTENT["lessons"].select { |lesson| lesson["series"] == series["id"] }
+
+  body = render_template(
+    "series",
+    {
+      "series_item" => series,
+      "lessons" => series_lessons,
+      "root_path" => "/",
+      "asset_path" => "/",
+      **helpers
+    }
+  )
+
+  File.write(
+    File.join(series_dir, "index.html"),
+    render_page(
+      body: body,
+      title: "#{series["title"]} | #{CONTENT["site"]["name"]}",
+      description: series["summary"],
       root_path: "/",
       asset_path: "/"
     )

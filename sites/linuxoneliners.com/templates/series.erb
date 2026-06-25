@@ -1,0 +1,38 @@
+<main>
+  <section class="hero compact-hero">
+    <p class="eyebrow">problem area</p>
+    <h1><%= series_item["title"] %></h1>
+    <p class="lede"><%= series_item["summary"] %></p>
+    <div class="hero-actions">
+      <a class="button" href="#lessons">View fixes</a>
+      <a class="button ghost" href="/">All problem areas</a>
+    </div>
+  </section>
+
+  <section id="lessons" class="section">
+    <div class="section-heading">
+      <p class="eyebrow"><%= lessons.length %> checked fixes</p>
+      <h2>One-liners in this area</h2>
+    </div>
+    <% if lessons.any? %>
+      <div class="lesson-grid">
+        <% lessons.each do |lesson| %>
+          <article class="lesson-card">
+            <div class="card-meta">
+              <span><%= series_item["title"] %></span>
+              <span class="danger <%= lesson["danger"] %>"><%= lesson["danger"] %></span>
+            </div>
+            <h3><a href="/lessons/<%= lesson["slug"] %>/"><%= lesson["title"] %></a></h3>
+            <p><%= lesson["hook"] %></p>
+            <code><%= lesson["command"] %></code>
+          </article>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="promo-card">
+        <h3>Queued for expansion</h3>
+        <p>This category is in the candidate backlog and will get pages after fixture and safety checks.</p>
+      </div>
+    <% end %>
+  </section>
+</main>

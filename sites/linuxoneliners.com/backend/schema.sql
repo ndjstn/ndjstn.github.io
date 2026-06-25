@@ -11,6 +11,17 @@ create table if not exists users (
   updated_at timestamptz not null default now()
 );
 
+create table if not exists identities (
+  id bigserial primary key,
+  user_id bigint not null references users(id) on delete cascade,
+  provider text not null,
+  provider_subject text not null,
+  email text,
+  avatar_url text,
+  created_at timestamptz not null default now(),
+  unique (provider, provider_subject)
+);
+
 create table if not exists sessions (
   id bigserial primary key,
   user_id bigint references users(id) on delete cascade,

@@ -1,0 +1,16 @@
+::fixture-ready::
+$ find /var -type f -printf '%s %p\n' | sort -nr | head -10
+196608 /var/cache/demo/blob.cache
+98304 /var/log/app.log
+65536 /var/backups/site.tar
+::exit-code::0
+$ find /var -type f -printf '%s %p\n' | sort -nr | head -10 | awk '{printf "%.1f MB %s\n", $1/1024/1024, $2}'
+0.2 MB /var/cache/demo/blob.cache
+0.1 MB /var/log/app.log
+0.1 MB /var/backups/site.tar
+::exit-code::0
+$ du -sh /var/* 2>/dev/null | sort -h
+64K	/var/backups
+96K	/var/log
+192K	/var/cache
+::exit-code::0

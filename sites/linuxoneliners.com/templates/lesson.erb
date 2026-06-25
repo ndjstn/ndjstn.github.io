@@ -56,6 +56,20 @@
       <% end %>
     </section>
 
+    <% if terminal_output %>
+      <section class="section">
+        <p class="eyebrow">simulated output</p>
+        <h2>What it looks like</h2>
+        <div class="terminal-window">
+          <div class="terminal-bar">
+            <span></span><span></span><span></span>
+            <strong>disposable vessel</strong>
+          </div>
+          <pre><code><%= terminal_output %></code></pre>
+        </div>
+      </section>
+    <% end %>
+
     <section class="section split">
       <div>
         <p class="eyebrow">YouTube Short</p>

@@ -2,21 +2,21 @@
   "site": {
     "name": "Linux One Liners",
     "domain": "linuxoneliners.com",
-    "tagline": "Tiny commands. Real failures. Safer fixes.",
-    "description": "A command rescue library and short-form Linux ops lab built from reproducible terminal demos.",
+    "tagline": "Fix Linux problems with commands you can inspect first.",
+    "description": "Short, copyable Linux commands with safety notes, when-not-to-use guidance, and simulated output from disposable demo environments.",
     "ads_status": "off_until_traffic_signal",
     "build_status": {
       "phase": "live scaffold",
       "status": "shipping small slices",
-      "now_building": "eight lessons, owned analytics, isolated demo vessels, and a backend plan for conversions, ads, comments, and sale carve-outs",
+      "now_building": "fourteen issue-focused lessons with visible simulated output, owned analytics, and isolated demo vessels",
       "next_up": [
         "publish ten Linux Survival Basics lessons to test search demand",
-        "export Shorts and LinkedIn copy to drive traffic back here",
+        "add web hosting, DNS, SSL, and VPS troubleshooting fixes",
+        "add defensive cybersecurity triage commands",
+        "add Apple/macOS terminal fixes",
+        "add comments with SSO after moderation controls are ready",
         "collect first-party page, click, copy, scroll, referrer, viewport, and timing events",
-        "build the private dashboard for LinkedIn and YouTube conversion tracking",
-        "separate sellable site data from retained operator tools",
-        "test affiliate/product placements only after traffic shows intent",
-        "keep monthly revenue, expense, and traffic proof ready for sale diligence"
+        "expand useful pages into short videos and deeper troubleshooting paths"
       ]
     },
     "traffic_gate": {
@@ -43,6 +43,24 @@
       "title": "Dangerous Commands",
       "summary": "Commands worth understanding before copying from the internet.",
       "audience": "anyone with shell access to a system they care about"
+    },
+    {
+      "id": "cybersecurity-triage",
+      "title": "Cybersecurity Triage",
+      "summary": "Defensive commands for checking exposure, logs, permissions, and suspicious activity.",
+      "audience": "site owners, students, junior analysts, and defensive operators"
+    },
+    {
+      "id": "hosting-operations",
+      "title": "Hosting Operations",
+      "summary": "Web hosting, SSL, DNS, Nginx, deployment, backups, and VPS management.",
+      "audience": "solo founders, developers, and small site operators"
+    },
+    {
+      "id": "apple-terminal",
+      "title": "Apple Terminal",
+      "summary": "macOS and Apple-adjacent terminal workflows for developers and power users.",
+      "audience": "Mac users who need practical terminal fixes"
     }
   ],
   "lessons": [
@@ -411,6 +429,282 @@
           "metric": "linkedin_save_rate",
           "variant_a": "Find the exact log line before you scroll.",
           "variant_b": "Use `grep -n` before reading the whole log."
+        }
+      ]
+    },
+    {
+      "slug": "disk-usage-by-folder",
+      "title": "Find Which Folder Is Filling the Disk",
+      "series": "linux-survival-basics",
+      "hook": "The disk was full. The fastest clue was the folder, not the file.",
+      "problem": "A server is low on disk and you need a quick folder-level view before drilling into files.",
+      "command": "du -sh /var/* 2>/dev/null | sort -h",
+      "danger": "safe",
+      "starting_state": "Disk pressure is visible, but the largest top-level directory is unknown.",
+      "what_changed": "Nothing changes. The command prints human-readable folder sizes and sorts them.",
+      "when_to_use": "Use this before deeper `find` searches or cleanup decisions.",
+      "when_not_to_use": "Avoid assuming the largest folder is safe to delete; size is not ownership or importance.",
+      "undo": "No state is changed.",
+      "expected_output": "A sorted list of directory sizes under `/var`.",
+      "terminal_demo": {
+        "fixture": "containers/file-lab",
+        "commands": [
+          "df -h",
+          "du -sh /var/* 2>/dev/null | sort -h",
+          "du -sh /var/log /var/cache /var/backups 2>/dev/null"
+        ]
+      },
+      "shorts": {
+        "format": "vertical",
+        "duration_target_seconds": 30,
+        "title": "Find the folder filling your disk.",
+        "voiceover": "Start broad. Find the folder that is growing before you chase individual files.",
+        "caption": "Folder-level disk triage first."
+      },
+      "linkedin": {
+        "question": "Do you start disk cleanup with `du` or `find`?",
+        "cta": "Full disk triage demo"
+      },
+      "youtube": {
+        "playlist": "Linux Survival Basics",
+        "description": "A quick folder-level disk usage command for Linux cleanup triage."
+      },
+      "experiments": [
+        {
+          "id": "disk_folder_hook",
+          "metric": "search_click_rate",
+          "variant_a": "Find which folder is filling the disk.",
+          "variant_b": "Start disk cleanup with this broad check."
+        }
+      ]
+    },
+    {
+      "slug": "recent-log-errors",
+      "title": "Show Only Recent Errors",
+      "series": "linux-survival-basics",
+      "hook": "The log had old failures too. I only cared about the newest ones.",
+      "problem": "A noisy log contains old and new errors, and you need the most recent likely failures.",
+      "command": "grep -iE 'error|failed|denied|timeout' /var/log/nginx/error.log | tail -10",
+      "danger": "safe",
+      "starting_state": "The log has multiple historical messages mixed together.",
+      "what_changed": "Nothing changes. The command filters likely failures and keeps the latest matches.",
+      "when_to_use": "Use this during incident triage when recent failures matter more than old history.",
+      "when_not_to_use": "Do not use it as a complete incident report; it intentionally drops older context.",
+      "undo": "No state is changed.",
+      "expected_output": "The newest matching failure lines.",
+      "terminal_demo": {
+        "fixture": "containers/log-lab",
+        "commands": [
+          "tail -n 5 /var/log/nginx/error.log",
+          "grep -iE 'error|failed|denied|timeout' /var/log/nginx/error.log | tail -10",
+          "grep -inE 'error|failed|denied|timeout' /var/log/nginx/error.log | tail -10"
+        ]
+      },
+      "shorts": {
+        "format": "vertical",
+        "duration_target_seconds": 30,
+        "title": "Show the newest errors only.",
+        "voiceover": "Old log lines can waste your time. Filter the likely errors and keep the newest matches first.",
+        "caption": "Recent errors beat endless scrolling."
+      },
+      "linkedin": {
+        "question": "When logs are noisy, do you filter first or tail first?",
+        "cta": "Full recent-error demo"
+      },
+      "youtube": {
+        "playlist": "Linux Survival Basics",
+        "description": "A short Linux command for showing recent error lines in noisy logs."
+      },
+      "experiments": [
+        {
+          "id": "recent_errors_hook",
+          "metric": "linkedin_save_rate",
+          "variant_a": "Show only recent errors.",
+          "variant_b": "Stop reading old failures during a new incident."
+        }
+      ]
+    },
+    {
+      "slug": "rsync-show-deletes",
+      "title": "Preview What Rsync Would Delete",
+      "series": "dangerous-commands",
+      "hook": "`rsync --delete` is useful. It is also how people erase the wrong side.",
+      "problem": "You need to know which files rsync would delete before running a real sync.",
+      "command": "rsync -avhn --delete ./source/ ./backup/ | grep '^deleting'",
+      "danger": "caution",
+      "starting_state": "The destination contains files that may not exist in the source.",
+      "what_changed": "Nothing changes because `-n` performs a dry run.",
+      "when_to_use": "Use this before allowing rsync to delete anything.",
+      "when_not_to_use": "Do not remove `-n` until paths and direction are confirmed.",
+      "undo": "No state is changed during the dry run.",
+      "expected_output": "Lines showing files that would be deleted.",
+      "terminal_demo": {
+        "fixture": "containers/rsync-lab",
+        "commands": [
+          "find source backup -maxdepth 2 -type f | sort",
+          "rsync -avhn --delete ./source/ ./backup/",
+          "rsync -avhn --delete ./source/ ./backup/ | grep '^deleting'"
+        ]
+      },
+      "shorts": {
+        "format": "vertical",
+        "duration_target_seconds": 35,
+        "title": "Preview rsync deletes first.",
+        "voiceover": "Before you let rsync delete files, dry-run it and isolate the delete lines.",
+        "caption": "Never trust `--delete` without `-n` first."
+      },
+      "linkedin": {
+        "question": "Would you run `rsync --delete` without checking the delete list first?",
+        "cta": "Full dry-run delete demo"
+      },
+      "youtube": {
+        "playlist": "Dangerous Commands",
+        "description": "A safer rsync dry-run pattern for previewing files that would be deleted."
+      },
+      "experiments": [
+        {
+          "id": "rsync_delete_preview",
+          "metric": "youtube_retention_15s",
+          "variant_a": "Preview what rsync would delete.",
+          "variant_b": "This is the line I check before `rsync --delete`."
+        }
+      ]
+    },
+    {
+      "slug": "file-owner-and-mode",
+      "title": "Check Owner and Mode in One Line",
+      "series": "linux-survival-basics",
+      "hook": "The file existed. The owner and mode explained why it still failed.",
+      "problem": "A path exists but access fails, and you need owner, group, and mode quickly.",
+      "command": "stat -c '%A %U:%G %n' /var/www/example/index.html",
+      "danger": "safe",
+      "starting_state": "A file exists under a web path, but access may be blocked by ownership or mode.",
+      "what_changed": "Nothing changes. The command prints permissions, owner, group, and filename.",
+      "when_to_use": "Use this before changing file permissions or ownership.",
+      "when_not_to_use": "Do not stop at the file if parent directories may block access.",
+      "undo": "No state is changed.",
+      "expected_output": "A compact permission and ownership line.",
+      "terminal_demo": {
+        "fixture": "containers/permission-lab",
+        "commands": [
+          "stat -c '%A %U:%G %n' /var/www/example/index.html",
+          "namei -l /var/www/example/index.html",
+          "ls -ld /var/www /var/www/example"
+        ]
+      },
+      "shorts": {
+        "format": "vertical",
+        "duration_target_seconds": 30,
+        "title": "Check owner and mode first.",
+        "voiceover": "Before changing permissions, print the owner, group, and mode in one compact line.",
+        "caption": "Inspect permissions before editing them."
+      },
+      "linkedin": {
+        "question": "Do you use `stat` or `ls -l` first for permission issues?",
+        "cta": "Full ownership check demo"
+      },
+      "youtube": {
+        "playlist": "Linux Survival Basics",
+        "description": "A compact stat command for checking file permissions and ownership."
+      },
+      "experiments": [
+        {
+          "id": "stat_owner_mode",
+          "metric": "search_click_rate",
+          "variant_a": "Check owner and mode in one line.",
+          "variant_b": "The file existed, but the owner told the story."
+        }
+      ]
+    },
+    {
+      "slug": "list-processes-by-memory",
+      "title": "Find the Processes Using Memory",
+      "series": "linux-survival-basics",
+      "hook": "The server felt slow. Memory pressure was the first thing to rule out.",
+      "problem": "You need a quick process-level view of memory usage.",
+      "command": "ps -eo pid,comm,%mem,%cpu --sort=-%mem | head",
+      "danger": "safe",
+      "starting_state": "A system may be slow or under pressure, but the highest memory consumers are unknown.",
+      "what_changed": "Nothing changes. The command lists processes sorted by memory percentage.",
+      "when_to_use": "Use this before killing processes or resizing a VPS.",
+      "when_not_to_use": "Do not kill a process just because it uses memory; understand its role first.",
+      "undo": "No state is changed.",
+      "expected_output": "A process table sorted by memory usage.",
+      "terminal_demo": {
+        "fixture": "containers/file-lab",
+        "commands": [
+          "ps -eo pid,comm,%mem,%cpu --sort=-%mem | head",
+          "free -h",
+          "df -h"
+        ]
+      },
+      "shorts": {
+        "format": "vertical",
+        "duration_target_seconds": 30,
+        "title": "Find memory-heavy processes.",
+        "voiceover": "Before resizing a server or killing random processes, sort the process list by memory.",
+        "caption": "Check memory pressure before guessing."
+      },
+      "linkedin": {
+        "question": "What do you check first when a VPS feels slow?",
+        "cta": "Full memory triage demo"
+      },
+      "youtube": {
+        "playlist": "Linux Survival Basics",
+        "description": "A quick command for listing Linux processes by memory usage."
+      },
+      "experiments": [
+        {
+          "id": "memory_process_hook",
+          "metric": "linkedin_comment_rate",
+          "variant_a": "Find the processes using memory.",
+          "variant_b": "Before resizing the VPS, run this."
+        }
+      ]
+    },
+    {
+      "slug": "show-top-files-human",
+      "title": "Show Big Files in Human Units",
+      "series": "linux-survival-basics",
+      "hook": "Byte counts are precise. Human units are faster under pressure.",
+      "problem": "You need to find large files and read their sizes without mentally converting bytes.",
+      "command": "find /var -type f -printf '%s %p\\n' | sort -nr | head -10 | awk '{printf \"%.1f MB %s\\n\", $1/1024/1024, $2}'",
+      "danger": "safe",
+      "starting_state": "Large file output is available in bytes, but hard to scan quickly.",
+      "what_changed": "Nothing changes. The command converts byte counts into MB for quick triage.",
+      "when_to_use": "Use this when disk cleanup needs fast human-readable ranking.",
+      "when_not_to_use": "Do not delete files from this list without checking ownership and purpose.",
+      "undo": "No state is changed.",
+      "expected_output": "Large files listed with approximate MB sizes.",
+      "terminal_demo": {
+        "fixture": "containers/file-lab",
+        "commands": [
+          "find /var -type f -printf '%s %p\\n' | sort -nr | head -10",
+          "find /var -type f -printf '%s %p\\n' | sort -nr | head -10 | awk '{printf \"%.1f MB %s\\n\", $1/1024/1024, $2}'",
+          "du -sh /var/* 2>/dev/null | sort -h"
+        ]
+      },
+      "shorts": {
+        "format": "vertical",
+        "duration_target_seconds": 40,
+        "title": "Show big files in MB.",
+        "voiceover": "Finding large files is useful. Making the sizes readable makes the next decision faster.",
+        "caption": "Human-readable file triage."
+      },
+      "linkedin": {
+        "question": "Do you prefer raw bytes or human units during disk cleanup?",
+        "cta": "Full large-file demo"
+      },
+      "youtube": {
+        "playlist": "Linux Survival Basics",
+        "description": "A one-liner for listing large files with human-readable MB sizes."
+      },
+      "experiments": [
+        {
+          "id": "human_file_sizes",
+          "metric": "youtube_retention_15s",
+          "variant_a": "Show big files in human units.",
+          "variant_b": "Byte counts are precise, but MB is faster."
         }
       ]
     }

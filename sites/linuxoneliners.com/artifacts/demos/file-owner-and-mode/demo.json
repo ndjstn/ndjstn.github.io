@@ -1,0 +1,25 @@
+{
+  "slug": "file-owner-and-mode",
+  "title": "Check Owner and Mode in One Line",
+  "fixture": "containers/permission-lab",
+  "command_count": 3,
+  "container_tool": "docker",
+  "image": "localhost/linuxoneliners-lab:latest",
+  "exit_code": 0,
+  "elapsed_ms": 174,
+  "stdout": "::fixture-ready::\n$ stat -c '%A %U:%G %n' /var/www/example/index.html\n-rw-r----- root:root /var/www/example/index.html\n::exit-code::0\n$ namei -l /var/www/example/index.html\nf: /var/www/example/index.html\ndrwxr-xr-x root root /\ndrwxr-xr-x root root var\ndrwxr-x--- root root www\ndrwxr-x--- root root example\n-rw-r----- root root index.html\n::exit-code::0\n$ ls -ld /var/www /var/www/example\ndrwxr-x--- 3 root root 60 Jun 25 11:15 /var/www\ndrwxr-x--- 2 root root 60 Jun 25 11:15 /var/www/example\n::exit-code::0\n",
+  "stderr": "",
+  "ok": true,
+  "security": {
+    "network": "none",
+    "capabilities": "dropped",
+    "no_new_privileges": true,
+    "memory": "256m",
+    "cpus": "1",
+    "pids_limit": 128,
+    "tmpfs": [
+      "/tmp",
+      "/var"
+    ]
+  }
+}

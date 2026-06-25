@@ -208,6 +208,18 @@ ruby sites/linuxoneliners.com/build.rb
 
 The curation gate blocks lessons that are missing safety notes, demo steps, Shorts metadata, LinkedIn prompts, or experiment fields.
 
+## Template Model
+
+The site extends shared ERB templates:
+
+```text
+templates/layout.erb
+templates/index.erb
+templates/lesson.erb
+```
+
+All one-liner pages share `lesson.erb`, so comments, ads, demo output, SSO prompts, related lessons, and conversion widgets can be added once and rolled across every generated page.
+
 Output:
 
 ```text

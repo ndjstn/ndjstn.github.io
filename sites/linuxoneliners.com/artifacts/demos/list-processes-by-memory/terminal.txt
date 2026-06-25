@@ -1,25 +1,28 @@
 ::fixture-ready::
+$ ps -eo pid,comm,%mem,%cpu --sort=-%mem | head
+    PID COMMAND         %MEM %CPU
+     14 ps               0.0  0.0
+      1 bash             0.0 37.5
+     13 bash             0.0  0.0
+     12 timeout          0.0  0.0
+     15 head             0.0  0.0
+::exit-code::0
+$ free -h
+               total        used        free      shared  buff/cache   available
+Mem:           125Gi        39Gi       4.5Gi       207Mi        80Gi        85Gi
+Swap:             0B          0B          0B
+::exit-code::0
 $ df -h
 Filesystem      Size  Used Avail Use% Mounted on
 overlay         3.6T  1.2T  2.3T  35% /
 tmpfs            64M     0   64M   0% /dev
 shm              64M     0   64M   0% /dev/shm
+tmpfs            64M  8.0K   64M   1% /tmp
 tmpfs            64M  352K   64M   1% /var
-tmpfs            64M     0   64M   0% /tmp
 /dev/nvme0n1p2  3.6T  1.2T  2.3T  35% /lab/demo.sh
 tmpfs            63G     0   63G   0% /proc/asound
 tmpfs            63G     0   63G   0% /proc/acpi
 tmpfs            63G     0   63G   0% /proc/scsi
 tmpfs            63G     0   63G   0% /sys/firmware
 tmpfs            63G     0   63G   0% /sys/devices/virtual/powercap
-::exit-code::0
-$ du -sh /var/* 2>/dev/null | sort -h
-64K	/var/backups
-96K	/var/log
-192K	/var/cache
-::exit-code::0
-$ find /var -type f -printf '%s %p\n' | sort -nr | head -20
-196608 /var/cache/demo/blob.cache
-98304 /var/log/app.log
-65536 /var/backups/site.tar
 ::exit-code::0

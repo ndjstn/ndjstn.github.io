@@ -120,6 +120,10 @@ nav a {
   padding: 5rem 0 3rem;
 }
 
+.compact-hero {
+  min-height: 42vh;
+}
+
 .eyebrow {
   margin: 0 0 .75rem;
   text-transform: uppercase;
@@ -321,6 +325,57 @@ li {
   padding: .55rem .75rem;
   text-decoration: none;
   font-weight: 800;
+}
+
+.terminal-window {
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: .5rem;
+  background: #080a0d;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, .28);
+}
+
+.terminal-bar {
+  display: flex;
+  align-items: center;
+  gap: .42rem;
+  border-bottom: 1px solid var(--line);
+  background: #11151c;
+  padding: .65rem .8rem;
+}
+
+.terminal-bar span {
+  width: .68rem;
+  height: .68rem;
+  border-radius: 999px;
+  background: var(--line);
+}
+
+.terminal-bar span:nth-child(1) {
+  background: #ff6b6b;
+}
+
+.terminal-bar span:nth-child(2) {
+  background: var(--warn);
+}
+
+.terminal-bar span:nth-child(3) {
+  background: var(--accent);
+}
+
+.terminal-bar strong {
+  margin-left: .4rem;
+  color: var(--muted);
+  font-size: .85rem;
+}
+
+.terminal-window pre {
+  max-height: 32rem;
+  overflow: auto;
+  padding: 1rem;
+  color: #d7f7d0;
+  font-size: .92rem;
+  line-height: 1.5;
 }
 
 .workflow ol,
