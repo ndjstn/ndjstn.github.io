@@ -1,0 +1,13 @@
+::fixture-ready::
+$ docker system df -v
+TYPE            TOTAL     ACTIVE    SIZE      RECLAIMABLE
+Images          8         3         2.8GB     1.1GB (39%)
+Containers      5         2         240MB     180MB (75%)
+Local Volumes   4         3         1.7GB     200MB (11%)
+Build Cache     12        0         620MB     620MB
+::exit-code::0
+$ docker volume ls
+DRIVER    VOLUME NAME
+local     app_postgres_data
+local     app_uploads
+::exit-code::0

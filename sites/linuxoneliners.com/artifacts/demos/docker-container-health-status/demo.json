@@ -1,0 +1,25 @@
+{
+  "slug": "docker-container-health-status",
+  "title": "Check Container Health Status",
+  "fixture": "containers/docker-triage-lab",
+  "command_count": 2,
+  "container_tool": "docker",
+  "image": "localhost/linuxoneliners-lab:latest",
+  "exit_code": 0,
+  "elapsed_ms": 170,
+  "stdout": "::fixture-ready::\n$ docker inspect --format '{{.Name}} health={{if .State.Health}}{{.State.Health.Status}}{{else}}none{{end}} status={{.State.Status}}' web\n/web health=healthy status=running\n::exit-code::0\n$ docker inspect --format '{{range .State.Health.Log}}{{.End}} {{.ExitCode}} {{.Output}}{{end}}' web\n/web health=healthy status=running\n::exit-code::0\n",
+  "stderr": "",
+  "ok": true,
+  "security": {
+    "network": "none",
+    "capabilities": "dropped",
+    "no_new_privileges": true,
+    "memory": "256m",
+    "cpus": "1",
+    "pids_limit": 128,
+    "tmpfs": [
+      "/tmp",
+      "/var"
+    ]
+  }
+}

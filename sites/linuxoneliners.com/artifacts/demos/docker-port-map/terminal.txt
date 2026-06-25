@@ -1,0 +1,7 @@
+::fixture-ready::
+$ docker port web
+80/tcp -> 0.0.0.0:8080
+::exit-code::0
+$ docker ps --filter name=web --format 'table {{.Names}}\t{{.Ports}}'
+fake docker: ps --filter name=web --format table {{.Names}}\t{{.Ports}}
+::exit-code::0

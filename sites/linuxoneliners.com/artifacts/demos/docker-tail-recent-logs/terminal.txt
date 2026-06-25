@@ -1,0 +1,10 @@
+::fixture-ready::
+$ docker logs --since 10m --tail 100 api
+2026-06-25T14:18:01Z INFO booting api
+2026-06-25T14:18:03Z ERROR database connection refused
+2026-06-25T14:18:05Z INFO retrying startup
+::exit-code::0
+$ docker logs --since 30m --tail 200 api 2>&1 | grep -i 'error\|fail\|exception'
+2026-06-25T14:18:03Z ERROR database connection refused
+2026-06-25T14:18:05Z fatal startup failed
+::exit-code::0

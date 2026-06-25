@@ -1,0 +1,9 @@
+::fixture-ready::
+$ docker inspect --format '{{.Name}} {{range $name, $net := .NetworkSettings.Networks}}{{$name}} {{$net.IPAddress}} {{end}}' api
+/api app_net 172.18.0.5 
+::exit-code::0
+$ docker network ls
+NETWORK ID   NAME      DRIVER
+n1           bridge    bridge
+n2           app_net   bridge
+::exit-code::0

@@ -1,0 +1,25 @@
+{
+  "slug": "docker-port-map",
+  "title": "Show Published Container Ports",
+  "fixture": "containers/docker-triage-lab",
+  "command_count": 2,
+  "container_tool": "docker",
+  "image": "localhost/linuxoneliners-lab:latest",
+  "exit_code": 0,
+  "elapsed_ms": 187,
+  "stdout": "::fixture-ready::\n$ docker port web\n80/tcp -> 0.0.0.0:8080\n::exit-code::0\n$ docker ps --filter name=web --format 'table {{.Names}}\\t{{.Ports}}'\nfake docker: ps --filter name=web --format table {{.Names}}\\t{{.Ports}}\n::exit-code::0\n",
+  "stderr": "",
+  "ok": true,
+  "security": {
+    "network": "none",
+    "capabilities": "dropped",
+    "no_new_privileges": true,
+    "memory": "256m",
+    "cpus": "1",
+    "pids_limit": 128,
+    "tmpfs": [
+      "/tmp",
+      "/var"
+    ]
+  }
+}

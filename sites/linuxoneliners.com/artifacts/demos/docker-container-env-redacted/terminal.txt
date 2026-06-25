@@ -1,0 +1,9 @@
+::fixture-ready::
+$ docker inspect --format '{{range .Config.Env}}{{println .}}{{end}}' api | sed 's/=.*$/=<redacted>/'
+APP_ENV=<redacted>
+DATABASE_URL=<redacted>
+REDIS_URL=<redacted>
+::exit-code::0
+$ docker inspect --format '{{json .Config.Labels}}' api
+{"com.example.service":"api","com.example.release":"2026-06-25"}
+::exit-code::0

@@ -1,0 +1,12 @@
+::fixture-ready::
+$ docker events --since 30m --until 0s
+2026-06-25T14:14:50 image pull registry.example/api:v1.9.4
+2026-06-25T14:15:01 container start web
+2026-06-25T14:18:05 container die api exitCode=1
+2026-06-25T14:18:06 container restart api
+::exit-code::0
+$ docker events --since 30m --until 0s --filter type=container
+2026-06-25T14:15:01 container start web
+2026-06-25T14:18:05 container die api exitCode=1
+2026-06-25T14:18:06 container restart api
+::exit-code::0

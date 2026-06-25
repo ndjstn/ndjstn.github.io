@@ -1,0 +1,7 @@
+::fixture-ready::
+$ docker inspect --format '{{.Name}} health={{if .State.Health}}{{.State.Health.Status}}{{else}}none{{end}} status={{.State.Status}}' web
+/web health=healthy status=running
+::exit-code::0
+$ docker inspect --format '{{range .State.Health.Log}}{{.End}} {{.ExitCode}} {{.Output}}{{end}}' web
+/web health=healthy status=running
+::exit-code::0

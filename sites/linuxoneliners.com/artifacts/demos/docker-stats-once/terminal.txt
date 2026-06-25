@@ -1,0 +1,10 @@
+::fixture-ready::
+$ docker stats --no-stream --format 'table {{.Name}}\t{{.CPUPerc}}\t{{.MemUsage}}\t{{.NetIO}}\t{{.BlockIO}}'
+NAME    CPU %     MEM USAGE / LIMIT     NET I/O        BLOCK I/O
+web     0.12%     42.1MiB / 512MiB      1.2MB / 880kB  4.1MB / 0B
+api     8.40%     180.4MiB / 512MiB     3.8MB / 1.1MB  18MB / 2MB
+::exit-code::0
+$ docker stats --no-stream web
+CONTAINER ID   NAME  CPU %  MEM USAGE / LIMIT
+abc123         web   0.12%  42.1MiB / 512MiB
+::exit-code::0

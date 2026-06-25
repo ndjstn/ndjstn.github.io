@@ -1,0 +1,25 @@
+{
+  "slug": "docker-container-env-redacted",
+  "title": "Inspect Container Environment Names",
+  "fixture": "containers/docker-triage-lab",
+  "command_count": 2,
+  "container_tool": "docker",
+  "image": "localhost/linuxoneliners-lab:latest",
+  "exit_code": 0,
+  "elapsed_ms": 186,
+  "stdout": "::fixture-ready::\n$ docker inspect --format '{{range .Config.Env}}{{println .}}{{end}}' api | sed 's/=.*$/=<redacted>/'\nAPP_ENV=<redacted>\nDATABASE_URL=<redacted>\nREDIS_URL=<redacted>\n::exit-code::0\n$ docker inspect --format '{{json .Config.Labels}}' api\n{\"com.example.service\":\"api\",\"com.example.release\":\"2026-06-25\"}\n::exit-code::0\n",
+  "stderr": "",
+  "ok": true,
+  "security": {
+    "network": "none",
+    "capabilities": "dropped",
+    "no_new_privileges": true,
+    "memory": "256m",
+    "cpus": "1",
+    "pids_limit": 128,
+    "tmpfs": [
+      "/tmp",
+      "/var"
+    ]
+  }
+}

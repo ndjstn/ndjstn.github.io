@@ -1,0 +1,10 @@
+::fixture-ready::
+$ docker ps -a --filter status=restarting --format 'table {{.Names}}\t{{.Status}}\t{{.Image}}'
+NAMES     STATUS                         IMAGE
+api       Restarting (1) 18 seconds ago  registry.example/api:v1.9.4
+::exit-code::0
+$ docker logs --tail 40 api
+api: loading config
+api: ERROR database connection refused
+api: exiting with code 1
+::exit-code::0
