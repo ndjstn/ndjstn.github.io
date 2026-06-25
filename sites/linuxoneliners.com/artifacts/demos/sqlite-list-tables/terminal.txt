@@ -1,6 +1,6 @@
 ::fixture-ready::
 $ ls -lh app.db
--rw-r--r-- 1 root root 16 Jun 25 13:06 app.db
+-rw-r--r-- 1 root root 16 Jun 25 13:14 app.db
 ::exit-code::0
 $ sqlite3 app.db ".tables"
 events  orders  schema_migrations  users

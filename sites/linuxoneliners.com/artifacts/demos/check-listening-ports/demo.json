@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 201,
+  "elapsed_ms": 287,
   "stdout": "::fixture-ready::\n$ ss -tulpn\nNetid State  Recv-Q Send-Q Local Address:Port Peer Address:Port Process\ntcp   LISTEN 0      511          0.0.0.0:80        0.0.0.0:*     users:((\"nginx\",pid=17,fd=6))\ntcp   LISTEN 0      128        127.0.0.1:8091      0.0.0.0:*     users:((\"python3\",pid=41,fd=3))\n::exit-code::0\n$ ss -tulpn | grep ':80\\|:443'\ntcp   LISTEN 0      511          0.0.0.0:80        0.0.0.0:*     users:((\"nginx\",pid=17,fd=6))\ntcp   LISTEN 0      128        127.0.0.1:8091      0.0.0.0:*     users:((\"python3\",pid=41,fd=3))\n::exit-code::0\n$ curl -I http://127.0.0.1:80\nHTTP/1.1 200 OK\nserver: fake-nginx\ncontent-type: text/html\n\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

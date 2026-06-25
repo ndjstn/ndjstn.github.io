@@ -1,0 +1,26 @@
+::fixture-ready::
+$ ufw status verbose
+Status: active
+Logging: on (low)
+Default: deny (incoming), allow (outgoing), disabled (routed)
+New profiles: skip
+
+To                         Action      From
+--                         ------      ----
+22/tcp                     ALLOW IN    203.0.113.0/24
+80/tcp                     ALLOW IN    Anywhere
+443/tcp                    ALLOW IN    Anywhere
+25/tcp                     ALLOW IN    Anywhere
+5432/tcp                   DENY IN     Anywhere
+::exit-code::0
+$ ufw status numbered
+Status: active
+
+     To                         Action      From
+     --                         ------      ----
+[ 1] 22/tcp                     ALLOW IN    203.0.113.0/24
+[ 2] 80/tcp                     ALLOW IN    Anywhere
+[ 3] 443/tcp                    ALLOW IN    Anywhere
+[ 4] 25/tcp                     ALLOW IN    Anywhere
+[ 5] 5432/tcp                   DENY IN     Anywhere
+::exit-code::0

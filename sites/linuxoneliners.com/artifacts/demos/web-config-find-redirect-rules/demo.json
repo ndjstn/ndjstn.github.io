@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 221,
+  "elapsed_ms": 389,
   "stdout": "::fixture-ready::\n$ grep -RInE 'return[[:space:]]+30[18]|rewrite[[:space:]]|Redirect[[:space:]]|RewriteRule|RewriteCond' fixtures/nginx fixtures/apache\nfixtures/nginx/sites-enabled/example.conf:4:    return 301 https://example.com$request_uri;\nfixtures/apache/sites-enabled/example.conf:5:    Redirect permanent / https://example.com/\nfixtures/apache/sites-available/example.conf:5:    Redirect permanent / https://example.com/\n::exit-code::0\n$ grep -RInE 'server_name|ServerName' fixtures/nginx fixtures/apache\nfixtures/nginx/sites-enabled/example.conf:3:    server_name example.com www.example.com;\nfixtures/nginx/sites-enabled/example.conf:8:    server_name example.com www.example.com;\nfixtures/nginx/conf.d/admin.conf:3:    server_name admin.internal;\nfixtures/apache/sites-enabled/app.conf:2:    ServerName app.example.com\nfixtures/apache/sites-enabled/example.conf:2:    ServerName legacy.example.com\nfixtures/apache/sites-available/app.conf:2:    ServerName app.example.com\nfixtures/apache/sites-available/example.conf:2:    ServerName legacy.example.com\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

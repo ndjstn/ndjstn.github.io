@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 214,
+  "elapsed_ms": 228,
   "stdout": "::fixture-ready::\n$ readlink -f /srv/www/example.com/current\n/srv/www/example.com/releases/20260625T110000Z\n::exit-code::0\n$ find /srv/www/example.com/releases -maxdepth 1 -type d | sort\n/srv/www/example.com/releases\n/srv/www/example.com/releases/20260625T100000Z\n/srv/www/example.com/releases/20260625T110000Z\n::exit-code::0\n$ curl -I http://127.0.0.1\nHTTP/1.1 200 OK\nserver: fake-nginx\n\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

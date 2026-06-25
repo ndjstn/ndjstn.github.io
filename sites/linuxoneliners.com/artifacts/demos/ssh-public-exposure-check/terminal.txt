@@ -1,0 +1,10 @@
+::fixture-ready::
+$ ss -ltnp | grep ':22'
+LISTEN 0      128          0.0.0.0:22        0.0.0.0:*     users:(("sshd",pid=801,fd=3))
+::exit-code::0
+$ ufw status numbered | grep '22/tcp'
+[ 1] 22/tcp                     ALLOW IN    203.0.113.0/24
+::exit-code::0
+$ ss -ltnp | awk '$4 ~ /:22$/ && $4 !~ /^127[.]/ {print}'
+LISTEN 0      128          0.0.0.0:22        0.0.0.0:*     users:(("sshd",pid=801,fd=3))
+::exit-code::0

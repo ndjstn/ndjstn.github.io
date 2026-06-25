@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 225,
+  "elapsed_ms": 207,
   "stdout": "::fixture-ready::\n$ systemctl is-active nginx\nactive\n::exit-code::0\n$ systemctl status nginx --no-pager --lines=30\n\u25cf nginx.service - A high performance web server\n     Loaded: loaded (/lib/systemd/system/nginx.service; enabled)\n     Active: active (running) since Thu 2026-06-25 14:12:10 CDT; 18min ago\n   Main PID: 842 (nginx)\n      Tasks: 3\n     Memory: 12.4M\nJun 25 14:12:10 vps nginx[842]: start worker processes\nJun 25 14:12:11 vps nginx[842]: ready for connections\n::exit-code::0\n",
   "stderr": "",
   "ok": true,
