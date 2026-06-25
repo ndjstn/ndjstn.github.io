@@ -20,4 +20,4 @@ I keep this page intentionally narrow. A project belongs here only when the writ
 
 ## Repository access
 
-The full GitHub profile is available at [github.com/ndjstn](https://github.com/ndjstn). Individual project pages link to the relevant source repository, notebook, script, or reproducible code path.
+The current public GitHub profile is available at [github.com/ndjstn](https://github.com/ndjstn). Individual project pages link to the relevant source repository, notebook, script, or reproducible code path.
