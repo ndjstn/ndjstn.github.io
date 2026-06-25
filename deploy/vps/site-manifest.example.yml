@@ -55,3 +55,19 @@ handoff:
     - static assets
     - domain transfer instructions
     - anonymized analytics summary
+template:
+  family: portfolio | project | shop | service | docs | landing | content | event
+  buyer_skill_level: nontechnical
+  owner_console: none | static-files | csv-editor | lightweight-admin
+  dashboards:
+    factory: private
+    owner: per-site
+  editable_content:
+    - pages
+    - images
+    - contact details
+  handoff_docs:
+    - setup checklist
+    - edit guide
+    - publish guide
+    - backup guide

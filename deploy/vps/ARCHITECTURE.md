@@ -78,9 +78,16 @@ Use boring runtime pieces first:
 
 This gives clean boundaries without creating a heavy platform too early.
 
-## Admin dashboard
+## Dashboard layers
 
-The admin dashboard should be a private site that reads a manifest for every
+There should be two dashboard types:
+
+- Factory dashboard: private control plane for creating, deploying, monitoring,
+  pausing, promoting, selling, and retiring sites.
+- Site owner dashboard: one simplified dashboard per site for the person who
+  runs that specific site.
+
+The factory dashboard should be a private site that reads a manifest for every
 managed site.
 
 Minimum objects:
@@ -110,8 +117,22 @@ Minimum dashboard views:
 - backups
 - sale readiness
 
-The dashboard should start read-only. Write actions like deploy, rollback,
+The factory dashboard should start read-only. Write actions like deploy, rollback,
 policy publish, or user export can come after the read model is trustworthy.
+
+The site owner dashboard should be narrower and safer:
+
+- edit business/profile details
+- edit pages, posts, products, or service listings
+- upload approved images
+- preview and publish
+- view leads/messages
+- view simple traffic reports
+- export allowed data
+- read renewal, backup, and support notes
+
+The owner dashboard should not expose cross-site infrastructure, other domains,
+server secrets, raw platform logs, or unrelated analytics.
 
 Each site should have an explicit state so one person can operate the portfolio
 like a small bot-managed fleet:
@@ -183,6 +204,135 @@ Promotion path:
 
 This lets us throw many ideas at the wall while keeping the serious ones clean
 enough to scale or sell.
+
+## Jekyll template lane
+
+Jekyll is the default engine for static experiments because it is already
+working here and it fits the content mesh:
+
+- portfolio pages
+- project writeups
+- niche content sites
+- documentation sites
+- landing pages
+- saleable static assets
+- article mirrors that point back to GitHub, Kaggle, LinkedIn, YouTube, or the
+  canonical domain
+
+The reusable template should include:
+
+- shared layout/theme conventions
+- SEO defaults
+- social preview image rules
+- project/article front matter
+- analytics hooks
+- privacy/contact placeholders
+- sitemap and feed support
+- `ops/sites/<domain>.json` manifest
+- CI script that builds, checks links, and confirms private files do not leak
+
+Default flow for a new static site:
+
+```text
+copy template
+set domain manifest
+write first page
+add one conversion target
+generate hero/social assets
+run local CI
+deploy as static release
+publish distribution posts
+review signal
+```
+
+Jekyll should stay the default until a site clearly needs server-side behavior.
+Dynamic pieces should be added as separate services, not by making the whole
+static site heavier. Examples:
+
+- contact capture service
+- email/newsletter service
+- analytics collector
+- admin dashboard
+- paid checkout
+- user login
+- API endpoint
+
+That keeps the public site fast and portable while still allowing experiments
+to grow into real apps.
+
+## Sellable template packages
+
+The product is not a generic website builder. The product is a finished website
+pipeline that can be handed to a non-technical owner.
+
+Template families worth building:
+
+- portfolio or resume site
+- project/article site
+- local service business site
+- small shop or catalog site
+- documentation or knowledge-base site
+- lead-generation landing page
+- niche content/SEO site
+- event or class site
+
+Each template should include:
+
+- public Jekyll site
+- owner-editable content files
+- site owner dashboard or edit workflow
+- simple setup checklist
+- deployment recipe
+- analytics setup
+- contact or lead capture option
+- privacy/terms placeholders
+- backup and restore notes
+- handoff manifest
+- "what to edit" guide for a non-developer
+
+The owner experience should be intentionally boring:
+
+```text
+edit content
+preview site
+publish
+check messages
+check traffic
+export data
+renew domain/hosting
+```
+
+Avoid selling a heavy all-purpose control panel until there is proof people want
+it. Build small owner dashboards only where they reduce support burden. For
+example, a shop template can have a simple product CSV and a static catalog
+generator before it needs accounts, inventory sync, or checkout logic.
+
+Handoff quality is part of the asset value. A site is easier to sell when it has
+clean code, clear ownership boundaries, analytics history, low hosting cost,
+and a buyer guide that does not require the buyer to understand our internal
+platform.
+
+## Site factory flow
+
+The private factory dashboard should eventually support this flow:
+
+```text
+choose template
+set domain
+set audience and success metric
+generate site manifest
+generate starter content
+generate owner dashboard config
+preview locally
+deploy to staging
+publish
+track signal
+keep, pause, promote, sell, or retire
+```
+
+The site owner dashboard should be generated from the same manifest, but with a
+restricted permission model. That lets us make sites quickly while still
+shipping a simple operating surface to whoever owns the site later.
 
 ## Data model
 

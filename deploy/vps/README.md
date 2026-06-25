@@ -118,6 +118,53 @@ database, authenticated user accounts, background jobs, or separate VPS hosting.
 This keeps experimentation fast while preventing one weak idea from becoming
 permanent operational clutter.
 
+## Static-site template rule
+
+Use Jekyll as the default for new public sites unless the idea clearly needs a
+server-side app. A Jekyll site is enough for portfolios, project writeups,
+landing pages, small content sites, docs, SEO experiments, and saleable static
+properties.
+
+Each new Jekyll-based site should start with:
+
+- site manifest under `ops/sites/`
+- clear success metric
+- one public call to action
+- social preview image
+- analytics plan
+- privacy/contact policy if any user data is collected
+- local build check before deploy
+
+## Sellable site package
+
+A site becomes saleable when it is more than a folder of code. The handoff
+package should let a normal owner run it:
+
+- domain transfer notes
+- hosting/deploy instructions
+- edit guide for pages, images, products, or services
+- analytics summary
+- contact/lead export instructions
+- privacy/terms notes
+- backup and restore instructions
+- clear list of what the buyer owns and what remains excluded
+
+For shops and catalogs, start with simple owner-editable data such as Markdown,
+JSON, or CSV. Add a lightweight admin tool only when it reduces support work.
+
+## Dashboards
+
+Use two dashboards:
+
+- Factory dashboard: private dashboard for us to create sites, manage domains,
+  deploy, monitor health, review analytics, decide keep/kill/promote/sell, and
+  prepare handoff packages.
+- Site owner dashboard: one small dashboard per site for editing content,
+  publishing, checking messages, viewing simple analytics, exporting allowed
+  data, and reading renewal/support instructions.
+
+Do not give site owners access to the factory dashboard.
+
 ## Control dashboard
 
 The home end should eventually expose a private dashboard for:
