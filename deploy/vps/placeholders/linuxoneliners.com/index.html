@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Linux One Liners</title>
+  <meta name="description" content="Linux One Liners is being rebuilt as a focused command reference and automation lab.">
+  <style>
+    :root { color-scheme: dark; --bg: #101114; --fg: #f4f1e8; --muted: #a7adb8; --line: #343842; --accent: #9ee493; --hot: #f8c14a; }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace; background: radial-gradient(circle at 70% 20%, rgba(158,228,147,.14), transparent 32rem), var(--bg); color: var(--fg); display: grid; place-items: center; padding: 2rem; }
+    main { width: min(960px, 100%); border: 1px solid var(--line); background: rgba(16,17,20,.78); box-shadow: 0 24px 80px rgba(0,0,0,.35); }
+    .bar { display: flex; gap: .5rem; padding: .8rem 1rem; border-bottom: 1px solid var(--line); color: var(--muted); }
+    .dot { width: .7rem; height: .7rem; border-radius: 999px; background: var(--line); margin-top: .25rem; }
+    .dot:nth-child(1) { background: #ff6b6b; } .dot:nth-child(2) { background: var(--hot); } .dot:nth-child(3) { background: var(--accent); }
+    section { padding: clamp(2rem, 6vw, 5rem); }
+    p.kicker { color: var(--accent); margin: 0 0 1rem; }
+    h1 { font-size: clamp(2.4rem, 8vw, 6rem); line-height: .92; margin: 0 0 1.25rem; letter-spacing: 0; }
+    p { color: var(--muted); font-size: clamp(1rem, 2vw, 1.2rem); line-height: 1.65; max-width: 68ch; }
+    code { color: var(--fg); background: #191b20; border: 1px solid var(--line); padding: .15rem .35rem; }
+    .prompt { margin-top: 2rem; color: var(--fg); }
+    .prompt span { color: var(--accent); }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span>linuxoneliners.com</span></div>
+    <section>
+      <p class="kicker">$ rebuild --focused --useful</p>
+      <h1>Linux One Liners</h1>
+      <p>This site is being rebuilt as a practical command reference, automation notebook, and small tooling lab. The old surface is parked while the new version is built cleanly.</p>
+      <p class="prompt"><span>next:</span> curated shell recipes, safer examples, copyable commands, and small utilities that explain what they do before they run.</p>
+    </section>
+  </main>
+</body>
+</html>
+

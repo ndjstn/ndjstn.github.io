@@ -213,6 +213,22 @@ host. Until then, preventive resource management is the right goal.
 6. Point Hostinger DNS for `justinstone.online` and `www.justinstone.online` to the VPS.
 7. Issue TLS with Certbot after DNS resolves to the VPS.
 
+The detailed browser, DNS, Nginx, SSL, and cleanup process is captured in
+`deploy/vps/HOSTINGER_CUTOVER.md`.
+
+After cutover, run:
+
+```bash
+./scripts/check_vps_site.sh justinstone.online 31.220.54.145
+```
+
+Use the same checklist for a future rebuild of `linuxoneliners.com`; only the
+domain, site root, Nginx file, and manifest should change.
+
+For parked or partially rebuilt sites, use a placeholder release from
+`deploy/vps/placeholders/` instead of leaving stale apps or dead API routes
+public.
+
 ## CI/CD
 
 The repository has two GitHub Actions lanes:
