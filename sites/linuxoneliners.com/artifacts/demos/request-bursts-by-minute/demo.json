@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 204,
+  "elapsed_ms": 170,
   "stdout": "::fixture-ready::\n$ awk '{print substr($4,2,17)}' ./fixtures/nginx/access.log | head\n25/Jun/2026:10:00\n25/Jun/2026:10:00\n25/Jun/2026:10:00\n25/Jun/2026:10:01\n25/Jun/2026:10:01\n25/Jun/2026:10:01\n25/Jun/2026:10:01\n25/Jun/2026:10:01\n25/Jun/2026:10:01\n25/Jun/2026:10:01\n::exit-code::0\n$ awk '{minute=substr($4,2,17); count[minute]++} END {for (m in count) print count[m], m}' ./fixtures/nginx/access.log | sort -nr | head\n7 25/Jun/2026:10:01\n5 25/Jun/2026:10:04\n5 25/Jun/2026:10:03\n5 25/Jun/2026:10:02\n3 25/Jun/2026:10:00\n::exit-code::0\n$ awk '{minute=substr($4,2,17); count[minute]++} END {for (m in count) print count[m], m}' ./fixtures/nginx/access.log | sort\n3 25/Jun/2026:10:00\n5 25/Jun/2026:10:02\n5 25/Jun/2026:10:03\n5 25/Jun/2026:10:04\n7 25/Jun/2026:10:01\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

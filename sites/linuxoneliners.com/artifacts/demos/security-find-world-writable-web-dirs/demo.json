@@ -1,0 +1,25 @@
+{
+  "slug": "security-find-world-writable-web-dirs",
+  "title": "Find World-Writable Web Directories",
+  "fixture": "containers/vps-security-lab",
+  "command_count": 2,
+  "container_tool": "docker",
+  "image": "localhost/linuxoneliners-lab:latest",
+  "exit_code": 0,
+  "elapsed_ms": 190,
+  "stdout": "::fixture-ready::\n$ find srv/www -type d -printf '%m %p\\n' | sort\n750 srv/www/private\n755 srv/www\n777 srv/www/uploads\n::exit-code::0\n$ find srv/www -type d -perm -0002 -print\nsrv/www/uploads\n::exit-code::0\n",
+  "stderr": "",
+  "ok": true,
+  "security": {
+    "network": "none",
+    "capabilities": "dropped",
+    "no_new_privileges": true,
+    "memory": "256m",
+    "cpus": "1",
+    "pids_limit": 128,
+    "tmpfs": [
+      "/tmp",
+      "/var"
+    ]
+  }
+}

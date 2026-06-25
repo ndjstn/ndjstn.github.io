@@ -1,0 +1,9 @@
+::fixture-ready::
+$ find srv/www -type d -printf '%m %p\n' | sort
+750 srv/www/private
+755 srv/www
+777 srv/www/uploads
+::exit-code::0
+$ find srv/www -type d -perm -0002 -print
+srv/www/uploads
+::exit-code::0

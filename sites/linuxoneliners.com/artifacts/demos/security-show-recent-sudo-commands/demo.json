@@ -1,0 +1,25 @@
+{
+  "slug": "security-show-recent-sudo-commands",
+  "title": "Show Recent sudo Commands",
+  "fixture": "containers/vps-security-lab",
+  "command_count": 2,
+  "container_tool": "docker",
+  "image": "localhost/linuxoneliners-lab:latest",
+  "exit_code": 0,
+  "elapsed_ms": 184,
+  "stdout": "::fixture-ready::\n$ grep 'sudo:' logs/auth.log\nJun 25 12:03:12 vps sudo:     alex : TTY=pts/0 ; PWD=/srv/www ; USER=root ; COMMAND=/usr/bin/systemctl reload nginx\nJun 25 12:04:33 vps sudo:   deploy : TTY=pts/1 ; PWD=/srv/app ; USER=root ; COMMAND=/usr/bin/journalctl -u app\n::exit-code::0\n$ grep 'sudo:' logs/auth.log | tail -n 10\nJun 25 12:03:12 vps sudo:     alex : TTY=pts/0 ; PWD=/srv/www ; USER=root ; COMMAND=/usr/bin/systemctl reload nginx\nJun 25 12:04:33 vps sudo:   deploy : TTY=pts/1 ; PWD=/srv/app ; USER=root ; COMMAND=/usr/bin/journalctl -u app\n::exit-code::0\n",
+  "stderr": "",
+  "ok": true,
+  "security": {
+    "network": "none",
+    "capabilities": "dropped",
+    "no_new_privileges": true,
+    "memory": "256m",
+    "cpus": "1",
+    "pids_limit": 128,
+    "tmpfs": [
+      "/tmp",
+      "/var"
+    ]
+  }
+}

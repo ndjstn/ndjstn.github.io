@@ -1,0 +1,25 @@
+{
+  "slug": "security-list-authorized-keys-files",
+  "title": "List authorized_keys Files",
+  "fixture": "containers/vps-security-lab",
+  "command_count": 2,
+  "container_tool": "docker",
+  "image": "localhost/linuxoneliners-lab:latest",
+  "exit_code": 0,
+  "elapsed_ms": 185,
+  "stdout": "::fixture-ready::\n$ find home -type f -path '*/.ssh/*' -printf '%m %p\\n' | sort\n600 home/alex/.ssh/authorized_keys\n600 home/deploy/.ssh/authorized_keys\n644 home/deploy/.ssh/id_rsa\n::exit-code::0\n$ find home -path '*/.ssh/authorized_keys' -printf '%m %p\\n'\n600 home/deploy/.ssh/authorized_keys\n600 home/alex/.ssh/authorized_keys\n::exit-code::0\n",
+  "stderr": "",
+  "ok": true,
+  "security": {
+    "network": "none",
+    "capabilities": "dropped",
+    "no_new_privileges": true,
+    "memory": "256m",
+    "cpus": "1",
+    "pids_limit": 128,
+    "tmpfs": [
+      "/tmp",
+      "/var"
+    ]
+  }
+}

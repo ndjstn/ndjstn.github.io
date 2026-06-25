@@ -117,5 +117,19 @@
     "touch -d '2026-06-25 12:05:00 UTC' backup/.snapshot",
     "sha256sum source/app/config.yml source/content/index.md source/content/about.md source/assets/logo.svg > checksums.sha256",
     "tar -cf archives/site-backup.tar -C source ."
+  ],
+  "containers/vps-security-lab": [
+    "mkdir -p logs etc/ssh home/alex/.ssh home/deploy/.ssh srv/www/uploads srv/www/private",
+    "cat > logs/auth.log <<'LOG'\nJun 25 12:00:01 vps sshd[1001]: Failed password for invalid user admin from 203.0.113.44 port 51122 ssh2\nJun 25 12:00:03 vps sshd[1002]: Failed password for root from 203.0.113.44 port 51124 ssh2\nJun 25 12:01:10 vps sshd[1003]: Failed password for deploy from 198.51.100.77 port 41002 ssh2\nJun 25 12:02:44 vps sshd[1004]: Accepted publickey for alex from 198.51.100.20 port 50222 ssh2\nJun 25 12:03:12 vps sudo:     alex : TTY=pts/0 ; PWD=/srv/www ; USER=root ; COMMAND=/usr/bin/systemctl reload nginx\nJun 25 12:04:33 vps sudo:   deploy : TTY=pts/1 ; PWD=/srv/app ; USER=root ; COMMAND=/usr/bin/journalctl -u app\nLOG",
+    "cat > etc/passwd <<'PASSWD'\nroot:x:0:0:root:/root:/bin/bash\nwww-data:x:33:33:www-data:/var/www:/usr/sbin/nologin\nalex:x:1000:1000:Alex:/home/alex:/bin/bash\ndeploy:x:1001:1001:Deploy:/home/deploy:/bin/bash\nbackup:x:1002:1002:Backup:/srv/backup:/usr/sbin/nologin\nPASSWD",
+    "cat > etc/ssh/sshd_config <<'CONF'\nPort 22\nPermitRootLogin no\nPasswordAuthentication no\nPubkeyAuthentication yes\nAllowUsers alex deploy\nCONF",
+    "printf 'ssh-ed25519 AAAAC3NzaDemoOnly alex@laptop\\n' > home/alex/.ssh/authorized_keys",
+    "printf 'ssh-rsa AAAAB3NzaDemoOnly deploy@ci\\n' > home/deploy/.ssh/authorized_keys",
+    "printf 'demo private key placeholder\\n' > home/deploy/.ssh/id_rsa",
+    "chmod 600 home/alex/.ssh/authorized_keys home/deploy/.ssh/authorized_keys",
+    "chmod 644 home/deploy/.ssh/id_rsa",
+    "chmod 777 srv/www/uploads",
+    "chmod 750 srv/www/private",
+    "cat > /usr/local/bin/ss <<'SH'\n#!/usr/bin/env bash\ncat <<'OUT'\nState  Recv-Q Send-Q Local Address:Port Peer Address:Port Process\nLISTEN 0      128          0.0.0.0:22        0.0.0.0:*     users:((\"sshd\",pid=801,fd=3))\nLISTEN 0      511          0.0.0.0:80        0.0.0.0:*     users:((\"nginx\",pid=1907,fd=6))\nLISTEN 0      511          0.0.0.0:443       0.0.0.0:*     users:((\"nginx\",pid=1907,fd=7))\nLISTEN 0      128        127.0.0.1:5432      0.0.0.0:*     users:((\"postgres\",pid=2011,fd=7))\nOUT\nSH\nchmod +x /usr/local/bin/ss"
   ]
 }

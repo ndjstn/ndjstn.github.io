@@ -1,0 +1,9 @@
+::fixture-ready::
+$ grep 'sudo:' logs/auth.log
+Jun 25 12:03:12 vps sudo:     alex : TTY=pts/0 ; PWD=/srv/www ; USER=root ; COMMAND=/usr/bin/systemctl reload nginx
+Jun 25 12:04:33 vps sudo:   deploy : TTY=pts/1 ; PWD=/srv/app ; USER=root ; COMMAND=/usr/bin/journalctl -u app
+::exit-code::0
+$ grep 'sudo:' logs/auth.log | tail -n 10
+Jun 25 12:03:12 vps sudo:     alex : TTY=pts/0 ; PWD=/srv/www ; USER=root ; COMMAND=/usr/bin/systemctl reload nginx
+Jun 25 12:04:33 vps sudo:   deploy : TTY=pts/1 ; PWD=/srv/app ; USER=root ; COMMAND=/usr/bin/journalctl -u app
+::exit-code::0

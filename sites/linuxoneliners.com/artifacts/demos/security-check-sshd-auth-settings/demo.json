@@ -1,0 +1,25 @@
+{
+  "slug": "security-check-sshd-auth-settings",
+  "title": "Check Key SSH Authentication Settings",
+  "fixture": "containers/vps-security-lab",
+  "command_count": 2,
+  "container_tool": "docker",
+  "image": "localhost/linuxoneliners-lab:latest",
+  "exit_code": 0,
+  "elapsed_ms": 203,
+  "stdout": "::fixture-ready::\n$ sed -n '1,12p' etc/ssh/sshd_config\nPort 22\nPermitRootLogin no\nPasswordAuthentication no\nPubkeyAuthentication yes\nAllowUsers alex deploy\n::exit-code::0\n$ grep -nE '^(PasswordAuthentication|PermitRootLogin|PubkeyAuthentication|AllowUsers)' etc/ssh/sshd_config\n2:PermitRootLogin no\n3:PasswordAuthentication no\n4:PubkeyAuthentication yes\n5:AllowUsers alex deploy\n::exit-code::0\n",
+  "stderr": "",
+  "ok": true,
+  "security": {
+    "network": "none",
+    "capabilities": "dropped",
+    "no_new_privileges": true,
+    "memory": "256m",
+    "cpus": "1",
+    "pids_limit": 128,
+    "tmpfs": [
+      "/tmp",
+      "/var"
+    ]
+  }
+}

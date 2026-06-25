@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 166,
+  "elapsed_ms": 184,
   "stdout": "::fixture-ready::\n$ docker logs --since 10m --tail 100 api\n2026-06-25T14:18:01Z INFO booting api\n2026-06-25T14:18:03Z ERROR database connection refused\n2026-06-25T14:18:05Z INFO retrying startup\n::exit-code::0\n$ docker logs --since 30m --tail 200 api 2>&1 | grep -i 'error\\|fail\\|exception'\n2026-06-25T14:18:03Z ERROR database connection refused\n2026-06-25T14:18:05Z fatal startup failed\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

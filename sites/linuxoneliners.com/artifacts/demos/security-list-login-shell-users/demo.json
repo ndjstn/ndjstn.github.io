@@ -1,0 +1,25 @@
+{
+  "slug": "security-list-login-shell-users",
+  "title": "List Users with Login Shells",
+  "fixture": "containers/vps-security-lab",
+  "command_count": 2,
+  "container_tool": "docker",
+  "image": "localhost/linuxoneliners-lab:latest",
+  "exit_code": 0,
+  "elapsed_ms": 180,
+  "stdout": "::fixture-ready::\n$ cat etc/passwd\nroot:x:0:0:root:/root:/bin/bash\nwww-data:x:33:33:www-data:/var/www:/usr/sbin/nologin\nalex:x:1000:1000:Alex:/home/alex:/bin/bash\ndeploy:x:1001:1001:Deploy:/home/deploy:/bin/bash\nbackup:x:1002:1002:Backup:/srv/backup:/usr/sbin/nologin\n::exit-code::0\n$ awk -F: '$7 ~ /sh$/ {print $1, $7}' etc/passwd\nroot /bin/bash\nalex /bin/bash\ndeploy /bin/bash\n::exit-code::0\n",
+  "stderr": "",
+  "ok": true,
+  "security": {
+    "network": "none",
+    "capabilities": "dropped",
+    "no_new_privileges": true,
+    "memory": "256m",
+    "cpus": "1",
+    "pids_limit": 128,
+    "tmpfs": [
+      "/tmp",
+      "/var"
+    ]
+  }
+}

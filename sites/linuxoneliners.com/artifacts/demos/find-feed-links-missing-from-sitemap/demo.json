@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 190,
+  "elapsed_ms": 178,
   "stdout": "::fixture-ready::\n$ grep -o '<link>https://example.com/[^<]*</link>' public/feed.xml | sed 's#<link>##;s#</link>##'\nhttps://example.com/blog/post.html\nhttps://example.com/news/missing.html\n::exit-code::0\n$ grep -o '<link>https://example.com/[^<]*</link>' public/feed.xml | sed 's#<link>##;s#</link>##' | while read -r url; do grep -q \"$url\" public/sitemap.xml || echo \"$url\"; done\nhttps://example.com/news/missing.html\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

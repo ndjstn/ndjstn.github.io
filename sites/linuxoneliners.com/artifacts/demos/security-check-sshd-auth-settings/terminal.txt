@@ -1,0 +1,14 @@
+::fixture-ready::
+$ sed -n '1,12p' etc/ssh/sshd_config
+Port 22
+PermitRootLogin no
+PasswordAuthentication no
+PubkeyAuthentication yes
+AllowUsers alex deploy
+::exit-code::0
+$ grep -nE '^(PasswordAuthentication|PermitRootLogin|PubkeyAuthentication|AllowUsers)' etc/ssh/sshd_config
+2:PermitRootLogin no
+3:PasswordAuthentication no
+4:PubkeyAuthentication yes
+5:AllowUsers alex deploy
+::exit-code::0

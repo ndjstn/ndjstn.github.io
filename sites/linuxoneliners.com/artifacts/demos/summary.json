@@ -1,142 +1,142 @@
 {
-  "generated_at": "2026-06-25T12:45:20Z",
+  "generated_at": "2026-06-25T12:48:59Z",
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
-  "total": 115,
-  "passed": 115,
+  "total": 125,
+  "passed": 125,
   "failed": [],
   "results": [
     {
       "slug": "curl-resolve-site-check",
       "title": "Your Site Is Not Down. DNS Might Be Lying.",
       "ok": true,
-      "elapsed_ms": 228,
+      "elapsed_ms": 214,
       "command_count": 3
     },
     {
       "slug": "find-large-files",
       "title": "Find the Files Eating Your Disk",
       "ok": true,
-      "elapsed_ms": 212,
+      "elapsed_ms": 173,
       "command_count": 3
     },
     {
       "slug": "rsync-dry-run",
       "title": "Run Rsync Without Deleting Your Backup",
       "ok": true,
-      "elapsed_ms": 296,
+      "elapsed_ms": 270,
       "command_count": 3
     },
     {
       "slug": "tail-live-logs",
       "title": "Watch Logs Without Opening the Whole File",
       "ok": true,
-      "elapsed_ms": 4211,
+      "elapsed_ms": 4205,
       "command_count": 3
     },
     {
       "slug": "grep-errors-in-logs",
       "title": "Find Errors Before Reading Every Log Line",
       "ok": true,
-      "elapsed_ms": 177,
+      "elapsed_ms": 241,
       "command_count": 3
     },
     {
       "slug": "check-listening-ports",
       "title": "Check What Is Actually Listening",
       "ok": true,
-      "elapsed_ms": 185,
+      "elapsed_ms": 206,
       "command_count": 3
     },
     {
       "slug": "inspect-permissions",
       "title": "Inspect Permissions Before Changing Them",
       "ok": true,
-      "elapsed_ms": 172,
+      "elapsed_ms": 184,
       "command_count": 3
     },
     {
       "slug": "grep-line-numbers",
       "title": "Find the Exact Log Line Before You Scroll",
       "ok": true,
-      "elapsed_ms": 158,
+      "elapsed_ms": 183,
       "command_count": 3
     },
     {
       "slug": "disk-usage-by-folder",
       "title": "Find Which Folder Is Filling the Disk",
       "ok": true,
-      "elapsed_ms": 189,
+      "elapsed_ms": 179,
       "command_count": 3
     },
     {
       "slug": "recent-log-errors",
       "title": "Show Only Recent Errors",
       "ok": true,
-      "elapsed_ms": 174,
+      "elapsed_ms": 194,
       "command_count": 3
     },
     {
       "slug": "rsync-show-deletes",
       "title": "Preview What Rsync Would Delete",
       "ok": true,
-      "elapsed_ms": 314,
+      "elapsed_ms": 276,
       "command_count": 3
     },
     {
       "slug": "file-owner-and-mode",
       "title": "Check Owner and Mode in One Line",
       "ok": true,
-      "elapsed_ms": 187,
+      "elapsed_ms": 192,
       "command_count": 3
     },
     {
       "slug": "list-processes-by-memory",
       "title": "Find the Processes Using Memory",
       "ok": true,
-      "elapsed_ms": 195,
+      "elapsed_ms": 172,
       "command_count": 3
     },
     {
       "slug": "show-top-files-human",
       "title": "Show Big Files in Human Units",
       "ok": true,
-      "elapsed_ms": 194,
+      "elapsed_ms": 195,
       "command_count": 3
     },
     {
       "slug": "mac-find-what-is-using-port",
       "title": "Find What Is Using a Local Dev Port",
       "ok": true,
-      "elapsed_ms": 191,
+      "elapsed_ms": 185,
       "command_count": 2
     },
     {
       "slug": "mac-stop-process-on-port",
       "title": "Stop the Process Blocking a Dev Port",
       "ok": true,
-      "elapsed_ms": 184,
+      "elapsed_ms": 189,
       "command_count": 2
     },
     {
       "slug": "mac-show-path-lines",
       "title": "Show Your PATH One Entry Per Line",
       "ok": true,
-      "elapsed_ms": 186,
+      "elapsed_ms": 182,
       "command_count": 2
     },
     {
       "slug": "mac-which-command-will-run",
       "title": "See Exactly Which Command macOS Will Run",
       "ok": true,
-      "elapsed_ms": 180,
+      "elapsed_ms": 191,
       "command_count": 2
     },
     {
       "slug": "mac-find-large-project-files",
       "title": "Find Large Files Inside a Project",
       "ok": true,
-      "elapsed_ms": 172,
+      "elapsed_ms": 188,
       "command_count": 2
     },
     {
@@ -150,273 +150,273 @@
       "slug": "mac-flush-dns-cache",
       "title": "Flush macOS DNS Cache",
       "ok": true,
-      "elapsed_ms": 174,
+      "elapsed_ms": 193,
       "command_count": 2
     },
     {
       "slug": "mac-watch-file-changes",
       "title": "Watch a Log or Build File Update",
       "ok": true,
-      "elapsed_ms": 188,
+      "elapsed_ms": 185,
       "command_count": 2
     },
     {
       "slug": "mac-search-logs-for-errors",
       "title": "Search a Log for Errors With Context",
       "ok": true,
-      "elapsed_ms": 180,
+      "elapsed_ms": 185,
       "command_count": 2
     },
     {
       "slug": "mac-test-url-headers",
       "title": "Check a URL Without Downloading the Page",
       "ok": true,
-      "elapsed_ms": 179,
+      "elapsed_ms": 185,
       "command_count": 2
     },
     {
       "slug": "backup-list-newest-source-files",
       "title": "List Newest Source Files Before Backup",
       "ok": true,
-      "elapsed_ms": 186,
+      "elapsed_ms": 193,
       "command_count": 2
     },
     {
       "slug": "backup-create-checksum-manifest",
       "title": "Create a SHA256 Checksum Manifest",
       "ok": true,
-      "elapsed_ms": 190,
+      "elapsed_ms": 179,
       "command_count": 2
     },
     {
       "slug": "backup-verify-checksum-manifest",
       "title": "Verify a SHA256 Checksum Manifest",
       "ok": true,
-      "elapsed_ms": 181,
+      "elapsed_ms": 186,
       "command_count": 2
     },
     {
       "slug": "backup-compare-source-and-backup-file-lists",
       "title": "Compare Source and Backup File Lists",
       "ok": true,
-      "elapsed_ms": 166,
+      "elapsed_ms": 187,
       "command_count": 2
     },
     {
       "slug": "backup-rsync-dry-run-itemize",
       "title": "Preview Backup Drift with rsync",
       "ok": true,
-      "elapsed_ms": 234,
+      "elapsed_ms": 252,
       "command_count": 2
     },
     {
       "slug": "backup-find-empty-files",
       "title": "Find Empty Files in a Backup",
       "ok": true,
-      "elapsed_ms": 179,
+      "elapsed_ms": 192,
       "command_count": 2
     },
     {
       "slug": "backup-list-largest-files",
       "title": "List Largest Files in a Backup",
       "ok": true,
-      "elapsed_ms": 177,
+      "elapsed_ms": 188,
       "command_count": 2
     },
     {
       "slug": "backup-list-tar-contents",
       "title": "List Contents of a Backup Tarball",
       "ok": true,
-      "elapsed_ms": 191,
+      "elapsed_ms": 205,
       "command_count": 2
     },
     {
       "slug": "backup-count-source-file-types",
       "title": "Count Source Files by Extension",
       "ok": true,
-      "elapsed_ms": 185,
+      "elapsed_ms": 199,
       "command_count": 2
     },
     {
       "slug": "backup-find-files-newer-than-snapshot",
       "title": "Find Files Newer Than a Backup Snapshot",
       "ok": true,
-      "elapsed_ms": 193,
+      "elapsed_ms": 168,
       "command_count": 2
     },
     {
       "slug": "tail-failing-ci-log-lines",
       "title": "Tail the Failing CI Lines",
       "ok": true,
-      "elapsed_ms": 181,
+      "elapsed_ms": 177,
       "command_count": 2
     },
     {
       "slug": "list-newest-build-artifacts",
       "title": "List Newest Build Artifacts",
       "ok": true,
-      "elapsed_ms": 185,
+      "elapsed_ms": 200,
       "command_count": 2
     },
     {
       "slug": "check-current-release-symlink",
       "title": "Check the Current Release Symlink",
       "ok": true,
-      "elapsed_ms": 189,
+      "elapsed_ms": 188,
       "command_count": 2
     },
     {
       "slug": "find-largest-ci-logs",
       "title": "Find the Largest CI Logs",
       "ok": true,
-      "elapsed_ms": 186,
+      "elapsed_ms": 204,
       "command_count": 2
     },
     {
       "slug": "show-release-directory-ages",
       "title": "Show Release Directory Ages",
       "ok": true,
-      "elapsed_ms": 189,
+      "elapsed_ms": 182,
       "command_count": 2
     },
     {
       "slug": "extract-env-names-from-configs",
       "title": "Extract Environment Names Only",
       "ok": true,
-      "elapsed_ms": 194,
+      "elapsed_ms": 195,
       "command_count": 2
     },
     {
       "slug": "smoke-check-http-status",
       "title": "Smoke Check an HTTP Status",
       "ok": true,
-      "elapsed_ms": 178,
+      "elapsed_ms": 198,
       "command_count": 2
     },
     {
       "slug": "compare-artifact-checksums",
       "title": "Compare Artifact Checksums",
       "ok": true,
-      "elapsed_ms": 175,
+      "elapsed_ms": 193,
       "command_count": 2
     },
     {
       "slug": "count-failures-by-test-file",
       "title": "Count Failures by Test File",
       "ok": true,
-      "elapsed_ms": 181,
+      "elapsed_ms": 190,
       "command_count": 2
     },
     {
       "slug": "inspect-release-disk-usage",
       "title": "Inspect Release Disk Usage",
       "ok": true,
-      "elapsed_ms": 185,
+      "elapsed_ms": 180,
       "command_count": 2
     },
     {
       "slug": "check-container-image-tag-in-manifest",
       "title": "Check Image Tags in Manifests",
       "ok": true,
-      "elapsed_ms": 183,
+      "elapsed_ms": 190,
       "command_count": 2
     },
     {
       "slug": "docker-ps-human-table",
       "title": "Show Containers in a Clean Triage Table",
       "ok": true,
-      "elapsed_ms": 184,
+      "elapsed_ms": 188,
       "command_count": 2
     },
     {
       "slug": "docker-restarting-containers",
       "title": "Find Restarting Containers Fast",
       "ok": true,
-      "elapsed_ms": 165,
+      "elapsed_ms": 181,
       "command_count": 2
     },
     {
       "slug": "docker-container-health-status",
       "title": "Check Container Health Status",
       "ok": true,
-      "elapsed_ms": 171,
+      "elapsed_ms": 167,
       "command_count": 2
     },
     {
       "slug": "docker-tail-recent-logs",
       "title": "Read Recent Container Logs",
       "ok": true,
-      "elapsed_ms": 166,
+      "elapsed_ms": 184,
       "command_count": 2
     },
     {
       "slug": "docker-stats-once",
       "title": "Snapshot Container CPU and Memory",
       "ok": true,
-      "elapsed_ms": 184,
+      "elapsed_ms": 180,
       "command_count": 2
     },
     {
       "slug": "docker-port-map",
       "title": "Show Published Container Ports",
       "ok": true,
-      "elapsed_ms": 172,
+      "elapsed_ms": 183,
       "command_count": 2
     },
     {
       "slug": "docker-system-df-verbose",
       "title": "Summarize Docker Disk Usage",
       "ok": true,
-      "elapsed_ms": 177,
+      "elapsed_ms": 161,
       "command_count": 2
     },
     {
       "slug": "docker-container-env-redacted",
       "title": "Inspect Container Environment Names",
       "ok": true,
-      "elapsed_ms": 174,
+      "elapsed_ms": 187,
       "command_count": 2
     },
     {
       "slug": "docker-network-container-map",
       "title": "See Container Network Attachments",
       "ok": true,
-      "elapsed_ms": 164,
+      "elapsed_ms": 174,
       "command_count": 2
     },
     {
       "slug": "docker-events-recent",
       "title": "Review Recent Docker Events",
       "ok": true,
-      "elapsed_ms": 173,
+      "elapsed_ms": 180,
       "command_count": 2
     },
     {
       "slug": "nginx-test-config",
       "title": "Test Nginx Before Reload",
       "ok": true,
-      "elapsed_ms": 181,
+      "elapsed_ms": 208,
       "command_count": 3
     },
     {
       "slug": "nginx-show-enabled-sites",
       "title": "Show Enabled Nginx Sites",
       "ok": true,
-      "elapsed_ms": 187,
+      "elapsed_ms": 192,
       "command_count": 3
     },
     {
       "slug": "nginx-find-server-name",
       "title": "Find Which Nginx Config Owns a Domain",
       "ok": true,
-      "elapsed_ms": 187,
+      "elapsed_ms": 188,
       "command_count": 3
     },
     {
       "slug": "check-http-redirect",
       "title": "Check HTTP to HTTPS Redirect",
       "ok": true,
-      "elapsed_ms": 196,
+      "elapsed_ms": 207,
       "command_count": 3
     },
     {
@@ -430,105 +430,105 @@
       "slug": "dig-a-record",
       "title": "Check a Domain A Record",
       "ok": true,
-      "elapsed_ms": 188,
+      "elapsed_ms": 199,
       "command_count": 3
     },
     {
       "slug": "certbot-list-certs",
       "title": "List Certbot Certificates",
       "ok": true,
-      "elapsed_ms": 170,
+      "elapsed_ms": 220,
       "command_count": 3
     },
     {
       "slug": "check-nginx-symlink-target",
       "title": "Check the Current Release Symlink",
       "ok": true,
-      "elapsed_ms": 183,
+      "elapsed_ms": 191,
       "command_count": 3
     },
     {
       "slug": "nginx-find-404s",
       "title": "Find Top 404 URLs",
       "ok": true,
-      "elapsed_ms": 187,
+      "elapsed_ms": 192,
       "command_count": 3
     },
     {
       "slug": "watch-access-by-referrer",
       "title": "See Top Referrers",
       "ok": true,
-      "elapsed_ms": 189,
+      "elapsed_ms": 178,
       "command_count": 3
     },
     {
       "slug": "find-top-cpu-processes-with-ps",
       "title": "Find the Processes Burning CPU",
       "ok": true,
-      "elapsed_ms": 182,
+      "elapsed_ms": 188,
       "command_count": 2
     },
     {
       "slug": "find-top-memory-processes-with-ps",
       "title": "Find the Processes Eating Memory",
       "ok": true,
-      "elapsed_ms": 194,
+      "elapsed_ms": 185,
       "command_count": 2
     },
     {
       "slug": "check-memory-pressure-with-free",
       "title": "Check Memory Pressure with free",
       "ok": true,
-      "elapsed_ms": 188,
+      "elapsed_ms": 192,
       "command_count": 2
     },
     {
       "slug": "read-load-average-with-uptime",
       "title": "Read Load Average Before You React",
       "ok": true,
-      "elapsed_ms": 188,
+      "elapsed_ms": 194,
       "command_count": 2
     },
     {
       "slug": "check-disk-space-with-df",
       "title": "Check Filesystem Space with df",
       "ok": true,
-      "elapsed_ms": 190,
+      "elapsed_ms": 186,
       "command_count": 2
     },
     {
       "slug": "check-inode-pressure-with-df-i",
       "title": "Check Inodes When Disk Space Looks Fine",
       "ok": true,
-      "elapsed_ms": 178,
+      "elapsed_ms": 189,
       "command_count": 2
     },
     {
       "slug": "find-large-directories-with-du",
       "title": "Find Large Directories with du",
       "ok": true,
-      "elapsed_ms": 181,
+      "elapsed_ms": 199,
       "command_count": 2
     },
     {
       "slug": "find-listening-ports-with-ss",
       "title": "Find Listening Ports with ss",
       "ok": true,
-      "elapsed_ms": 190,
+      "elapsed_ms": 188,
       "command_count": 2
     },
     {
       "slug": "find-open-deleted-files-with-lsof",
       "title": "Find Open Deleted Files with lsof",
       "ok": true,
-      "elapsed_ms": 195,
+      "elapsed_ms": 187,
       "command_count": 2
     },
     {
       "slug": "inspect-established-connections-with-ss",
       "title": "Inspect Established Network Connections",
       "ok": true,
-      "elapsed_ms": 185,
+      "elapsed_ms": 196,
       "command_count": 2
     },
     {
@@ -542,70 +542,70 @@
       "slug": "sqlite-show-users-schema",
       "title": "Show One SQLite Table Schema",
       "ok": true,
-      "elapsed_ms": 222,
+      "elapsed_ms": 169,
       "command_count": 2
     },
     {
       "slug": "sqlite-check-integrity",
       "title": "Check SQLite Database Integrity",
       "ok": true,
-      "elapsed_ms": 210,
+      "elapsed_ms": 179,
       "command_count": 2
     },
     {
       "slug": "sqlite-list-user-tables",
       "title": "List SQLite User Tables Only",
       "ok": true,
-      "elapsed_ms": 193,
+      "elapsed_ms": 171,
       "command_count": 2
     },
     {
       "slug": "sqlite-count-key-tables",
       "title": "Count Rows in Key SQLite Tables",
       "ok": true,
-      "elapsed_ms": 191,
+      "elapsed_ms": 181,
       "command_count": 2
     },
     {
       "slug": "sqlite-show-order-indexes",
       "title": "Show Indexes on a SQLite Table",
       "ok": true,
-      "elapsed_ms": 192,
+      "elapsed_ms": 189,
       "command_count": 2
     },
     {
       "slug": "sqlite-show-recent-events",
       "title": "Show Recent SQLite Events",
       "ok": true,
-      "elapsed_ms": 186,
+      "elapsed_ms": 173,
       "command_count": 2
     },
     {
       "slug": "sqlite-count-events-by-type",
       "title": "Count SQLite Events by Type",
       "ok": true,
-      "elapsed_ms": 180,
+      "elapsed_ms": 184,
       "command_count": 2
     },
     {
       "slug": "sqlite-find-duplicate-emails",
       "title": "Find Duplicate Emails in SQLite",
       "ok": true,
-      "elapsed_ms": 213,
+      "elapsed_ms": 176,
       "command_count": 2
     },
     {
       "slug": "sqlite-backup-database-file",
       "title": "Back Up a SQLite Database File",
       "ok": true,
-      "elapsed_ms": 187,
+      "elapsed_ms": 173,
       "command_count": 3
     },
     {
       "slug": "find-duplicate-page-titles",
       "title": "Find Duplicate Page Titles",
       "ok": true,
-      "elapsed_ms": 182,
+      "elapsed_ms": 188,
       "command_count": 2
     },
     {
@@ -619,98 +619,98 @@
       "slug": "find-noindex-pages",
       "title": "Find Pages Marked noindex",
       "ok": true,
-      "elapsed_ms": 178,
+      "elapsed_ms": 203,
       "command_count": 2
     },
     {
       "slug": "find-pages-missing-meta-description",
       "title": "Find Pages Missing Meta Descriptions",
       "ok": true,
-      "elapsed_ms": 170,
+      "elapsed_ms": 182,
       "command_count": 2
     },
     {
       "slug": "list-sitemap-urls",
       "title": "List URLs from a Sitemap",
       "ok": true,
-      "elapsed_ms": 189,
+      "elapsed_ms": 192,
       "command_count": 2
     },
     {
       "slug": "check-robots-sitemap-line",
       "title": "Check robots.txt for a Sitemap Line",
       "ok": true,
-      "elapsed_ms": 179,
+      "elapsed_ms": 178,
       "command_count": 2
     },
     {
       "slug": "find-html-pages-missing-from-sitemap",
       "title": "Find HTML Pages Missing from the Sitemap",
       "ok": true,
-      "elapsed_ms": 198,
+      "elapsed_ms": 196,
       "command_count": 2
     },
     {
       "slug": "find-broken-internal-links",
       "title": "Find Broken Internal Links in Built HTML",
       "ok": true,
-      "elapsed_ms": 176,
+      "elapsed_ms": 175,
       "command_count": 2
     },
     {
       "slug": "find-pages-missing-og-title",
       "title": "Find Pages Missing og:title",
       "ok": true,
-      "elapsed_ms": 185,
+      "elapsed_ms": 181,
       "command_count": 2
     },
     {
       "slug": "find-feed-links-missing-from-sitemap",
       "title": "Find Feed Links Missing from the Sitemap",
       "ok": true,
-      "elapsed_ms": 190,
+      "elapsed_ms": 178,
       "command_count": 2
     },
     {
       "slug": "systemd-failed-units",
       "title": "Show Failed systemd Units",
       "ok": true,
-      "elapsed_ms": 188,
+      "elapsed_ms": 180,
       "command_count": 2
     },
     {
       "slug": "service-status-no-pager",
       "title": "Inspect One Service Without Pager Traps",
       "ok": true,
-      "elapsed_ms": 183,
+      "elapsed_ms": 184,
       "command_count": 2
     },
     {
       "slug": "journalctl-unit-since-boot",
       "title": "Read Current-Boot Logs for One Service",
       "ok": true,
-      "elapsed_ms": 179,
+      "elapsed_ms": 191,
       "command_count": 2
     },
     {
       "slug": "journal-disk-usage",
       "title": "Check systemd Journal Disk Usage",
       "ok": true,
-      "elapsed_ms": 193,
+      "elapsed_ms": 187,
       "command_count": 2
     },
     {
       "slug": "slow-boot-services",
       "title": "Find Slow Services During Boot",
       "ok": true,
-      "elapsed_ms": 189,
+      "elapsed_ms": 196,
       "command_count": 2
     },
     {
       "slug": "service-enabled-at-boot",
       "title": "Check Whether a Service Starts at Boot",
       "ok": true,
-      "elapsed_ms": 198,
+      "elapsed_ms": 197,
       "command_count": 2
     },
     {
@@ -724,7 +724,7 @@
       "slug": "recent-reboots",
       "title": "Show Recent Server Reboots",
       "ok": true,
-      "elapsed_ms": 188,
+      "elapsed_ms": 185,
       "command_count": 2
     },
     {
@@ -738,77 +738,147 @@
       "slug": "systemd-timers-due",
       "title": "List Upcoming systemd Timers",
       "ok": true,
+      "elapsed_ms": 187,
+      "command_count": 2
+    },
+    {
+      "slug": "security-count-failed-ssh-users",
+      "title": "Count Failed SSH Login Users",
+      "ok": true,
+      "elapsed_ms": 174,
+      "command_count": 2
+    },
+    {
+      "slug": "security-count-failed-ssh-ips",
+      "title": "Count Failed SSH Login IPs",
+      "ok": true,
+      "elapsed_ms": 188,
+      "command_count": 2
+    },
+    {
+      "slug": "security-show-accepted-ssh-logins",
+      "title": "Show Accepted SSH Logins",
+      "ok": true,
+      "elapsed_ms": 187,
+      "command_count": 2
+    },
+    {
+      "slug": "security-show-recent-sudo-commands",
+      "title": "Show Recent sudo Commands",
+      "ok": true,
+      "elapsed_ms": 184,
+      "command_count": 2
+    },
+    {
+      "slug": "security-list-listening-ports",
+      "title": "List Listening Ports on a VPS",
+      "ok": true,
+      "elapsed_ms": 191,
+      "command_count": 2
+    },
+    {
+      "slug": "security-list-login-shell-users",
+      "title": "List Users with Login Shells",
+      "ok": true,
+      "elapsed_ms": 180,
+      "command_count": 2
+    },
+    {
+      "slug": "security-check-sshd-auth-settings",
+      "title": "Check Key SSH Authentication Settings",
+      "ok": true,
       "elapsed_ms": 203,
+      "command_count": 2
+    },
+    {
+      "slug": "security-find-world-writable-web-dirs",
+      "title": "Find World-Writable Web Directories",
+      "ok": true,
+      "elapsed_ms": 190,
+      "command_count": 2
+    },
+    {
+      "slug": "security-find-loose-private-key-modes",
+      "title": "Find Loose Private Key Permissions",
+      "ok": true,
+      "elapsed_ms": 190,
+      "command_count": 2
+    },
+    {
+      "slug": "security-list-authorized-keys-files",
+      "title": "List authorized_keys Files",
+      "ok": true,
+      "elapsed_ms": 185,
       "command_count": 2
     },
     {
       "slug": "status-code-summary",
       "title": "Summarize HTTP Status Codes",
       "ok": true,
-      "elapsed_ms": 194,
+      "elapsed_ms": 174,
       "command_count": 3
     },
     {
       "slug": "web-4xx-by-ip",
       "title": "Find the IPs Creating the Most 4xx Noise",
       "ok": true,
-      "elapsed_ms": 250,
+      "elapsed_ms": 175,
       "command_count": 3
     },
     {
       "slug": "web-5xx-by-path",
       "title": "Group Server Errors by URL Path",
       "ok": true,
-      "elapsed_ms": 195,
+      "elapsed_ms": 169,
       "command_count": 3
     },
     {
       "slug": "suspicious-web-methods",
       "title": "Spot Unusual HTTP Methods in Access Logs",
       "ok": true,
-      "elapsed_ms": 201,
+      "elapsed_ms": 175,
       "command_count": 3
     },
     {
       "slug": "top-web-user-agents",
       "title": "Count the Most Common User Agents",
       "ok": true,
-      "elapsed_ms": 192,
+      "elapsed_ms": 200,
       "command_count": 3
     },
     {
       "slug": "admin-probe-paths",
       "title": "Find Common Admin Probe Paths",
       "ok": true,
-      "elapsed_ms": 238,
+      "elapsed_ms": 194,
       "command_count": 3
     },
     {
       "slug": "repeated-404-paths",
       "title": "Find Paths Repeatedly Returning 404",
       "ok": true,
-      "elapsed_ms": 207,
+      "elapsed_ms": 265,
       "command_count": 3
     },
     {
       "slug": "request-bursts-by-minute",
       "title": "Spot Request Bursts by Minute",
       "ok": true,
-      "elapsed_ms": 204,
+      "elapsed_ms": 170,
       "command_count": 3
     },
     {
       "slug": "large-web-responses",
       "title": "Find Unusually Large Web Responses",
       "ok": true,
-      "elapsed_ms": 184,
+      "elapsed_ms": 183,
       "command_count": 3
     },
     {
       "slug": "ip-path-repeaters",
       "title": "Find Clients Repeating the Same Path",
       "ok": true,
-      "elapsed_ms": 191,
+      "elapsed_ms": 181,
       "command_count": 3
     }
   ]

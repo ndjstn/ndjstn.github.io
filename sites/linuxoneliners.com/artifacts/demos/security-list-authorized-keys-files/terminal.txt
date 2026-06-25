@@ -1,0 +1,10 @@
+::fixture-ready::
+$ find home -type f -path '*/.ssh/*' -printf '%m %p\n' | sort
+600 home/alex/.ssh/authorized_keys
+600 home/deploy/.ssh/authorized_keys
+644 home/deploy/.ssh/id_rsa
+::exit-code::0
+$ find home -path '*/.ssh/authorized_keys' -printf '%m %p\n'
+600 home/deploy/.ssh/authorized_keys
+600 home/alex/.ssh/authorized_keys
+::exit-code::0

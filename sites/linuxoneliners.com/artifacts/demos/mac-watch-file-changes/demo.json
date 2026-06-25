@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 188,
+  "elapsed_ms": 185,
   "stdout": "::fixture-ready::\n$ tail -n 1 project/logs/app.log\nexit\n::exit-code::0\n$ printf '%s\\n' 'request GET /health' >> project/logs/app.log; tail -n 2 project/logs/app.log\nexit\nrequest GET /health\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

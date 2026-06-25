@@ -1,0 +1,15 @@
+::fixture-ready::
+$ ss -ltnp
+State  Recv-Q Send-Q Local Address:Port Peer Address:Port Process
+LISTEN 0      128          0.0.0.0:22        0.0.0.0:*     users:(("sshd",pid=801,fd=3))
+LISTEN 0      511          0.0.0.0:80        0.0.0.0:*     users:(("nginx",pid=1907,fd=6))
+LISTEN 0      511          0.0.0.0:443       0.0.0.0:*     users:(("nginx",pid=1907,fd=7))
+LISTEN 0      128        127.0.0.1:5432      0.0.0.0:*     users:(("postgres",pid=2011,fd=7))
+::exit-code::0
+$ ss -ltnp | awk 'NR==1 || /LISTEN/'
+State  Recv-Q Send-Q Local Address:Port Peer Address:Port Process
+LISTEN 0      128          0.0.0.0:22        0.0.0.0:*     users:(("sshd",pid=801,fd=3))
+LISTEN 0      511          0.0.0.0:80        0.0.0.0:*     users:(("nginx",pid=1907,fd=6))
+LISTEN 0      511          0.0.0.0:443       0.0.0.0:*     users:(("nginx",pid=1907,fd=7))
+LISTEN 0      128        127.0.0.1:5432      0.0.0.0:*     users:(("postgres",pid=2011,fd=7))
+::exit-code::0

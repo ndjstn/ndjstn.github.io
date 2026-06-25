@@ -1,0 +1,13 @@
+::fixture-ready::
+$ cat etc/passwd
+root:x:0:0:root:/root:/bin/bash
+www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin
+alex:x:1000:1000:Alex:/home/alex:/bin/bash
+deploy:x:1001:1001:Deploy:/home/deploy:/bin/bash
+backup:x:1002:1002:Backup:/srv/backup:/usr/sbin/nologin
+::exit-code::0
+$ awk -F: '$7 ~ /sh$/ {print $1, $7}' etc/passwd
+root /bin/bash
+alex /bin/bash
+deploy /bin/bash
+::exit-code::0

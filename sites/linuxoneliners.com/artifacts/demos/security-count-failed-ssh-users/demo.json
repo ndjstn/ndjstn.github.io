@@ -1,0 +1,25 @@
+{
+  "slug": "security-count-failed-ssh-users",
+  "title": "Count Failed SSH Login Users",
+  "fixture": "containers/vps-security-lab",
+  "command_count": 2,
+  "container_tool": "docker",
+  "image": "localhost/linuxoneliners-lab:latest",
+  "exit_code": 0,
+  "elapsed_ms": 174,
+  "stdout": "::fixture-ready::\n$ grep 'Failed password' logs/auth.log\nJun 25 12:00:01 vps sshd[1001]: Failed password for invalid user admin from 203.0.113.44 port 51122 ssh2\nJun 25 12:00:03 vps sshd[1002]: Failed password for root from 203.0.113.44 port 51124 ssh2\nJun 25 12:01:10 vps sshd[1003]: Failed password for deploy from 198.51.100.77 port 41002 ssh2\n::exit-code::0\n$ sed -n 's/.*Failed password for \\(invalid user \\)\\?\\([^ ]*\\) from .*/\\2/p' logs/auth.log | sort | uniq -c | sort -nr\n      1 root\n      1 deploy\n      1 admin\n::exit-code::0\n",
+  "stderr": "",
+  "ok": true,
+  "security": {
+    "network": "none",
+    "capabilities": "dropped",
+    "no_new_privileges": true,
+    "memory": "256m",
+    "cpus": "1",
+    "pids_limit": 128,
+    "tmpfs": [
+      "/tmp",
+      "/var"
+    ]
+  }
+}
