@@ -83,6 +83,46 @@ The default sale package should be:
 - anonymized analytics summary
 - optional database export only when the data policy allows transfer
 
+## Portfolio comments and SSO
+
+`justinstone.online` uses first-party comments instead of a hosted discussion
+widget. The static site calls a local Python service through Nginx:
+
+```text
+Browser -> https://justinstone.online/api/comments -> Nginx -> 127.0.0.1:8092
+```
+
+Runtime files stay outside the static release:
+
+- service code: `/srv/apps/justinstone.online/comments/comment_service.py`
+- database: `/srv/data/justinstone.online/comments.sqlite3`
+- secrets: `/etc/default/justinstone-comments`
+- systemd unit: `justinstone-comments.service`
+
+Comments require Google SSO. New submissions are stored as `pending`; only
+`approved` comments render publicly. Moderation is intentionally operator-side:
+
+```bash
+scripts/moderate_justinstone_comments.sh pending
+scripts/moderate_justinstone_comments.sh approve 123
+scripts/moderate_justinstone_comments.sh reject 123
+```
+
+The OAuth client should use:
+
+- authorized JavaScript origin: `https://justinstone.online`
+- authorized redirect URI:
+  `https://justinstone.online/auth/google/callback`
+
+Never commit OAuth secrets. Put them in `/etc/default/justinstone-comments`.
+
+For NAS/offsite backups, snapshot SQLite first and rsync the snapshot, not the
+hot database file:
+
+```bash
+scripts/snapshot_vps_databases.sh /path/to/nas/site-snapshots/latest
+```
+
 ## Future multi-site pattern
 
 Each new idea should start with a small manifest:

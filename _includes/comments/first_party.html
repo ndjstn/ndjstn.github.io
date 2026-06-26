@@ -1,0 +1,117 @@
+<section id="comments" class="mt-5">
+  <h2>Comments</h2>
+
+  <div id="first-party-comments" class="border rounded p-3" data-page-url="{{ page.url | relative_url }}" data-page-title="{{ page.title | escape }}">
+    <div class="comment-status text-muted small">Loading comments...</div>
+    <div class="comment-list mt-3"></div>
+    <div class="comment-auth mt-3"></div>
+  </div>
+
+  <noscript>
+    <p class="text-muted">Comments require JavaScript and Google sign-in.</p>
+  </noscript>
+
+  <script>
+    (() => {
+      const root = document.getElementById('first-party-comments');
+      if (!root) return;
+
+      const status = root.querySelector('.comment-status');
+      const list = root.querySelector('.comment-list');
+      const auth = root.querySelector('.comment-auth');
+      const pageUrl = root.dataset.pageUrl || window.location.pathname;
+      const pageTitle = root.dataset.pageTitle || document.title;
+
+      const setStatus = (text) => {
+        status.textContent = text;
+      };
+
+      const escapeText = (value) => {
+        const span = document.createElement('span');
+        span.textContent = value || '';
+        return span.innerHTML;
+      };
+
+      const renderComments = (comments) => {
+        if (!comments.length) {
+          list.innerHTML = '<p class="text-muted mb-0">No approved comments yet.</p>';
+          return;
+        }
+
+        list.innerHTML = comments.map((comment) => `
+          <article class="border-top py-3">
+            <div class="small text-muted">${escapeText(comment.author)} · ${new Date(comment.created_at).toLocaleString()}</div>
+            <p class="mb-0">${escapeText(comment.body).replace(/\n/g, '<br>')}</p>
+          </article>
+        `).join('');
+      };
+
+      const signInHref = `/auth/google/start?next=${encodeURIComponent(window.location.pathname + window.location.search)}`;
+
+      const renderAuth = (me) => {
+        if (!me.authenticated) {
+          auth.innerHTML = `<a class="btn btn-outline-primary btn-sm" href="${signInHref}">Sign in with Google to comment</a>`;
+          return;
+        }
+
+        const name = me.user.display_name || me.user.email || 'Signed in';
+        auth.innerHTML = `
+          <form class="comment-form">
+            <label class="form-label small text-muted" for="comment-body">Comment as ${escapeText(name)}</label>
+            <textarea id="comment-body" class="form-control" name="body" rows="4" maxlength="4000" required></textarea>
+            <input type="text" name="website" tabindex="-1" autocomplete="off" class="d-none" aria-hidden="true">
+            <div class="d-flex align-items-center gap-2 mt-2">
+              <button class="btn btn-primary btn-sm" type="submit">Submit for review</button>
+              <a class="small text-muted" href="/auth/logout">Sign out</a>
+            </div>
+          </form>
+        `;
+
+        auth.querySelector('form').addEventListener('submit', async (event) => {
+          event.preventDefault();
+          const form = event.currentTarget;
+          const body = form.elements.body.value.trim();
+          if (body.length < 3) return;
+
+          const response = await fetch('/api/comments', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              page_url: pageUrl,
+              page_title: pageTitle,
+              body,
+              website: form.elements.website.value
+            })
+          });
+
+          if (!response.ok && response.status === 401) {
+            window.location.href = signInHref;
+            return;
+          }
+
+          form.reset();
+          setStatus('Comment submitted for moderation.');
+        });
+      };
+
+      const load = async () => {
+        try {
+          const [commentsResponse, meResponse] = await Promise.all([
+            fetch(`/api/comments?page_url=${encodeURIComponent(pageUrl)}`, { cache: 'no-store' }),
+            fetch('/api/me', { cache: 'no-store' })
+          ]);
+
+          const commentsPayload = await commentsResponse.json();
+          const mePayload = await meResponse.json();
+          renderComments(commentsPayload.comments || []);
+          renderAuth(mePayload);
+          setStatus('');
+        } catch (error) {
+          setStatus('Comments are temporarily unavailable.');
+        }
+      };
+
+      load();
+    })();
+  </script>
+</section>
