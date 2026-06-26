@@ -1,0 +1,25 @@
+{
+  "slug": "disk-cleanup-rank-old-files-by-size",
+  "title": "Rank Old Cleanup Candidates by Size",
+  "fixture": "containers/disk-inode-cleanup-safety-lab",
+  "command_count": 2,
+  "container_tool": "docker",
+  "image": "localhost/linuxoneliners-lab:latest",
+  "exit_code": 0,
+  "elapsed_ms": 200,
+  "stdout": "::fixture-ready::\n$ find /lab/disk-inode-cleanup/var -xdev -type f -mtime +7 -printf '%s %TY-%Tm-%Td %p\\n' | sort -nr | head\n78643200 2026-06-01 /lab/disk-inode-cleanup/var/tmp/uploads/old-export.tar\n::exit-code::0\n$ find /lab/disk-inode-cleanup/var -xdev -type f -mtime +7 -printf '%10s %TY-%Tm-%Td %p\\n' | sort -nr | awk '{printf \"%.1f MB %s %s\\n\", $1/1024/1024, $2, $3}'\n75.0 MB 2026-06-01 /lab/disk-inode-cleanup/var/tmp/uploads/old-export.tar\n::exit-code::0\n",
+  "stderr": "",
+  "ok": true,
+  "security": {
+    "network": "none",
+    "capabilities": "dropped",
+    "no_new_privileges": true,
+    "memory": "256m",
+    "cpus": "1",
+    "pids_limit": 128,
+    "tmpfs": [
+      "/tmp",
+      "/var"
+    ]
+  }
+}

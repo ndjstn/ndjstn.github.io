@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 188,
+  "elapsed_ms": 178,
   "stdout": "::fixture-ready::\n$ cat /var/log/apt/history.log\nStart-Date: 2026-06-25  02:10:01\nCommandline: /usr/bin/unattended-upgrade\nUpgrade: openssl:amd64 (3.0.13-0ubuntu3.5, 3.0.13-0ubuntu3.6), curl:amd64 (8.5.0-2ubuntu10.6, 8.5.0-2ubuntu10.7)\nEnd-Date: 2026-06-25  02:10:18\n\nStart-Date: 2026-06-24  21:30:44\nCommandline: apt-get -y install nginx\nInstall: nginx:amd64 (1.24.0-2ubuntu7.3)\nEnd-Date: 2026-06-24  21:30:59\n\nStart-Date: 2026-06-23  03:12:04\nCommandline: apt-get upgrade\nUpgrade: libc6:amd64 (2.39-0ubuntu8.3, 2.39-0ubuntu8.4), linux-image-generic:amd64 (6.8.0-60.63, 6.8.0-63.66)\nEnd-Date: 2026-06-23  03:14:39\n::exit-code::0\n$ awk '/^(Start-Date|Commandline|Upgrade|End-Date)/ {print}' /var/log/apt/history.log\nStart-Date: 2026-06-25  02:10:01\nCommandline: /usr/bin/unattended-upgrade\nUpgrade: openssl:amd64 (3.0.13-0ubuntu3.5, 3.0.13-0ubuntu3.6), curl:amd64 (8.5.0-2ubuntu10.6, 8.5.0-2ubuntu10.7)\nEnd-Date: 2026-06-25  02:10:18\nStart-Date: 2026-06-24  21:30:44\nCommandline: apt-get -y install nginx\nEnd-Date: 2026-06-24  21:30:59\nStart-Date: 2026-06-23  03:12:04\nCommandline: apt-get upgrade\nUpgrade: libc6:amd64 (2.39-0ubuntu8.3, 2.39-0ubuntu8.4), linux-image-generic:amd64 (6.8.0-60.63, 6.8.0-63.66)\nEnd-Date: 2026-06-23  03:14:39\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

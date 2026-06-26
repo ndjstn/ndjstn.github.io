@@ -1,0 +1,11 @@
+::fixture-ready::
+$ find /lab/disk-inode-cleanup/var/cache/app -xdev -maxdepth 3 -type d -print | sort
+/lab/disk-inode-cleanup/var/cache/app
+/lab/disk-inode-cleanup/var/cache/app/empty-old
+/lab/disk-inode-cleanup/var/cache/app/shards
+/lab/disk-inode-cleanup/var/cache/app/shards/a
+/lab/disk-inode-cleanup/var/cache/app/shards/b
+::exit-code::0
+$ find /lab/disk-inode-cleanup/var/cache/app -xdev -depth -type d -empty -print
+/lab/disk-inode-cleanup/var/cache/app/empty-old
+::exit-code::0

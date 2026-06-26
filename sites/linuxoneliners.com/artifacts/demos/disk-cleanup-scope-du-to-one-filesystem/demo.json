@@ -1,0 +1,25 @@
+{
+  "slug": "disk-cleanup-scope-du-to-one-filesystem",
+  "title": "Keep du on One Filesystem",
+  "fixture": "containers/disk-inode-cleanup-safety-lab",
+  "command_count": 2,
+  "container_tool": "docker",
+  "image": "localhost/linuxoneliners-lab:latest",
+  "exit_code": 0,
+  "elapsed_ms": 217,
+  "stdout": "::fixture-ready::\n$ df -h /lab/disk-inode-cleanup\nFilesystem      Size  Used Avail Use% Mounted on\n/dev/vda1        25G   24G  680M  98% /lab/disk-inode-cleanup\ntmpfs           982M   12M  970M   2% /run\n::exit-code::0\n$ du -xh --max-depth=1 /lab/disk-inode-cleanup/var 2>/dev/null | sort -h\n8.0K\t/lab/disk-inode-cleanup/var/log\n8.0K\t/lab/disk-inode-cleanup/var/tmp\n664K\t/lab/disk-inode-cleanup/var/cache\n684K\t/lab/disk-inode-cleanup/var\n::exit-code::0\n",
+  "stderr": "",
+  "ok": true,
+  "security": {
+    "network": "none",
+    "capabilities": "dropped",
+    "no_new_privileges": true,
+    "memory": "256m",
+    "cpus": "1",
+    "pids_limit": 128,
+    "tmpfs": [
+      "/tmp",
+      "/var"
+    ]
+  }
+}

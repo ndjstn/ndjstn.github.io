@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 191,
+  "elapsed_ms": 176,
   "stdout": "::fixture-ready::\n$ cut -d: -f1,2 fixtures/user-access-audit/etc/shadow\nroot:!\ndaemon:*\nwww-data:*\nalex:$y$j9T$demoHashOnlyAlex\ndeploy:!\nreports:!\nbreakglass:$y$j9T$demoHashOnlyBreakglass\nbackup:!\n::exit-code::0\n$ awk -F: '$2 !~ /^(!|\\*)/ {print $1}' fixtures/user-access-audit/etc/shadow\nalex\nbreakglass\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 182,
+  "elapsed_ms": 185,
   "stdout": "::fixture-ready::\n$ find public -name '*.html' -maxdepth 3 -print\npublic/about.html\npublic/draft.html\npublic/blog/post.html\npublic/index.html\n::exit-code::0\n$ grep -Rho --include='*.html' '<title>[^<]*</title>' public | sed 's#<title>##;s#</title>##' | sort | uniq -c | sort -nr\n      2 Demo Site\n      1 Post One\n      1 Draft Page\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

@@ -1,0 +1,8 @@
+::fixture-ready::
+$ find /lab/disk-inode-cleanup/var/cache/app -xdev -type f -printf '%TY-%Tm-%Td\n' | sort | uniq -c
+    160 2026-06-26
+::exit-code::0
+$ find /lab/disk-inode-cleanup/var/cache/app -xdev -type f -printf '%h\n' | sort | uniq -c | sort -nr
+    120 /lab/disk-inode-cleanup/var/cache/app/shards/a
+     40 /lab/disk-inode-cleanup/var/cache/app/shards/b
+::exit-code::0

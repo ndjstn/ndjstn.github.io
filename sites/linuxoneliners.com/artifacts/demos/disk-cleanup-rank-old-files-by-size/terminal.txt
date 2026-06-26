@@ -1,0 +1,7 @@
+::fixture-ready::
+$ find /lab/disk-inode-cleanup/var -xdev -type f -mtime +7 -printf '%s %TY-%Tm-%Td %p\n' | sort -nr | head
+78643200 2026-06-01 /lab/disk-inode-cleanup/var/tmp/uploads/old-export.tar
+::exit-code::0
+$ find /lab/disk-inode-cleanup/var -xdev -type f -mtime +7 -printf '%10s %TY-%Tm-%Td %p\n' | sort -nr | awk '{printf "%.1f MB %s %s\n", $1/1024/1024, $2, $3}'
+75.0 MB 2026-06-01 /lab/disk-inode-cleanup/var/tmp/uploads/old-export.tar
+::exit-code::0

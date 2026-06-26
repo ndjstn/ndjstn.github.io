@@ -1,0 +1,452 @@
+[
+  {
+    "slug": "disk-cleanup-confirm-space-and-inodes",
+    "title": "Check Bytes and Inodes Before Cleanup",
+    "series": "hosting-operations",
+    "hook": "No space left can mean full bytes, full inodes, or both.",
+    "problem": "A host is failing writes and you need to know whether byte usage or inode usage is the tighter limit before deleting anything.",
+    "command": "df -h /lab/disk-inode-cleanup && df -ih /lab/disk-inode-cleanup",
+    "danger": "safe",
+    "starting_state": "The fixture reports high byte usage and high inode usage on the same mounted path.",
+    "what_changed": "Nothing changes. The command prints filesystem byte and inode summaries.",
+    "when_to_use": "Use at the start of disk incidents before deciding whether to hunt large files or huge counts of small files.",
+    "when_not_to_use": "Do not treat df output as a cleanup plan; it only identifies the pressured filesystem.",
+    "undo": "No undo needed because both checks are read-only.",
+    "expected_output": "Two filesystem tables: one for byte usage and one for inode usage.",
+    "terminal_demo": {
+      "fixture": "containers/disk-inode-cleanup-safety-lab",
+      "commands": [
+        "df -h /lab/disk-inode-cleanup",
+        "df -ih /lab/disk-inode-cleanup"
+      ]
+    },
+    "shorts": {
+      "format": "vertical",
+      "duration_target_seconds": 28,
+      "title": "Check bytes and inodes.",
+      "voiceover": "Before deleting anything, check both df views. A filesystem can have free space and still run out of inodes.",
+      "caption": "Disk pressure has two counters."
+    },
+    "linkedin": {
+      "question": "During disk incidents, do you check inode pressure before cleanup?",
+      "cta": "Start with byte and inode evidence."
+    },
+    "youtube": {
+      "playlist": "Linux Resource Triage",
+      "description": "Use df and df -i together before choosing a disk cleanup strategy."
+    },
+    "experiments": [
+      {
+        "id": "disk_inode_first_check",
+        "metric": "save_rate",
+        "variant_a": "No space left has two meanings.",
+        "variant_b": "Check bytes and inodes before cleanup."
+      }
+    ]
+  },
+  {
+    "slug": "disk-cleanup-scope-du-to-one-filesystem",
+    "title": "Keep du on One Filesystem",
+    "series": "hosting-operations",
+    "hook": "A cleanup scan should not wander into mounted backups or network storage.",
+    "problem": "You need a directory-level size view without crossing filesystem boundaries during disk triage.",
+    "command": "du -xh --max-depth=1 /lab/disk-inode-cleanup/var 2>/dev/null | sort -h",
+    "danger": "safe",
+    "starting_state": "The fixture has logs, temporary uploads, and cache data under one application tree.",
+    "what_changed": "Nothing changes. The command measures apparent usage and keeps the scan on one filesystem.",
+    "when_to_use": "Use after df identifies the pressured mount and you need a scoped directory ranking.",
+    "when_not_to_use": "Do not run broad recursive scans from / during a busy incident unless the extra I/O is acceptable.",
+    "undo": "No undo needed because du only reads metadata and file sizes.",
+    "expected_output": "A human-readable size list for direct children under the selected var directory.",
+    "terminal_demo": {
+      "fixture": "containers/disk-inode-cleanup-safety-lab",
+      "commands": [
+        "df -h /lab/disk-inode-cleanup",
+        "du -xh --max-depth=1 /lab/disk-inode-cleanup/var 2>/dev/null | sort -h"
+      ]
+    },
+    "shorts": {
+      "format": "vertical",
+      "duration_target_seconds": 31,
+      "title": "Scope your disk scan.",
+      "voiceover": "After df names the full mount, use du with xdev behavior and a max depth so the scan stays targeted.",
+      "caption": "Keep cleanup scans scoped."
+    },
+    "linkedin": {
+      "question": "Do your disk cleanup scans intentionally avoid mounted backup paths?",
+      "cta": "Use scoped du output before drilling deeper."
+    },
+    "youtube": {
+      "playlist": "Linux Resource Triage",
+      "description": "Use scoped du output to rank directories without crossing filesystem boundaries."
+    },
+    "experiments": [
+      {
+        "id": "du_xdev_cleanup_scope",
+        "metric": "completion_rate",
+        "variant_a": "Do not scan the whole machine.",
+        "variant_b": "Keep du on the pressured filesystem."
+      }
+    ]
+  },
+  {
+    "slug": "disk-cleanup-preview-old-temp-files",
+    "title": "Preview Old Temp Files Before Deleting",
+    "series": "hosting-operations",
+    "hook": "The safe version of cleanup is a candidate list first.",
+    "problem": "A temporary upload directory may contain stale files, but you need evidence before removing anything.",
+    "command": "find /lab/disk-inode-cleanup/var/tmp/uploads -xdev -type f -mtime +7 -printf '%TY-%Tm-%Td %10s %p\\n' | sort",
+    "danger": "safe",
+    "starting_state": "The fixture contains one old export and one recent export in a temporary upload path.",
+    "what_changed": "Nothing changes. The command prints only candidate files older than the threshold.",
+    "when_to_use": "Use before manual cleanup of upload, export, cache, or temp paths where age matters.",
+    "when_not_to_use": "Do not pipe this directly to rm until owners, retention rules, and open-file state are understood.",
+    "undo": "No undo needed because the command only prints candidates.",
+    "expected_output": "Old candidate files with modification date, byte size, and path.",
+    "terminal_demo": {
+      "fixture": "containers/disk-inode-cleanup-safety-lab",
+      "commands": [
+        "find /lab/disk-inode-cleanup/var/tmp/uploads -xdev -type f -printf '%TY-%Tm-%Td %10s %p\\n' | sort",
+        "find /lab/disk-inode-cleanup/var/tmp/uploads -xdev -type f -mtime +7 -printf '%TY-%Tm-%Td %10s %p\\n' | sort"
+      ]
+    },
+    "shorts": {
+      "format": "vertical",
+      "duration_target_seconds": 32,
+      "title": "Print cleanup candidates first.",
+      "voiceover": "Use find to print old temp files before deletion enters the conversation. Age and size make the review concrete.",
+      "caption": "Candidate list first, delete later."
+    },
+    "linkedin": {
+      "question": "What proof do you require before deleting temp files on a production host?",
+      "cta": "Print the candidate list before cleanup."
+    },
+    "youtube": {
+      "playlist": "Hosting Operations",
+      "description": "Use find with age, size, and path output to preview old temporary files before cleanup."
+    },
+    "experiments": [
+      {
+        "id": "old_temp_preview_before_rm",
+        "metric": "share_rate",
+        "variant_a": "Candidate list first.",
+        "variant_b": "Preview old temp files before rm."
+      }
+    ]
+  },
+  {
+    "slug": "disk-cleanup-find-inode-hotspots",
+    "title": "Find Directories Burning Inodes",
+    "series": "hosting-operations",
+    "hook": "Inode cleanup starts by finding the directory with too many files.",
+    "problem": "Inode usage is high and you need to locate which directories contain the most regular files.",
+    "command": "find /lab/disk-inode-cleanup/var/cache/app -xdev -type f -printf '%h\\n' | sort | uniq -c | sort -nr | head",
+    "danger": "safe",
+    "starting_state": "The fixture contains many small cache files split across shard directories.",
+    "what_changed": "Nothing changes. The command counts files by parent directory.",
+    "when_to_use": "Use when df -ih is high and large-file searches do not explain write failures.",
+    "when_not_to_use": "Do not assume the largest count is safe to delete; identify the application owner and cache semantics first.",
+    "undo": "No undo needed because this is a read-only file count.",
+    "expected_output": "A count of regular files grouped by parent directory, sorted highest first.",
+    "terminal_demo": {
+      "fixture": "containers/disk-inode-cleanup-safety-lab",
+      "commands": [
+        "df -ih /lab/disk-inode-cleanup",
+        "find /lab/disk-inode-cleanup/var/cache/app -xdev -type f -printf '%h\\n' | sort | uniq -c | sort -nr | head"
+      ]
+    },
+    "shorts": {
+      "format": "vertical",
+      "duration_target_seconds": 34,
+      "title": "Find inode hotspots.",
+      "voiceover": "When inodes are the problem, count files by directory. The biggest byte consumer may not be the inode culprit.",
+      "caption": "Inode pressure is file count pressure."
+    },
+    "linkedin": {
+      "question": "Have you seen a small cache directory exhaust inodes before it exhausted bytes?",
+      "cta": "Count files by directory before deleting."
+    },
+    "youtube": {
+      "playlist": "Linux Resource Triage",
+      "description": "Use find, sort, and uniq to locate directories with high file counts during inode pressure."
+    },
+    "experiments": [
+      {
+        "id": "inode_hotspot_counts",
+        "metric": "save_rate",
+        "variant_a": "Inodes are file count pressure.",
+        "variant_b": "Find the directory burning inodes."
+      }
+    ]
+  },
+  {
+    "slug": "disk-cleanup-list-empty-directories",
+    "title": "List Empty Directories as Cleanup Candidates",
+    "series": "hosting-operations",
+    "hook": "Empty directories are low-risk candidates, but they still deserve a preview.",
+    "problem": "A cache tree may contain abandoned empty directories and you need to review them before cleanup.",
+    "command": "find /lab/disk-inode-cleanup/var/cache/app -xdev -depth -type d -empty -print",
+    "danger": "safe",
+    "starting_state": "The fixture has an intentionally empty cache directory beside active shard directories.",
+    "what_changed": "Nothing changes. The command prints empty directories without removing them.",
+    "when_to_use": "Use before pruning empty cache or working directories after a migration, deploy, or failed job.",
+    "when_not_to_use": "Do not delete empty directories that applications expect to exist unless startup or deploy code recreates them.",
+    "undo": "No undo needed because this command is read-only.",
+    "expected_output": "Paths to empty directories under the selected cache tree.",
+    "terminal_demo": {
+      "fixture": "containers/disk-inode-cleanup-safety-lab",
+      "commands": [
+        "find /lab/disk-inode-cleanup/var/cache/app -xdev -maxdepth 3 -type d -print | sort",
+        "find /lab/disk-inode-cleanup/var/cache/app -xdev -depth -type d -empty -print"
+      ]
+    },
+    "shorts": {
+      "format": "vertical",
+      "duration_target_seconds": 27,
+      "title": "Preview empty dirs.",
+      "voiceover": "Even empty-directory cleanup should start with a print-only pass. Some apps expect those paths to exist.",
+      "caption": "Empty does not always mean disposable."
+    },
+    "linkedin": {
+      "question": "Do you treat empty directories as safe to remove, or do you check app expectations first?",
+      "cta": "Preview empty paths before pruning."
+    },
+    "youtube": {
+      "playlist": "Hosting Operations",
+      "description": "Use find to list empty directories before deciding whether cleanup is safe."
+    },
+    "experiments": [
+      {
+        "id": "empty_dirs_preview",
+        "metric": "comment_rate",
+        "variant_a": "Empty is not always disposable.",
+        "variant_b": "Preview empty directories first."
+      }
+    ]
+  },
+  {
+    "slug": "disk-cleanup-protect-current-release",
+    "title": "Exclude the Current Release from Cleanup",
+    "series": "hosting-operations",
+    "hook": "Release cleanup should prove what current points to before listing old directories.",
+    "problem": "Several release directories exist and you need to identify stale candidates without touching the active symlink target.",
+    "command": "current=$(readlink -f /lab/disk-inode-cleanup/home/deploy/current); find /lab/disk-inode-cleanup/home/deploy/releases -mindepth 1 -maxdepth 1 -type d ! -samefile \"$current\" -printf '%TY-%Tm-%Td %p\\n' | sort",
+    "danger": "safe",
+    "starting_state": "The fixture has dated release directories and a current symlink pointing at the newest release.",
+    "what_changed": "Nothing changes. The command resolves the active release and prints only non-current candidates.",
+    "when_to_use": "Use before release-directory cleanup on hosts that keep multiple deploy versions.",
+    "when_not_to_use": "Do not delete old releases until rollback policy, backup state, and active symlinks are confirmed.",
+    "undo": "No undo needed because the command only resolves and prints paths.",
+    "expected_output": "Older release directories, excluding the current symlink target.",
+    "terminal_demo": {
+      "fixture": "containers/disk-inode-cleanup-safety-lab",
+      "commands": [
+        "readlink -f /lab/disk-inode-cleanup/home/deploy/current",
+        "current=$(readlink -f /lab/disk-inode-cleanup/home/deploy/current); find /lab/disk-inode-cleanup/home/deploy/releases -mindepth 1 -maxdepth 1 -type d ! -samefile \"$current\" -printf '%TY-%Tm-%Td %p\\n' | sort"
+      ]
+    },
+    "shorts": {
+      "format": "vertical",
+      "duration_target_seconds": 35,
+      "title": "Protect current release.",
+      "voiceover": "Before cleaning old releases, resolve the current symlink and exclude that target from the candidate list.",
+      "caption": "Release cleanup starts with current."
+    },
+    "linkedin": {
+      "question": "What is your guardrail before deleting old release directories?",
+      "cta": "Resolve current first, then list candidates."
+    },
+    "youtube": {
+      "playlist": "Linux Deployment Triage",
+      "description": "Use readlink and find to list stale release directories while excluding the active release."
+    },
+    "experiments": [
+      {
+        "id": "release_cleanup_current_guard",
+        "metric": "save_rate",
+        "variant_a": "Resolve current before cleanup.",
+        "variant_b": "Do not delete the active release."
+      }
+    ]
+  },
+  {
+    "slug": "disk-cleanup-rank-old-files-by-size",
+    "title": "Rank Old Cleanup Candidates by Size",
+    "series": "hosting-operations",
+    "hook": "The oldest file is not always the file that buys back meaningful space.",
+    "problem": "You have old files in a cleanup path and need to review the largest candidates first without deleting anything.",
+    "command": "find /lab/disk-inode-cleanup/var -xdev -type f -mtime +7 -printf '%s %TY-%Tm-%Td %p\\n' | sort -nr | head",
+    "danger": "safe",
+    "starting_state": "The fixture contains old logs, an old upload export, recent files, and many small cache files.",
+    "what_changed": "Nothing changes. The command prints old files with byte sizes and sorts the candidates largest first.",
+    "when_to_use": "Use when cleanup pressure is urgent and you need to focus review on candidates that would actually reclaim space.",
+    "when_not_to_use": "Do not delete the largest old file just because it is large; confirm ownership, retention, and whether a process still needs it.",
+    "undo": "No undo needed because this command only prints candidate files.",
+    "expected_output": "A largest-first list of old files with byte counts, dates, and paths.",
+    "terminal_demo": {
+      "fixture": "containers/disk-inode-cleanup-safety-lab",
+      "commands": [
+        "find /lab/disk-inode-cleanup/var -xdev -type f -mtime +7 -printf '%s %TY-%Tm-%Td %p\\n' | sort -nr | head",
+        "find /lab/disk-inode-cleanup/var -xdev -type f -mtime +7 -printf '%10s %TY-%Tm-%Td %p\\n' | sort -nr | awk '{printf \"%.1f MB %s %s\\n\", $1/1024/1024, $2, $3}'"
+      ]
+    },
+    "shorts": {
+      "format": "vertical",
+      "duration_target_seconds": 32,
+      "title": "Rank old files by size.",
+      "voiceover": "If cleanup needs space back quickly, sort old candidates by bytes first. Review the big wins before touching anything.",
+      "caption": "Old and large deserves review first."
+    },
+    "linkedin": {
+      "question": "When disk cleanup is urgent, do you review oldest files first or largest old files first?",
+      "cta": "Sort candidates by impact before deletion."
+    },
+    "youtube": {
+      "playlist": "Hosting Operations",
+      "description": "Use find and sort to rank old cleanup candidates by size without deleting files."
+    },
+    "experiments": [
+      {
+        "id": "old_files_ranked_by_size",
+        "metric": "save_rate",
+        "variant_a": "Old is not the same as useful to delete.",
+        "variant_b": "Rank old cleanup candidates by size."
+      }
+    ]
+  },
+  {
+    "slug": "disk-cleanup-review-log-file-growth",
+    "title": "Review Log Files Before Cleanup",
+    "series": "hosting-operations",
+    "hook": "Before truncating logs, prove which log files are large and how old they are.",
+    "problem": "Log files are suspected during disk pressure and you need a compact review list before changing retention or truncating anything.",
+    "command": "find /lab/disk-inode-cleanup/var/log -xdev -type f -printf '%10s %TY-%Tm-%Td %p\\n' | sort -nr",
+    "danger": "safe",
+    "starting_state": "The fixture has nginx log files with different sizes under a var/log tree.",
+    "what_changed": "Nothing changes. The command prints log file sizes, dates, and paths for review.",
+    "when_to_use": "Use before truncating, compressing, rotating, or moving logs during disk incidents.",
+    "when_not_to_use": "Do not treat log cleanup as a substitute for fixing missing rotation or runaway logging.",
+    "undo": "No undo needed because the command is read-only.",
+    "expected_output": "A size-sorted list of log files with modification dates and paths.",
+    "terminal_demo": {
+      "fixture": "containers/disk-inode-cleanup-safety-lab",
+      "commands": [
+        "find /lab/disk-inode-cleanup/var/log -xdev -type f -printf '%10s %TY-%Tm-%Td %p\\n' | sort -nr",
+        "find /lab/disk-inode-cleanup/var/log -xdev -type f -printf '%s %p\\n' | awk '{total += $1} END {printf \"log_total_mb=%.1f\\n\", total/1024/1024}'"
+      ]
+    },
+    "shorts": {
+      "format": "vertical",
+      "duration_target_seconds": 30,
+      "title": "Review logs before cleanup.",
+      "voiceover": "Do not blindly truncate logs during a disk alert. Print size, age, and path first so the cleanup decision is visible.",
+      "caption": "Measure logs before touching them."
+    },
+    "linkedin": {
+      "question": "Do you check log size and age before truncating during disk incidents?",
+      "cta": "Make log cleanup evidence-based."
+    },
+    "youtube": {
+      "playlist": "Hosting Operations",
+      "description": "Use find to review log file sizes and ages before cleanup."
+    },
+    "experiments": [
+      {
+        "id": "log_cleanup_review_first",
+        "metric": "completion_rate",
+        "variant_a": "Do not blindly truncate logs.",
+        "variant_b": "Review log size and age first."
+      }
+    ]
+  },
+  {
+    "slug": "disk-cleanup-summarize-cache-file-ages",
+    "title": "Summarize Cache File Ages",
+    "series": "hosting-operations",
+    "hook": "Cache cleanup is safer when you know whether files are stale or still active.",
+    "problem": "A cache tree is using many inodes and you need to see file age distribution before deciding on a retention threshold.",
+    "command": "find /lab/disk-inode-cleanup/var/cache/app -xdev -type f -printf '%TY-%Tm-%Td\\n' | sort | uniq -c",
+    "danger": "safe",
+    "starting_state": "The fixture has many small cache files distributed across shard directories.",
+    "what_changed": "Nothing changes. The command groups cache files by modification date.",
+    "when_to_use": "Use before age-based cache cleanup so the cutoff is based on the actual file population.",
+    "when_not_to_use": "Do not use file age alone for application-owned caches that have their own invalidation or lock semantics.",
+    "undo": "No undo needed because this is a read-only summary.",
+    "expected_output": "Counts of cache files grouped by date.",
+    "terminal_demo": {
+      "fixture": "containers/disk-inode-cleanup-safety-lab",
+      "commands": [
+        "find /lab/disk-inode-cleanup/var/cache/app -xdev -type f -printf '%TY-%Tm-%Td\\n' | sort | uniq -c",
+        "find /lab/disk-inode-cleanup/var/cache/app -xdev -type f -printf '%h\\n' | sort | uniq -c | sort -nr"
+      ]
+    },
+    "shorts": {
+      "format": "vertical",
+      "duration_target_seconds": 31,
+      "title": "Check cache age first.",
+      "voiceover": "Before choosing a cache cleanup cutoff, count files by date. It turns a risky guess into a visible threshold.",
+      "caption": "Choose cleanup cutoffs from evidence."
+    },
+    "linkedin": {
+      "question": "Do you choose cache cleanup thresholds from file age data or from habit?",
+      "cta": "Summarize cache age before cleanup."
+    },
+    "youtube": {
+      "playlist": "Linux Resource Triage",
+      "description": "Use find and uniq to summarize cache file ages before inode cleanup."
+    },
+    "experiments": [
+      {
+        "id": "cache_age_before_cleanup",
+        "metric": "share_rate",
+        "variant_a": "Choose cache cutoffs from evidence.",
+        "variant_b": "Count cache files by age first."
+      }
+    ]
+  },
+  {
+    "slug": "disk-cleanup-print-dry-run-removal-script",
+    "title": "Print a Dry-Run Removal Script",
+    "series": "dangerous-commands",
+    "hook": "The reviewable cleanup command is the one you print before you run.",
+    "problem": "You have cleanup candidates and need a human-reviewable removal plan instead of executing deletion directly from find.",
+    "command": "find /lab/disk-inode-cleanup/var/tmp/uploads -xdev -type f -mtime +7 -printf 'rm -i -- %p\\n'",
+    "danger": "caution",
+    "starting_state": "The fixture has an old temporary upload candidate and a recent upload that should not be listed.",
+    "what_changed": "Nothing changes. The command prints interactive rm commands as text and does not execute them.",
+    "when_to_use": "Use when turning a candidate list into a reviewed cleanup plan for a small, well-understood path.",
+    "when_not_to_use": "Do not pipe generated removal commands into a shell; review, quote, and execute intentionally if cleanup is approved.",
+    "undo": "No undo needed for the dry run. If a printed command is later executed, restore from backup or the source system.",
+    "expected_output": "One printed rm -i command per old cleanup candidate.",
+    "terminal_demo": {
+      "fixture": "containers/disk-inode-cleanup-safety-lab",
+      "commands": [
+        "find /lab/disk-inode-cleanup/var/tmp/uploads -xdev -type f -mtime +7 -printf '%TY-%Tm-%Td %p\\n' | sort",
+        "find /lab/disk-inode-cleanup/var/tmp/uploads -xdev -type f -mtime +7 -printf 'rm -i -- %p\\n'"
+      ]
+    },
+    "shorts": {
+      "format": "vertical",
+      "duration_target_seconds": 36,
+      "title": "Print cleanup commands first.",
+      "voiceover": "If deletion is on the table, print the exact rm commands first. Review the plan before anything touches the files.",
+      "caption": "Dry-run cleanup as text."
+    },
+    "linkedin": {
+      "question": "Do you review generated cleanup commands before executing them?",
+      "cta": "Print the removal plan before running it."
+    },
+    "youtube": {
+      "playlist": "Dangerous Commands",
+      "description": "Use find to print a dry-run removal plan instead of deleting files directly."
+    },
+    "experiments": [
+      {
+        "id": "dry_run_removal_script",
+        "metric": "save_rate",
+        "variant_a": "Print the cleanup plan first.",
+        "variant_b": "Never pipe cleanup straight into a shell."
+      }
+    ]
+  }
+]

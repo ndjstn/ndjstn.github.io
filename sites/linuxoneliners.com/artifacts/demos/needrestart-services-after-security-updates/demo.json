@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 186,
+  "elapsed_ms": 184,
   "stdout": "::fixture-ready::\n$ needrestart -b\nNEEDRESTART-VER: 3.6\nNEEDRESTART-KCUR: 6.8.0-60-generic\nNEEDRESTART-KEXP: 6.8.0-63-generic\nNEEDRESTART-KSTA: 3\nNEEDRESTART-SVC: systemctl restart nginx.service\nNEEDRESTART-SVC: systemctl restart ssh.service\n::exit-code::0\n$ needrestart -b | sed -n 's/^NEEDRESTART-SVC: //p'\nsystemctl restart nginx.service\nsystemctl restart ssh.service\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

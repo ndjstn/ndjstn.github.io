@@ -1,0 +1,25 @@
+{
+  "slug": "disk-cleanup-find-inode-hotspots",
+  "title": "Find Directories Burning Inodes",
+  "fixture": "containers/disk-inode-cleanup-safety-lab",
+  "command_count": 2,
+  "container_tool": "docker",
+  "image": "localhost/linuxoneliners-lab:latest",
+  "exit_code": 0,
+  "elapsed_ms": 205,
+  "stdout": "::fixture-ready::\n$ df -ih /lab/disk-inode-cleanup\nFilesystem     Inodes IUsed IFree IUse% Mounted on\n/dev/vda1        512K  499K   13K   98% /lab/disk-inode-cleanup\ntmpfs            245K    14  245K    1% /run\n::exit-code::0\n$ find /lab/disk-inode-cleanup/var/cache/app -xdev -type f -printf '%h\\n' | sort | uniq -c | sort -nr | head\n    120 /lab/disk-inode-cleanup/var/cache/app/shards/a\n     40 /lab/disk-inode-cleanup/var/cache/app/shards/b\n::exit-code::0\n",
+  "stderr": "",
+  "ok": true,
+  "security": {
+    "network": "none",
+    "capabilities": "dropped",
+    "no_new_privileges": true,
+    "memory": "256m",
+    "cpus": "1",
+    "pids_limit": 128,
+    "tmpfs": [
+      "/tmp",
+      "/var"
+    ]
+  }
+}

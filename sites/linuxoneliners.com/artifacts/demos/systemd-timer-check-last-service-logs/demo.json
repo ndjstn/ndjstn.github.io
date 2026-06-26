@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 193,
+  "elapsed_ms": 209,
   "stdout": "::fixture-ready::\n$ systemctl list-timers --all --no-pager --plain | awk 'NR==1 || /backup.timer/'\nNEXT                         LEFT     LAST                         PASSED UNIT                 ACTIVATES\nThu 2026-06-25 22:00:00 CDT  7h left  Thu 2026-06-25 02:00:00 CDT  12h ago backup.timer         backup.service\n::exit-code::0\n$ journalctl -u backup.service -n 20 --no-pager\nJun 25 02:00:01 vps backup[1200]: started\nJun 25 02:04:42 vps backup[1200]: completed snapshot demo-20260625\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

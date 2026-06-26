@@ -1,0 +1,10 @@
+::fixture-ready::
+$ df -ih /lab/disk-inode-cleanup
+Filesystem     Inodes IUsed IFree IUse% Mounted on
+/dev/vda1        512K  499K   13K   98% /lab/disk-inode-cleanup
+tmpfs            245K    14  245K    1% /run
+::exit-code::0
+$ find /lab/disk-inode-cleanup/var/cache/app -xdev -type f -printf '%h\n' | sort | uniq -c | sort -nr | head
+    120 /lab/disk-inode-cleanup/var/cache/app/shards/a
+     40 /lab/disk-inode-cleanup/var/cache/app/shards/b
+::exit-code::0

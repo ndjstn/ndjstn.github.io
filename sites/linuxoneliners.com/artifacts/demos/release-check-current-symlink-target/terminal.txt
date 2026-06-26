@@ -1,6 +1,6 @@
 ::fixture-ready::
 $ cd /lab/git-recovery-rollback && ls -l releases/current
-lrwxrwxrwx 1 root root 15 Jun 26 00:22 releases/current -> 2026-06-25-1030
+lrwxrwxrwx 1 root root 15 Jun 26 00:24 releases/current -> 2026-06-25-1030
 ::exit-code::0
 $ cd /lab/git-recovery-rollback && readlink releases/current && cat releases/current/VERSION
 2026-06-25-1030

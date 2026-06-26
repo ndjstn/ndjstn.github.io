@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 206,
+  "elapsed_ms": 193,
   "stdout": "::fixture-ready::\n$ cd restore-dr && rm -rf restore-sandbox/full && mkdir -p restore-sandbox/full && tar -xf backups/2026-06-25/site.tar -C restore-sandbox/full\n::exit-code::0\n$ cd restore-dr && find restore-sandbox/full -type f | sed 's#^restore-sandbox/full/##' | sort\nCHECKSUMS.sha256\napp/config.yml\napp/orders.csv\napp/secrets.env\nbin/deploy.sh\npublic/index.html\nuploads/avatar.txt\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 174,
+  "elapsed_ms": 164,
   "stdout": "::fixture-ready::\n$ nl -ba project/logs/app.log | sed -n '1,8p'\n     1\tserver started\n     2\tloading config\n     3\tERROR missing API_KEY\n     4\tretry disabled\n     5\texit\n::exit-code::0\n$ grep -n -C 2 'ERROR' project/logs/app.log\n1-server started\n2-loading config\n3:ERROR missing API_KEY\n4-retry disabled\n5-exit\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

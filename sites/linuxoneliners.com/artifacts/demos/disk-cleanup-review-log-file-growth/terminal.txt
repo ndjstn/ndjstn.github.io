@@ -1,0 +1,8 @@
+::fixture-ready::
+$ find /lab/disk-inode-cleanup/var/log -xdev -type f -printf '%10s %TY-%Tm-%Td %p\n' | sort -nr
+  44040192 2026-06-26 /lab/disk-inode-cleanup/var/log/nginx/access.log
+  18874368 2026-06-26 /lab/disk-inode-cleanup/var/log/nginx/error.log.1
+::exit-code::0
+$ find /lab/disk-inode-cleanup/var/log -xdev -type f -printf '%s %p\n' | awk '{total += $1} END {printf "log_total_mb=%.1f\n", total/1024/1024}'
+log_total_mb=60.0
+::exit-code::0

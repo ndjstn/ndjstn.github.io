@@ -1,0 +1,25 @@
+{
+  "slug": "disk-cleanup-print-dry-run-removal-script",
+  "title": "Print a Dry-Run Removal Script",
+  "fixture": "containers/disk-inode-cleanup-safety-lab",
+  "command_count": 2,
+  "container_tool": "docker",
+  "image": "localhost/linuxoneliners-lab:latest",
+  "exit_code": 0,
+  "elapsed_ms": 191,
+  "stdout": "::fixture-ready::\n$ find /lab/disk-inode-cleanup/var/tmp/uploads -xdev -type f -mtime +7 -printf '%TY-%Tm-%Td %p\\n' | sort\n2026-06-01 /lab/disk-inode-cleanup/var/tmp/uploads/old-export.tar\n::exit-code::0\n$ find /lab/disk-inode-cleanup/var/tmp/uploads -xdev -type f -mtime +7 -printf 'rm -i -- %p\\n'\nrm -i -- /lab/disk-inode-cleanup/var/tmp/uploads/old-export.tar\n::exit-code::0\n",
+  "stderr": "",
+  "ok": true,
+  "security": {
+    "network": "none",
+    "capabilities": "dropped",
+    "no_new_privileges": true,
+    "memory": "256m",
+    "cpus": "1",
+    "pids_limit": 128,
+    "tmpfs": [
+      "/tmp",
+      "/var"
+    ]
+  }
+}

@@ -1,0 +1,7 @@
+::fixture-ready::
+$ find /lab/disk-inode-cleanup/var/tmp/uploads -xdev -type f -mtime +7 -printf '%TY-%Tm-%Td %p\n' | sort
+2026-06-01 /lab/disk-inode-cleanup/var/tmp/uploads/old-export.tar
+::exit-code::0
+$ find /lab/disk-inode-cleanup/var/tmp/uploads -xdev -type f -mtime +7 -printf 'rm -i -- %p\n'
+rm -i -- /lab/disk-inode-cleanup/var/tmp/uploads/old-export.tar
+::exit-code::0

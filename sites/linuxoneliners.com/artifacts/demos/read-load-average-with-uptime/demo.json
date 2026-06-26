@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 179,
+  "elapsed_ms": 175,
   "stdout": "::fixture-ready::\n$ uptime\n 12:32:44 up 18 days,  3:11,  2 users,  load average: 3.91, 2.44, 1.08\n::exit-code::0\n$ ps -eo pid,ppid,stat,pcpu,pmem,comm,args --sort=-pcpu | head -n 10\n  PID  PPID STAT %CPU %MEM COMMAND         COMMAND\n 1842     1 R    86.4  4.2  app-worker     /srv/app/worker --jobs\n 1907     1 S    12.8  1.1  nginx          nginx: worker process\n 2011     1 S     4.5  7.9  postgres       postgres: checkpointer\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

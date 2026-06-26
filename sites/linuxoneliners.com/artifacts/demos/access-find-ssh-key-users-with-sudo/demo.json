@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 188,
+  "elapsed_ms": 183,
   "stdout": "::fixture-ready::\n$ find fixtures/user-access-audit/home -path '*/.ssh/authorized_keys' -printf '%h\\n' | awk -F/ '{print $(NF-1)}' | sort\nalex\nbreakglass\ndeploy\nreports\n::exit-code::0\n$ comm -12 <(find fixtures/user-access-audit/home -path '*/.ssh/authorized_keys' -printf '%h\\n' | awk -F/ '{print $(NF-1)}' | sort) <(awk -F: '$1==\"sudo\" {gsub(\",\",\"\\n\",$4); print $4}' fixtures/user-access-audit/etc/group | sort)\nalex\nbreakglass\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

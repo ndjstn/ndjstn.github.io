@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 188,
+  "elapsed_ms": 174,
   "stdout": "::fixture-ready::\n$ systemctl list-dependencies app-worker --failed --no-pager\napp-worker.service\n\u25cf \u251c\u2500redis.service\n\u25cf \u2514\u2500network-online.target\n::exit-code::0\n$ journalctl -u redis -b --no-pager -n 30\nJun 25 14:19:40 vps systemd[1]: Starting redis.service - Redis data store...\nJun 25 14:19:41 vps redis-server[1998]: Fatal error, can't open config file '/etc/redis/redis.conf': Permission denied\nJun 25 14:19:41 vps systemd[1]: redis.service: Main process exited, code=exited, status=1/FAILURE\nJun 25 14:19:41 vps systemd[1]: redis.service: Failed with result 'exit-code'.\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

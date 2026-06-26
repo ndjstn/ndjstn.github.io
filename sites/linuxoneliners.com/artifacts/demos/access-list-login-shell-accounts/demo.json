@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 177,
+  "elapsed_ms": 175,
   "stdout": "::fixture-ready::\n$ sed -n '1,8p' fixtures/user-access-audit/etc/passwd\nroot:x:0:0:root:/root:/bin/bash\ndaemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin\nwww-data:x:33:33:www-data:/var/www:/usr/sbin/nologin\nalex:x:1000:1000:Alex Admin:/home/alex:/bin/bash\ndeploy:x:1001:1001:Deploy Bot:/home/deploy:/bin/bash\nreports:x:1002:1002:Reports Service:/home/reports:/usr/sbin/nologin\nbreakglass:x:1003:1003:Break Glass:/home/breakglass:/bin/bash\nbackup:x:1004:1004:Backup Service:/srv/backup:/usr/sbin/nologin\n::exit-code::0\n$ awk -F: '$7 ~ /(bash|sh|zsh)$/ {printf \"%s %s\\n\", $1, $7}' fixtures/user-access-audit/etc/passwd\nroot /bin/bash\nalex /bin/bash\ndeploy /bin/bash\nbreakglass /bin/bash\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

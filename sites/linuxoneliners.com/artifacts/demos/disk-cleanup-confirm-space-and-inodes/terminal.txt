@@ -1,0 +1,11 @@
+::fixture-ready::
+$ df -h /lab/disk-inode-cleanup
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/vda1        25G   24G  680M  98% /lab/disk-inode-cleanup
+tmpfs           982M   12M  970M   2% /run
+::exit-code::0
+$ df -ih /lab/disk-inode-cleanup
+Filesystem     Inodes IUsed IFree IUse% Mounted on
+/dev/vda1        512K  499K   13K   98% /lab/disk-inode-cleanup
+tmpfs            245K    14  245K    1% /run
+::exit-code::0

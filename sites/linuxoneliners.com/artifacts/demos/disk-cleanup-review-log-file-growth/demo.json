@@ -1,0 +1,25 @@
+{
+  "slug": "disk-cleanup-review-log-file-growth",
+  "title": "Review Log Files Before Cleanup",
+  "fixture": "containers/disk-inode-cleanup-safety-lab",
+  "command_count": 2,
+  "container_tool": "docker",
+  "image": "localhost/linuxoneliners-lab:latest",
+  "exit_code": 0,
+  "elapsed_ms": 209,
+  "stdout": "::fixture-ready::\n$ find /lab/disk-inode-cleanup/var/log -xdev -type f -printf '%10s %TY-%Tm-%Td %p\\n' | sort -nr\n  44040192 2026-06-26 /lab/disk-inode-cleanup/var/log/nginx/access.log\n  18874368 2026-06-26 /lab/disk-inode-cleanup/var/log/nginx/error.log.1\n::exit-code::0\n$ find /lab/disk-inode-cleanup/var/log -xdev -type f -printf '%s %p\\n' | awk '{total += $1} END {printf \"log_total_mb=%.1f\\n\", total/1024/1024}'\nlog_total_mb=60.0\n::exit-code::0\n",
+  "stderr": "",
+  "ok": true,
+  "security": {
+    "network": "none",
+    "capabilities": "dropped",
+    "no_new_privileges": true,
+    "memory": "256m",
+    "cpus": "1",
+    "pids_limit": 128,
+    "tmpfs": [
+      "/tmp",
+      "/var"
+    ]
+  }
+}
