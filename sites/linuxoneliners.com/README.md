@@ -143,6 +143,22 @@ Quick report:
 ./scripts/report_linuxoneliners_analytics.sh
 ```
 
+Public aggregate proof endpoint:
+
+```text
+https://linuxoneliners.com/api/analytics/proof
+```
+
+The proof endpoint exposes aggregate counts, the observed event time range, and the latest event hash-chain tip. It does not expose raw visitor IDs, IP addresses, user agents, or event rows.
+
+Private diligence export:
+
+```bash
+./scripts/export_linuxoneliners_analytics_proof.sh
+```
+
+The export creates a local package with the public proof, event schema, aggregate database summaries, remote SQLite/access-log checksums, and a manifest. This is intended for buyer, broker, or escrow review. It is first-party operational evidence, not a third-party revenue audit.
+
 Events currently include:
 
 - page views

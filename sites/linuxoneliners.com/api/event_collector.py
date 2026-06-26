@@ -4,14 +4,17 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import os
 import sqlite3
 import time
+from datetime import datetime, timezone
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from typing import Any
 
+SCHEMA_VERSION = 2
 MAX_BODY_BYTES = 32_768
 RATE_WINDOW_SECONDS = 10
 RATE_LIMIT_PER_WINDOW = 120
@@ -49,18 +52,178 @@ def init_db(path: Path) -> None:
               ip_address text,
               method text,
               content_length integer,
-              ingest_ms integer not null
+              ingest_ms integer not null,
+              prev_event_hash text,
+              event_hash text
             )
             """
         )
+        columns = {row[1] for row in conn.execute("pragma table_info(events)")}
+        if "prev_event_hash" not in columns:
+            conn.execute("alter table events add column prev_event_hash text")
+        if "event_hash" not in columns:
+            conn.execute("alter table events add column event_hash text")
         conn.execute("create index if not exists idx_events_received on events(received_at_ms)")
         conn.execute("create index if not exists idx_events_name on events(event_name)")
         conn.execute("create index if not exists idx_events_path on events(path)")
         conn.execute("create index if not exists idx_events_session on events(session_id)")
+        conn.execute("create index if not exists idx_events_hash on events(event_hash)")
+        backfill_event_hashes(conn)
 
 
 def compact_json(value: Any) -> str:
     return json.dumps(value if isinstance(value, (dict, list)) else {}, separators=(",", ":"))
+
+
+def canonical_json(value: Any) -> str:
+    return json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=True)
+
+
+def event_hash(row_id: int, row: dict[str, Any], previous_hash: str) -> str:
+    payload = {
+        "id": row_id,
+        "previous_hash": previous_hash,
+        "row": row,
+        "schema_version": SCHEMA_VERSION,
+    }
+    return hashlib.sha256(canonical_json(payload).encode("utf-8")).hexdigest()
+
+
+def utc_iso(ms: int | None) -> str | None:
+    if ms is None:
+        return None
+    return datetime.fromtimestamp(ms / 1000, tz=timezone.utc).isoformat().replace("+00:00", "Z")
+
+
+EVENT_COLUMNS = [
+    "received_at_ms",
+    "event_name",
+    "site",
+    "session_id",
+    "visitor_id",
+    "path",
+    "page_title",
+    "referrer",
+    "label",
+    "properties_json",
+    "performance_json",
+    "viewport_json",
+    "connection_json",
+    "language",
+    "timezone",
+    "user_agent",
+    "ip_address",
+    "method",
+    "content_length",
+    "ingest_ms",
+]
+
+
+def row_for_hash(db_row: sqlite3.Row) -> dict[str, Any]:
+    return {key: db_row[key] for key in EVENT_COLUMNS}
+
+
+def backfill_event_hashes(conn: sqlite3.Connection) -> None:
+    conn.row_factory = sqlite3.Row
+    previous_hash = "genesis"
+    rows = conn.execute(
+        f"select id, {', '.join(EVENT_COLUMNS)}, prev_event_hash, event_hash from events order by id"
+    ).fetchall()
+    for row in rows:
+        expected = event_hash(row["id"], row_for_hash(row), previous_hash)
+        if row["event_hash"] != expected or row["prev_event_hash"] != previous_hash:
+            conn.execute(
+                "update events set prev_event_hash = ?, event_hash = ? where id = ?",
+                (previous_hash, expected, row["id"]),
+            )
+        previous_hash = expected
+
+
+def insert_hashed_event(db_path: str, row: dict[str, Any]) -> None:
+    with sqlite3.connect(db_path) as conn:
+        conn.execute("begin immediate")
+        previous_hash = conn.execute(
+            "select event_hash from events where event_hash is not null order by id desc limit 1"
+        ).fetchone()
+        prev = previous_hash[0] if previous_hash else "genesis"
+        cursor = conn.execute(
+            """
+            insert into events (
+              received_at_ms, event_name, site, session_id, visitor_id, path,
+              page_title, referrer, label, properties_json, performance_json,
+              viewport_json, connection_json, language, timezone, user_agent,
+              ip_address, method, content_length, ingest_ms, prev_event_hash
+            ) values (
+              :received_at_ms, :event_name, :site, :session_id, :visitor_id, :path,
+              :page_title, :referrer, :label, :properties_json, :performance_json,
+              :viewport_json, :connection_json, :language, :timezone, :user_agent,
+              :ip_address, :method, :content_length, :ingest_ms, :prev_event_hash
+            )
+            """,
+            {**row, "prev_event_hash": prev},
+        )
+        digest = event_hash(cursor.lastrowid, row, prev)
+        conn.execute("update events set event_hash = ? where id = ?", (digest, cursor.lastrowid))
+
+
+def analytics_proof(db_path: str) -> dict[str, Any]:
+    with sqlite3.connect(db_path) as conn:
+        conn.row_factory = sqlite3.Row
+        summary = conn.execute(
+            """
+            select
+              count(*) as event_count,
+              count(distinct nullif(session_id, '')) as unique_sessions,
+              count(distinct nullif(visitor_id, '')) as unique_visitors,
+              min(received_at_ms) as first_ms,
+              max(received_at_ms) as last_ms,
+              max(id) as latest_event_id
+            from events
+            """
+        ).fetchone()
+        latest = conn.execute(
+            "select event_hash from events where event_hash is not null order by id desc limit 1"
+        ).fetchone()
+        event_totals = [
+            {"event_name": row["event_name"], "events": row["events"]}
+            for row in conn.execute(
+                """
+                select event_name, count(*) as events
+                from events
+                group by event_name
+                order by events desc, event_name
+                """
+            )
+        ]
+        daily_totals = [
+            {"date": row["date"], "events": row["events"]}
+            for row in conn.execute(
+                """
+                select date(received_at_ms / 1000, 'unixepoch') as date, count(*) as events
+                from events
+                group by date
+                order by date desc
+                limit 30
+                """
+            )
+        ]
+
+    return {
+        "site": "linuxoneliners.com",
+        "schema_version": SCHEMA_VERSION,
+        "generated_at": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
+        "source": "first-party SQLite analytics collector",
+        "privacy_note": "This public proof exposes aggregate counts and a hash-chain tip only; raw IP addresses, user agents, visitor IDs, and event rows stay private.",
+        "event_count": summary["event_count"],
+        "unique_sessions": summary["unique_sessions"],
+        "unique_visitors": summary["unique_visitors"],
+        "first_event_at": utc_iso(summary["first_ms"]),
+        "latest_event_at": utc_iso(summary["last_ms"]),
+        "latest_event_id": summary["latest_event_id"],
+        "latest_event_hash": latest["event_hash"] if latest else None,
+        "event_totals": event_totals,
+        "daily_totals": daily_totals,
+    }
 
 
 def client_ip(headers: Any, fallback: str) -> str:
@@ -86,15 +249,26 @@ class EventHandler(BaseHTTPRequestHandler):
     server_version = "LinuxOneLinersAnalytics/0.1"
 
     def do_GET(self) -> None:
-        if self.path != "/api/health":
-            self.send_error(404)
+        if self.path == "/api/health":
+            self.send_response(200)
+            self.send_header("Content-Type", "application/json")
+            self.send_header("Cache-Control", "no-store")
+            self.end_headers()
+            self.wfile.write(b'{"ok":true}')
             return
 
-        self.send_response(200)
-        self.send_header("Content-Type", "application/json")
-        self.send_header("Cache-Control", "no-store")
-        self.end_headers()
-        self.wfile.write(b'{"ok":true}')
+        if self.path == "/api/analytics/proof":
+            payload = analytics_proof(self.server.db_path)  # type: ignore[attr-defined]
+            self.send_response(200)
+            self.send_header("Content-Type", "application/json")
+            self.send_header("Cache-Control", "no-store")
+            self.end_headers()
+            self.wfile.write(canonical_json(payload).encode("utf-8"))
+            return
+
+        else:
+            self.send_error(404)
+            return
 
     def do_POST(self) -> None:
         started = now_ms()
@@ -156,23 +330,7 @@ class EventHandler(BaseHTTPRequestHandler):
             "ingest_ms": max(0, now_ms() - started),
         }
 
-        with sqlite3.connect(self.server.db_path) as conn:  # type: ignore[attr-defined]
-            conn.execute(
-                """
-                insert into events (
-                  received_at_ms, event_name, site, session_id, visitor_id, path,
-                  page_title, referrer, label, properties_json, performance_json,
-                  viewport_json, connection_json, language, timezone, user_agent,
-                  ip_address, method, content_length, ingest_ms
-                ) values (
-                  :received_at_ms, :event_name, :site, :session_id, :visitor_id, :path,
-                  :page_title, :referrer, :label, :properties_json, :performance_json,
-                  :viewport_json, :connection_json, :language, :timezone, :user_agent,
-                  :ip_address, :method, :content_length, :ingest_ms
-                )
-                """,
-                row,
-            )
+        insert_hashed_event(self.server.db_path, row)  # type: ignore[attr-defined]
 
         self.send_response(204)
         self.send_header("Cache-Control", "no-store")

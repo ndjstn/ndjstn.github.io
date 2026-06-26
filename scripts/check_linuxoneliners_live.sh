@@ -30,3 +30,6 @@ check_header "$base/" "x-content-type-options: nosniff"
 check_header "$base/" "permissions-policy:"
 curl -sk "$base/api/health" | rg -q '"ok":true'
 printf 'ok %s/api/health\n' "$base"
+
+curl -sk "$base/api/analytics/proof" | rg -q '"latest_event_hash"'
+printf 'ok %s/api/analytics/proof\n' "$base"
