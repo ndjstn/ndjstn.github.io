@@ -159,6 +159,20 @@ Private diligence export:
 
 The export creates a local package with the public proof, event schema, aggregate database summaries, remote SQLite/access-log checksums, and a manifest. This is intended for buyer, broker, or escrow review. It is first-party operational evidence, not a third-party revenue audit.
 
+Traffic-log retention:
+
+```bash
+./scripts/install_vps_log_retention.sh
+```
+
+The VPS keeps Nginx access logs bounded with daily compressed rotation and 90 retained rotations. Before each rotation it writes compact summaries under:
+
+```text
+/srv/data/site-traffic-summaries/YYYY-MM-DD/
+```
+
+Those summaries include source-log checksums, status counts, top paths, user-agent counts, and scanner-like path counts. They are much smaller than raw logs and are kept for longer due-diligence history.
+
 Events currently include:
 
 - page views

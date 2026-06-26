@@ -4,6 +4,7 @@ set -euo pipefail
 host="${DEPLOY_HOST:-root@31.220.54.145}"
 base="${DEPLOY_BASE_URL:-https://linuxoneliners.com}"
 db="${LOL_ANALYTICS_DB:-/srv/data/linuxoneliners.com/analytics.sqlite3}"
+summary_root="${TRAFFIC_SUMMARY_ROOT:-/srv/data/site-traffic-summaries}"
 stamp="$(date -u +%Y%m%dT%H%M%SZ)"
 out_dir="${1:-artifacts/linuxoneliners-analytics-proof/${stamp}}"
 
@@ -29,6 +30,12 @@ SQL
 
 ssh "$host" "sha256sum '$db' /var/log/nginx/linuxoneliners.com.access.log* 2>/dev/null || true" > "${out_dir}/remote-source-sha256.txt"
 
+latest_summary="$(ssh "$host" "ls -1dt '${summary_root}'/* 2>/dev/null | head -1 || true")"
+if [ -n "$latest_summary" ]; then
+  mkdir -p "${out_dir}/latest-traffic-summary"
+  ssh "$host" "tar -C '$latest_summary' -cf - ." | tar -C "${out_dir}/latest-traffic-summary" -xf -
+fi
+
 cat > "${out_dir}/README.md" <<'MD'
 # LinuxOneLiners Analytics Proof Package
 
@@ -40,6 +47,7 @@ Files:
 - `events-schema.sql`: SQLite schema for the first-party analytics events table.
 - `database-summary.tsv`: private aggregate query output from the live SQLite database.
 - `remote-source-sha256.txt`: SHA256 checksums for the live analytics database and available Nginx access logs.
+- `latest-traffic-summary/`: latest compact VPS access-log summary if installed.
 - `manifest.sha256`: local checksums for this package.
 
 Verification approach:
