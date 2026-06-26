@@ -1,0 +1,25 @@
+{
+  "slug": "tls-show-protocol-and-cipher",
+  "title": "Show TLS Protocol and Cipher",
+  "fixture": "containers/dns-tls-edge-triage-lab",
+  "command_count": 2,
+  "container_tool": "docker",
+  "image": "localhost/linuxoneliners-lab:latest",
+  "exit_code": 0,
+  "elapsed_ms": 217,
+  "stdout": "::fixture-ready::\n$ openssl s_client -connect edge.test:443 -servername edge.test </dev/null 2>/dev/null | sed -n '1,8p'\nCONNECTED(00000003)\nProtocol  : TLSv1.3\nCipher    : TLS_AES_256_GCM_SHA384\nVerify return code: 0 (ok)\n-----BEGIN CERTIFICATE-----\nFIXTURE-edge\n-----END CERTIFICATE-----\n::exit-code::0\n$ openssl s_client -connect edge.test:443 -servername edge.test </dev/null 2>/dev/null | awk '/Protocol|Cipher|Verify return code/ {print}'\nProtocol  : TLSv1.3\nCipher    : TLS_AES_256_GCM_SHA384\nVerify return code: 0 (ok)\n::exit-code::0\n",
+  "stderr": "",
+  "ok": true,
+  "security": {
+    "network": "none",
+    "capabilities": "dropped",
+    "no_new_privileges": true,
+    "memory": "256m",
+    "cpus": "1",
+    "pids_limit": 128,
+    "tmpfs": [
+      "/tmp",
+      "/var"
+    ]
+  }
+}

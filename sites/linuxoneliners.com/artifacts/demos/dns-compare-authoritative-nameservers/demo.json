@@ -1,0 +1,25 @@
+{
+  "slug": "dns-compare-authoritative-nameservers",
+  "title": "Compare Authoritative Nameserver Answers",
+  "fixture": "containers/dns-tls-edge-triage-lab",
+  "command_count": 2,
+  "container_tool": "docker",
+  "image": "localhost/linuxoneliners-lab:latest",
+  "exit_code": 0,
+  "elapsed_ms": 233,
+  "stdout": "::fixture-ready::\n$ dig +short NS edge.test\nns1.edge-dns.test.\nns2.edge-dns.test.\n::exit-code::0\n$ for ns in $(dig +short NS edge.test); do printf '%s ' \"$ns\"; dig @\"$ns\" +short edge.test A; done\nns1.edge-dns.test. 203.0.113.10\nns2.edge-dns.test. 198.51.100.44\n::exit-code::0\n",
+  "stderr": "",
+  "ok": true,
+  "security": {
+    "network": "none",
+    "capabilities": "dropped",
+    "no_new_privileges": true,
+    "memory": "256m",
+    "cpus": "1",
+    "pids_limit": 128,
+    "tmpfs": [
+      "/tmp",
+      "/var"
+    ]
+  }
+}

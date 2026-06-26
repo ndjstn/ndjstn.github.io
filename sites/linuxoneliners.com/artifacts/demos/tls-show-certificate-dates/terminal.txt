@@ -1,0 +1,14 @@
+::fixture-ready::
+$ openssl s_client -connect edge.test:443 -servername edge.test </dev/null 2>/dev/null | sed -n '1,8p'
+CONNECTED(00000003)
+Protocol  : TLSv1.3
+Cipher    : TLS_AES_256_GCM_SHA384
+Verify return code: 0 (ok)
+-----BEGIN CERTIFICATE-----
+FIXTURE-edge
+-----END CERTIFICATE-----
+::exit-code::0
+$ openssl s_client -connect edge.test:443 -servername edge.test </dev/null 2>/dev/null | openssl x509 -noout -dates
+notBefore=Jun  1 00:00:00 2026 GMT
+notAfter=Aug 30 23:59:59 2026 GMT
+::exit-code::0

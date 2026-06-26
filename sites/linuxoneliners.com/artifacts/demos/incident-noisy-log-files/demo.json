@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 174,
+  "elapsed_ms": 203,
   "stdout": "::fixture-ready::\n$ ls fixtures/incidents\napp.log\ndeploy.log\nkernel.journal\nsystem.journal\n::exit-code::0\n$ wc -l fixtures/incidents/*.log | sort -nr\n  14 total\n  10 fixtures/incidents/app.log\n   4 fixtures/incidents/deploy.log\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

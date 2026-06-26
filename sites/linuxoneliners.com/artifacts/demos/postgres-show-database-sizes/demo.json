@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 269,
+  "elapsed_ms": 208,
   "stdout": "::fixture-ready::\n$ df -h /var/lib/postgresql\nFilesystem      Size  Used Avail Use% Mounted on\n/dev/vda1        40G   27G   11G  72% /var/lib/postgresql\n::exit-code::0\n$ psql -X -c \"select datname, pg_size_pretty(pg_database_size(datname)) as size from pg_database order by pg_database_size(datname) desc;\"\n datname  |  size\n----------+--------\n app_prod | 384 MB\n app_test | 42 MB\n postgres | 11 MB\n(3 rows)\n::exit-code::0\n$ psql -X -c \"select datname from pg_database order by datname;\"\n datname\n----------\n app_prod\n app_test\n postgres\n(3 rows)\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

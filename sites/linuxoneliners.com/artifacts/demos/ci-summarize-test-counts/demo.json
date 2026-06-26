@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 197,
+  "elapsed_ms": 233,
   "stdout": "::fixture-ready::\n$ cd /lab/ci-artifacts && grep -RhoE 'tests=\"[0-9]+\"|failures=\"[0-9]+\"|errors=\"[0-9]+\"|skipped=\"[0-9]+\"' artifacts/test/*.xml\ntests=\"4\"\nfailures=\"1\"\nerrors=\"0\"\nskipped=\"1\"\n::exit-code::0\n$ cd /lab/ci-artifacts && grep -RhoE 'tests=\"[0-9]+\"|failures=\"[0-9]+\"|errors=\"[0-9]+\"|skipped=\"[0-9]+\"' artifacts/test/*.xml | sort | uniq -c\n      1 errors=\"0\"\n      1 failures=\"1\"\n      1 skipped=\"1\"\n      1 tests=\"4\"\n::exit-code::0\n$ cd /lab/ci-artifacts && sed -n '1,20p' artifacts/test/junit.xml\n<testsuite name=\"api\" tests=\"4\" failures=\"1\" errors=\"0\" skipped=\"1\">\n  <testcase classname=\"tests.test_api\" name=\"test_health\"/>\n  <testcase classname=\"tests.test_api\" name=\"test_create_user\">\n    <failure message=\"expected 201 got 500\">AssertionError</failure>\n  </testcase>\n  <testcase classname=\"tests.test_billing\" name=\"test_invoice\"/>\n  <testcase classname=\"tests.test_slow\" name=\"test_report\"><skipped message=\"slow\"/></testcase>\n</testsuite>\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

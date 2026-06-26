@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 170,
+  "elapsed_ms": 192,
   "stdout": "::fixture-ready::\n$ docker system df -v\nTYPE            TOTAL     ACTIVE    SIZE      RECLAIMABLE\nImages          8         3         2.8GB     1.1GB (39%)\nContainers      5         2         240MB     180MB (75%)\nLocal Volumes   4         3         1.7GB     200MB (11%)\nBuild Cache     12        0         620MB     620MB\n::exit-code::0\n$ docker volume ls\nDRIVER    VOLUME NAME\nlocal     app_postgres_data\nlocal     app_uploads\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

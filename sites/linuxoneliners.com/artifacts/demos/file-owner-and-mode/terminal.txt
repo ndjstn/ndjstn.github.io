@@ -11,6 +11,6 @@ drwxr-x--- root root example
 -rw-r----- root root index.html
 ::exit-code::0
 $ ls -ld /var/www /var/www/example
-drwxr-x--- 3 root root 60 Jun 25 23:36 /var/www
-drwxr-x--- 2 root root 60 Jun 25 23:36 /var/www/example
+drwxr-x--- 3 root root 60 Jun 26 00:03 /var/www
+drwxr-x--- 2 root root 60 Jun 26 00:03 /var/www/example
 ::exit-code::0

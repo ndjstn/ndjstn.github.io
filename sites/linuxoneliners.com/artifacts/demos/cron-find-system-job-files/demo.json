@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 203,
+  "elapsed_ms": 212,
   "stdout": "::fixture-ready::\n$ find /etc/cron.d /etc/cron.daily -maxdepth 1 -type f -print | sort\n/etc/cron.d/app-heartbeat\n/etc/cron.d/db-backup\n/etc/cron.d/e2scrub_all\n/etc/cron.daily/apt-compat\n/etc/cron.daily/db.backup\n/etc/cron.daily/dpkg\n/etc/cron.daily/logrotate\n::exit-code::0\n$ find /etc/cron.d /etc/cron.hourly /etc/cron.daily /etc/cron.weekly /etc/cron.monthly -maxdepth 1 -type f -print 2>/dev/null | sort\n/etc/cron.d/app-heartbeat\n/etc/cron.d/db-backup\n/etc/cron.d/e2scrub_all\n/etc/cron.daily/apt-compat\n/etc/cron.daily/db.backup\n/etc/cron.daily/dpkg\n/etc/cron.daily/logrotate\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

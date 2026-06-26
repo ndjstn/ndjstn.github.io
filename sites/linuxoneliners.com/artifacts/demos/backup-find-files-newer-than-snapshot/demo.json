@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 192,
+  "elapsed_ms": 224,
   "stdout": "::fixture-ready::\n$ stat -c '%y %n' backup/.snapshot source/content/index.md\n2026-06-25 12:05:00.000000000 +0000 backup/.snapshot\n2026-06-25 12:10:00.000000000 +0000 source/content/index.md\n::exit-code::0\n$ find source -type f -newer backup/.snapshot -print | sort\nsource/app/config.yml\nsource/assets/logo.svg\nsource/content/about.md\nsource/content/index.md\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

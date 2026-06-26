@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 295,
+  "elapsed_ms": 229,
   "stdout": "::fixture-ready::\n$ mysqladmin status\nUptime: 86400  Threads: 7  Questions: 23890  Slow queries: 3  Opens: 112  Open tables: 64  Queries per second avg: 0.276\n::exit-code::0\n$ mysql -e \"show processlist;\"\nId\tUser\tHost\tdb\tCommand\tTime\tState\tInfo\n17\tapp\t10.0.0.12\tshop\tQuery\t91\tSending data\tselect * from orders\n18\tapp\t10.0.0.13\tshop\tSleep\t20\t\tNULL\n22\treport\t10.0.0.30\tanalytics\tQuery\t680\tCopying to tmp table\tselect customer_id\n::exit-code::0\n$ mysql -e \"show full processlist;\"\nId\tUser\tHost\tdb\tCommand\tTime\tState\tInfo\n17\tapp\t10.0.0.12\tshop\tQuery\t91\tSending data\tselect * from orders join order_items\n18\tapp\t10.0.0.13\tshop\tSleep\t20\t\tNULL\n22\treport\t10.0.0.30\tanalytics\tQuery\t680\tCopying to tmp table\tselect customer_id, sum(total) from orders group by customer_id\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

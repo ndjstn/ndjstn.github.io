@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 202,
+  "elapsed_ms": 230,
   "stdout": "::fixture-ready::\n$ cd /lab/ci-artifacts && grep -RInE 'error|failed|failure|exception|traceback' artifacts logs | head -50\nartifacts/build/webpack.log:1:webpack 5.91.0 compiled with 1 error\nartifacts/build/app-build.log:5:Build failed with exit code 1\nartifacts/test/pytest.log:6:tests/test_billing.py::test_invoice passed on retry after failed attempt 1\nartifacts/test/pytest.log:7:1 failed, 2 passed, 1 rerun\nartifacts/test/junit.xml:1:<testsuite name=\"api\" tests=\"4\" failures=\"1\" errors=\"0\" skipped=\"1\">\nartifacts/test/junit.xml:4:    <failure message=\"expected 201 got 500\">AssertionError</failure>\nlogs/deploy.log:4:Deploy failed: missing artifacts/dist/robots.txt\n::exit-code::0\n$ cd /lab/ci-artifacts && grep -RInE 'error|failed|failure|exception|traceback' artifacts logs | cut -d: -f1 | sort -u\nartifacts/build/app-build.log\nartifacts/build/webpack.log\nartifacts/test/junit.xml\nartifacts/test/pytest.log\nlogs/deploy.log\n::exit-code::0\n$ cd /lab/ci-artifacts && sed -n '1,120p' artifacts/test/pytest.log\n============================= test session starts =============================\ntests/test_api.py::test_health PASSED\ntests/test_api.py::test_create_user FAILED\nTraceback (most recent call last):\n  AssertionError: expected 201 got 500\ntests/test_billing.py::test_invoice passed on retry after failed attempt 1\n1 failed, 2 passed, 1 rerun\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

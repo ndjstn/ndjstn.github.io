@@ -1,0 +1,8 @@
+::fixture-ready::
+$ dig +short edge.test CAA
+0 issue "letsencrypt.org"
+0 iodef "mailto:security@edge.test"
+::exit-code::0
+$ dig +noall +answer edge.test A
+edge.test. 300 IN A 203.0.113.10
+::exit-code::0

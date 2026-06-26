@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 176,
+  "elapsed_ms": 198,
   "stdout": "::fixture-ready::\n$ docker port web\n80/tcp -> 0.0.0.0:8080\n::exit-code::0\n$ docker ps --filter name=web --format 'table {{.Names}}\\t{{.Ports}}'\nfake docker: ps --filter name=web --format table {{.Names}}\\t{{.Ports}}\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

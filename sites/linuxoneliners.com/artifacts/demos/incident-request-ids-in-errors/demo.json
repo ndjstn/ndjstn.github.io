@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 184,
+  "elapsed_ms": 201,
   "stdout": "::fixture-ready::\n$ grep -Ei 'error|timeout|fatal|exception' fixtures/incidents/app.log\n2026-06-25T14:03:08Z level=ERROR service=api request_id=req-103 msg=database_timeout timeout_ms=30000\n2026-06-25T14:03:12Z level=ERROR service=api request_id=req-103 msg=retry_failed upstream=db\n2026-06-25T14:05:10Z level=FATAL service=worker request_id=req-105 msg=job_runner_exit code=137\n2026-06-25T14:06:33Z level=ERROR service=api request_id=req-107 msg=payment_provider_500 provider=demo-pay\n::exit-code::0\n$ grep -Ei 'error|timeout|fatal|exception' fixtures/incidents/app.log | awk '{for (i=1;i<=NF;i++) if ($i ~ /^request_id=/) print $i}' | sort | uniq -c | sort -nr\n      2 request_id=req-103\n      1 request_id=req-107\n      1 request_id=req-105\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

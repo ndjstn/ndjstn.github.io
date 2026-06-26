@@ -1,0 +1,25 @@
+{
+  "slug": "dns-check-www-cname-target",
+  "title": "Check the WWW CNAME Target",
+  "fixture": "containers/dns-tls-edge-triage-lab",
+  "command_count": 2,
+  "container_tool": "docker",
+  "image": "localhost/linuxoneliners-lab:latest",
+  "exit_code": 0,
+  "elapsed_ms": 225,
+  "stdout": "::fixture-ready::\n$ dig +short www.edge.test CNAME\nedge.test.\n::exit-code::0\n$ dig +short www.edge.test A\n203.0.113.10\n::exit-code::0\n",
+  "stderr": "",
+  "ok": true,
+  "security": {
+    "network": "none",
+    "capabilities": "dropped",
+    "no_new_privileges": true,
+    "memory": "256m",
+    "cpus": "1",
+    "pids_limit": 128,
+    "tmpfs": [
+      "/tmp",
+      "/var"
+    ]
+  }
+}

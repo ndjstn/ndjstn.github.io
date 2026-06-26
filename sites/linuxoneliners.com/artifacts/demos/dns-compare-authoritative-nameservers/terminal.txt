@@ -1,0 +1,9 @@
+::fixture-ready::
+$ dig +short NS edge.test
+ns1.edge-dns.test.
+ns2.edge-dns.test.
+::exit-code::0
+$ for ns in $(dig +short NS edge.test); do printf '%s ' "$ns"; dig @"$ns" +short edge.test A; done
+ns1.edge-dns.test. 203.0.113.10
+ns2.edge-dns.test. 198.51.100.44
+::exit-code::0

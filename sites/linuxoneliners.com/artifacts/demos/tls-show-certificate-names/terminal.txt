@@ -1,0 +1,11 @@
+::fixture-ready::
+$ openssl s_client -connect edge.test:443 -servername edge.test </dev/null 2>/dev/null | openssl x509 -noout -subject
+subject=CN = edge.test
+X509v3 Subject Alternative Name:
+    DNS:edge.test, DNS:www.edge.test
+::exit-code::0
+$ openssl s_client -connect edge.test:443 -servername edge.test </dev/null 2>/dev/null | openssl x509 -noout -subject -ext subjectAltName
+subject=CN = edge.test
+X509v3 Subject Alternative Name:
+    DNS:edge.test, DNS:www.edge.test
+::exit-code::0

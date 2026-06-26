@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 177,
+  "elapsed_ms": 219,
   "stdout": "::fixture-ready::\n$ awk '{print $10, $7}' ./fixtures/nginx/access.log | sort -nr | head\n2500000 /download/site-backup.tar\n2500000 /download/site-backup.tar\n2048 /docs\n1700 /search?q=nginx&page=1\n1700 /search?q=nginx&page=1\n1700 /search?q=nginx&page=1\n900 /api/search\n512 /\n180 /login\n180 /admin\n::exit-code::0\n$ awk '$10 ~ /^[0-9]+$/ && $10 > 1000000 {print $10, $1, $7, $9}' ./fixtures/nginx/access.log | sort -nr | head\n2500000 198.51.100.24 /download/site-backup.tar 200\n2500000 198.51.100.24 /download/site-backup.tar 200\n::exit-code::0\n$ awk '$10 ~ /^[0-9]+$/ {sum+=$10} END {print sum}' ./fixtures/nginx/access.log\n5010164\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

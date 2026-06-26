@@ -1,0 +1,25 @@
+{
+  "slug": "dns-compare-public-resolvers",
+  "title": "Compare DNS Answers Across Resolvers",
+  "fixture": "containers/dns-tls-edge-triage-lab",
+  "command_count": 2,
+  "container_tool": "docker",
+  "image": "localhost/linuxoneliners-lab:latest",
+  "exit_code": 0,
+  "elapsed_ms": 228,
+  "stdout": "::fixture-ready::\n$ dig +short edge.test A\n203.0.113.10\n::exit-code::0\n$ for r in 1.1.1.1 8.8.8.8 9.9.9.9; do printf '%s ' \"$r\"; dig @\"$r\" +short edge.test A; done\n1.1.1.1 203.0.113.10\n8.8.8.8 198.51.100.44\n9.9.9.9 203.0.113.10\n::exit-code::0\n",
+  "stderr": "",
+  "ok": true,
+  "security": {
+    "network": "none",
+    "capabilities": "dropped",
+    "no_new_privileges": true,
+    "memory": "256m",
+    "cpus": "1",
+    "pids_limit": 128,
+    "tmpfs": [
+      "/tmp",
+      "/var"
+    ]
+  }
+}

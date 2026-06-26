@@ -1,0 +1,7 @@
+::fixture-ready::
+$ dig +short edge.test A
+203.0.113.10
+::exit-code::0
+$ dig +noall +answer edge.test A
+edge.test. 300 IN A 203.0.113.10
+::exit-code::0

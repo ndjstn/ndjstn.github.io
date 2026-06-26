@@ -4,6 +4,6 @@ artifacts/checksums.txt
 artifacts/app.tar.gz
 ::exit-code::0
 $ find artifacts/ -type f -printf '%TY-%Tm-%Td %TH:%TM %10s %p\n' | sort | tail -20
-2026-06-25 23:36         13 artifacts/app.tar.gz
-2026-06-25 23:36         18 artifacts/checksums.txt
+2026-06-26 00:03         13 artifacts/app.tar.gz
+2026-06-26 00:03         18 artifacts/checksums.txt
 ::exit-code::0
