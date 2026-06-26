@@ -16,7 +16,7 @@ JS_COMMENTS_HOST=127.0.0.1
 JS_COMMENTS_PORT=8092
 JS_COMMENTS_DB=/srv/data/justinstone.online/comments.sqlite3
 JS_COMMENTS_PUBLIC_BASE_URL=https://justinstone.online
-JS_COMMENTS_COOKIE_SECRET=$(openssl rand -base64 48)
+JS_COMMENTS_COOKIE_SECRET=\$(python3 -c 'import secrets; print(secrets.token_urlsafe(48))')
 GOOGLE_CLIENT_ID=
 GOOGLE_CLIENT_SECRET=
 EOF
