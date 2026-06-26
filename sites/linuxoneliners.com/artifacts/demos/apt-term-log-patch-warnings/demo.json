@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 191,
+  "elapsed_ms": 183,
   "stdout": "::fixture-ready::\n$ cat /var/log/apt/term.log\nLog started: 2026-06-25  02:10:01\nPreparing to unpack .../openssl_3.0.13-0ubuntu3.6_amd64.deb ...\nUnpacking openssl (3.0.13-0ubuntu3.6) over (3.0.13-0ubuntu3.5) ...\nSetting up openssl (3.0.13-0ubuntu3.6) ...\nWarning: service nginx needs restart after library update\nProcessing triggers for man-db (2.12.0-4build2) ...\nLog ended: 2026-06-25  02:10:18\n::exit-code::0\n$ grep -Ei 'warning|error|failed|dpkg' /var/log/apt/term.log\nWarning: service nginx needs restart after library update\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

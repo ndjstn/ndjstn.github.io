@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 270,
+  "elapsed_ms": 245,
   "stdout": "::fixture-ready::\n$ cd /lab/git-recovery-rollback && git status --short --branch\n## main\n M app/config.yml\n?? releases/current\n::exit-code::0\n$ cd /lab/git-recovery-rollback && git diff -- app/config.yml\ndiff --git a/app/config.yml b/app/config.yml\nindex 587c07b..eb4e72d 100644\n--- a/app/config.yml\n+++ b/app/config.yml\n@@ -1,2 +1,3 @@\n version=1.2\n feature_flag=checkout-redesign\n+debug_logging=true\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

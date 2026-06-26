@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 181,
+  "elapsed_ms": 187,
   "stdout": "::fixture-ready::\n$ cat fixtures/user-access-audit/etc/group fixtures/user-access-audit/etc/sudoers fixtures/user-access-audit/etc/sudoers.d/app-deploy\nroot:x:0:\ndaemon:x:1:\nwww-data:x:33:\nalex:x:1000:\ndeploy:x:1001:\nreports:x:1002:\nbreakglass:x:1003:\nbackup:x:1004:\nsudo:x:27:alex,breakglass\ndocker:x:998:deploy\nadm:x:4:alex\nDefaults env_reset\nroot ALL=(ALL:ALL) ALL\n%sudo ALL=(ALL:ALL) ALL\ndeploy ALL=(root) NOPASSWD: /usr/bin/systemctl restart app.service\n# app deploy automation\ndeploy ALL=(root) NOPASSWD: /usr/bin/journalctl -u app.service, /usr/bin/systemctl reload nginx\n::exit-code::0\n$ awk -F: '$1==\"sudo\" {print \"sudo group: \" $4}' fixtures/user-access-audit/etc/group; grep -RhnE '^[^#].*ALL=' fixtures/user-access-audit/etc/sudoers fixtures/user-access-audit/etc/sudoers.d\nsudo group: alex,breakglass\n2:root ALL=(ALL:ALL) ALL\n3:%sudo ALL=(ALL:ALL) ALL\n4:deploy ALL=(root) NOPASSWD: /usr/bin/systemctl restart app.service\n2:deploy ALL=(root) NOPASSWD: /usr/bin/journalctl -u app.service, /usr/bin/systemctl reload nginx\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

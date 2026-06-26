@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 178,
+  "elapsed_ms": 189,
   "stdout": "::fixture-ready::\n$ awk '{print $7}' ./fixtures/nginx/access.log | sort | uniq -c | sort -nr | head\n      5 /health\n      3 /search?q=nginx&page=1\n      3 /missing\n      3 /api/report\n      2 /download/site-backup.tar\n      2 /api/profile\n      1 /wp-login.php\n      1 /wp-admin\n      1 /login\n      1 /docs\n::exit-code::0\n$ awk '$7 ~ /(admin|login|wp-|phpmyadmin)/ {print $1, $7, $9}' ./fixtures/nginx/access.log | sort | uniq -c | sort -nr | head\n      1 203.0.113.45 /login 403\n      1 203.0.113.45 /admin 403\n      1 203.0.113.44 /wp-login.php 404\n      1 203.0.113.44 /wp-admin 404\n::exit-code::0\n$ awk '$7 ~ /(admin|login|wp-|phpmyadmin)/ {print}' ./fixtures/nginx/access.log\n203.0.113.44 - - [25/Jun/2026:10:01:07 +0000] \"GET /wp-login.php HTTP/1.1\" 404 140 \"-\" \"ScannerBot/1.0\"\n203.0.113.44 - - [25/Jun/2026:10:01:09 +0000] \"GET /wp-admin HTTP/1.1\" 404 140 \"-\" \"ScannerBot/1.0\"\n203.0.113.45 - - [25/Jun/2026:10:01:12 +0000] \"GET /admin HTTP/1.1\" 403 180 \"-\" \"SyntheticAudit/0.1\"\n203.0.113.45 - - [25/Jun/2026:10:01:14 +0000] \"GET /login HTTP/1.1\" 403 180 \"-\" \"SyntheticAudit/0.1\"\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

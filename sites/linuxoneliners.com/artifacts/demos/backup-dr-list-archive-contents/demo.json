@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 177,
+  "elapsed_ms": 186,
   "stdout": "::fixture-ready::\n$ cd restore-dr && tar -tf backups/2026-06-25/site.tar | sort\n./\n./CHECKSUMS.sha256\n./app/\n./app/config.yml\n./app/orders.csv\n./app/secrets.env\n./bin/\n./bin/deploy.sh\n./public/\n./public/index.html\n./uploads/\n./uploads/avatar.txt\n::exit-code::0\n$ cd restore-dr && tar -tf backups/2026-06-25/site.tar | sed 's#^./##' | sort | sed -n '1,12p'\n\nCHECKSUMS.sha256\napp/\napp/config.yml\napp/orders.csv\napp/secrets.env\nbin/\nbin/deploy.sh\npublic/\npublic/index.html\nuploads/\nuploads/avatar.txt\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

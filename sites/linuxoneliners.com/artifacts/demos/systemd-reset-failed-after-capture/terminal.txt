@@ -1,0 +1,10 @@
+::fixture-ready::
+$ systemctl show app-worker --property=Result,ExecMainCode,ExecMainStatus,NRestarts --no-pager
+Result=exit-code
+ExecMainCode=1
+ExecMainStatus=217
+NRestarts=5
+::exit-code::0
+$ systemctl reset-failed app-worker
+Reset failed state for app-worker.service.
+::exit-code::0

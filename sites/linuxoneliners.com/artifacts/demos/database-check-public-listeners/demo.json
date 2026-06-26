@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 191,
+  "elapsed_ms": 190,
   "stdout": "::fixture-ready::\n$ ss -ltnp\nState  Recv-Q Send-Q Local Address:Port Peer Address:Port Process\nLISTEN 0      128    127.0.0.1:5432      0.0.0.0:* users:((\"postgres\",pid=421,fd=5))\nLISTEN 0      151    0.0.0.0:3306       0.0.0.0:* users:((\"mysqld\",pid=733,fd=22))\nLISTEN 0      128    0.0.0.0:22         0.0.0.0:* users:((\"sshd\",pid=71,fd=3))\n::exit-code::0\n$ ss -ltnp | awk '$4 ~ /:(5432|3306)$/ {print}'\nLISTEN 0      128    127.0.0.1:5432      0.0.0.0:* users:((\"postgres\",pid=421,fd=5))\nLISTEN 0      151    0.0.0.0:3306       0.0.0.0:* users:((\"mysqld\",pid=733,fd=22))\n::exit-code::0\n$ ss -ltnp | awk '$4 ~ /^(0[.]0[.]0[.]0|[[]::[]]|[*]):(5432|3306)$/ {print}'\nLISTEN 0      151    0.0.0.0:3306       0.0.0.0:* users:((\"mysqld\",pid=733,fd=22))\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

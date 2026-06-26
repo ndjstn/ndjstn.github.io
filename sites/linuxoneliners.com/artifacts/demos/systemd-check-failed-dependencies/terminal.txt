@@ -1,0 +1,12 @@
+::fixture-ready::
+$ systemctl list-dependencies app-worker --failed --no-pager
+app-worker.service
+● ├─redis.service
+● └─network-online.target
+::exit-code::0
+$ journalctl -u redis -b --no-pager -n 30
+Jun 25 14:19:40 vps systemd[1]: Starting redis.service - Redis data store...
+Jun 25 14:19:41 vps redis-server[1998]: Fatal error, can't open config file '/etc/redis/redis.conf': Permission denied
+Jun 25 14:19:41 vps systemd[1]: redis.service: Main process exited, code=exited, status=1/FAILURE
+Jun 25 14:19:41 vps systemd[1]: redis.service: Failed with result 'exit-code'.
+::exit-code::0

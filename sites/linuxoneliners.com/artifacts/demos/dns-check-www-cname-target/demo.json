@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 198,
+  "elapsed_ms": 175,
   "stdout": "::fixture-ready::\n$ dig +short www.edge.test CNAME\nedge.test.\n::exit-code::0\n$ dig +short www.edge.test A\n203.0.113.10\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

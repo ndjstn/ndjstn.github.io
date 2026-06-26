@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 181,
+  "elapsed_ms": 213,
   "stdout": "::fixture-ready::\n$ crontab -l\n# user crontab for demo\nSHELL=/bin/bash\nPATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin\n5 * * * * /usr/local/bin/check-disk >> /var/log/cron-disk.log 2>&1\n17 2 * * * /usr/local/bin/backup-db\n0 4 * * 0 /usr/local/bin/report-weekly | /usr/bin/mail -s report ops@example.invalid\n::exit-code::0\n$ crontab -l | sed -n '/^[[:space:]]*#/d;/^[[:space:]]*$/d;p'\nSHELL=/bin/bash\nPATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin\n5 * * * * /usr/local/bin/check-disk >> /var/log/cron-disk.log 2>&1\n17 2 * * * /usr/local/bin/backup-db\n0 4 * * 0 /usr/local/bin/report-weekly | /usr/bin/mail -s report ops@example.invalid\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

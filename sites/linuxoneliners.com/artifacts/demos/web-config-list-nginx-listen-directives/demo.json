@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 188,
+  "elapsed_ms": 183,
   "stdout": "::fixture-ready::\n$ find fixtures/nginx -type f | sort\nfixtures/nginx/conf.d/admin.conf\nfixtures/nginx/nginx.conf\nfixtures/nginx/sites-enabled/example.conf\n::exit-code::0\n$ grep -RInE '^[[:space:]]*listen[[:space:]]' fixtures/nginx/conf.d fixtures/nginx/sites-enabled\nfixtures/nginx/conf.d/admin.conf:2:    listen 127.0.0.1:8080;\nfixtures/nginx/sites-enabled/example.conf:2:    listen 80 default_server;\nfixtures/nginx/sites-enabled/example.conf:7:    listen 443 ssl;\n::exit-code::0\n$ grep -RInE 'default_server|ssl' fixtures/nginx/conf.d fixtures/nginx/sites-enabled\nfixtures/nginx/sites-enabled/example.conf:2:    listen 80 default_server;\nfixtures/nginx/sites-enabled/example.conf:7:    listen 443 ssl;\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

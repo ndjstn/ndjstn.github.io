@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 191,
+  "elapsed_ms": 185,
   "stdout": "::fixture-ready::\n$ systemctl list-timers --all --no-pager --plain\nNEXT                         LEFT     LAST                         PASSED UNIT                 ACTIVATES\nThu 2026-06-25 22:00:00 CDT  7h left  Thu 2026-06-25 02:00:00 CDT  12h ago backup.timer         backup.service\nFri 2026-06-26 00:05:00 CDT  9h left  Thu 2026-06-25 00:05:00 CDT  14h ago certbot.timer        certbot.service\nThu 2026-06-25 23:50:00 CDT  8h left  Thu 2026-06-25 00:00:10 CDT  14h ago logrotate.timer      logrotate.service\nn/a                          n/a      Mon 2026-06-22 01:00:00 CDT  3 days ago stale-report.timer stale-report.service\n4 timers listed.\n::exit-code::0\n$ systemctl list-timers --all --no-pager --plain | awk 'NR==1 || /\\.timer/ {print $(NF-1), \"->\", $NF}'\nUNIT -> ACTIVATES\nbackup.timer -> backup.service\ncertbot.timer -> certbot.service\nlogrotate.timer -> logrotate.service\nstale-report.timer -> stale-report.service\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

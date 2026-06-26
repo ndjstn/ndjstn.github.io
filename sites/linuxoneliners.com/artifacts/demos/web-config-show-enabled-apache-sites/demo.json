@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 177,
+  "elapsed_ms": 181,
   "stdout": "::fixture-ready::\n$ find fixtures/apache/sites-enabled -maxdepth 1 -type l -printf '%f -> %l\\n' | sort\napp.conf -> ../sites-available/app.conf\nexample.conf -> ../sites-available/example.conf\n::exit-code::0\n$ find fixtures/apache/sites-available -maxdepth 1 -type f | sort\nfixtures/apache/sites-available/app.conf\nfixtures/apache/sites-available/example.conf\n::exit-code::0\n$ grep -RInE '<VirtualHost|ServerName' fixtures/apache/sites-enabled\nfixtures/apache/sites-enabled/app.conf:1:<VirtualHost *:443>\nfixtures/apache/sites-enabled/app.conf:2:    ServerName app.example.com\nfixtures/apache/sites-enabled/example.conf:1:<VirtualHost *:80>\nfixtures/apache/sites-enabled/example.conf:2:    ServerName legacy.example.com\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

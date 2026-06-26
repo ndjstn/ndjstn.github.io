@@ -6,8 +6,8 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 282,
-  "stdout": "::fixture-ready::\n$ cd /lab/git-recovery-rollback && git reflog --date=iso --format='%h %gd %gs' -6\nde583c6 HEAD@{2026-06-26 00:19:17 +0000} reset: moving to HEAD~1\n7e5872b HEAD@{2026-06-25 10:45:00 +0000} commit: Capture incident rollback note\nde583c6 HEAD@{2026-06-25 10:30:00 +0000} commit: Release 2026-06-25 10:30\nc15c7c6 HEAD@{2026-06-25 10:00:00 +0000} commit: Release 2026-06-25 10:00\nddb9d51 HEAD@{2026-06-24 17:00:00 +0000} commit (initial): Release 2026-06-24 17:00\n::exit-code::0\n$ cd /lab/git-recovery-rollback && git show -s --format='%h %s' HEAD@{1}\n7e5872b Capture incident rollback note\n::exit-code::0\n",
+  "elapsed_ms": 248,
+  "stdout": "::fixture-ready::\n$ cd /lab/git-recovery-rollback && git reflog --date=iso --format='%h %gd %gs' -6\nde583c6 HEAD@{2026-06-26 00:22:00 +0000} reset: moving to HEAD~1\n7e5872b HEAD@{2026-06-25 10:45:00 +0000} commit: Capture incident rollback note\nde583c6 HEAD@{2026-06-25 10:30:00 +0000} commit: Release 2026-06-25 10:30\nc15c7c6 HEAD@{2026-06-25 10:00:00 +0000} commit: Release 2026-06-25 10:00\nddb9d51 HEAD@{2026-06-24 17:00:00 +0000} commit (initial): Release 2026-06-24 17:00\n::exit-code::0\n$ cd /lab/git-recovery-rollback && git show -s --format='%h %s' HEAD@{1}\n7e5872b Capture incident rollback note\n::exit-code::0\n",
   "stderr": "",
   "ok": true,
   "security": {

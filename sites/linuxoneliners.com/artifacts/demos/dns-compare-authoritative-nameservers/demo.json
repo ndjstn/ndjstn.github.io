@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 184,
+  "elapsed_ms": 189,
   "stdout": "::fixture-ready::\n$ dig +short NS edge.test\nns1.edge-dns.test.\nns2.edge-dns.test.\n::exit-code::0\n$ for ns in $(dig +short NS edge.test); do printf '%s ' \"$ns\"; dig @\"$ns\" +short edge.test A; done\nns1.edge-dns.test. 203.0.113.10\nns2.edge-dns.test. 198.51.100.44\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

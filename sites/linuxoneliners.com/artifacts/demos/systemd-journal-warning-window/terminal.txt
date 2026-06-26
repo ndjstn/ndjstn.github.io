@@ -1,0 +1,21 @@
+::fixture-ready::
+$ journalctl -u app-worker -b --no-pager -n 80
+Jun 25 14:20:58 vps systemd[1]: Started app-worker.service - Background job worker.
+Jun 25 14:20:58 vps worker[2081]: loading /etc/app/worker.env
+Jun 25 14:20:58 vps worker[2081]: ERROR redis connection refused at 127.0.0.1:6379
+Jun 25 14:20:59 vps systemd[1]: app-worker.service: Main process exited, code=exited, status=1/FAILURE
+Jun 25 14:20:59 vps systemd[1]: app-worker.service: Failed with result 'exit-code'.
+Jun 25 14:21:04 vps systemd[1]: app-worker.service: Scheduled restart job, restart counter is at 4.
+Jun 25 14:22:17 vps systemd[1]: Started app-worker.service - Background job worker.
+Jun 25 14:22:17 vps systemd[2144]: app-worker.service: Failed to determine user credentials: No such process
+Jun 25 14:22:17 vps systemd[2144]: app-worker.service: Failed at step USER spawning /srv/app/bin/worker: No such process
+Jun 25 14:22:17 vps systemd[1]: app-worker.service: Main process exited, code=exited, status=217/USER
+Jun 25 14:22:17 vps systemd[1]: app-worker.service: Failed with result 'exit-code'.
+::exit-code::0
+$ journalctl -u app-worker -b -p warning..alert --no-pager -n 80
+Jun 25 14:20:58 vps worker[2081]: ERROR redis connection refused at 127.0.0.1:6379
+Jun 25 14:20:59 vps systemd[1]: app-worker.service: Failed with result 'exit-code'.
+Jun 25 14:22:17 vps systemd[2144]: app-worker.service: Failed to determine user credentials: No such process
+Jun 25 14:22:17 vps systemd[2144]: app-worker.service: Failed at step USER spawning /srv/app/bin/worker: No such process
+Jun 25 14:22:17 vps systemd[1]: app-worker.service: Failed with result 'exit-code'.
+::exit-code::0

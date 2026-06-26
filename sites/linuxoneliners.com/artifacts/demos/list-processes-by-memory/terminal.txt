@@ -2,14 +2,14 @@
 $ ps -eo pid,comm,%mem,%cpu --sort=-%mem | head
     PID COMMAND         %MEM %CPU
      14 ps               0.0  0.0
-      1 bash             0.0 33.3
      13 bash             0.0  0.0
+      1 bash             0.0 40.0
      12 timeout          0.0  0.0
      15 head             0.0  0.0
 ::exit-code::0
 $ free -h
                total        used        free      shared  buff/cache   available
-Mem:           125Gi        38Gi        10Gi       257Mi        75Gi        87Gi
+Mem:           125Gi        36Gi        11Gi       257Mi        75Gi        88Gi
 Swap:             0B          0B          0B
 ::exit-code::0
 $ df -h
@@ -17,8 +17,8 @@ Filesystem      Size  Used Avail Use% Mounted on
 overlay         3.6T  1.2T  2.3T  35% /
 tmpfs            64M     0   64M   0% /dev
 shm              64M     0   64M   0% /dev/shm
-tmpfs            64M  8.0K   64M   1% /tmp
 tmpfs            64M  352K   64M   1% /var
+tmpfs            64M  8.0K   64M   1% /tmp
 /dev/nvme0n1p2  3.6T  1.2T  2.3T  35% /lab/demo.sh
 tmpfs            63G     0   63G   0% /proc/asound
 tmpfs            63G     0   63G   0% /proc/acpi

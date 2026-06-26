@@ -1,0 +1,452 @@
+[
+  {
+    "slug": "systemd-status-failed-service-cause",
+    "title": "Read the Failure Cause in systemctl Status",
+    "series": "linux-survival-basics",
+    "hook": "The status page often tells you the failed startup step before you open every log.",
+    "problem": "A systemd service is failed and you need the active state, exit status, unit paths, and the most recent failure lines in one read-only check.",
+    "command": "systemctl status app-worker --no-pager --lines=50",
+    "danger": "safe",
+    "starting_state": "systemctl --failed shows app-worker.service in failed state after several restart attempts.",
+    "what_changed": "Nothing changes. systemctl prints service metadata, process exit status, and recent journal lines.",
+    "when_to_use": "Use first when a specific service is failed and you need a fast summary before deeper journal or unit-file inspection.",
+    "when_not_to_use": "Do not stop at status when the failure is intermittent, old, or missing context; follow up with journalctl and systemctl show.",
+    "undo": "No undo needed because the command is read-only.",
+    "expected_output": "A failed active state, Result value, ExecStart exit status, and recent lines showing the failing startup step.",
+    "terminal_demo": {
+      "fixture": "containers/systemd-service-failure-lab",
+      "commands": [
+        "systemctl --failed --no-pager",
+        "systemctl status app-worker --no-pager --lines=50"
+      ]
+    },
+    "shorts": {
+      "format": "vertical",
+      "duration_target_seconds": 37,
+      "title": "Start with the failed service status.",
+      "voiceover": "When a unit is failed, status gives the state, result, exit code, and the newest journal lines in one screen.",
+      "caption": "Status first, then deeper logs."
+    },
+    "linkedin": {
+      "question": "When a service fails, do you read systemctl status before opening the full journal?",
+      "cta": "Use status as the first evidence snapshot."
+    },
+    "youtube": {
+      "playlist": "Linux Survival Basics",
+      "description": "Use systemctl status with --no-pager and a line cap to inspect a failed service without changing it."
+    },
+    "experiments": [
+      {
+        "id": "systemd_status_failed_service_cause",
+        "metric": "save_rate",
+        "variant_a": "Status often names the failed startup step.",
+        "variant_b": "One screen before full log digging."
+      }
+    ]
+  },
+  {
+    "slug": "systemd-show-exit-result-fields",
+    "title": "Print the Exact systemd Exit Fields",
+    "series": "linux-survival-basics",
+    "hook": "Turn a noisy service failure into four fields you can paste into an incident note.",
+    "problem": "Full status output is useful for humans, but incident notes and scripts need compact fields like Result, ExecMainStatus, and restart count.",
+    "command": "systemctl show app-worker --property=Result,ExecMainCode,ExecMainStatus,NRestarts --no-pager",
+    "danger": "safe",
+    "starting_state": "A service has failed and you need machine-readable failure metadata from systemd.",
+    "what_changed": "Nothing changes. systemctl show prints selected unit properties.",
+    "when_to_use": "Use when documenting a failure, comparing before and after recovery, or writing a runbook check.",
+    "when_not_to_use": "Do not treat numeric status values as self-explanatory; pair them with status or journal lines.",
+    "undo": "No undo needed because the command is read-only.",
+    "expected_output": "Result, ExecMainCode, ExecMainStatus, and NRestarts property lines.",
+    "terminal_demo": {
+      "fixture": "containers/systemd-service-failure-lab",
+      "commands": [
+        "systemctl status app-worker --no-pager --lines=50",
+        "systemctl show app-worker --property=Result,ExecMainCode,ExecMainStatus,NRestarts --no-pager"
+      ]
+    },
+    "shorts": {
+      "format": "vertical",
+      "duration_target_seconds": 32,
+      "title": "Print compact failure fields.",
+      "voiceover": "For incident notes, ask systemd for the exact failure fields instead of copying a whole status page.",
+      "caption": "Compact evidence: systemctl show."
+    },
+    "linkedin": {
+      "question": "Which systemd fields do you capture in incident notes?",
+      "cta": "Pair compact fields with the log line that explains them."
+    },
+    "youtube": {
+      "playlist": "Linux Survival Basics",
+      "description": "Use systemctl show with selected properties to capture compact systemd failure metadata."
+    },
+    "experiments": [
+      {
+        "id": "systemd_show_exit_result_fields",
+        "metric": "short_click_through_rate",
+        "variant_a": "Turn service failure into four fields.",
+        "variant_b": "Cleaner incident notes for failed units."
+      }
+    ]
+  },
+  {
+    "slug": "systemd-journal-warning-window",
+    "title": "Read Warning and Error Logs for One Failed Unit",
+    "series": "hosting-operations",
+    "hook": "Filter a failed unit's journal to the lines most likely to explain the stop.",
+    "problem": "A unit journal contains startup chatter, retries, and supervisor messages, and you need the warning-or-worse lines first.",
+    "command": "journalctl -u app-worker -b -p warning..alert --no-pager -n 80",
+    "danger": "safe",
+    "starting_state": "app-worker.service failed during the current boot and its full journal includes both normal and severe lines.",
+    "what_changed": "Nothing changes. journalctl prints warning, error, critical, alert, and emergency entries for the unit.",
+    "when_to_use": "Use after status when you need the likely failure lines without scrolling through every normal startup message.",
+    "when_not_to_use": "Do not use severity filtering if the app logs important failures at info level; check the unfiltered unit journal too.",
+    "undo": "No undo needed because the command is read-only.",
+    "expected_output": "Current-boot warning-or-worse journal lines for the failed service.",
+    "terminal_demo": {
+      "fixture": "containers/systemd-service-failure-lab",
+      "commands": [
+        "journalctl -u app-worker -b --no-pager -n 80",
+        "journalctl -u app-worker -b -p warning..alert --no-pager -n 80"
+      ]
+    },
+    "shorts": {
+      "format": "vertical",
+      "duration_target_seconds": 36,
+      "title": "Filter the failed unit journal.",
+      "voiceover": "After status, filter the current boot journal to warning and worse. It cuts noise while keeping the likely failure clues.",
+      "caption": "Current boot, warning and worse."
+    },
+    "linkedin": {
+      "question": "Do your services log real failures at warning or error level consistently?",
+      "cta": "Use severity filtering as a fast first pass, then verify with full logs."
+    },
+    "youtube": {
+      "playlist": "Hosting Operations",
+      "description": "Use journalctl with a unit, current boot, and priority range to inspect severe lines from a failed service."
+    },
+    "experiments": [
+      {
+        "id": "systemd_journal_warning_window",
+        "metric": "average_view_duration",
+        "variant_a": "Filter journal noise first.",
+        "variant_b": "Warning and worse for one failed unit."
+      }
+    ]
+  },
+  {
+    "slug": "systemd-restart-loop-timeline",
+    "title": "Build a Restart Loop Timeline",
+    "series": "hosting-operations",
+    "hook": "Restart loops make more sense when you line up starts, failures, and counters.",
+    "problem": "A service keeps restarting and you need to separate the first application failure from later supervisor retries.",
+    "command": "journalctl -u app-worker -b --no-pager -o short-iso | grep -E 'Started|Failed|Scheduled restart|Main process exited'",
+    "danger": "safe",
+    "starting_state": "The service has failed repeatedly in the current boot and systemd has recorded restart attempts.",
+    "what_changed": "Nothing changes. The pipeline prints a compact timeline of start, failure, and restart-counter lines.",
+    "when_to_use": "Use when Restart=on-failure is hiding the first useful failure under repeated retries.",
+    "when_not_to_use": "Do not use this as the only diagnosis; read the adjacent app log lines around the first failure.",
+    "undo": "No undo needed because the command is read-only.",
+    "expected_output": "Timestamped service lifecycle lines showing starts, main-process exits, failed results, and scheduled restarts.",
+    "terminal_demo": {
+      "fixture": "containers/systemd-service-failure-lab",
+      "commands": [
+        "journalctl -u app-worker -b --no-pager -o short-iso",
+        "journalctl -u app-worker -b --no-pager -o short-iso | grep -E 'Started|Failed|Scheduled restart|Main process exited'"
+      ]
+    },
+    "shorts": {
+      "format": "vertical",
+      "duration_target_seconds": 38,
+      "title": "Make the restart loop visible.",
+      "voiceover": "When systemd retries a service, line up the starts, exits, failures, and restart counters before blaming the latest line.",
+      "caption": "Restart loops need a timeline."
+    },
+    "linkedin": {
+      "question": "When a service is flapping, how do you find the first useful failure?",
+      "cta": "Build the restart timeline before changing unit settings."
+    },
+    "youtube": {
+      "playlist": "Hosting Operations",
+      "description": "Use journalctl and grep to build a compact timeline for a failing systemd restart loop."
+    },
+    "experiments": [
+      {
+        "id": "systemd_restart_loop_timeline",
+        "metric": "save_rate",
+        "variant_a": "Line up starts and failures.",
+        "variant_b": "Restart loops hide the first clue."
+      }
+    ]
+  },
+  {
+    "slug": "systemd-cat-unit-and-dropins",
+    "title": "Inspect the Unit File and Drop-ins Together",
+    "series": "linux-survival-basics",
+    "hook": "The bug may be in an override file, not the main unit.",
+    "problem": "A service definition looks correct in the main unit, but a drop-in override may be changing the user, environment, or command.",
+    "command": "systemctl cat app-worker",
+    "danger": "safe",
+    "starting_state": "A failed service has at least one systemd drop-in override.",
+    "what_changed": "Nothing changes. systemctl prints the effective unit file fragments and drop-ins in order.",
+    "when_to_use": "Use when status mentions a drop-in, a service changed after deployment, or the failure points at user, path, environment, or ExecStart.",
+    "when_not_to_use": "Do not edit from memory after reading this; make a deliberate unit or drop-in change and reload systemd when applying a fix.",
+    "undo": "No undo needed because the command is read-only.",
+    "expected_output": "The main service unit followed by drop-in override contents.",
+    "terminal_demo": {
+      "fixture": "containers/systemd-service-failure-lab",
+      "commands": [
+        "systemctl status app-worker --no-pager --lines=50",
+        "systemctl cat app-worker"
+      ]
+    },
+    "shorts": {
+      "format": "vertical",
+      "duration_target_seconds": 35,
+      "title": "Check drop-ins before editing.",
+      "voiceover": "If status shows a drop-in, inspect the unit and override together. The effective config may not be in the file you expected.",
+      "caption": "systemctl cat shows unit fragments."
+    },
+    "linkedin": {
+      "question": "How often do systemd drop-ins explain a service that suddenly changed behavior?",
+      "cta": "Inspect the effective unit before editing."
+    },
+    "youtube": {
+      "playlist": "Linux Survival Basics",
+      "description": "Use systemctl cat to inspect a service unit and its drop-in overrides together."
+    },
+    "experiments": [
+      {
+        "id": "systemd_cat_unit_and_dropins",
+        "metric": "shorts_3_second_hold_rate",
+        "variant_a": "The bug may live in the override.",
+        "variant_b": "Read effective unit fragments first."
+      }
+    ]
+  },
+  {
+    "slug": "systemd-show-runtime-paths",
+    "title": "Print Runtime Paths and User From systemd",
+    "series": "hosting-operations",
+    "hook": "Confirm the user, working directory, env file, and ExecStart systemd is actually using.",
+    "problem": "A service failure points at credentials or paths, and you need systemd's resolved unit properties without reading multiple files manually.",
+    "command": "systemctl show app-worker --property=FragmentPath,DropInPaths,EnvironmentFiles,ExecStart,User,WorkingDirectory --no-pager",
+    "danger": "safe",
+    "starting_state": "A failed service has unit files, an environment file, an ExecStart command, and a drop-in override.",
+    "what_changed": "Nothing changes. systemctl prints selected runtime configuration properties.",
+    "when_to_use": "Use when a service fails at USER, CHDIR, EXEC, environment-file loading, or after a deploy that changed paths.",
+    "when_not_to_use": "Do not assume these values prove the files exist or permissions are correct; follow up with ls, stat, getent, or namei as needed.",
+    "undo": "No undo needed because the command is read-only.",
+    "expected_output": "Selected unit properties showing fragment paths, drop-ins, environment files, ExecStart, User, and WorkingDirectory.",
+    "terminal_demo": {
+      "fixture": "containers/systemd-service-failure-lab",
+      "commands": [
+        "systemctl status app-worker --no-pager --lines=50",
+        "systemctl show app-worker --property=FragmentPath,DropInPaths,EnvironmentFiles,ExecStart,User,WorkingDirectory --no-pager"
+      ]
+    },
+    "shorts": {
+      "format": "vertical",
+      "duration_target_seconds": 39,
+      "title": "Ask systemd what it will run.",
+      "voiceover": "When a service fails on user or path setup, print the resolved properties. It shows the user, working directory, env files, and command.",
+      "caption": "Resolved service config, read-only."
+    },
+    "linkedin": {
+      "question": "When a service fails at USER, EXEC, or CHDIR, which property do you check first?",
+      "cta": "Use systemctl show before chasing the wrong file."
+    },
+    "youtube": {
+      "playlist": "Hosting Operations",
+      "description": "Use systemctl show to print the resolved user, working directory, environment files, ExecStart, and unit paths for a failed service."
+    },
+    "experiments": [
+      {
+        "id": "systemd_show_runtime_paths",
+        "metric": "save_rate",
+        "variant_a": "Ask systemd what it will run.",
+        "variant_b": "Print resolved paths and user."
+      }
+    ]
+  },
+  {
+    "slug": "systemd-check-failed-dependencies",
+    "title": "Check Failed Dependencies for a Service",
+    "series": "hosting-operations",
+    "hook": "Sometimes the service is only the messenger for a failed dependency.",
+    "problem": "A service fails after startup, but the real blocker may be a dependent unit such as Redis, networking, a mount, or a socket.",
+    "command": "systemctl list-dependencies app-worker --failed --no-pager",
+    "danger": "safe",
+    "starting_state": "app-worker.service depends on other systemd units and at least one dependency is failed.",
+    "what_changed": "Nothing changes. systemctl prints failed dependencies for the requested unit.",
+    "when_to_use": "Use when a service failure mentions connection refused, missing mounts, network targets, sockets, or required local services.",
+    "when_not_to_use": "Do not assume every dependency failure is causal; inspect the dependency logs and timeline.",
+    "undo": "No undo needed because the command is read-only.",
+    "expected_output": "A dependency tree containing failed units under the target service.",
+    "terminal_demo": {
+      "fixture": "containers/systemd-service-failure-lab",
+      "commands": [
+        "systemctl list-dependencies app-worker --failed --no-pager",
+        "journalctl -u redis -b --no-pager -n 30"
+      ]
+    },
+    "shorts": {
+      "format": "vertical",
+      "duration_target_seconds": 34,
+      "title": "Check failed dependencies.",
+      "voiceover": "A failed app service may only be reporting that Redis, a mount, or networking is broken. Ask systemd for failed dependencies.",
+      "caption": "The dependency may be the cause."
+    },
+    "linkedin": {
+      "question": "How often is a failed service actually a failed dependency?",
+      "cta": "Check the dependency tree before restarting the app repeatedly."
+    },
+    "youtube": {
+      "playlist": "Hosting Operations",
+      "description": "Use systemctl list-dependencies with --failed to find failed units under a broken service."
+    },
+    "experiments": [
+      {
+        "id": "systemd_check_failed_dependencies",
+        "metric": "average_view_duration",
+        "variant_a": "The service may be the messenger.",
+        "variant_b": "Find the failed dependency first."
+      }
+    ]
+  },
+  {
+    "slug": "systemd-reset-failed-after-capture",
+    "title": "Reset Failed State After Capturing Evidence",
+    "series": "linux-survival-basics",
+    "hook": "Clear the red failed state only after you have captured the evidence.",
+    "problem": "systemctl --failed still shows an old service failure after the issue was fixed, and you need to clear the recorded failed state deliberately.",
+    "command": "systemctl reset-failed app-worker",
+    "danger": "caution",
+    "starting_state": "You have already captured status and journal evidence for app-worker.service and are ready to clear its failed marker.",
+    "what_changed": "systemd clears the recorded failed state for the service, so future --failed output reflects new failures.",
+    "when_to_use": "Use after documenting or fixing a failure when the failed state itself is stale noise.",
+    "when_not_to_use": "Do not run it before collecting status and journal evidence, and do not confuse clearing state with fixing the service.",
+    "undo": "There is no meaningful undo for clearing the marker; use saved logs or incident notes for prior evidence.",
+    "expected_output": "Either no output or a short confirmation that the failed state was reset.",
+    "terminal_demo": {
+      "fixture": "containers/systemd-service-failure-lab",
+      "commands": [
+        "systemctl show app-worker --property=Result,ExecMainCode,ExecMainStatus,NRestarts --no-pager",
+        "systemctl reset-failed app-worker"
+      ]
+    },
+    "shorts": {
+      "format": "vertical",
+      "duration_target_seconds": 35,
+      "title": "Reset failed only after evidence.",
+      "voiceover": "reset-failed clears the marker; it does not fix the cause. Capture status and logs first, then clear stale failure state.",
+      "caption": "Clear state after capture."
+    },
+    "linkedin": {
+      "question": "Do your runbooks capture evidence before clearing systemd failed state?",
+      "cta": "Treat reset-failed as cleanup, not diagnosis."
+    },
+    "youtube": {
+      "playlist": "Linux Survival Basics",
+      "description": "Use systemctl reset-failed only after capturing service failure evidence."
+    },
+    "experiments": [
+      {
+        "id": "systemd_reset_failed_after_capture",
+        "metric": "save_rate",
+        "variant_a": "Clear state after evidence.",
+        "variant_b": "reset-failed is not a fix."
+      }
+    ]
+  },
+  {
+    "slug": "systemd-find-first-failure-line",
+    "title": "Find the First Failure Line for One Unit",
+    "series": "hosting-operations",
+    "hook": "The first failure line is often more useful than the last restart message.",
+    "problem": "A failed service has repeated restart noise, and you need the earliest current-boot line that names an error or failed startup step.",
+    "command": "journalctl -u app-worker -b --no-pager -o short-iso | grep -m1 -E 'ERROR|Failed|status='",
+    "danger": "safe",
+    "starting_state": "app-worker.service has failed more than once during the current boot and its journal includes both app errors and systemd failure messages.",
+    "what_changed": "Nothing changes. journalctl prints the current-boot unit log and grep stops at the first matching failure line.",
+    "when_to_use": "Use when restart loops bury the original clue under repeated systemd retry messages.",
+    "when_not_to_use": "Do not use this as a complete log review; it intentionally stops at the first matching line and can miss later, more specific evidence.",
+    "undo": "No undo needed because the command is read-only.",
+    "expected_output": "The earliest current-boot app error, failed step, or status line for the unit.",
+    "terminal_demo": {
+      "fixture": "containers/systemd-service-failure-lab",
+      "commands": [
+        "journalctl -u app-worker -b --no-pager -o short-iso",
+        "journalctl -u app-worker -b --no-pager -o short-iso | grep -m1 -E 'ERROR|Failed|status='"
+      ]
+    },
+    "shorts": {
+      "format": "vertical",
+      "duration_target_seconds": 33,
+      "title": "Find the first failure line.",
+      "voiceover": "Restart loops repeat the same failure. Search the current boot journal and stop at the first error-like line.",
+      "caption": "First clue before repeated retries."
+    },
+    "linkedin": {
+      "question": "When a service restarts repeatedly, do you inspect the first failure or the latest one first?",
+      "cta": "Find the first failure line before tuning restart behavior."
+    },
+    "youtube": {
+      "playlist": "Hosting Operations",
+      "description": "Use journalctl and grep -m1 to find the first current-boot failure clue for a systemd unit."
+    },
+    "experiments": [
+      {
+        "id": "systemd_find_first_failure_line",
+        "metric": "save_rate",
+        "variant_a": "The first failure line beats retry noise.",
+        "variant_b": "Stop at the first useful clue."
+      }
+    ]
+  },
+  {
+    "slug": "systemd-compare-status-with-effective-unit",
+    "title": "Compare Failure Output With the Effective Unit",
+    "series": "linux-survival-basics",
+    "hook": "Put the failed step next to the unit config that created it.",
+    "problem": "systemctl status names a failed startup step, but you need to connect that symptom to the effective unit and drop-in configuration.",
+    "command": "systemctl status app-worker --no-pager --lines=50 && systemctl cat app-worker",
+    "danger": "safe",
+    "starting_state": "app-worker.service is failed and status reports a USER startup failure while the unit has a drop-in override.",
+    "what_changed": "Nothing changes. The commands print failure evidence followed by the unit fragments systemd loaded.",
+    "when_to_use": "Use when status mentions USER, CHDIR, EXEC, environment files, or a drop-in and you need the config beside the failure evidence.",
+    "when_not_to_use": "Do not edit the service until you know whether the main unit or a drop-in owns the setting you plan to change.",
+    "undo": "No undo needed because the commands are read-only.",
+    "expected_output": "A failed status page followed by the main unit file and drop-in override that changes the service user.",
+    "terminal_demo": {
+      "fixture": "containers/systemd-service-failure-lab",
+      "commands": [
+        "systemctl status app-worker --no-pager --lines=50",
+        "systemctl cat app-worker"
+      ]
+    },
+    "shorts": {
+      "format": "vertical",
+      "duration_target_seconds": 37,
+      "title": "Put failure next to config.",
+      "voiceover": "When status names a failed step, print the effective unit right after it. The override often explains the symptom.",
+      "caption": "Evidence first, config beside it."
+    },
+    "linkedin": {
+      "question": "Do you compare systemd status output with the effective unit before editing overrides?",
+      "cta": "Keep the symptom and loaded config in the same incident note."
+    },
+    "youtube": {
+      "playlist": "Linux Survival Basics",
+      "description": "Compare systemctl status with systemctl cat to connect a failed startup step to the effective unit configuration."
+    },
+    "experiments": [
+      {
+        "id": "systemd_compare_status_with_effective_unit",
+        "metric": "average_view_duration",
+        "variant_a": "Put failure next to config.",
+        "variant_b": "The override may explain the failure."
+      }
+    ]
+  }
+]

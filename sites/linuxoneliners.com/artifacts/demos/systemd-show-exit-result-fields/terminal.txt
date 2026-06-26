@@ -1,0 +1,24 @@
+::fixture-ready::
+$ systemctl status app-worker --no-pager --lines=50
+● app-worker.service - Background job worker
+     Loaded: loaded (/etc/systemd/system/app-worker.service; enabled; preset: enabled)
+    Drop-In: /etc/systemd/system/app-worker.service.d
+             └─override.conf
+     Active: failed (Result: exit-code) since Thu 2026-06-25 14:22:17 CDT; 4min ago
+   Duration: 1.243s
+    Process: 2144 ExecStart=/srv/app/bin/worker --queue default (code=exited, status=217/USER)
+   Main PID: 2144 (code=exited, status=217/USER)
+        CPU: 38ms
+
+Jun 25 14:22:17 vps systemd[1]: Started app-worker.service - Background job worker.
+Jun 25 14:22:17 vps systemd[2144]: app-worker.service: Failed to determine user credentials: No such process
+Jun 25 14:22:17 vps systemd[2144]: app-worker.service: Failed at step USER spawning /srv/app/bin/worker: No such process
+Jun 25 14:22:17 vps systemd[1]: app-worker.service: Main process exited, code=exited, status=217/USER
+Jun 25 14:22:17 vps systemd[1]: app-worker.service: Failed with result 'exit-code'.
+::exit-code::0
+$ systemctl show app-worker --property=Result,ExecMainCode,ExecMainStatus,NRestarts --no-pager
+Result=exit-code
+ExecMainCode=1
+ExecMainStatus=217
+NRestarts=5
+::exit-code::0

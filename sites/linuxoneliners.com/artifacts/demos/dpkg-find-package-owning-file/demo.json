@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 186,
+  "elapsed_ms": 187,
   "stdout": "::fixture-ready::\n$ dpkg-query -S /usr/sbin/nginx\nnginx: /usr/sbin/nginx\n::exit-code::0\n$ dpkg-query -S /usr/bin/curl\ncurl: /usr/bin/curl\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

@@ -1,0 +1,25 @@
+{
+  "slug": "systemd-reset-failed-after-capture",
+  "title": "Reset Failed State After Capturing Evidence",
+  "fixture": "containers/systemd-service-failure-lab",
+  "command_count": 2,
+  "container_tool": "docker",
+  "image": "localhost/linuxoneliners-lab:latest",
+  "exit_code": 0,
+  "elapsed_ms": 189,
+  "stdout": "::fixture-ready::\n$ systemctl show app-worker --property=Result,ExecMainCode,ExecMainStatus,NRestarts --no-pager\nResult=exit-code\nExecMainCode=1\nExecMainStatus=217\nNRestarts=5\n::exit-code::0\n$ systemctl reset-failed app-worker\nReset failed state for app-worker.service.\n::exit-code::0\n",
+  "stderr": "",
+  "ok": true,
+  "security": {
+    "network": "none",
+    "capabilities": "dropped",
+    "no_new_privileges": true,
+    "memory": "256m",
+    "cpus": "1",
+    "pids_limit": 128,
+    "tmpfs": [
+      "/tmp",
+      "/var"
+    ]
+  }
+}

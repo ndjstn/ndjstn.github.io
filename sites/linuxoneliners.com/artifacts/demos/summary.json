@@ -1,240 +1,240 @@
 {
-  "generated_at": "2026-06-26T00:19:41Z",
+  "generated_at": "2026-06-26T00:22:26Z",
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
-  "total": 255,
-  "passed": 255,
+  "total": 265,
+  "passed": 265,
   "failed": [],
   "results": [
     {
       "slug": "curl-resolve-site-check",
       "title": "Your Site Is Not Down. DNS Might Be Lying.",
       "ok": true,
-      "elapsed_ms": 198,
+      "elapsed_ms": 195,
       "command_count": 3
     },
     {
       "slug": "find-large-files",
       "title": "Find the Files Eating Your Disk",
       "ok": true,
-      "elapsed_ms": 191,
+      "elapsed_ms": 196,
       "command_count": 3
     },
     {
       "slug": "rsync-dry-run",
       "title": "Run Rsync Without Deleting Your Backup",
       "ok": true,
-      "elapsed_ms": 273,
+      "elapsed_ms": 294,
       "command_count": 3
     },
     {
       "slug": "tail-live-logs",
       "title": "Watch Logs Without Opening the Whole File",
       "ok": true,
-      "elapsed_ms": 4217,
+      "elapsed_ms": 4175,
       "command_count": 3
     },
     {
       "slug": "grep-errors-in-logs",
       "title": "Find Errors Before Reading Every Log Line",
       "ok": true,
-      "elapsed_ms": 180,
+      "elapsed_ms": 165,
       "command_count": 3
     },
     {
       "slug": "check-listening-ports",
       "title": "Check What Is Actually Listening",
       "ok": true,
-      "elapsed_ms": 182,
+      "elapsed_ms": 176,
       "command_count": 3
     },
     {
       "slug": "inspect-permissions",
       "title": "Inspect Permissions Before Changing Them",
       "ok": true,
-      "elapsed_ms": 177,
+      "elapsed_ms": 166,
       "command_count": 3
     },
     {
       "slug": "grep-line-numbers",
       "title": "Find the Exact Log Line Before You Scroll",
       "ok": true,
-      "elapsed_ms": 184,
+      "elapsed_ms": 173,
       "command_count": 3
     },
     {
       "slug": "disk-usage-by-folder",
       "title": "Find Which Folder Is Filling the Disk",
       "ok": true,
-      "elapsed_ms": 235,
+      "elapsed_ms": 241,
       "command_count": 3
     },
     {
       "slug": "recent-log-errors",
       "title": "Show Only Recent Errors",
       "ok": true,
-      "elapsed_ms": 236,
+      "elapsed_ms": 197,
       "command_count": 3
     },
     {
       "slug": "rsync-show-deletes",
       "title": "Preview What Rsync Would Delete",
       "ok": true,
-      "elapsed_ms": 313,
+      "elapsed_ms": 295,
       "command_count": 3
     },
     {
       "slug": "file-owner-and-mode",
       "title": "Check Owner and Mode in One Line",
       "ok": true,
-      "elapsed_ms": 191,
+      "elapsed_ms": 194,
       "command_count": 3
     },
     {
       "slug": "list-processes-by-memory",
       "title": "Find the Processes Using Memory",
       "ok": true,
-      "elapsed_ms": 211,
+      "elapsed_ms": 179,
       "command_count": 3
     },
     {
       "slug": "show-top-files-human",
       "title": "Show Big Files in Human Units",
       "ok": true,
-      "elapsed_ms": 202,
+      "elapsed_ms": 186,
       "command_count": 3
     },
     {
       "slug": "mac-find-what-is-using-port",
       "title": "Find What Is Using a Local Dev Port",
       "ok": true,
-      "elapsed_ms": 172,
+      "elapsed_ms": 162,
       "command_count": 2
     },
     {
       "slug": "mac-stop-process-on-port",
       "title": "Stop the Process Blocking a Dev Port",
       "ok": true,
-      "elapsed_ms": 179,
+      "elapsed_ms": 165,
       "command_count": 2
     },
     {
       "slug": "mac-show-path-lines",
       "title": "Show Your PATH One Entry Per Line",
       "ok": true,
-      "elapsed_ms": 181,
+      "elapsed_ms": 184,
       "command_count": 2
     },
     {
       "slug": "mac-which-command-will-run",
       "title": "See Exactly Which Command macOS Will Run",
       "ok": true,
-      "elapsed_ms": 167,
+      "elapsed_ms": 165,
       "command_count": 2
     },
     {
       "slug": "mac-find-large-project-files",
       "title": "Find Large Files Inside a Project",
       "ok": true,
-      "elapsed_ms": 174,
+      "elapsed_ms": 172,
       "command_count": 2
     },
     {
       "slug": "mac-sort-folder-size",
       "title": "Find Which Folder Is Eating Disk Space",
       "ok": true,
-      "elapsed_ms": 181,
+      "elapsed_ms": 165,
       "command_count": 2
     },
     {
       "slug": "mac-flush-dns-cache",
       "title": "Flush macOS DNS Cache",
       "ok": true,
-      "elapsed_ms": 167,
+      "elapsed_ms": 162,
       "command_count": 2
     },
     {
       "slug": "mac-watch-file-changes",
       "title": "Watch a Log or Build File Update",
       "ok": true,
-      "elapsed_ms": 178,
+      "elapsed_ms": 173,
       "command_count": 2
     },
     {
       "slug": "mac-search-logs-for-errors",
       "title": "Search a Log for Errors With Context",
       "ok": true,
-      "elapsed_ms": 179,
+      "elapsed_ms": 174,
       "command_count": 2
     },
     {
       "slug": "mac-test-url-headers",
       "title": "Check a URL Without Downloading the Page",
       "ok": true,
-      "elapsed_ms": 189,
+      "elapsed_ms": 166,
       "command_count": 2
     },
     {
       "slug": "backup-list-newest-source-files",
       "title": "List Newest Source Files Before Backup",
       "ok": true,
-      "elapsed_ms": 191,
+      "elapsed_ms": 206,
       "command_count": 2
     },
     {
       "slug": "backup-create-checksum-manifest",
       "title": "Create a SHA256 Checksum Manifest",
       "ok": true,
-      "elapsed_ms": 180,
+      "elapsed_ms": 171,
       "command_count": 2
     },
     {
       "slug": "backup-verify-checksum-manifest",
       "title": "Verify a SHA256 Checksum Manifest",
       "ok": true,
-      "elapsed_ms": 180,
+      "elapsed_ms": 183,
       "command_count": 2
     },
     {
       "slug": "backup-compare-source-and-backup-file-lists",
       "title": "Compare Source and Backup File Lists",
       "ok": true,
-      "elapsed_ms": 183,
+      "elapsed_ms": 175,
       "command_count": 2
     },
     {
       "slug": "backup-rsync-dry-run-itemize",
       "title": "Preview Backup Drift with rsync",
       "ok": true,
-      "elapsed_ms": 240,
+      "elapsed_ms": 246,
       "command_count": 2
     },
     {
       "slug": "backup-find-empty-files",
       "title": "Find Empty Files in a Backup",
       "ok": true,
-      "elapsed_ms": 189,
+      "elapsed_ms": 197,
       "command_count": 2
     },
     {
       "slug": "backup-list-largest-files",
       "title": "List Largest Files in a Backup",
       "ok": true,
-      "elapsed_ms": 178,
+      "elapsed_ms": 192,
       "command_count": 2
     },
     {
       "slug": "backup-list-tar-contents",
       "title": "List Contents of a Backup Tarball",
       "ok": true,
-      "elapsed_ms": 218,
+      "elapsed_ms": 176,
       "command_count": 2
     },
     {
       "slug": "backup-count-source-file-types",
       "title": "Count Source Files by Extension",
       "ok": true,
-      "elapsed_ms": 172,
+      "elapsed_ms": 177,
       "command_count": 2
     },
     {
@@ -248,161 +248,161 @@
       "slug": "backup-dr-list-restore-points",
       "title": "List Restore Points Before a Drill",
       "ok": true,
-      "elapsed_ms": 195,
+      "elapsed_ms": 198,
       "command_count": 2
     },
     {
       "slug": "backup-dr-read-backup-manifest",
       "title": "Read the Backup Manifest",
       "ok": true,
-      "elapsed_ms": 195,
+      "elapsed_ms": 187,
       "command_count": 2
     },
     {
       "slug": "backup-dr-list-archive-contents",
       "title": "List Archive Contents Before Extracting",
       "ok": true,
-      "elapsed_ms": 177,
+      "elapsed_ms": 186,
       "command_count": 2
     },
     {
       "slug": "backup-dr-find-missing-required-files",
       "title": "Find Missing Files in an Old Backup",
       "ok": true,
-      "elapsed_ms": 193,
+      "elapsed_ms": 231,
       "command_count": 2
     },
     {
       "slug": "backup-dr-extract-to-sandbox",
       "title": "Extract a Backup Into a Restore Sandbox",
       "ok": true,
-      "elapsed_ms": 197,
+      "elapsed_ms": 206,
       "command_count": 2
     },
     {
       "slug": "backup-dr-verify-restored-checksums",
       "title": "Verify Restored File Checksums",
       "ok": true,
-      "elapsed_ms": 210,
+      "elapsed_ms": 184,
       "command_count": 2
     },
     {
       "slug": "backup-dr-diff-restored-config",
       "title": "Diff Restored Config Against Expected",
       "ok": true,
-      "elapsed_ms": 203,
+      "elapsed_ms": 189,
       "command_count": 2
     },
     {
       "slug": "backup-dr-check-restored-required-list",
       "title": "Check Required Files After Restore",
       "ok": true,
-      "elapsed_ms": 185,
+      "elapsed_ms": 190,
       "command_count": 2
     },
     {
       "slug": "backup-dr-review-archive-permissions",
       "title": "Review Critical File Modes in the Archive",
       "ok": true,
-      "elapsed_ms": 207,
+      "elapsed_ms": 191,
       "command_count": 2
     },
     {
       "slug": "backup-dr-read-validation-report",
       "title": "Read the Restore Drill Validation Report",
       "ok": true,
-      "elapsed_ms": 204,
+      "elapsed_ms": 193,
       "command_count": 2
     },
     {
       "slug": "ci-find-newest-build-logs",
       "title": "Find the Newest Build Logs First",
       "ok": true,
-      "elapsed_ms": 195,
+      "elapsed_ms": 202,
       "command_count": 3
     },
     {
       "slug": "ci-scan-errors-across-logs",
       "title": "Scan Every CI Log for Error Lines",
       "ok": true,
-      "elapsed_ms": 196,
+      "elapsed_ms": 204,
       "command_count": 3
     },
     {
       "slug": "ci-show-context-around-first-error",
       "title": "Show Context Around the First Error",
       "ok": true,
-      "elapsed_ms": 246,
+      "elapsed_ms": 183,
       "command_count": 3
     },
     {
       "slug": "ci-list-failed-junit-tests",
       "title": "List Failed Tests from JUnit XML",
       "ok": true,
-      "elapsed_ms": 211,
+      "elapsed_ms": 200,
       "command_count": 3
     },
     {
       "slug": "ci-summarize-test-counts",
       "title": "Summarize Test Counts from Reports",
       "ok": true,
-      "elapsed_ms": 193,
+      "elapsed_ms": 182,
       "command_count": 3
     },
     {
       "slug": "ci-find-coverage-regression",
       "title": "Find Coverage Regression Lines",
       "ok": true,
-      "elapsed_ms": 182,
+      "elapsed_ms": 188,
       "command_count": 3
     },
     {
       "slug": "ci-find-largest-artifacts",
       "title": "Find the Largest CI Artifacts",
       "ok": true,
-      "elapsed_ms": 186,
+      "elapsed_ms": 195,
       "command_count": 3
     },
     {
       "slug": "ci-check-build-output-manifest",
       "title": "Check Whether Expected Build Outputs Exist",
       "ok": true,
-      "elapsed_ms": 203,
+      "elapsed_ms": 190,
       "command_count": 3
     },
     {
       "slug": "ci-detect-secret-leak-markers",
       "title": "Detect Secret Leak Markers in Artifacts",
       "ok": true,
-      "elapsed_ms": 198,
+      "elapsed_ms": 195,
       "command_count": 3
     },
     {
       "slug": "ci-find-flaky-test-reruns",
       "title": "Find Tests That Passed After Rerun",
       "ok": true,
-      "elapsed_ms": 203,
+      "elapsed_ms": 181,
       "command_count": 3
     },
     {
       "slug": "postgres-check-server-readiness",
       "title": "Check Whether PostgreSQL Is Accepting Connections",
       "ok": true,
-      "elapsed_ms": 189,
+      "elapsed_ms": 202,
       "command_count": 3
     },
     {
       "slug": "postgres-show-active-connections",
       "title": "Show Active PostgreSQL Connections",
       "ok": true,
-      "elapsed_ms": 195,
+      "elapsed_ms": 200,
       "command_count": 3
     },
     {
       "slug": "postgres-find-long-running-queries",
       "title": "Find Long-Running PostgreSQL Queries",
       "ok": true,
-      "elapsed_ms": 205,
+      "elapsed_ms": 210,
       "command_count": 3
     },
     {
@@ -416,567 +416,567 @@
       "slug": "postgres-show-database-sizes",
       "title": "Show PostgreSQL Database Sizes",
       "ok": true,
-      "elapsed_ms": 195,
+      "elapsed_ms": 187,
       "command_count": 3
     },
     {
       "slug": "mysql-check-server-ping",
       "title": "Check Whether MySQL Responds",
       "ok": true,
-      "elapsed_ms": 187,
+      "elapsed_ms": 201,
       "command_count": 3
     },
     {
       "slug": "mysql-show-processlist",
       "title": "Show Active MySQL Sessions",
       "ok": true,
-      "elapsed_ms": 182,
+      "elapsed_ms": 189,
       "command_count": 3
     },
     {
       "slug": "mysql-find-long-running-queries",
       "title": "Find Long-Running MySQL Queries",
       "ok": true,
-      "elapsed_ms": 191,
+      "elapsed_ms": 200,
       "command_count": 3
     },
     {
       "slug": "mysql-check-database-sizes",
       "title": "Show MySQL Database Sizes",
       "ok": true,
-      "elapsed_ms": 206,
+      "elapsed_ms": 189,
       "command_count": 3
     },
     {
       "slug": "database-check-public-listeners",
       "title": "Check Whether Databases Listen Publicly",
       "ok": true,
-      "elapsed_ms": 191,
+      "elapsed_ms": 190,
       "command_count": 3
     },
     {
       "slug": "debian-ubuntu-release-fingerprint",
       "title": "Fingerprint a Debian or Ubuntu Host",
       "ok": true,
-      "elapsed_ms": 185,
+      "elapsed_ms": 177,
       "command_count": 2
     },
     {
       "slug": "kernel-and-distro-side-by-side",
       "title": "Compare Kernel and Distro Versions",
       "ok": true,
-      "elapsed_ms": 200,
+      "elapsed_ms": 196,
       "command_count": 2
     },
     {
       "slug": "dpkg-installed-package-inventory",
       "title": "List Installed Package Versions",
       "ok": true,
-      "elapsed_ms": 196,
+      "elapsed_ms": 181,
       "command_count": 2
     },
     {
       "slug": "apt-list-upgradable-packages",
       "title": "See Which Packages Want Updates",
       "ok": true,
-      "elapsed_ms": 199,
+      "elapsed_ms": 222,
       "command_count": 2
     },
     {
       "slug": "apt-policy-package-candidate",
       "title": "Check the Installed and Candidate Package Version",
       "ok": true,
-      "elapsed_ms": 191,
+      "elapsed_ms": 182,
       "command_count": 2
     },
     {
       "slug": "dpkg-check-one-package-status",
       "title": "Check One Installed Package Cleanly",
       "ok": true,
-      "elapsed_ms": 195,
+      "elapsed_ms": 171,
       "command_count": 2
     },
     {
       "slug": "dpkg-find-package-owning-file",
       "title": "Find Which Package Owns a File",
       "ok": true,
-      "elapsed_ms": 186,
+      "elapsed_ms": 187,
       "command_count": 2
     },
     {
       "slug": "dpkg-find-broken-package-states",
       "title": "Find Broken or Leftover dpkg States",
       "ok": true,
-      "elapsed_ms": 185,
+      "elapsed_ms": 182,
       "command_count": 2
     },
     {
       "slug": "dpkg-largest-installed-packages",
       "title": "Find the Largest Installed Packages",
       "ok": true,
-      "elapsed_ms": 194,
+      "elapsed_ms": 187,
       "command_count": 2
     },
     {
       "slug": "dpkg-foreign-architecture-packages",
       "title": "Spot Foreign-Architecture Packages",
       "ok": true,
-      "elapsed_ms": 181,
+      "elapsed_ms": 178,
       "command_count": 2
     },
     {
       "slug": "apt-simulate-security-upgrades",
       "title": "Simulate Security Package Upgrades",
       "ok": true,
-      "elapsed_ms": 182,
+      "elapsed_ms": 197,
       "command_count": 2
     },
     {
       "slug": "apt-cache-policy-security-candidate",
       "title": "Prove a Package Candidate Is From Security",
       "ok": true,
-      "elapsed_ms": 183,
+      "elapsed_ms": 186,
       "command_count": 2
     },
     {
       "slug": "apt-mark-held-security-blockers",
       "title": "Find Held Packages Blocking Patches",
       "ok": true,
-      "elapsed_ms": 192,
+      "elapsed_ms": 189,
       "command_count": 2
     },
     {
       "slug": "apt-kept-back-package-review",
       "title": "Review Kept-Back Packages Before Patching",
       "ok": true,
-      "elapsed_ms": 193,
+      "elapsed_ms": 201,
       "command_count": 2
     },
     {
       "slug": "unattended-upgrade-dry-run-security",
       "title": "Dry-Run Unattended Security Upgrades",
       "ok": true,
-      "elapsed_ms": 181,
+      "elapsed_ms": 177,
       "command_count": 2
     },
     {
       "slug": "needrestart-services-after-security-updates",
       "title": "Find Services Needing Restart After Patches",
       "ok": true,
-      "elapsed_ms": 202,
+      "elapsed_ms": 186,
       "command_count": 2
     },
     {
       "slug": "apt-history-security-patch-timeline",
       "title": "Build a Recent Apt Patch Timeline",
       "ok": true,
-      "elapsed_ms": 186,
+      "elapsed_ms": 188,
       "command_count": 2
     },
     {
       "slug": "apt-term-log-patch-warnings",
       "title": "Find Warnings in Apt Terminal Logs",
       "ok": true,
-      "elapsed_ms": 191,
+      "elapsed_ms": 183,
       "command_count": 2
     },
     {
       "slug": "apt-dist-upgrade-security-impact-preview",
       "title": "Preview Security Impact of dist-upgrade",
       "ok": true,
-      "elapsed_ms": 204,
+      "elapsed_ms": 198,
       "command_count": 2
     },
     {
       "slug": "debian-reboot-required-after-patches",
       "title": "Check Whether Patches Require Reboot",
       "ok": true,
-      "elapsed_ms": 173,
+      "elapsed_ms": 178,
       "command_count": 2
     },
     {
       "slug": "tail-failing-ci-log-lines",
       "title": "Tail the Failing CI Lines",
       "ok": true,
-      "elapsed_ms": 166,
+      "elapsed_ms": 195,
       "command_count": 2
     },
     {
       "slug": "list-newest-build-artifacts",
       "title": "List Newest Build Artifacts",
       "ok": true,
-      "elapsed_ms": 183,
+      "elapsed_ms": 175,
       "command_count": 2
     },
     {
       "slug": "check-current-release-symlink",
       "title": "Check the Current Release Symlink",
       "ok": true,
-      "elapsed_ms": 189,
+      "elapsed_ms": 180,
       "command_count": 2
     },
     {
       "slug": "find-largest-ci-logs",
       "title": "Find the Largest CI Logs",
       "ok": true,
-      "elapsed_ms": 189,
+      "elapsed_ms": 194,
       "command_count": 2
     },
     {
       "slug": "show-release-directory-ages",
       "title": "Show Release Directory Ages",
       "ok": true,
-      "elapsed_ms": 180,
+      "elapsed_ms": 190,
       "command_count": 2
     },
     {
       "slug": "extract-env-names-from-configs",
       "title": "Extract Environment Names Only",
       "ok": true,
-      "elapsed_ms": 203,
+      "elapsed_ms": 187,
       "command_count": 2
     },
     {
       "slug": "smoke-check-http-status",
       "title": "Smoke Check an HTTP Status",
       "ok": true,
-      "elapsed_ms": 200,
+      "elapsed_ms": 182,
       "command_count": 2
     },
     {
       "slug": "compare-artifact-checksums",
       "title": "Compare Artifact Checksums",
       "ok": true,
-      "elapsed_ms": 188,
+      "elapsed_ms": 181,
       "command_count": 2
     },
     {
       "slug": "count-failures-by-test-file",
       "title": "Count Failures by Test File",
       "ok": true,
-      "elapsed_ms": 200,
+      "elapsed_ms": 185,
       "command_count": 2
     },
     {
       "slug": "inspect-release-disk-usage",
       "title": "Inspect Release Disk Usage",
       "ok": true,
-      "elapsed_ms": 184,
+      "elapsed_ms": 180,
       "command_count": 2
     },
     {
       "slug": "check-container-image-tag-in-manifest",
       "title": "Check Image Tags in Manifests",
       "ok": true,
-      "elapsed_ms": 190,
+      "elapsed_ms": 176,
       "command_count": 2
     },
     {
       "slug": "dns-compare-public-resolvers",
       "title": "Compare DNS Answers Across Resolvers",
       "ok": true,
-      "elapsed_ms": 185,
+      "elapsed_ms": 178,
       "command_count": 2
     },
     {
       "slug": "dns-compare-authoritative-nameservers",
       "title": "Compare Authoritative Nameserver Answers",
       "ok": true,
-      "elapsed_ms": 184,
+      "elapsed_ms": 189,
       "command_count": 2
     },
     {
       "slug": "dns-show-answer-ttl",
       "title": "Show the DNS Answer TTL",
       "ok": true,
-      "elapsed_ms": 190,
+      "elapsed_ms": 182,
       "command_count": 2
     },
     {
       "slug": "dns-check-www-cname-target",
       "title": "Check the WWW CNAME Target",
       "ok": true,
-      "elapsed_ms": 198,
+      "elapsed_ms": 175,
       "command_count": 2
     },
     {
       "slug": "dns-compare-a-and-aaaa",
       "title": "Compare A and AAAA Records",
       "ok": true,
-      "elapsed_ms": 174,
+      "elapsed_ms": 192,
       "command_count": 2
     },
     {
       "slug": "dns-check-caa-issuers",
       "title": "Check CAA Certificate Issuers",
       "ok": true,
-      "elapsed_ms": 195,
+      "elapsed_ms": 165,
       "command_count": 2
     },
     {
       "slug": "tls-show-certificate-dates",
       "title": "Show TLS Certificate Dates",
       "ok": true,
-      "elapsed_ms": 181,
+      "elapsed_ms": 177,
       "command_count": 2
     },
     {
       "slug": "tls-show-certificate-names",
       "title": "Show TLS Certificate Names",
       "ok": true,
-      "elapsed_ms": 208,
+      "elapsed_ms": 190,
       "command_count": 2
     },
     {
       "slug": "tls-check-sni-certificate",
       "title": "Check the Certificate Served for SNI",
       "ok": true,
-      "elapsed_ms": 180,
+      "elapsed_ms": 182,
       "command_count": 2
     },
     {
       "slug": "tls-show-protocol-and-cipher",
       "title": "Show TLS Protocol and Cipher",
       "ok": true,
-      "elapsed_ms": 182,
+      "elapsed_ms": 172,
       "command_count": 2
     },
     {
       "slug": "docker-ps-human-table",
       "title": "Show Containers in a Clean Triage Table",
       "ok": true,
-      "elapsed_ms": 184,
+      "elapsed_ms": 169,
       "command_count": 2
     },
     {
       "slug": "docker-restarting-containers",
       "title": "Find Restarting Containers Fast",
       "ok": true,
-      "elapsed_ms": 199,
+      "elapsed_ms": 179,
       "command_count": 2
     },
     {
       "slug": "docker-container-health-status",
       "title": "Check Container Health Status",
       "ok": true,
-      "elapsed_ms": 183,
+      "elapsed_ms": 186,
       "command_count": 2
     },
     {
       "slug": "docker-tail-recent-logs",
       "title": "Read Recent Container Logs",
       "ok": true,
-      "elapsed_ms": 185,
+      "elapsed_ms": 189,
       "command_count": 2
     },
     {
       "slug": "docker-stats-once",
       "title": "Snapshot Container CPU and Memory",
       "ok": true,
-      "elapsed_ms": 189,
+      "elapsed_ms": 178,
       "command_count": 2
     },
     {
       "slug": "docker-port-map",
       "title": "Show Published Container Ports",
       "ok": true,
-      "elapsed_ms": 170,
+      "elapsed_ms": 177,
       "command_count": 2
     },
     {
       "slug": "docker-system-df-verbose",
       "title": "Summarize Docker Disk Usage",
       "ok": true,
-      "elapsed_ms": 180,
+      "elapsed_ms": 169,
       "command_count": 2
     },
     {
       "slug": "docker-container-env-redacted",
       "title": "Inspect Container Environment Names",
       "ok": true,
-      "elapsed_ms": 224,
+      "elapsed_ms": 189,
       "command_count": 2
     },
     {
       "slug": "docker-network-container-map",
       "title": "See Container Network Attachments",
       "ok": true,
-      "elapsed_ms": 167,
+      "elapsed_ms": 176,
       "command_count": 2
     },
     {
       "slug": "docker-events-recent",
       "title": "Review Recent Docker Events",
       "ok": true,
-      "elapsed_ms": 172,
+      "elapsed_ms": 194,
       "command_count": 2
     },
     {
       "slug": "firewall-ufw-status-verbose",
       "title": "Read UFW Policy Verbosely",
       "ok": true,
-      "elapsed_ms": 182,
+      "elapsed_ms": 177,
       "command_count": 2
     },
     {
       "slug": "firewall-ufw-numbered-rules",
       "title": "List Numbered UFW Rules",
       "ok": true,
-      "elapsed_ms": 182,
+      "elapsed_ms": 224,
       "command_count": 2
     },
     {
       "slug": "firewall-nft-input-policy",
       "title": "Show the nftables Input Chain",
       "ok": true,
-      "elapsed_ms": 175,
+      "elapsed_ms": 199,
       "command_count": 2
     },
     {
       "slug": "firewall-iptables-input-rules",
       "title": "Show iptables INPUT Rules",
       "ok": true,
-      "elapsed_ms": 184,
+      "elapsed_ms": 201,
       "command_count": 2
     },
     {
       "slug": "exposure-list-listening-sockets",
       "title": "List Listening TCP Sockets",
       "ok": true,
-      "elapsed_ms": 186,
+      "elapsed_ms": 193,
       "command_count": 2
     },
     {
       "slug": "exposure-public-listeners-only",
       "title": "Show Publicly Bound Listeners",
       "ok": true,
-      "elapsed_ms": 188,
+      "elapsed_ms": 191,
       "command_count": 2
     },
     {
       "slug": "firewall-allowed-ports-without-listeners",
       "title": "Find Allowed Ports with No Listener",
       "ok": true,
-      "elapsed_ms": 203,
+      "elapsed_ms": 193,
       "command_count": 3
     },
     {
       "slug": "exposure-public-listeners-not-in-ufw",
       "title": "Find Public Listeners Not Allowed by UFW",
       "ok": true,
-      "elapsed_ms": 193,
+      "elapsed_ms": 196,
       "command_count": 3
     },
     {
       "slug": "ssh-public-exposure-check",
       "title": "Check Whether SSH Is Publicly Bound",
       "ok": true,
-      "elapsed_ms": 197,
+      "elapsed_ms": 193,
       "command_count": 3
     },
     {
       "slug": "db-local-only-listeners",
       "title": "Show Local-Only Database Listeners",
       "ok": true,
-      "elapsed_ms": 183,
+      "elapsed_ms": 190,
       "command_count": 2
     },
     {
       "slug": "git-incident-status-snapshot",
       "title": "Snapshot Git Status Before Recovery",
       "ok": true,
-      "elapsed_ms": 270,
+      "elapsed_ms": 245,
       "command_count": 2
     },
     {
       "slug": "git-map-recent-release-history",
       "title": "Map Recent Release Commits",
       "ok": true,
-      "elapsed_ms": 246,
+      "elapsed_ms": 231,
       "command_count": 2
     },
     {
       "slug": "git-show-files-since-last-good-release",
       "title": "Show Files Changed Since Last Good Release",
       "ok": true,
-      "elapsed_ms": 241,
+      "elapsed_ms": 227,
       "command_count": 2
     },
     {
       "slug": "git-reflog-find-discarded-commit",
       "title": "Find a Discarded Commit in Reflog",
       "ok": true,
-      "elapsed_ms": 282,
+      "elapsed_ms": 248,
       "command_count": 2
     },
     {
       "slug": "git-branch-recovered-commit",
       "title": "Branch a Recovered Commit",
       "ok": true,
-      "elapsed_ms": 284,
+      "elapsed_ms": 243,
       "command_count": 3
     },
     {
       "slug": "git-restore-file-from-last-good-release",
       "title": "Restore One File From Last Good Release",
       "ok": true,
-      "elapsed_ms": 233,
+      "elapsed_ms": 248,
       "command_count": 3
     },
     {
       "slug": "release-check-current-symlink-target",
       "title": "Check the Active Release Symlink",
       "ok": true,
-      "elapsed_ms": 237,
+      "elapsed_ms": 232,
       "command_count": 2
     },
     {
       "slug": "release-rollback-current-symlink-in-sandbox",
       "title": "Rollback a Release Symlink in a Sandbox",
       "ok": true,
-      "elapsed_ms": 249,
+      "elapsed_ms": 240,
       "command_count": 3
     },
     {
       "slug": "git-preview-rollback-patch",
       "title": "Preview the Patch a Rollback Would Apply",
       "ok": true,
-      "elapsed_ms": 237,
+      "elapsed_ms": 244,
       "command_count": 2
     },
     {
       "slug": "git-revert-suspect-release-commit",
       "title": "Revert the Suspect Release Commit",
       "ok": true,
-      "elapsed_ms": 281,
+      "elapsed_ms": 239,
       "command_count": 3
     },
     {
       "slug": "nginx-test-config",
       "title": "Test Nginx Before Reload",
       "ok": true,
-      "elapsed_ms": 196,
+      "elapsed_ms": 172,
       "command_count": 3
     },
     {
       "slug": "nginx-show-enabled-sites",
       "title": "Show Enabled Nginx Sites",
       "ok": true,
-      "elapsed_ms": 181,
+      "elapsed_ms": 205,
       "command_count": 3
     },
     {
       "slug": "nginx-find-server-name",
       "title": "Find Which Nginx Config Owns a Domain",
       "ok": true,
-      "elapsed_ms": 184,
+      "elapsed_ms": 215,
       "command_count": 3
     },
     {
       "slug": "check-http-redirect",
       "title": "Check HTTP to HTTPS Redirect",
       "ok": true,
-      "elapsed_ms": 188,
+      "elapsed_ms": 192,
       "command_count": 3
     },
     {
@@ -990,77 +990,77 @@
       "slug": "dig-a-record",
       "title": "Check a Domain A Record",
       "ok": true,
-      "elapsed_ms": 186,
+      "elapsed_ms": 193,
       "command_count": 3
     },
     {
       "slug": "certbot-list-certs",
       "title": "List Certbot Certificates",
       "ok": true,
-      "elapsed_ms": 189,
+      "elapsed_ms": 194,
       "command_count": 3
     },
     {
       "slug": "check-nginx-symlink-target",
       "title": "Check the Current Release Symlink",
       "ok": true,
-      "elapsed_ms": 200,
+      "elapsed_ms": 199,
       "command_count": 3
     },
     {
       "slug": "nginx-find-404s",
       "title": "Find Top 404 URLs",
       "ok": true,
-      "elapsed_ms": 190,
+      "elapsed_ms": 212,
       "command_count": 3
     },
     {
       "slug": "watch-access-by-referrer",
       "title": "See Top Referrers",
       "ok": true,
-      "elapsed_ms": 216,
+      "elapsed_ms": 177,
       "command_count": 3
     },
     {
       "slug": "incident-journal-severity-summary",
       "title": "Summarize Journal Severity During an Incident",
       "ok": true,
-      "elapsed_ms": 206,
+      "elapsed_ms": 168,
       "command_count": 2
     },
     {
       "slug": "incident-journal-errors-by-unit",
       "title": "Group Journal Errors by Unit",
       "ok": true,
-      "elapsed_ms": 181,
+      "elapsed_ms": 194,
       "command_count": 2
     },
     {
       "slug": "incident-journal-critical-timeline",
       "title": "Print a Critical Journal Timeline",
       "ok": true,
-      "elapsed_ms": 189,
+      "elapsed_ms": 194,
       "command_count": 2
     },
     {
       "slug": "incident-first-error-context",
       "title": "Show Context Around the First App Error",
       "ok": true,
-      "elapsed_ms": 194,
+      "elapsed_ms": 192,
       "command_count": 2
     },
     {
       "slug": "incident-error-rate-by-minute",
       "title": "Count App Errors by Minute",
       "ok": true,
-      "elapsed_ms": 180,
+      "elapsed_ms": 189,
       "command_count": 2
     },
     {
       "slug": "incident-request-ids-in-errors",
       "title": "Count Request IDs in Error Lines",
       "ok": true,
-      "elapsed_ms": 182,
+      "elapsed_ms": 180,
       "command_count": 2
     },
     {
@@ -1074,7 +1074,7 @@
       "slug": "incident-oom-kills-from-journal",
       "title": "Spot OOM Kills in the Kernel Journal",
       "ok": true,
-      "elapsed_ms": 197,
+      "elapsed_ms": 193,
       "command_count": 2
     },
     {
@@ -1088,35 +1088,35 @@
       "slug": "incident-redact-secret-looking-log-lines",
       "title": "Redact Secret-Looking Log Lines",
       "ok": true,
-      "elapsed_ms": 192,
+      "elapsed_ms": 181,
       "command_count": 2
     },
     {
       "slug": "audit-world-writable-dirs-without-sticky-bit",
       "title": "Find Writable Directories Missing the Sticky Bit",
       "ok": true,
-      "elapsed_ms": 197,
+      "elapsed_ms": 180,
       "command_count": 2
     },
     {
       "slug": "audit-release-files-writable-outside-owner",
       "title": "Find Release Files Writable Outside the Owner",
       "ok": true,
-      "elapsed_ms": 181,
+      "elapsed_ms": 183,
       "command_count": 2
     },
     {
       "slug": "audit-writable-runtime-directories",
       "title": "Find Runtime Directories Writable Outside the Owner",
       "ok": true,
-      "elapsed_ms": 189,
+      "elapsed_ms": 185,
       "command_count": 2
     },
     {
       "slug": "audit-special-permission-bits",
       "title": "Find SUID, SGID, and Sticky Bits in an App Tree",
       "ok": true,
-      "elapsed_ms": 200,
+      "elapsed_ms": 175,
       "command_count": 2
     },
     {
@@ -1130,98 +1130,98 @@
       "slug": "trace-permission-denial-with-namei",
       "title": "Trace Every Parent Directory on a Permission Denial",
       "ok": true,
-      "elapsed_ms": 174,
+      "elapsed_ms": 186,
       "command_count": 2
     },
     {
       "slug": "audit-world-readable-secrets",
       "title": "Find World-Readable Secret-Looking Files",
       "ok": true,
-      "elapsed_ms": 189,
+      "elapsed_ms": 184,
       "command_count": 2
     },
     {
       "slug": "audit-executable-config-files",
       "title": "Find Config Files with Execute Bits",
       "ok": true,
-      "elapsed_ms": 182,
+      "elapsed_ms": 175,
       "command_count": 2
     },
     {
       "slug": "audit-symlink-permission-chain",
       "title": "Audit a Symlink Permission Chain",
       "ok": true,
-      "elapsed_ms": 188,
+      "elapsed_ms": 182,
       "command_count": 2
     },
     {
       "slug": "audit-public-writeable-upload-files",
       "title": "Find Upload Files Writable Outside the Owner",
       "ok": true,
-      "elapsed_ms": 177,
+      "elapsed_ms": 180,
       "command_count": 2
     },
     {
       "slug": "find-top-cpu-processes-with-ps",
       "title": "Find the Processes Burning CPU",
       "ok": true,
-      "elapsed_ms": 204,
+      "elapsed_ms": 197,
       "command_count": 2
     },
     {
       "slug": "find-top-memory-processes-with-ps",
       "title": "Find the Processes Eating Memory",
       "ok": true,
-      "elapsed_ms": 180,
+      "elapsed_ms": 181,
       "command_count": 2
     },
     {
       "slug": "check-memory-pressure-with-free",
       "title": "Check Memory Pressure with free",
       "ok": true,
-      "elapsed_ms": 200,
+      "elapsed_ms": 182,
       "command_count": 2
     },
     {
       "slug": "read-load-average-with-uptime",
       "title": "Read Load Average Before You React",
       "ok": true,
-      "elapsed_ms": 196,
+      "elapsed_ms": 179,
       "command_count": 2
     },
     {
       "slug": "check-disk-space-with-df",
       "title": "Check Filesystem Space with df",
       "ok": true,
-      "elapsed_ms": 183,
+      "elapsed_ms": 177,
       "command_count": 2
     },
     {
       "slug": "check-inode-pressure-with-df-i",
       "title": "Check Inodes When Disk Space Looks Fine",
       "ok": true,
-      "elapsed_ms": 187,
+      "elapsed_ms": 199,
       "command_count": 2
     },
     {
       "slug": "find-large-directories-with-du",
       "title": "Find Large Directories with du",
       "ok": true,
-      "elapsed_ms": 185,
+      "elapsed_ms": 215,
       "command_count": 2
     },
     {
       "slug": "find-listening-ports-with-ss",
       "title": "Find Listening Ports with ss",
       "ok": true,
-      "elapsed_ms": 175,
+      "elapsed_ms": 185,
       "command_count": 2
     },
     {
       "slug": "find-open-deleted-files-with-lsof",
       "title": "Find Open Deleted Files with lsof",
       "ok": true,
-      "elapsed_ms": 185,
+      "elapsed_ms": 181,
       "command_count": 2
     },
     {
@@ -1235,168 +1235,168 @@
       "slug": "cron-list-active-user-crontab",
       "title": "Show the Real User Cron Jobs",
       "ok": true,
-      "elapsed_ms": 181,
+      "elapsed_ms": 213,
       "command_count": 2
     },
     {
       "slug": "cron-find-system-job-files",
       "title": "Find System Cron Files Fast",
       "ok": true,
-      "elapsed_ms": 177,
+      "elapsed_ms": 185,
       "command_count": 2
     },
     {
       "slug": "cron-map-schedules-to-commands",
       "title": "Turn Cron Into a Readable Table",
       "ok": true,
-      "elapsed_ms": 184,
+      "elapsed_ms": 188,
       "command_count": 2
     },
     {
       "slug": "cron-detect-silent-jobs-missing-logging",
       "title": "Find Cron Jobs With No Log Trail",
       "ok": true,
-      "elapsed_ms": 207,
+      "elapsed_ms": 190,
       "command_count": 2
     },
     {
       "slug": "cron-check-run-parts-names",
       "title": "Catch Cron Daily Files That Will Be Skipped",
       "ok": true,
-      "elapsed_ms": 200,
+      "elapsed_ms": 197,
       "command_count": 2
     },
     {
       "slug": "systemd-timer-map-activations",
       "title": "Map systemd Timers to Services",
       "ok": true,
-      "elapsed_ms": 191,
+      "elapsed_ms": 185,
       "command_count": 2
     },
     {
       "slug": "systemd-timer-find-stale-or-disabled",
       "title": "Spot Stale systemd Timers",
       "ok": true,
-      "elapsed_ms": 191,
+      "elapsed_ms": 175,
       "command_count": 2
     },
     {
       "slug": "systemd-timer-check-last-service-logs",
       "title": "Check the Last Timer Payload Logs",
       "ok": true,
-      "elapsed_ms": 210,
+      "elapsed_ms": 193,
       "command_count": 2
     },
     {
       "slug": "logrotate-debug-without-rotating",
       "title": "Dry-Run Logrotate Before Touching Logs",
       "ok": true,
-      "elapsed_ms": 207,
+      "elapsed_ms": 189,
       "command_count": 2
     },
     {
       "slug": "logrotate-find-unmanaged-logs",
       "title": "Find Logs Missing Logrotate Coverage",
       "ok": true,
-      "elapsed_ms": 195,
+      "elapsed_ms": 194,
       "command_count": 2
     },
     {
       "slug": "sqlite-list-tables",
       "title": "List Tables in a SQLite Database",
       "ok": true,
-      "elapsed_ms": 189,
+      "elapsed_ms": 162,
       "command_count": 2
     },
     {
       "slug": "sqlite-show-users-schema",
       "title": "Show One SQLite Table Schema",
       "ok": true,
-      "elapsed_ms": 164,
+      "elapsed_ms": 175,
       "command_count": 2
     },
     {
       "slug": "sqlite-check-integrity",
       "title": "Check SQLite Database Integrity",
       "ok": true,
-      "elapsed_ms": 187,
+      "elapsed_ms": 166,
       "command_count": 2
     },
     {
       "slug": "sqlite-list-user-tables",
       "title": "List SQLite User Tables Only",
       "ok": true,
-      "elapsed_ms": 173,
+      "elapsed_ms": 166,
       "command_count": 2
     },
     {
       "slug": "sqlite-count-key-tables",
       "title": "Count Rows in Key SQLite Tables",
       "ok": true,
-      "elapsed_ms": 166,
+      "elapsed_ms": 171,
       "command_count": 2
     },
     {
       "slug": "sqlite-show-order-indexes",
       "title": "Show Indexes on a SQLite Table",
       "ok": true,
-      "elapsed_ms": 183,
+      "elapsed_ms": 192,
       "command_count": 2
     },
     {
       "slug": "sqlite-show-recent-events",
       "title": "Show Recent SQLite Events",
       "ok": true,
-      "elapsed_ms": 167,
+      "elapsed_ms": 179,
       "command_count": 2
     },
     {
       "slug": "sqlite-count-events-by-type",
       "title": "Count SQLite Events by Type",
       "ok": true,
-      "elapsed_ms": 175,
+      "elapsed_ms": 184,
       "command_count": 2
     },
     {
       "slug": "sqlite-find-duplicate-emails",
       "title": "Find Duplicate Emails in SQLite",
       "ok": true,
-      "elapsed_ms": 181,
+      "elapsed_ms": 171,
       "command_count": 2
     },
     {
       "slug": "sqlite-backup-database-file",
       "title": "Back Up a SQLite Database File",
       "ok": true,
-      "elapsed_ms": 189,
+      "elapsed_ms": 176,
       "command_count": 3
     },
     {
       "slug": "find-duplicate-page-titles",
       "title": "Find Duplicate Page Titles",
       "ok": true,
-      "elapsed_ms": 177,
+      "elapsed_ms": 182,
       "command_count": 2
     },
     {
       "slug": "find-pages-missing-canonical",
       "title": "Find Pages Missing Canonical Links",
       "ok": true,
-      "elapsed_ms": 188,
+      "elapsed_ms": 169,
       "command_count": 2
     },
     {
       "slug": "find-noindex-pages",
       "title": "Find Pages Marked noindex",
       "ok": true,
-      "elapsed_ms": 181,
+      "elapsed_ms": 199,
       "command_count": 2
     },
     {
       "slug": "find-pages-missing-meta-description",
       "title": "Find Pages Missing Meta Descriptions",
       "ok": true,
-      "elapsed_ms": 181,
+      "elapsed_ms": 187,
       "command_count": 2
     },
     {
@@ -1410,287 +1410,357 @@
       "slug": "check-robots-sitemap-line",
       "title": "Check robots.txt for a Sitemap Line",
       "ok": true,
-      "elapsed_ms": 176,
+      "elapsed_ms": 173,
       "command_count": 2
     },
     {
       "slug": "find-html-pages-missing-from-sitemap",
       "title": "Find HTML Pages Missing from the Sitemap",
       "ok": true,
-      "elapsed_ms": 176,
+      "elapsed_ms": 195,
       "command_count": 2
     },
     {
       "slug": "find-broken-internal-links",
       "title": "Find Broken Internal Links in Built HTML",
       "ok": true,
-      "elapsed_ms": 166,
+      "elapsed_ms": 179,
       "command_count": 2
     },
     {
       "slug": "find-pages-missing-og-title",
       "title": "Find Pages Missing og:title",
       "ok": true,
-      "elapsed_ms": 184,
+      "elapsed_ms": 183,
       "command_count": 2
     },
     {
       "slug": "find-feed-links-missing-from-sitemap",
       "title": "Find Feed Links Missing from the Sitemap",
       "ok": true,
-      "elapsed_ms": 174,
+      "elapsed_ms": 178,
       "command_count": 2
     },
     {
       "slug": "systemd-failed-units",
       "title": "Show Failed systemd Units",
       "ok": true,
-      "elapsed_ms": 181,
+      "elapsed_ms": 177,
       "command_count": 2
     },
     {
       "slug": "service-status-no-pager",
       "title": "Inspect One Service Without Pager Traps",
       "ok": true,
-      "elapsed_ms": 202,
+      "elapsed_ms": 193,
       "command_count": 2
     },
     {
       "slug": "journalctl-unit-since-boot",
       "title": "Read Current-Boot Logs for One Service",
       "ok": true,
-      "elapsed_ms": 184,
+      "elapsed_ms": 177,
       "command_count": 2
     },
     {
       "slug": "journal-disk-usage",
       "title": "Check systemd Journal Disk Usage",
       "ok": true,
-      "elapsed_ms": 203,
+      "elapsed_ms": 182,
       "command_count": 2
     },
     {
       "slug": "slow-boot-services",
       "title": "Find Slow Services During Boot",
       "ok": true,
-      "elapsed_ms": 173,
+      "elapsed_ms": 178,
       "command_count": 2
     },
     {
       "slug": "service-enabled-at-boot",
       "title": "Check Whether a Service Starts at Boot",
       "ok": true,
-      "elapsed_ms": 177,
+      "elapsed_ms": 192,
       "command_count": 2
     },
     {
       "slug": "service-active-check",
       "title": "Check If a Service Is Active",
       "ok": true,
-      "elapsed_ms": 172,
+      "elapsed_ms": 203,
       "command_count": 2
     },
     {
       "slug": "recent-reboots",
       "title": "Show Recent Server Reboots",
       "ok": true,
-      "elapsed_ms": 168,
+      "elapsed_ms": 192,
       "command_count": 2
     },
     {
       "slug": "memory-pressure-summary",
       "title": "Check Memory Pressure Quickly",
       "ok": true,
-      "elapsed_ms": 180,
+      "elapsed_ms": 186,
       "command_count": 2
     },
     {
       "slug": "systemd-timers-due",
       "title": "List Upcoming systemd Timers",
       "ok": true,
+      "elapsed_ms": 192,
+      "command_count": 2
+    },
+    {
+      "slug": "systemd-status-failed-service-cause",
+      "title": "Read the Failure Cause in systemctl Status",
+      "ok": true,
+      "elapsed_ms": 190,
+      "command_count": 2
+    },
+    {
+      "slug": "systemd-show-exit-result-fields",
+      "title": "Print the Exact systemd Exit Fields",
+      "ok": true,
+      "elapsed_ms": 185,
+      "command_count": 2
+    },
+    {
+      "slug": "systemd-journal-warning-window",
+      "title": "Read Warning and Error Logs for One Failed Unit",
+      "ok": true,
       "elapsed_ms": 182,
+      "command_count": 2
+    },
+    {
+      "slug": "systemd-restart-loop-timeline",
+      "title": "Build a Restart Loop Timeline",
+      "ok": true,
+      "elapsed_ms": 178,
+      "command_count": 2
+    },
+    {
+      "slug": "systemd-cat-unit-and-dropins",
+      "title": "Inspect the Unit File and Drop-ins Together",
+      "ok": true,
+      "elapsed_ms": 192,
+      "command_count": 2
+    },
+    {
+      "slug": "systemd-show-runtime-paths",
+      "title": "Print Runtime Paths and User From systemd",
+      "ok": true,
+      "elapsed_ms": 177,
+      "command_count": 2
+    },
+    {
+      "slug": "systemd-check-failed-dependencies",
+      "title": "Check Failed Dependencies for a Service",
+      "ok": true,
+      "elapsed_ms": 188,
+      "command_count": 2
+    },
+    {
+      "slug": "systemd-reset-failed-after-capture",
+      "title": "Reset Failed State After Capturing Evidence",
+      "ok": true,
+      "elapsed_ms": 189,
+      "command_count": 2
+    },
+    {
+      "slug": "systemd-find-first-failure-line",
+      "title": "Find the First Failure Line for One Unit",
+      "ok": true,
+      "elapsed_ms": 168,
+      "command_count": 2
+    },
+    {
+      "slug": "systemd-compare-status-with-effective-unit",
+      "title": "Compare Failure Output With the Effective Unit",
+      "ok": true,
+      "elapsed_ms": 184,
       "command_count": 2
     },
     {
       "slug": "access-list-login-shell-accounts",
       "title": "List Accounts with Login Shells",
       "ok": true,
-      "elapsed_ms": 185,
+      "elapsed_ms": 177,
       "command_count": 2
     },
     {
       "slug": "access-find-password-enabled-accounts",
       "title": "Find Password-Enabled Accounts",
       "ok": true,
-      "elapsed_ms": 186,
+      "elapsed_ms": 191,
       "command_count": 2
     },
     {
       "slug": "access-review-sudo-grants",
       "title": "Review sudo Grants",
       "ok": true,
-      "elapsed_ms": 181,
+      "elapsed_ms": 187,
       "command_count": 2
     },
     {
       "slug": "access-count-authorized-keys-by-user",
       "title": "Count authorized_keys by User",
       "ok": true,
-      "elapsed_ms": 196,
+      "elapsed_ms": 204,
       "command_count": 2
     },
     {
       "slug": "access-find-keys-for-nologin-users",
       "title": "Find SSH Keys for nologin Users",
       "ok": true,
-      "elapsed_ms": 194,
+      "elapsed_ms": 181,
       "command_count": 2
     },
     {
       "slug": "access-show-successful-logins-and-sudo",
       "title": "Show Successful Logins and sudo Use",
       "ok": true,
-      "elapsed_ms": 198,
+      "elapsed_ms": 193,
       "command_count": 2
     },
     {
       "slug": "access-list-privileged-group-members",
       "title": "List Privileged Group Members",
       "ok": true,
-      "elapsed_ms": 174,
+      "elapsed_ms": 180,
       "command_count": 2
     },
     {
       "slug": "access-summarize-sudo-commands-by-user",
       "title": "Summarize sudo Commands by User",
       "ok": true,
-      "elapsed_ms": 180,
+      "elapsed_ms": 181,
       "command_count": 2
     },
     {
       "slug": "access-review-breakglass-account",
       "title": "Review a Breakglass Account",
       "ok": true,
-      "elapsed_ms": 181,
+      "elapsed_ms": 191,
       "command_count": 2
     },
     {
       "slug": "access-find-ssh-key-users-with-sudo",
       "title": "Find SSH Key Users with sudo",
       "ok": true,
-      "elapsed_ms": 175,
+      "elapsed_ms": 188,
       "command_count": 2
     },
     {
       "slug": "security-count-failed-ssh-users",
       "title": "Count Failed SSH Login Users",
       "ok": true,
-      "elapsed_ms": 185,
+      "elapsed_ms": 178,
       "command_count": 2
     },
     {
       "slug": "security-count-failed-ssh-ips",
       "title": "Count Failed SSH Login IPs",
       "ok": true,
-      "elapsed_ms": 190,
+      "elapsed_ms": 174,
       "command_count": 2
     },
     {
       "slug": "security-show-accepted-ssh-logins",
       "title": "Show Accepted SSH Logins",
       "ok": true,
-      "elapsed_ms": 169,
+      "elapsed_ms": 176,
       "command_count": 2
     },
     {
       "slug": "security-show-recent-sudo-commands",
       "title": "Show Recent sudo Commands",
       "ok": true,
-      "elapsed_ms": 178,
+      "elapsed_ms": 192,
       "command_count": 2
     },
     {
       "slug": "security-list-listening-ports",
       "title": "List Listening Ports on a VPS",
       "ok": true,
-      "elapsed_ms": 183,
+      "elapsed_ms": 180,
       "command_count": 2
     },
     {
       "slug": "security-list-login-shell-users",
       "title": "List Users with Login Shells",
       "ok": true,
-      "elapsed_ms": 183,
+      "elapsed_ms": 198,
       "command_count": 2
     },
     {
       "slug": "security-check-sshd-auth-settings",
       "title": "Check Key SSH Authentication Settings",
       "ok": true,
-      "elapsed_ms": 182,
+      "elapsed_ms": 178,
       "command_count": 2
     },
     {
       "slug": "security-find-world-writable-web-dirs",
       "title": "Find World-Writable Web Directories",
       "ok": true,
-      "elapsed_ms": 175,
+      "elapsed_ms": 168,
       "command_count": 2
     },
     {
       "slug": "security-find-loose-private-key-modes",
       "title": "Find Loose Private Key Permissions",
       "ok": true,
-      "elapsed_ms": 181,
+      "elapsed_ms": 183,
       "command_count": 2
     },
     {
       "slug": "security-list-authorized-keys-files",
       "title": "List authorized_keys Files",
       "ok": true,
-      "elapsed_ms": 181,
+      "elapsed_ms": 187,
       "command_count": 2
     },
     {
       "slug": "web-config-list-nginx-listen-directives",
       "title": "List Nginx Listen Directives",
       "ok": true,
-      "elapsed_ms": 188,
+      "elapsed_ms": 183,
       "command_count": 3
     },
     {
       "slug": "web-config-find-nginx-default-server",
       "title": "Find the Nginx Default Server",
       "ok": true,
-      "elapsed_ms": 182,
+      "elapsed_ms": 180,
       "command_count": 2
     },
     {
       "slug": "web-config-show-nginx-include-chain",
       "title": "Show Nginx Include Lines",
       "ok": true,
-      "elapsed_ms": 170,
+      "elapsed_ms": 182,
       "command_count": 3
     },
     {
       "slug": "web-config-map-nginx-roots-aliases",
       "title": "Map Nginx Roots and Aliases",
       "ok": true,
-      "elapsed_ms": 180,
+      "elapsed_ms": 187,
       "command_count": 2
     },
     {
       "slug": "web-config-map-nginx-proxy-targets",
       "title": "Map Nginx Proxy Targets",
       "ok": true,
-      "elapsed_ms": 171,
+      "elapsed_ms": 184,
       "command_count": 2
     },
     {
       "slug": "web-config-show-enabled-apache-sites",
       "title": "Show Enabled Apache Sites",
       "ok": true,
-      "elapsed_ms": 177,
+      "elapsed_ms": 181,
       "command_count": 3
     },
     {
@@ -1704,91 +1774,91 @@
       "slug": "web-config-find-apache-document-roots",
       "title": "Find Apache Document Roots",
       "ok": true,
-      "elapsed_ms": 189,
+      "elapsed_ms": 188,
       "command_count": 2
     },
     {
       "slug": "web-config-map-apache-proxy-rules",
       "title": "Map Apache Proxy Rules",
       "ok": true,
-      "elapsed_ms": 186,
+      "elapsed_ms": 201,
       "command_count": 2
     },
     {
       "slug": "web-config-find-redirect-rules",
       "title": "Find Web Server Redirect Rules",
       "ok": true,
-      "elapsed_ms": 183,
+      "elapsed_ms": 186,
       "command_count": 2
     },
     {
       "slug": "status-code-summary",
       "title": "Summarize HTTP Status Codes",
       "ok": true,
-      "elapsed_ms": 180,
+      "elapsed_ms": 187,
       "command_count": 3
     },
     {
       "slug": "web-4xx-by-ip",
       "title": "Find the IPs Creating the Most 4xx Noise",
       "ok": true,
-      "elapsed_ms": 184,
+      "elapsed_ms": 187,
       "command_count": 3
     },
     {
       "slug": "web-5xx-by-path",
       "title": "Group Server Errors by URL Path",
       "ok": true,
-      "elapsed_ms": 176,
+      "elapsed_ms": 205,
       "command_count": 3
     },
     {
       "slug": "suspicious-web-methods",
       "title": "Spot Unusual HTTP Methods in Access Logs",
       "ok": true,
-      "elapsed_ms": 198,
+      "elapsed_ms": 184,
       "command_count": 3
     },
     {
       "slug": "top-web-user-agents",
       "title": "Count the Most Common User Agents",
       "ok": true,
-      "elapsed_ms": 182,
+      "elapsed_ms": 199,
       "command_count": 3
     },
     {
       "slug": "admin-probe-paths",
       "title": "Find Common Admin Probe Paths",
       "ok": true,
-      "elapsed_ms": 178,
+      "elapsed_ms": 189,
       "command_count": 3
     },
     {
       "slug": "repeated-404-paths",
       "title": "Find Paths Repeatedly Returning 404",
       "ok": true,
-      "elapsed_ms": 176,
+      "elapsed_ms": 179,
       "command_count": 3
     },
     {
       "slug": "request-bursts-by-minute",
       "title": "Spot Request Bursts by Minute",
       "ok": true,
-      "elapsed_ms": 189,
+      "elapsed_ms": 182,
       "command_count": 3
     },
     {
       "slug": "large-web-responses",
       "title": "Find Unusually Large Web Responses",
       "ok": true,
-      "elapsed_ms": 182,
+      "elapsed_ms": 187,
       "command_count": 3
     },
     {
       "slug": "ip-path-repeaters",
       "title": "Find Clients Repeating the Same Path",
       "ok": true,
-      "elapsed_ms": 174,
+      "elapsed_ms": 184,
       "command_count": 3
     }
   ]

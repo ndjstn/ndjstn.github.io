@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 186,
+  "elapsed_ms": 195,
   "stdout": "::fixture-ready::\n$ cd /lab/ci-artifacts && du -sh artifacts/*\n12K\tartifacts/build\n12K\tartifacts/coverage\n20K\tartifacts/dist\n12K\tartifacts/test\n::exit-code::0\n$ cd /lab/ci-artifacts && find artifacts -type f -printf '%s %p\\n' | sort -nr | head -10\n831488 artifacts/dist/assets/vendor.js\n250880 artifacts/dist/assets/main.js\n450 artifacts/test/junit.xml\n338 artifacts/test/pytest.log\n139 artifacts/build/webpack.log\n137 artifacts/build/app-build.log\n131 artifacts/coverage/coverage-summary.txt\n87 artifacts/coverage/coverage-summary.json\n77 artifacts/dist/index.html\n::exit-code::0\n$ cd /lab/ci-artifacts && find artifacts -type f -printf '%s %p\\n' | sort -nr | awk 'NR<=5 {printf \"%.1f KB %s\\n\", $1/1024, $2}'\n812.0 KB artifacts/dist/assets/vendor.js\n245.0 KB artifacts/dist/assets/main.js\n0.4 KB artifacts/test/junit.xml\n0.3 KB artifacts/test/pytest.log\n0.1 KB artifacts/build/webpack.log\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

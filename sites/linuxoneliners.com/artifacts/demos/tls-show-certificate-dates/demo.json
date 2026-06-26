@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 181,
+  "elapsed_ms": 177,
   "stdout": "::fixture-ready::\n$ openssl s_client -connect edge.test:443 -servername edge.test </dev/null 2>/dev/null | sed -n '1,8p'\nCONNECTED(00000003)\nProtocol  : TLSv1.3\nCipher    : TLS_AES_256_GCM_SHA384\nVerify return code: 0 (ok)\n-----BEGIN CERTIFICATE-----\nFIXTURE-edge\n-----END CERTIFICATE-----\n::exit-code::0\n$ openssl s_client -connect edge.test:443 -servername edge.test </dev/null 2>/dev/null | openssl x509 -noout -dates\nnotBefore=Jun  1 00:00:00 2026 GMT\nnotAfter=Aug 30 23:59:59 2026 GMT\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

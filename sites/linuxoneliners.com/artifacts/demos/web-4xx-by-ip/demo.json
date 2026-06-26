@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 184,
+  "elapsed_ms": 187,
   "stdout": "::fixture-ready::\n$ awk '$9 ~ /^4/ {print $1, $7, $9}' ./fixtures/nginx/access.log | head\n203.0.113.44 /missing 404\n203.0.113.44 /missing 404\n203.0.113.44 /missing 404\n203.0.113.44 /wp-login.php 404\n203.0.113.44 /wp-admin 404\n203.0.113.45 /admin 403\n203.0.113.45 /login 403\n203.0.113.46 /api/profile 405\n203.0.113.46 /api/profile 405\n::exit-code::0\n$ awk '$9 ~ /^4/ {count[$1]++} END {for (ip in count) print count[ip], ip}' ./fixtures/nginx/access.log | sort -nr | head\n5 203.0.113.44\n2 203.0.113.46\n2 203.0.113.45\n::exit-code::0\n$ awk '$9 ~ /^4/ {print $1, $7, $9}' ./fixtures/nginx/access.log\n203.0.113.44 /missing 404\n203.0.113.44 /missing 404\n203.0.113.44 /missing 404\n203.0.113.44 /wp-login.php 404\n203.0.113.44 /wp-admin 404\n203.0.113.45 /admin 403\n203.0.113.45 /login 403\n203.0.113.46 /api/profile 405\n203.0.113.46 /api/profile 405\n::exit-code::0\n",
   "stderr": "",
   "ok": true,
