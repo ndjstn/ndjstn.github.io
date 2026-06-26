@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 250,
+  "elapsed_ms": 188,
   "stdout": "::fixture-ready::\n$ find fixtures/perm-audit -perm /7000 -printf '%M %m %u:%g %p\\n' | sort\n-rwsr-xr-x 4755 root:root fixtures/perm-audit/releases/2026-06-25/bin/escalate-helper\n-rwxr-sr-x 2755 root:root fixtures/perm-audit/releases/2026-06-25/bin/report-sync\n::exit-code::0\n$ stat -c '%A %a %U:%G %n' fixtures/perm-audit/releases/2026-06-25/bin/*\n-rwsr-xr-x 4755 root:root fixtures/perm-audit/releases/2026-06-25/bin/escalate-helper\n-rwxr-xr-x 755 root:root fixtures/perm-audit/releases/2026-06-25/bin/healthcheck\n-rwxr-sr-x 2755 root:root fixtures/perm-audit/releases/2026-06-25/bin/report-sync\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

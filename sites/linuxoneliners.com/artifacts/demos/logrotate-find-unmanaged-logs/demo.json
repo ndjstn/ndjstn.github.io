@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 244,
+  "elapsed_ms": 211,
   "stdout": "::fixture-ready::\n$ find /var/log -type f -name '*.log' -printf '%p\\n' | sort\n/var/log/app/app.log\n/var/log/app/debug.log\n/var/log/nginx/access.log\n/var/log/nginx/error.log\n::exit-code::0\n$ find /var/log -type f -name '*.log' -printf '%p\\n' | while read -r log; do grep -Rqs -- \"$log\" /etc/logrotate.conf /etc/logrotate.d || grep -Rqs -- \"$(dirname \"$log\")/[*].log\" /etc/logrotate.conf /etc/logrotate.d || printf '%s\\n' \"$log\"; done\n/var/log/app/debug.log\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

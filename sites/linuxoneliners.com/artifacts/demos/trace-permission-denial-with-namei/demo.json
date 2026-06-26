@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 303,
+  "elapsed_ms": 191,
   "stdout": "::fixture-ready::\n$ stat -c '%A %U:%G %n' fixtures/perm-audit/current/app/config/prod.token\nlrwxrwxrwx root:root fixtures/perm-audit/current/app/config/prod.token\n::exit-code::0\n$ namei -l fixtures/perm-audit/current/app/config/prod.token\nf: fixtures/perm-audit/current/app/config/prod.token\ndrwxr-xr-x root root fixtures\ndrwxr-xr-x root root perm-audit\ndrwxr-xr-x root root current\nlrwxrwxrwx root root app -> ../releases/2026-06-25\ndrwxr-xr-x root root   ..\ndrwxr-xr-x root root   releases\ndrwxr-xr-x root root   2026-06-25\ndrwxr-xr-x root root config\nlrwxrwxrwx root root prod.token -> ../../../shared/secrets/prod.token\ndrwxr-xr-x root root   ..\ndrwxr-xr-x root root   ..\ndrwxr-xr-x root root   ..\ndrwxr-xr-x root root   shared\ndrwxr-xr-x root root   secrets\n-rw------- root root   prod.token\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 226,
+  "elapsed_ms": 185,
   "stdout": "::fixture-ready::\n$ grep -RInE '<VirtualHost|ServerName|ServerAlias' fixtures/apache/sites-enabled\nfixtures/apache/sites-enabled/app.conf:1:<VirtualHost *:443>\nfixtures/apache/sites-enabled/app.conf:2:    ServerName app.example.com\nfixtures/apache/sites-enabled/example.conf:1:<VirtualHost *:80>\nfixtures/apache/sites-enabled/example.conf:2:    ServerName legacy.example.com\nfixtures/apache/sites-enabled/example.conf:3:    ServerAlias www.legacy.example.com\n::exit-code::0\n$ grep -RInE '^[[:space:]]*DocumentRoot[[:space:]]' fixtures/apache/sites-enabled\nfixtures/apache/sites-enabled/app.conf:3:    DocumentRoot /srv/www/app/public\nfixtures/apache/sites-enabled/example.conf:4:    DocumentRoot /srv/www/legacy/public\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

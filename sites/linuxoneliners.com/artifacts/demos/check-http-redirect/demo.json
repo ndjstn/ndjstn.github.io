@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 285,
+  "elapsed_ms": 180,
   "stdout": "::fixture-ready::\n$ curl -I http://example.com\nHTTP/1.1 301 Moved Permanently\nLocation: https://example.com/\n\n::exit-code::0\n$ curl -I https://example.com\nHTTP/2 200\nserver: fake-nginx\nx-content-type-options: nosniff\n\n::exit-code::0\n$ grep -R \"server_name\" /etc/nginx/sites-enabled/\n/etc/nginx/sites-enabled/example.com:    server_name example.com www.example.com;\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

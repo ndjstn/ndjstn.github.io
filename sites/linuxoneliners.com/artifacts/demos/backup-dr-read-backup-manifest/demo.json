@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 271,
+  "elapsed_ms": 232,
   "stdout": "::fixture-ready::\n$ cd restore-dr && cat backups/2026-06-25/MANIFEST.txt\nbackup_id=2026-06-25\ncreated_at=2026-06-25T12:00:00Z\narchive=site.tar\nstatus=complete\ntotal_files=7\n::exit-code::0\n$ cd restore-dr && grep -E 'backup_id=|created_at=|status=' backups/2026-06-25/MANIFEST.txt\nbackup_id=2026-06-25\ncreated_at=2026-06-25T12:00:00Z\nstatus=complete\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

@@ -1,0 +1,25 @@
+{
+  "slug": "debian-reboot-required-after-patches",
+  "title": "Check Whether Patches Require Reboot",
+  "fixture": "containers/debian-ubuntu-security-patch-triage-lab",
+  "command_count": 2,
+  "container_tool": "docker",
+  "image": "localhost/linuxoneliners-lab:latest",
+  "exit_code": 0,
+  "elapsed_ms": 194,
+  "stdout": "::fixture-ready::\n$ cat /var/run/reboot-required.pkgs\nlinux-image-6.8.0-63-generic\nlibc6\n::exit-code::0\n$ test -f /var/run/reboot-required && printf 'reboot-required\\n' && cat /var/run/reboot-required.pkgs\nreboot-required\nlinux-image-6.8.0-63-generic\nlibc6\n::exit-code::0\n",
+  "stderr": "",
+  "ok": true,
+  "security": {
+    "network": "none",
+    "capabilities": "dropped",
+    "no_new_privileges": true,
+    "memory": "256m",
+    "cpus": "1",
+    "pids_limit": 128,
+    "tmpfs": [
+      "/tmp",
+      "/var"
+    ]
+  }
+}

@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 281,
+  "elapsed_ms": 189,
   "stdout": "::fixture-ready::\n$ find fixtures/perm-audit -type l -printf '%p -> %l\\n' | sort\nfixtures/perm-audit/current/app -> ../releases/2026-06-25\nfixtures/perm-audit/releases/2026-06-25/config/prod.token -> ../../../shared/secrets/prod.token\n::exit-code::0\n$ find fixtures/perm-audit -type l -printf '%p -> %l\\n' -exec namei -l {} \\;\nfixtures/perm-audit/current/app -> ../releases/2026-06-25\nf: fixtures/perm-audit/current/app\ndrwxr-xr-x root root fixtures\ndrwxr-xr-x root root perm-audit\ndrwxr-xr-x root root current\nlrwxrwxrwx root root app -> ../releases/2026-06-25\ndrwxr-xr-x root root   ..\ndrwxr-xr-x root root   releases\ndrwxr-xr-x root root   2026-06-25\nfixtures/perm-audit/releases/2026-06-25/config/prod.token -> ../../../shared/secrets/prod.token\nf: fixtures/perm-audit/releases/2026-06-25/config/prod.token\ndrwxr-xr-x root root fixtures\ndrwxr-xr-x root root perm-audit\ndrwxr-xr-x root root releases\ndrwxr-xr-x root root 2026-06-25\ndrwxr-xr-x root root config\nlrwxrwxrwx root root prod.token -> ../../../shared/secrets/prod.token\ndrwxr-xr-x root root   ..\ndrwxr-xr-x root root   ..\ndrwxr-xr-x root root   ..\ndrwxr-xr-x root root   shared\ndrwxr-xr-x root root   secrets\n-rw------- root root   prod.token\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

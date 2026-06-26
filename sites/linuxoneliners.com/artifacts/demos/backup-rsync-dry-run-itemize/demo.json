@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 324,
+  "elapsed_ms": 261,
   "stdout": "::fixture-ready::\n$ find source backup -type f | sort\nbackup/.snapshot\nbackup/app/config.yml\nbackup/content/index.md\nbackup/old-report.csv\nbackup/tmp/empty.cache\nsource/app/config.yml\nsource/assets/logo.svg\nsource/content/about.md\nsource/content/index.md\n::exit-code::0\n$ rsync -ain --delete source/ backup/\n*deleting   tmp/empty.cache\n*deleting   tmp/\n*deleting   old-report.csv\n*deleting   .snapshot\ncd+++++++++ assets/\n>f+++++++++ assets/logo.svg\n>f+++++++++ content/about.md\n>f.st...... content/index.md\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

@@ -1,0 +1,16 @@
+::fixture-ready::
+$ apt-cache policy openssl
+openssl:
+  Installed: 3.0.13-0ubuntu3.5
+  Candidate: 3.0.13-0ubuntu3.6
+  Version table:
+     3.0.13-0ubuntu3.6 500
+        500 http://security.ubuntu.com/ubuntu noble-security/main amd64 Packages
+ *** 3.0.13-0ubuntu3.5 100
+        100 /var/lib/dpkg/status
+::exit-code::0
+$ apt-cache policy openssl | sed -n '/Installed:/p;/Candidate:/p;/security/p'
+  Installed: 3.0.13-0ubuntu3.5
+  Candidate: 3.0.13-0ubuntu3.6
+        500 http://security.ubuntu.com/ubuntu noble-security/main amd64 Packages
+::exit-code::0

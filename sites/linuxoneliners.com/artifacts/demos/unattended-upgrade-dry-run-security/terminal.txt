@@ -1,0 +1,17 @@
+::fixture-ready::
+$ unattended-upgrade --dry-run --debug
+Initial blacklist:
+Initial whitelist:
+Packages that will be upgraded: openssl curl
+Checking: openssl ([<Origin component:'main' archive:'noble-security' origin:'Ubuntu' label:'Ubuntu'>])
+Checking: curl ([<Origin component:'main' archive:'noble-updates' origin:'Ubuntu' label:'Ubuntu'>])
+Package nginx is not allowed to be upgraded unattended
+Dry-run, no packages were installed.
+::exit-code::0
+$ unattended-upgrade --dry-run --debug 2>&1 | sed -n '/Packages that will be upgraded:/,/^$/p'
+Packages that will be upgraded: openssl curl
+Checking: openssl ([<Origin component:'main' archive:'noble-security' origin:'Ubuntu' label:'Ubuntu'>])
+Checking: curl ([<Origin component:'main' archive:'noble-updates' origin:'Ubuntu' label:'Ubuntu'>])
+Package nginx is not allowed to be upgraded unattended
+Dry-run, no packages were installed.
+::exit-code::0

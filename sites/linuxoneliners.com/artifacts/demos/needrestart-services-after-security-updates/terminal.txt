@@ -1,0 +1,13 @@
+::fixture-ready::
+$ needrestart -b
+NEEDRESTART-VER: 3.6
+NEEDRESTART-KCUR: 6.8.0-60-generic
+NEEDRESTART-KEXP: 6.8.0-63-generic
+NEEDRESTART-KSTA: 3
+NEEDRESTART-SVC: systemctl restart nginx.service
+NEEDRESTART-SVC: systemctl restart ssh.service
+::exit-code::0
+$ needrestart -b | sed -n 's/^NEEDRESTART-SVC: //p'
+systemctl restart nginx.service
+systemctl restart ssh.service
+::exit-code::0

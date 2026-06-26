@@ -1,0 +1,10 @@
+::fixture-ready::
+$ cat /var/run/reboot-required.pkgs
+linux-image-6.8.0-63-generic
+libc6
+::exit-code::0
+$ test -f /var/run/reboot-required && printf 'reboot-required\n' && cat /var/run/reboot-required.pkgs
+reboot-required
+linux-image-6.8.0-63-generic
+libc6
+::exit-code::0

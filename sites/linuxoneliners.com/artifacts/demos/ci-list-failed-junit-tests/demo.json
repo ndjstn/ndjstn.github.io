@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 276,
+  "elapsed_ms": 229,
   "stdout": "::fixture-ready::\n$ cd /lab/ci-artifacts && find artifacts/test -name '*.xml' -print\nartifacts/test/junit.xml\n::exit-code::0\n$ cd /lab/ci-artifacts && grep -RIn '<failure\\|<error' artifacts/test/*.xml\n4:    <failure message=\"expected 201 got 500\">AssertionError</failure>\n::exit-code::0\n$ cd /lab/ci-artifacts && sed -n '1,80p' artifacts/test/junit.xml\n<testsuite name=\"api\" tests=\"4\" failures=\"1\" errors=\"0\" skipped=\"1\">\n  <testcase classname=\"tests.test_api\" name=\"test_health\"/>\n  <testcase classname=\"tests.test_api\" name=\"test_create_user\">\n    <failure message=\"expected 201 got 500\">AssertionError</failure>\n  </testcase>\n  <testcase classname=\"tests.test_billing\" name=\"test_invoice\"/>\n  <testcase classname=\"tests.test_slow\" name=\"test_report\"><skipped message=\"slow\"/></testcase>\n</testsuite>\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

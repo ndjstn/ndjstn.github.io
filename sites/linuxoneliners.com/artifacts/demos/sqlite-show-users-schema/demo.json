@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 231,
+  "elapsed_ms": 185,
   "stdout": "::fixture-ready::\n$ sqlite3 app.db \".tables\"\nevents  orders  schema_migrations  users\n::exit-code::0\n$ sqlite3 app.db \".schema users\"\nCREATE TABLE users (\n  id INTEGER PRIMARY KEY,\n  email TEXT NOT NULL,\n  created_at TEXT NOT NULL\n);\nCREATE UNIQUE INDEX idx_users_email ON users(email);\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

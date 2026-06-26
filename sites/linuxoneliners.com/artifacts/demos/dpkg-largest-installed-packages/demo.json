@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 209,
+  "elapsed_ms": 222,
   "stdout": "::fixture-ready::\n$ dpkg-query -W -f='${Installed-Size}\\t${Package}\\n' | sort -nr | head -20\n132904\tlinux-image-6.8.0-60-generic\n52288\tpython3\n18320\tnginx\n8420\topenssl\n7488\tcurl\n7240\tlibc6\n6800\tbash\n980\tbase-files\n256\tzlib1g\n250\tzlib1g:i386\n::exit-code::0\n$ dpkg-query -W -f='${Installed-Size}\\t${Package}\\n' | sort -nr | head -5\n132904\tlinux-image-6.8.0-60-generic\n52288\tpython3\n18320\tnginx\n8420\topenssl\n7488\tcurl\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

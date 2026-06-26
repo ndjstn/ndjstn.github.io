@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 255,
+  "elapsed_ms": 177,
   "stdout": "::fixture-ready::\n$ find fixtures/perm-audit/releases/2026-06-25/storage fixtures/perm-audit/releases/2026-06-25/uploads -type d -printf '%M %u:%g %p\\n' | sort\ndrwxr-xr-x root:root fixtures/perm-audit/releases/2026-06-25/uploads\ndrwxrwxr-x root:root fixtures/perm-audit/releases/2026-06-25/storage\ndrwxrwxr-x root:root fixtures/perm-audit/releases/2026-06-25/storage/cache\ndrwxrwxrwx root:root fixtures/perm-audit/releases/2026-06-25/storage/logs\n::exit-code::0\n$ find fixtures/perm-audit/releases/2026-06-25/storage fixtures/perm-audit/releases/2026-06-25/uploads -type d -perm /0022 -printf '%M %u:%g %p\\n' | sort\ndrwxrwxr-x root:root fixtures/perm-audit/releases/2026-06-25/storage\ndrwxrwxr-x root:root fixtures/perm-audit/releases/2026-06-25/storage/cache\ndrwxrwxrwx root:root fixtures/perm-audit/releases/2026-06-25/storage/logs\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

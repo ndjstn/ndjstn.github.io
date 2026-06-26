@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 257,
+  "elapsed_ms": 200,
   "stdout": "::fixture-ready::\n$ logrotate -d /etc/logrotate.conf\nreading config file /etc/logrotate.conf\nincluding /etc/logrotate.d\nreading config file nginx\nreading config file app\nrotating pattern: /var/log/nginx/*.log  after 1 days (14 rotations)\nconsidering log /var/log/nginx/access.log\n  log does not need rotating\nconsidering log /var/log/nginx/error.log\n  log does not need rotating\nrotating pattern: /var/log/app/app.log  52428800 bytes (7 rotations)\nconsidering log /var/log/app/app.log\n  log does not need rotating\n::exit-code::0\n$ logrotate -d /etc/logrotate.conf 2>&1 | sed -n '/rotating pattern/p;/considering log/p;/error:/p'\nrotating pattern: /var/log/nginx/*.log  after 1 days (14 rotations)\nconsidering log /var/log/nginx/access.log\nconsidering log /var/log/nginx/error.log\nrotating pattern: /var/log/app/app.log  52428800 bytes (7 rotations)\nconsidering log /var/log/app/app.log\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

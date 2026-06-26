@@ -1,0 +1,30 @@
+::fixture-ready::
+$ cat /var/log/apt/history.log
+Start-Date: 2026-06-25  02:10:01
+Commandline: /usr/bin/unattended-upgrade
+Upgrade: openssl:amd64 (3.0.13-0ubuntu3.5, 3.0.13-0ubuntu3.6), curl:amd64 (8.5.0-2ubuntu10.6, 8.5.0-2ubuntu10.7)
+End-Date: 2026-06-25  02:10:18
+
+Start-Date: 2026-06-24  21:30:44
+Commandline: apt-get -y install nginx
+Install: nginx:amd64 (1.24.0-2ubuntu7.3)
+End-Date: 2026-06-24  21:30:59
+
+Start-Date: 2026-06-23  03:12:04
+Commandline: apt-get upgrade
+Upgrade: libc6:amd64 (2.39-0ubuntu8.3, 2.39-0ubuntu8.4), linux-image-generic:amd64 (6.8.0-60.63, 6.8.0-63.66)
+End-Date: 2026-06-23  03:14:39
+::exit-code::0
+$ awk '/^(Start-Date|Commandline|Upgrade|End-Date)/ {print}' /var/log/apt/history.log
+Start-Date: 2026-06-25  02:10:01
+Commandline: /usr/bin/unattended-upgrade
+Upgrade: openssl:amd64 (3.0.13-0ubuntu3.5, 3.0.13-0ubuntu3.6), curl:amd64 (8.5.0-2ubuntu10.6, 8.5.0-2ubuntu10.7)
+End-Date: 2026-06-25  02:10:18
+Start-Date: 2026-06-24  21:30:44
+Commandline: apt-get -y install nginx
+End-Date: 2026-06-24  21:30:59
+Start-Date: 2026-06-23  03:12:04
+Commandline: apt-get upgrade
+Upgrade: libc6:amd64 (2.39-0ubuntu8.3, 2.39-0ubuntu8.4), linux-image-generic:amd64 (6.8.0-60.63, 6.8.0-63.66)
+End-Date: 2026-06-23  03:14:39
+::exit-code::0

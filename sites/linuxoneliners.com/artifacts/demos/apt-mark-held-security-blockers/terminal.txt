@@ -1,0 +1,9 @@
+::fixture-ready::
+$ apt-mark showhold
+app-agent
+linux-image-generic
+::exit-code::0
+$ apt-mark showhold | sed 's/^/held: /'
+held: app-agent
+held: linux-image-generic
+::exit-code::0

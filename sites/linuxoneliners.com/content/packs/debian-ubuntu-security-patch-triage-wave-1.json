@@ -1,0 +1,452 @@
+[
+  {
+    "slug": "apt-simulate-security-upgrades",
+    "title": "Simulate Security Package Upgrades",
+    "series": "cybersecurity-triage",
+    "hook": "Security patch triage starts by seeing what apt would change, without changing it.",
+    "problem": "You need to identify pending security updates on a Debian or Ubuntu host before a maintenance window.",
+    "command": "apt-get -s upgrade | awk '/^Inst/ && /security/ {print}'",
+    "danger": "safe",
+    "starting_state": "A Debian or Ubuntu host has apt metadata and possible security updates available.",
+    "what_changed": "Nothing changes. apt-get runs in simulation mode and awk prints only install lines from security pockets.",
+    "when_to_use": "Use before patch windows, incident response, or compliance notes when you need a read-only security update list.",
+    "when_not_to_use": "Do not treat simulation output as a completed patch; it only describes what apt would try to do.",
+    "undo": "No undo needed because the command is read-only simulation.",
+    "expected_output": "Inst rows for packages whose candidate version comes from a security repository.",
+    "terminal_demo": {
+      "fixture": "containers/debian-ubuntu-security-patch-triage-lab",
+      "commands": [
+        "apt-get -s upgrade",
+        "apt-get -s upgrade | awk '/^Inst/ && /security/ {print}'"
+      ]
+    },
+    "shorts": {
+      "format": "vertical",
+      "duration_target_seconds": 35,
+      "title": "Preview security updates.",
+      "voiceover": "Before installing anything, simulate the upgrade and filter for security-origin package changes.",
+      "caption": "Security patch triage starts read-only."
+    },
+    "linkedin": {
+      "question": "Do you capture apt simulation output before approving security patch windows?",
+      "cta": "Use this as the first read-only Debian and Ubuntu patch triage step."
+    },
+    "youtube": {
+      "playlist": "VPS Security First Response",
+      "description": "Use apt-get simulation output to identify pending Debian or Ubuntu security updates."
+    },
+    "experiments": [
+      {
+        "id": "apt_security_simulation_first",
+        "metric": "save_rate",
+        "variant_a": "Simulate before patching.",
+        "variant_b": "What security updates would apt install?"
+      }
+    ]
+  },
+  {
+    "slug": "apt-cache-policy-security-candidate",
+    "title": "Prove a Package Candidate Is From Security",
+    "series": "cybersecurity-triage",
+    "hook": "The package name is not enough; the candidate repository tells the patch story.",
+    "problem": "A package is upgradable and you need to confirm whether the candidate version comes from the security pocket.",
+    "command": "apt-cache policy openssl | sed -n '/Installed:/p;/Candidate:/p;/security/p'",
+    "danger": "safe",
+    "starting_state": "You know the package name and need installed, candidate, and repository source evidence.",
+    "what_changed": "Nothing changes. apt-cache reads local apt metadata and sed extracts the version and security-origin lines.",
+    "when_to_use": "Use when documenting why a specific package is being patched or when comparing update and security pockets.",
+    "when_not_to_use": "Do not use it to install the package; this is only metadata inspection.",
+    "undo": "No undo needed because the command is read-only.",
+    "expected_output": "Installed and candidate versions plus a security repository line for the candidate.",
+    "terminal_demo": {
+      "fixture": "containers/debian-ubuntu-security-patch-triage-lab",
+      "commands": [
+        "apt-cache policy openssl",
+        "apt-cache policy openssl | sed -n '/Installed:/p;/Candidate:/p;/security/p'"
+      ]
+    },
+    "shorts": {
+      "format": "vertical",
+      "duration_target_seconds": 34,
+      "title": "Verify the security candidate.",
+      "voiceover": "For one package, apt-cache policy shows the installed version, candidate version, and where that candidate comes from.",
+      "caption": "Patch evidence lives in apt policy."
+    },
+    "linkedin": {
+      "question": "When reviewing a security patch, do you prove the candidate origin or just trust the package name?",
+      "cta": "Use apt-cache policy for package-level patch evidence."
+    },
+    "youtube": {
+      "playlist": "VPS Security First Response",
+      "description": "Check whether a Debian or Ubuntu package candidate comes from a security repository."
+    },
+    "experiments": [
+      {
+        "id": "apt_policy_security_origin",
+        "metric": "copy_rate",
+        "variant_a": "Prove the candidate origin.",
+        "variant_b": "Installed vs candidate vs security pocket."
+      }
+    ]
+  },
+  {
+    "slug": "apt-mark-held-security-blockers",
+    "title": "Find Held Packages Blocking Patches",
+    "series": "cybersecurity-triage",
+    "hook": "A held package can quietly keep a security update out of production.",
+    "problem": "Patch simulation shows kept-back packages and you need to see whether apt holds are part of the reason.",
+    "command": "apt-mark showhold | sed 's/^/held: /'",
+    "danger": "safe",
+    "starting_state": "The host may have packages marked on hold through apt-mark.",
+    "what_changed": "Nothing changes. apt-mark prints held package names and sed labels them for incident notes.",
+    "when_to_use": "Use before blaming repositories, mirrors, or dependency conflicts for missing security updates.",
+    "when_not_to_use": "Do not remove holds automatically; confirm why each package was held and who owns the risk.",
+    "undo": "No undo needed because the command is read-only.",
+    "expected_output": "Held package names prefixed with held: for quick review.",
+    "terminal_demo": {
+      "fixture": "containers/debian-ubuntu-security-patch-triage-lab",
+      "commands": [
+        "apt-mark showhold",
+        "apt-mark showhold | sed 's/^/held: /'"
+      ]
+    },
+    "shorts": {
+      "format": "vertical",
+      "duration_target_seconds": 32,
+      "title": "Find patch blockers.",
+      "voiceover": "If security patches are not moving, check held packages before assuming apt is broken.",
+      "caption": "Held packages can block patching."
+    },
+    "linkedin": {
+      "question": "Do your patch reviews include a held-package check?",
+      "cta": "Add apt-mark showhold to Debian and Ubuntu security triage."
+    },
+    "youtube": {
+      "playlist": "VPS Security First Response",
+      "description": "Use apt-mark showhold to find Debian or Ubuntu packages that may block security updates."
+    },
+    "experiments": [
+      {
+        "id": "apt_hold_patch_blockers",
+        "metric": "save_rate",
+        "variant_a": "Held packages can hide patch debt.",
+        "variant_b": "Security update missing? Check holds."
+      }
+    ]
+  },
+  {
+    "slug": "apt-kept-back-package-review",
+    "title": "Review Kept-Back Packages Before Patching",
+    "series": "cybersecurity-triage",
+    "hook": "Kept-back packages are where simple upgrade plans stop being simple.",
+    "problem": "A normal apt upgrade simulation reports packages kept back, and you need to capture them before choosing a broader upgrade path.",
+    "command": "apt-get -s upgrade | sed -n '/kept back:/,/^Inst/p'",
+    "danger": "safe",
+    "starting_state": "An apt upgrade simulation has packages that will not move under the current upgrade mode.",
+    "what_changed": "Nothing changes. The command prints the kept-back section from simulated apt output.",
+    "when_to_use": "Use when kernel, agent, or dependency updates may need dist-upgrade, full-upgrade, or manual review.",
+    "when_not_to_use": "Do not assume kept-back means safe to ignore; security fixes can be hidden behind dependency changes.",
+    "undo": "No undo needed because the command is read-only simulation.",
+    "expected_output": "The kept-back package section from apt simulation output.",
+    "terminal_demo": {
+      "fixture": "containers/debian-ubuntu-security-patch-triage-lab",
+      "commands": [
+        "apt-get -s upgrade",
+        "apt-get -s upgrade | sed -n '/kept back:/,/^Inst/p'"
+      ]
+    },
+    "shorts": {
+      "format": "vertical",
+      "duration_target_seconds": 39,
+      "title": "Do not ignore kept-back packages.",
+      "voiceover": "A normal upgrade can leave packages behind. Capture the kept-back list before deciding what kind of patch window you need.",
+      "caption": "Kept-back means review, not ignore."
+    },
+    "linkedin": {
+      "question": "How do you handle kept-back packages during security maintenance?",
+      "cta": "Record the kept-back section before changing upgrade strategy."
+    },
+    "youtube": {
+      "playlist": "VPS Security First Response",
+      "description": "Extract kept-back packages from a simulated Debian or Ubuntu apt upgrade."
+    },
+    "experiments": [
+      {
+        "id": "apt_kept_back_review",
+        "metric": "comment_rate",
+        "variant_a": "Kept-back packages deserve review.",
+        "variant_b": "Simple upgrade plans stop here."
+      }
+    ]
+  },
+  {
+    "slug": "unattended-upgrade-dry-run-security",
+    "title": "Dry-Run Unattended Security Upgrades",
+    "series": "cybersecurity-triage",
+    "hook": "Unattended upgrades can explain what they would patch before they patch it.",
+    "problem": "You need to inspect what unattended-upgrades would select without installing packages.",
+    "command": "unattended-upgrade --dry-run --debug 2>&1 | sed -n '/Packages that will be upgraded:/,/^$/p'",
+    "danger": "safe",
+    "starting_state": "A Debian or Ubuntu host uses unattended-upgrades or you are validating whether it would select security updates.",
+    "what_changed": "Nothing changes. unattended-upgrade runs in dry-run mode and sed extracts the selected package summary.",
+    "when_to_use": "Use when checking automatic patch coverage, security origins, or why a package was not auto-selected.",
+    "when_not_to_use": "Do not run without --dry-run unless you intend to perform unattended package upgrades.",
+    "undo": "No undo needed because the command is read-only dry-run output.",
+    "expected_output": "A dry-run section listing packages that unattended-upgrades would upgrade.",
+    "terminal_demo": {
+      "fixture": "containers/debian-ubuntu-security-patch-triage-lab",
+      "commands": [
+        "unattended-upgrade --dry-run --debug",
+        "unattended-upgrade --dry-run --debug 2>&1 | sed -n '/Packages that will be upgraded:/,/^$/p'"
+      ]
+    },
+    "shorts": {
+      "format": "vertical",
+      "duration_target_seconds": 41,
+      "title": "Dry-run unattended upgrades.",
+      "voiceover": "Before trusting automatic patching, dry-run unattended-upgrade and read what it would actually select.",
+      "caption": "Automatic patching still needs evidence."
+    },
+    "linkedin": {
+      "question": "Do you test unattended-upgrades with a dry run before relying on it?",
+      "cta": "Use this to validate automatic Debian and Ubuntu security patch coverage."
+    },
+    "youtube": {
+      "playlist": "VPS Security First Response",
+      "description": "Use unattended-upgrade --dry-run --debug to inspect automatic security patch selection."
+    },
+    "experiments": [
+      {
+        "id": "unattended_upgrade_dry_run",
+        "metric": "average_view_duration",
+        "variant_a": "Automatic patching needs evidence.",
+        "variant_b": "Dry-run before trusting unattended upgrades."
+      }
+    ]
+  },
+  {
+    "slug": "needrestart-services-after-security-updates",
+    "title": "Find Services Needing Restart After Patches",
+    "series": "cybersecurity-triage",
+    "hook": "A patched library does not protect a process still using the old one.",
+    "problem": "After security packages are applied, you need to see which services still need restarts.",
+    "command": "needrestart -b | sed -n 's/^NEEDRESTART-SVC: //p'",
+    "danger": "safe",
+    "starting_state": "The host has needrestart available after package upgrades or patch simulation review.",
+    "what_changed": "Nothing changes. needrestart prints batch-mode restart findings and sed extracts service restart commands.",
+    "when_to_use": "Use after OpenSSL, libc, kernel, or web stack updates to plan service restarts and reboot decisions.",
+    "when_not_to_use": "Do not restart services blindly from this output; coordinate impact and maintenance windows.",
+    "undo": "No undo needed because this command only reports restart needs.",
+    "expected_output": "systemctl restart commands for services that need to load patched libraries.",
+    "terminal_demo": {
+      "fixture": "containers/debian-ubuntu-security-patch-triage-lab",
+      "commands": [
+        "needrestart -b",
+        "needrestart -b | sed -n 's/^NEEDRESTART-SVC: //p'"
+      ]
+    },
+    "shorts": {
+      "format": "vertical",
+      "duration_target_seconds": 38,
+      "title": "Patching is not always enough.",
+      "voiceover": "After library updates, running services may still hold old code. Use needrestart to plan the restart step.",
+      "caption": "Patch, then restart what still uses old libraries."
+    },
+    "linkedin": {
+      "question": "Do your patch windows track service restarts separately from package installation?",
+      "cta": "Use needrestart output to close the gap between installed and active fixes."
+    },
+    "youtube": {
+      "playlist": "VPS Security First Response",
+      "description": "Use needrestart batch output to find services needing restart after Debian or Ubuntu security updates."
+    },
+    "experiments": [
+      {
+        "id": "needrestart_patch_completion",
+        "metric": "save_rate",
+        "variant_a": "Installed does not mean loaded.",
+        "variant_b": "Find services still using old libraries."
+      }
+    ]
+  },
+  {
+    "slug": "apt-history-security-patch-timeline",
+    "title": "Build a Recent Apt Patch Timeline",
+    "series": "cybersecurity-triage",
+    "hook": "Apt history turns patch claims into timestamps and package names.",
+    "problem": "You need to prove what package changes happened recently and which command triggered them.",
+    "command": "awk '/^(Start-Date|Commandline|Upgrade|End-Date)/ {print}' /var/log/apt/history.log",
+    "danger": "safe",
+    "starting_state": "A Debian or Ubuntu host has apt history logs from recent package operations.",
+    "what_changed": "Nothing changes. awk filters apt history to the fields useful for patch timelines.",
+    "when_to_use": "Use during incident response, audit follow-up, or post-maintenance validation.",
+    "when_not_to_use": "Do not assume rotated logs are included; inspect compressed history files if you need older activity.",
+    "undo": "No undo needed because the command is read-only.",
+    "expected_output": "Start dates, command lines, upgrade rows, and end dates from apt history.",
+    "terminal_demo": {
+      "fixture": "containers/debian-ubuntu-security-patch-triage-lab",
+      "commands": [
+        "cat /var/log/apt/history.log",
+        "awk '/^(Start-Date|Commandline|Upgrade|End-Date)/ {print}' /var/log/apt/history.log"
+      ]
+    },
+    "shorts": {
+      "format": "vertical",
+      "duration_target_seconds": 36,
+      "title": "Prove what apt changed.",
+      "voiceover": "When someone says the server was patched, apt history gives you timestamps, commands, and upgraded packages.",
+      "caption": "Apt history is your patch timeline."
+    },
+    "linkedin": {
+      "question": "When validating patch work, do you check apt history or only current package versions?",
+      "cta": "Use apt history for timestamped package-change evidence."
+    },
+    "youtube": {
+      "playlist": "VPS Security First Response",
+      "description": "Extract recent apt package-change timelines from /var/log/apt/history.log."
+    },
+    "experiments": [
+      {
+        "id": "apt_history_patch_timeline",
+        "metric": "copy_rate",
+        "variant_a": "Patch claims need timestamps.",
+        "variant_b": "Apt history shows what changed."
+      }
+    ]
+  },
+  {
+    "slug": "apt-term-log-patch-warnings",
+    "title": "Find Warnings in Apt Terminal Logs",
+    "series": "cybersecurity-triage",
+    "hook": "The package installed, but the terminal log may still contain the warning that matters.",
+    "problem": "A patch run completed and you need to spot warnings, errors, failed maintainer scripts, or restart clues.",
+    "command": "grep -Ei 'warning|error|failed|dpkg' /var/log/apt/term.log",
+    "danger": "safe",
+    "starting_state": "The apt terminal log contains recent package operation output.",
+    "what_changed": "Nothing changes. grep filters the terminal log for warning and failure terms.",
+    "when_to_use": "Use after unattended-upgrades, manual patching, or package repair to catch non-fatal but important output.",
+    "when_not_to_use": "Do not treat a quiet grep as a complete health check; also verify services and package state.",
+    "undo": "No undo needed because the command is read-only.",
+    "expected_output": "Matching warning, error, failed, or dpkg-related lines from apt terminal logs.",
+    "terminal_demo": {
+      "fixture": "containers/debian-ubuntu-security-patch-triage-lab",
+      "commands": [
+        "cat /var/log/apt/term.log",
+        "grep -Ei 'warning|error|failed|dpkg' /var/log/apt/term.log"
+      ]
+    },
+    "shorts": {
+      "format": "vertical",
+      "duration_target_seconds": 33,
+      "title": "Read apt warnings.",
+      "voiceover": "A package run can finish and still leave useful warnings. Search the apt terminal log before closing the patch ticket.",
+      "caption": "Patch validation includes the terminal log."
+    },
+    "linkedin": {
+      "question": "Do your patch checks include apt term.log warnings?",
+      "cta": "Search terminal logs before calling package maintenance clean."
+    },
+    "youtube": {
+      "playlist": "VPS Security First Response",
+      "description": "Search /var/log/apt/term.log for warnings and failures after Debian or Ubuntu patching."
+    },
+    "experiments": [
+      {
+        "id": "apt_term_log_warnings",
+        "metric": "completion_rate",
+        "variant_a": "The warning is in term.log.",
+        "variant_b": "Do not close patch work without logs."
+      }
+    ]
+  },
+  {
+    "slug": "apt-dist-upgrade-security-impact-preview",
+    "title": "Preview Security Impact of dist-upgrade",
+    "series": "cybersecurity-triage",
+    "hook": "Kernel and dependency security fixes may only appear in the broader upgrade plan.",
+    "problem": "A regular upgrade leaves packages behind and you need to preview the broader resolver plan without installing it.",
+    "command": "apt-get -s dist-upgrade | awk '/^Inst/ {print}'",
+    "danger": "safe",
+    "starting_state": "Kept-back packages or dependency changes suggest that normal upgrade simulation is incomplete.",
+    "what_changed": "Nothing changes. apt-get simulates dist-upgrade and awk lists proposed package installations or upgrades.",
+    "when_to_use": "Use when kernel, libc, or dependency-chain security fixes are kept back by the normal upgrade path.",
+    "when_not_to_use": "Do not run the real dist-upgrade casually; review removals, new packages, and service impact first.",
+    "undo": "No undo needed because the command is read-only simulation.",
+    "expected_output": "Inst rows showing the broader package resolver plan, including security-origin kernel or library updates.",
+    "terminal_demo": {
+      "fixture": "containers/debian-ubuntu-security-patch-triage-lab",
+      "commands": [
+        "apt-get -s dist-upgrade",
+        "apt-get -s dist-upgrade | awk '/^Inst/ {print}'"
+      ]
+    },
+    "shorts": {
+      "format": "vertical",
+      "duration_target_seconds": 42,
+      "title": "Preview the broader patch plan.",
+      "voiceover": "If normal upgrade keeps packages back, simulate dist-upgrade before deciding whether the maintenance window is big enough.",
+      "caption": "Simulate broader resolver changes first."
+    },
+    "linkedin": {
+      "question": "When do you escalate from apt upgrade to a broader dist-upgrade review?",
+      "cta": "Use simulation output to size the patch window before changing the host."
+    },
+    "youtube": {
+      "playlist": "VPS Security First Response",
+      "description": "Use apt-get -s dist-upgrade to preview broader Debian or Ubuntu security patch impact."
+    },
+    "experiments": [
+      {
+        "id": "apt_dist_upgrade_preview",
+        "metric": "average_view_duration",
+        "variant_a": "Kernel patches may need broader review.",
+        "variant_b": "Preview dist-upgrade before approving it."
+      }
+    ]
+  },
+  {
+    "slug": "debian-reboot-required-after-patches",
+    "title": "Check Whether Patches Require Reboot",
+    "series": "cybersecurity-triage",
+    "hook": "Some security fixes are not complete until the host boots the new kernel or libraries.",
+    "problem": "After package updates, you need to know whether the system is signaling a required reboot and which packages triggered it.",
+    "command": "test -f /var/run/reboot-required && printf 'reboot-required\\n' && cat /var/run/reboot-required.pkgs",
+    "danger": "safe",
+    "starting_state": "A Debian or Ubuntu host may have reboot-required marker files after security updates.",
+    "what_changed": "Nothing changes. The command checks marker files and prints packages associated with the reboot requirement.",
+    "when_to_use": "Use after kernel, libc, OpenSSL, or unattended security updates to plan reboot timing.",
+    "when_not_to_use": "Do not reboot immediately from this output alone; coordinate service impact and maintenance policy.",
+    "undo": "No undo needed because the command is read-only.",
+    "expected_output": "A reboot-required marker plus package names that requested a reboot.",
+    "terminal_demo": {
+      "fixture": "containers/debian-ubuntu-security-patch-triage-lab",
+      "commands": [
+        "cat /var/run/reboot-required.pkgs",
+        "test -f /var/run/reboot-required && printf 'reboot-required\\n' && cat /var/run/reboot-required.pkgs"
+      ]
+    },
+    "shorts": {
+      "format": "vertical",
+      "duration_target_seconds": 34,
+      "title": "Is reboot part of the patch?",
+      "voiceover": "After security updates, check the reboot marker and package list so the patch window does not end too early.",
+      "caption": "Patch completion may require reboot."
+    },
+    "linkedin": {
+      "question": "Do your security patch runbooks separate package install, service restart, and reboot validation?",
+      "cta": "Use reboot-required markers to make the final step explicit."
+    },
+    "youtube": {
+      "playlist": "VPS Security First Response",
+      "description": "Check Debian or Ubuntu reboot-required marker files after security patching."
+    },
+    "experiments": [
+      {
+        "id": "reboot_required_patch_completion",
+        "metric": "save_rate",
+        "variant_a": "The patch window may need a reboot.",
+        "variant_b": "Do not stop at package installed."
+      }
+    ]
+  }
+]
