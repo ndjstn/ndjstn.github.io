@@ -1,0 +1,25 @@
+{
+  "slug": "release-check-current-symlink-target",
+  "title": "Check the Active Release Symlink",
+  "fixture": "containers/git-recovery-rollback-lab",
+  "command_count": 2,
+  "container_tool": "docker",
+  "image": "localhost/linuxoneliners-lab:latest",
+  "exit_code": 0,
+  "elapsed_ms": 293,
+  "stdout": "::fixture-ready::\n$ cd /lab/git-recovery-rollback && ls -l releases/current\nlrwxrwxrwx 1 root root 15 Jun 26 00:13 releases/current -> 2026-06-25-1030\n::exit-code::0\n$ cd /lab/git-recovery-rollback && readlink releases/current && cat releases/current/VERSION\n2026-06-25-1030\nrelease=2026-06-25-1030\nstatus=suspect\n::exit-code::0\n",
+  "stderr": "",
+  "ok": true,
+  "security": {
+    "network": "none",
+    "capabilities": "dropped",
+    "no_new_privileges": true,
+    "memory": "256m",
+    "cpus": "1",
+    "pids_limit": 128,
+    "tmpfs": [
+      "/tmp",
+      "/var"
+    ]
+  }
+}

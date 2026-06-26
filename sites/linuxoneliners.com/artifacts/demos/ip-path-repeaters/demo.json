@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 230,
+  "elapsed_ms": 258,
   "stdout": "::fixture-ready::\n$ awk '{print $1, $7}' ./fixtures/nginx/access.log | head\n198.51.100.10 /\n198.51.100.11 /docs\n198.51.100.12 /api/search\n203.0.113.44 /missing\n203.0.113.44 /missing\n203.0.113.44 /missing\n203.0.113.44 /wp-login.php\n203.0.113.44 /wp-admin\n203.0.113.45 /admin\n203.0.113.45 /login\n::exit-code::0\n$ awk '{key=$1 \" \" $7; count[key]++} END {for (k in count) if (count[k] >= 5) print count[k], k}' ./fixtures/nginx/access.log | sort -nr | head\n5 198.51.100.30 /health\n::exit-code::0\n$ awk '{count[$1]++} END {for (ip in count) print count[ip], ip}' ./fixtures/nginx/access.log | sort -nr | head\n5 203.0.113.44\n5 198.51.100.30\n3 198.51.100.25\n2 203.0.113.46\n2 203.0.113.45\n2 198.51.100.24\n1 198.51.100.23\n1 198.51.100.22\n1 198.51.100.21\n1 198.51.100.12\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 241,
+  "elapsed_ms": 273,
   "stdout": "::fixture-ready::\n$ df -h\nFilesystem      Size  Used Avail Use% Mounted on\noverlay         3.6T  1.2T  2.3T  35% /\ntmpfs            64M     0   64M   0% /dev\nshm              64M     0   64M   0% /dev/shm\ntmpfs            64M     0   64M   0% /tmp\ntmpfs            64M  352K   64M   1% /var\n/dev/nvme0n1p2  3.6T  1.2T  2.3T  35% /lab/demo.sh\ntmpfs            63G     0   63G   0% /proc/asound\ntmpfs            63G     0   63G   0% /proc/acpi\ntmpfs            63G     0   63G   0% /proc/scsi\ntmpfs            63G     0   63G   0% /sys/firmware\ntmpfs            63G     0   63G   0% /sys/devices/virtual/powercap\n::exit-code::0\n$ du -sh /var/* 2>/dev/null | sort -h\n64K\t/var/backups\n96K\t/var/log\n192K\t/var/cache\n::exit-code::0\n$ du -sh /var/log /var/cache /var/backups 2>/dev/null\n96K\t/var/log\n192K\t/var/cache\n64K\t/var/backups\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

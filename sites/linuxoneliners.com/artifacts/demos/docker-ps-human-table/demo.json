@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 198,
+  "elapsed_ms": 219,
   "stdout": "::fixture-ready::\n$ docker ps -a --format 'table {{.Names}}\\t{{.Status}}\\t{{.Image}}\\t{{.Ports}}'\nNAMES     STATUS                         IMAGE                         PORTS\nweb       Up 2 hours (healthy)           nginx:1.27                    0.0.0.0:8080->80/tcp\napi       Restarting (1) 18 seconds ago  registry.example/api:v1.9.4   0.0.0.0:9000->9000/tcp\nworker    Exited (0) 3 hours ago         registry.example/worker:v1.9.4\n::exit-code::0\n$ docker ps --format 'table {{.Names}}\\t{{.Status}}\\t{{.Ports}}'\nNAMES  STATUS                PORTS\nweb    Up 2 hours (healthy)  0.0.0.0:8080->80/tcp\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

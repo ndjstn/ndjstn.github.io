@@ -1,0 +1,11 @@
+::fixture-ready::
+$ cd /lab/git-recovery-rollback && git reflog --date=iso --format='%h %gd %gs' -6
+de583c6 HEAD@{2026-06-26 00:13:46 +0000} reset: moving to HEAD~1
+7e5872b HEAD@{2026-06-25 10:45:00 +0000} commit: Capture incident rollback note
+de583c6 HEAD@{2026-06-25 10:30:00 +0000} commit: Release 2026-06-25 10:30
+c15c7c6 HEAD@{2026-06-25 10:00:00 +0000} commit: Release 2026-06-25 10:00
+ddb9d51 HEAD@{2026-06-24 17:00:00 +0000} commit (initial): Release 2026-06-24 17:00
+::exit-code::0
+$ cd /lab/git-recovery-rollback && git show -s --format='%h %s' HEAD@{1}
+7e5872b Capture incident rollback note
+::exit-code::0

@@ -1,0 +1,25 @@
+{
+  "slug": "git-branch-recovered-commit",
+  "title": "Branch a Recovered Commit",
+  "fixture": "containers/git-recovery-rollback-lab",
+  "command_count": 3,
+  "container_tool": "docker",
+  "image": "localhost/linuxoneliners-lab:latest",
+  "exit_code": 0,
+  "elapsed_ms": 294,
+  "stdout": "::fixture-ready::\n$ cd /lab/git-recovery-rollback && git show -s --format='%h %s' HEAD@{1}\n7e5872b Capture incident rollback note\n::exit-code::0\n$ cd /lab/git-recovery-rollback && git branch recovered-incident-note HEAD@{1}\n::exit-code::0\n$ cd /lab/git-recovery-rollback && git log --oneline recovered-incident-note -1\n7e5872b Capture incident rollback note\n::exit-code::0\n",
+  "stderr": "",
+  "ok": true,
+  "security": {
+    "network": "none",
+    "capabilities": "dropped",
+    "no_new_privileges": true,
+    "memory": "256m",
+    "cpus": "1",
+    "pids_limit": 128,
+    "tmpfs": [
+      "/tmp",
+      "/var"
+    ]
+  }
+}

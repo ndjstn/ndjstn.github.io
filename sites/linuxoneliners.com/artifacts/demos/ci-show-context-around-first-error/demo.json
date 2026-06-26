@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 219,
+  "elapsed_ms": 295,
   "stdout": "::fixture-ready::\n$ cd /lab/ci-artifacts && grep -RIn 'ERROR' artifacts logs\nartifacts/build/webpack.log:4:ERROR Module not found: Cannot resolve ./missing-module\nartifacts/build/app-build.log:4:ERROR in src/server.ts:42: missing export createServer\nartifacts/coverage/coverage-summary.txt:5:ERROR coverage below minimum threshold: statements 78.4 < 80.0\n::exit-code::0\n$ cd /lab/ci-artifacts && grep -RInC 3 -m 1 'ERROR' artifacts logs\nartifacts/build/webpack.log-1-webpack 5.91.0 compiled with 1 error\nartifacts/build/webpack.log-2-asset main.js 245 KiB\nartifacts/build/webpack.log-3-asset vendor.js 812 KiB\nartifacts/build/webpack.log:4:ERROR Module not found: Cannot resolve ./missing-module\n--\nartifacts/build/app-build.log-1-Starting build\nartifacts/build/app-build.log-2-Resolving dependencies\nartifacts/build/app-build.log-3-Compiling app\nartifacts/build/app-build.log:4:ERROR in src/server.ts:42: missing export createServer\nartifacts/build/app-build.log-5-Build failed with exit code 1\n--\nartifacts/coverage/coverage-summary.txt-2-Statements: 78.4%\nartifacts/coverage/coverage-summary.txt-3-Branches: 71.2%\nartifacts/coverage/coverage-summary.txt-4-Functions: 81.0%\nartifacts/coverage/coverage-summary.txt:5:ERROR coverage below minimum threshold: statements 78.4 < 80.0\n::exit-code::0\n$ cd /lab/ci-artifacts && sed -n '1,12p' artifacts/build/app-build.log\nStarting build\nResolving dependencies\nCompiling app\nERROR in src/server.ts:42: missing export createServer\nBuild failed with exit code 1\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

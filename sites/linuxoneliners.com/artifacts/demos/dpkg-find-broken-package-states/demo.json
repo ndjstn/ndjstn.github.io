@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 205,
+  "elapsed_ms": 224,
   "stdout": "::fixture-ready::\n$ dpkg-query -W -f='${db:Status-Abbrev}\\t${Package}\\n'\nii \tbase-files\nii \tbash\nii \tcurl\nii \tlibc6\nii \tlinux-image-6.8.0-60-generic\nii \tnginx\nii \topenssl\nii \tpython3\nii \tzlib1g\niF \tapp-agent\nrc \told-kernel-tools\n::exit-code::0\n$ dpkg-query -W -f='${db:Status-Abbrev}\\t${Package}\\n' | awk '$1 !~ /^ii$/'\niF \tapp-agent\nrc \told-kernel-tools\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

@@ -1,0 +1,14 @@
+::fixture-ready::
+$ cd /lab/git-recovery-rollback && git diff --stat release-2026-06-25-1000..HEAD
+ app/config.yml                   | 4 ++--
+ db/migrate.sql                   | 1 +
+ public/index.html                | 2 +-
+ releases/2026-06-25-1030/VERSION | 2 ++
+ 4 files changed, 6 insertions(+), 3 deletions(-)
+::exit-code::0
+$ cd /lab/git-recovery-rollback && git diff --name-status release-2026-06-25-1000..HEAD
+M	app/config.yml
+A	db/migrate.sql
+M	public/index.html
+A	releases/2026-06-25-1030/VERSION
+::exit-code::0

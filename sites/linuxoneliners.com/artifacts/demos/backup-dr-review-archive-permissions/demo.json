@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 237,
+  "elapsed_ms": 226,
   "stdout": "::fixture-ready::\n$ cd restore-dr && tar -tvf backups/2026-06-25/site.tar | sed -n '1,12p'\ndrwxr-xr-x 0/0               0 2026-06-25 12:00 ./\n-rw-r--r-- 0/0             493 2026-06-25 12:00 ./CHECKSUMS.sha256\ndrwxr-xr-x 0/0               0 2026-06-25 12:00 ./app/\n-rw-r--r-- 0/0              48 2026-06-25 12:00 ./app/config.yml\n-rw-r--r-- 0/0              41 2026-06-25 12:00 ./app/orders.csv\n-rw-r----- 0/0              83 2026-06-25 12:00 ./app/secrets.env\ndrwxr-xr-x 0/0               0 2026-06-25 12:00 ./bin/\n-rwxr-xr-x 0/0              32 2026-06-25 12:00 ./bin/deploy.sh\ndrwxr-xr-x 0/0               0 2026-06-25 12:00 ./public/\n-rw-r--r-- 0/0              40 2026-06-25 12:00 ./public/index.html\ndrwxr-xr-x 0/0               0 2026-06-25 12:00 ./uploads/\n-rw-r--r-- 0/0              18 2026-06-25 12:00 ./uploads/avatar.txt\n::exit-code::0\n$ cd restore-dr && tar -tvf backups/2026-06-25/site.tar | awk '/secrets.env|deploy.sh/ {print $1, $6}'\n-rw-r----- ./app/secrets.env\n-rwxr-xr-x ./bin/deploy.sh\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

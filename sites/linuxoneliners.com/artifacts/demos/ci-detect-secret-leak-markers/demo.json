@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 228,
+  "elapsed_ms": 241,
   "stdout": "::fixture-ready::\n$ cd /lab/ci-artifacts && grep -RInE 'AWS_ACCESS_KEY|SECRET|TOKEN|PRIVATE KEY|PASSWORD' artifacts logs | head -50\nlogs/deploy.log:2:Using TOKEN=redacted-demo-token in debug environment\n::exit-code::0\n$ cd /lab/ci-artifacts && grep -RInE 'AWS_ACCESS_KEY|SECRET|TOKEN|PRIVATE KEY|PASSWORD' artifacts logs | cut -d: -f1 | sort -u\nlogs/deploy.log\n::exit-code::0\n$ cd /lab/ci-artifacts && sed -n '1,60p' logs/deploy.log\nDeploy started\nUsing TOKEN=redacted-demo-token in debug environment\nUploading artifacts/dist\nDeploy failed: missing artifacts/dist/robots.txt\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

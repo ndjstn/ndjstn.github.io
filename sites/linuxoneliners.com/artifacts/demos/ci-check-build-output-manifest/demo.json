@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 227,
+  "elapsed_ms": 274,
   "stdout": "::fixture-ready::\n$ cd /lab/ci-artifacts && find artifacts/dist -maxdepth 2 -type f | sort\nartifacts/dist/assets/main.js\nartifacts/dist/assets/vendor.js\nartifacts/dist/index.html\n::exit-code::0\n$ cd /lab/ci-artifacts && find artifacts/dist -maxdepth 2 -type f -printf '%s %p\\n' | sort -nr\n831488 artifacts/dist/assets/vendor.js\n250880 artifacts/dist/assets/main.js\n77 artifacts/dist/index.html\n::exit-code::0\n$ cd /lab/ci-artifacts && test -f artifacts/dist/index.html && echo 'index present'\nindex present\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

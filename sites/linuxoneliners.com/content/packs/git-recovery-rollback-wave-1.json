@@ -1,0 +1,456 @@
+[
+  {
+    "slug": "git-incident-status-snapshot",
+    "title": "Snapshot Git Status Before Recovery",
+    "series": "hosting-operations",
+    "hook": "Before rollback commands, capture the branch and dirty files.",
+    "problem": "An incident starts with an unknown working tree, and you need to see whether local edits could be overwritten by recovery work.",
+    "command": "cd /lab/git-recovery-rollback && git status --short --branch",
+    "danger": "safe",
+    "starting_state": "A disposable demo repository has release tags, one suspect release, and one uncommitted local edit.",
+    "what_changed": "Nothing changes. Git prints the current branch and working-tree state.",
+    "when_to_use": "Use before reset, restore, checkout, revert, or rollback work so local edits are visible.",
+    "when_not_to_use": "Do not treat status alone as a release audit; inspect the commit history and deployment pointer too.",
+    "undo": "No undo needed because this command is read-only.",
+    "expected_output": "A short branch line for main and a modified app/config.yml entry.",
+    "terminal_demo": {
+      "fixture": "containers/git-recovery-rollback-lab",
+      "commands": [
+        "cd /lab/git-recovery-rollback && git status --short --branch",
+        "cd /lab/git-recovery-rollback && git diff -- app/config.yml"
+      ]
+    },
+    "shorts": {
+      "format": "vertical",
+      "duration_target_seconds": 25,
+      "title": "Check git status before rollback.",
+      "voiceover": "Before recovery commands, run a status snapshot. Dirty files are the easiest thing to overwrite by accident.",
+      "caption": "Status first, rollback second."
+    },
+    "linkedin": {
+      "question": "Do you snapshot git status before incident rollback work?",
+      "cta": "Keep rollback commands reviewable."
+    },
+    "youtube": {
+      "playlist": "Git Recovery and Release Rollback",
+      "description": "Use git status to inspect branch and dirty files before recovery or rollback commands."
+    },
+    "experiments": [
+      {
+        "id": "git_status_before_rollback",
+        "metric": "save_rate",
+        "variant_a": "Status first, rollback second.",
+        "variant_b": "Dirty files can derail recovery."
+      }
+    ]
+  },
+  {
+    "slug": "git-map-recent-release-history",
+    "title": "Map Recent Release Commits",
+    "series": "hosting-operations",
+    "hook": "A rollback is easier when the last few release tags are visible.",
+    "problem": "You need to see which tagged release commits exist before choosing a rollback target.",
+    "command": "cd /lab/git-recovery-rollback && git log --oneline --decorate --graph --all -8",
+    "danger": "safe",
+    "starting_state": "A Git repository contains annotated release tags for recent deploys.",
+    "what_changed": "Nothing changes. Git prints the recent commit graph with tags.",
+    "when_to_use": "Use during rollback planning when you need the shape of recent releases quickly.",
+    "when_not_to_use": "Do not rely on commit order alone when your deploy system can point at a different artifact or symlink.",
+    "undo": "No undo needed because this command is read-only.",
+    "expected_output": "A compact commit graph showing release-2026-06-25-1030 and earlier release tags.",
+    "terminal_demo": {
+      "fixture": "containers/git-recovery-rollback-lab",
+      "commands": [
+        "cd /lab/git-recovery-rollback && git tag --list 'release-*' | sort -V",
+        "cd /lab/git-recovery-rollback && git log --oneline --decorate --graph --all -8"
+      ]
+    },
+    "shorts": {
+      "format": "vertical",
+      "duration_target_seconds": 27,
+      "title": "Map release history fast.",
+      "voiceover": "Show the recent graph with decorations. The tags tell you which commits are rollback candidates.",
+      "caption": "Use the commit graph before choosing."
+    },
+    "linkedin": {
+      "question": "What command do you use to find the rollback target commit?",
+      "cta": "Add tag visibility to incident triage."
+    },
+    "youtube": {
+      "playlist": "Git Recovery and Release Rollback",
+      "description": "Display recent release history with git log decorations before rollback planning."
+    },
+    "experiments": [
+      {
+        "id": "git_release_history_graph",
+        "metric": "completion_rate",
+        "variant_a": "A rollback target should be visible.",
+        "variant_b": "Do not choose rollback commits blind."
+      }
+    ]
+  },
+  {
+    "slug": "git-show-files-since-last-good-release",
+    "title": "Show Files Changed Since Last Good Release",
+    "series": "hosting-operations",
+    "hook": "Compare the suspect release against the last known-good tag.",
+    "problem": "A new release is suspect, and you need a quick list of files changed after the last stable release.",
+    "command": "cd /lab/git-recovery-rollback && git diff --name-status release-2026-06-25-1000..HEAD",
+    "danger": "safe",
+    "starting_state": "HEAD is the suspect release and release-2026-06-25-1000 is the previous stable tag.",
+    "what_changed": "Nothing changes. Git lists files changed between the previous release tag and HEAD.",
+    "when_to_use": "Use when deciding whether a rollback is likely to touch code, config, migrations, or release metadata.",
+    "when_not_to_use": "Do not use this as proof of root cause; it only narrows the changed surface.",
+    "undo": "No undo needed because this command is read-only.",
+    "expected_output": "A name-status list including app/config.yml, db/migrate.sql, public/index.html, and release metadata.",
+    "terminal_demo": {
+      "fixture": "containers/git-recovery-rollback-lab",
+      "commands": [
+        "cd /lab/git-recovery-rollback && git diff --stat release-2026-06-25-1000..HEAD",
+        "cd /lab/git-recovery-rollback && git diff --name-status release-2026-06-25-1000..HEAD"
+      ]
+    },
+    "shorts": {
+      "format": "vertical",
+      "duration_target_seconds": 30,
+      "title": "What changed since good?",
+      "voiceover": "Diff the suspect release against the last known-good tag. Now the rollback discussion has a file list.",
+      "caption": "Compare against last good."
+    },
+    "linkedin": {
+      "question": "During rollback triage, do you inspect changed files before reverting?",
+      "cta": "Make rollback scope explicit."
+    },
+    "youtube": {
+      "playlist": "Git Recovery and Release Rollback",
+      "description": "Use git diff name-status to compare a suspect release against the last known-good tag."
+    },
+    "experiments": [
+      {
+        "id": "git_diff_last_good_release",
+        "metric": "save_rate",
+        "variant_a": "Compare suspect against good.",
+        "variant_b": "Rollback scope starts with changed files."
+      }
+    ]
+  },
+  {
+    "slug": "git-reflog-find-discarded-commit",
+    "title": "Find a Discarded Commit in Reflog",
+    "series": "hosting-operations",
+    "hook": "A reset does not mean the commit vanished.",
+    "problem": "Someone ran reset during incident work and you need to locate the commit that disappeared from the branch tip.",
+    "command": "cd /lab/git-recovery-rollback && git reflog --date=iso --format='%h %gd %gs' -6",
+    "danger": "safe",
+    "starting_state": "The fixture created an incident note commit, then reset the branch back one commit.",
+    "what_changed": "Nothing changes. Git prints recent HEAD movements from the reflog.",
+    "when_to_use": "Use after an accidental reset, checkout, commit amend, or branch movement.",
+    "when_not_to_use": "Do not wait weeks to inspect reflog; entries can expire or be pruned.",
+    "undo": "No undo needed because this command is read-only.",
+    "expected_output": "Recent reflog entries showing a reset and the discarded incident-note commit.",
+    "terminal_demo": {
+      "fixture": "containers/git-recovery-rollback-lab",
+      "commands": [
+        "cd /lab/git-recovery-rollback && git reflog --date=iso --format='%h %gd %gs' -6",
+        "cd /lab/git-recovery-rollback && git show -s --format='%h %s' HEAD@{1}"
+      ]
+    },
+    "shorts": {
+      "format": "vertical",
+      "duration_target_seconds": 29,
+      "title": "Reset is not always lost.",
+      "voiceover": "After a reset, check the reflog. The old tip is usually still there long enough to recover.",
+      "caption": "Use reflog for lost commits."
+    },
+    "linkedin": {
+      "question": "Have you recovered a commit from reflog during an incident?",
+      "cta": "Remember reflog before recreating work."
+    },
+    "youtube": {
+      "playlist": "Git Recovery and Release Rollback",
+      "description": "Use git reflog to locate a commit discarded by reset."
+    },
+    "experiments": [
+      {
+        "id": "git_reflog_discarded_commit",
+        "metric": "watch_time",
+        "variant_a": "A reset does not erase the commit immediately.",
+        "variant_b": "Find the old tip in reflog."
+      }
+    ]
+  },
+  {
+    "slug": "git-branch-recovered-commit",
+    "title": "Branch a Recovered Commit",
+    "series": "hosting-operations",
+    "hook": "Put a name on the reflog commit before it slips away.",
+    "problem": "You found a useful discarded commit in reflog and need to preserve it with a branch name.",
+    "command": "cd /lab/git-recovery-rollback && git branch recovered-incident-note HEAD@{1}",
+    "danger": "caution",
+    "starting_state": "HEAD@{1} points to a discarded incident note commit in the fixture reflog.",
+    "what_changed": "A local branch named recovered-incident-note is created inside the disposable demo repository.",
+    "when_to_use": "Use when a reflog entry contains work you may need to inspect, cherry-pick, or restore later.",
+    "when_not_to_use": "Do not create branches from reflog entries you have not inspected if the repository contains sensitive or unrelated work.",
+    "undo": "Delete the local branch with git branch -D recovered-incident-note inside the demo repo.",
+    "expected_output": "The new branch points at the recovered incident note commit.",
+    "terminal_demo": {
+      "fixture": "containers/git-recovery-rollback-lab",
+      "commands": [
+        "cd /lab/git-recovery-rollback && git show -s --format='%h %s' HEAD@{1}",
+        "cd /lab/git-recovery-rollback && git branch recovered-incident-note HEAD@{1}",
+        "cd /lab/git-recovery-rollback && git log --oneline recovered-incident-note -1"
+      ]
+    },
+    "shorts": {
+      "format": "vertical",
+      "duration_target_seconds": 31,
+      "title": "Save the reflog commit.",
+      "voiceover": "Once you find the lost commit, branch it. A branch name is easier to review than a temporary reflog selector.",
+      "caption": "Name recovered work quickly."
+    },
+    "linkedin": {
+      "question": "When you find lost work in reflog, do you branch it immediately?",
+      "cta": "Turn temporary recovery into a named ref."
+    },
+    "youtube": {
+      "playlist": "Git Recovery and Release Rollback",
+      "description": "Create a local branch from a reflog entry to preserve recovered work."
+    },
+    "experiments": [
+      {
+        "id": "git_branch_recovered_reflog_commit",
+        "metric": "save_rate",
+        "variant_a": "Put a name on recovered work.",
+        "variant_b": "Reflog finds it, branch preserves it."
+      }
+    ]
+  },
+  {
+    "slug": "git-restore-file-from-last-good-release",
+    "title": "Restore One File From Last Good Release",
+    "series": "hosting-operations",
+    "hook": "Recover a config file without rolling back the whole branch.",
+    "problem": "One file is dirty or suspect, and you want to restore just that path from a known-good release tag.",
+    "command": "cd /lab/git-recovery-rollback && git restore --source=release-2026-06-25-1000 -- app/config.yml",
+    "danger": "caution",
+    "starting_state": "app/config.yml has an uncommitted debug edit and differs from the last stable release tag.",
+    "what_changed": "app/config.yml in the disposable repo is replaced with the version from release-2026-06-25-1000.",
+    "when_to_use": "Use when you need a targeted file recovery from a tag, commit, or branch.",
+    "when_not_to_use": "Do not run this on a path with uncommitted work you still need unless you have saved or reviewed the diff.",
+    "undo": "Restore the file again from HEAD or discard the disposable fixture copy.",
+    "expected_output": "The diff for app/config.yml changes after the targeted restore.",
+    "terminal_demo": {
+      "fixture": "containers/git-recovery-rollback-lab",
+      "commands": [
+        "cd /lab/git-recovery-rollback && git diff -- app/config.yml",
+        "cd /lab/git-recovery-rollback && git restore --source=release-2026-06-25-1000 -- app/config.yml",
+        "cd /lab/git-recovery-rollback && git diff -- app/config.yml"
+      ]
+    },
+    "shorts": {
+      "format": "vertical",
+      "duration_target_seconds": 32,
+      "title": "Restore one file from a tag.",
+      "voiceover": "You do not always need a full rollback. Restore one known-good file from the release tag and review the diff.",
+      "caption": "Targeted restore beats panic reset."
+    },
+    "linkedin": {
+      "question": "Do you use targeted file restores during release incidents?",
+      "cta": "Recover the smallest useful surface."
+    },
+    "youtube": {
+      "playlist": "Git Recovery and Release Rollback",
+      "description": "Use git restore --source to recover one file from a known-good release tag."
+    },
+    "experiments": [
+      {
+        "id": "git_restore_file_from_tag",
+        "metric": "completion_rate",
+        "variant_a": "Restore one file, not the whole repo.",
+        "variant_b": "Known-good tags can recover files."
+      }
+    ]
+  },
+  {
+    "slug": "release-check-current-symlink-target",
+    "title": "Check the Active Release Symlink",
+    "series": "hosting-operations",
+    "hook": "Git may say one thing while the release pointer serves another.",
+    "problem": "A deployment uses release directories and a current symlink, and you need to confirm which release is active.",
+    "command": "cd /lab/git-recovery-rollback && readlink releases/current && cat releases/current/VERSION",
+    "danger": "safe",
+    "starting_state": "The fixture has release directories and releases/current points at the suspect 10:30 release.",
+    "what_changed": "Nothing changes. The symlink target and release metadata are printed.",
+    "when_to_use": "Use during deploy or rollback triage when production is selected by a filesystem pointer.",
+    "when_not_to_use": "Do not assume Git HEAD and the active release symlink always match.",
+    "undo": "No undo needed because this command is read-only.",
+    "expected_output": "The current symlink target and VERSION file for release 2026-06-25-1030.",
+    "terminal_demo": {
+      "fixture": "containers/git-recovery-rollback-lab",
+      "commands": [
+        "cd /lab/git-recovery-rollback && ls -l releases/current",
+        "cd /lab/git-recovery-rollback && readlink releases/current && cat releases/current/VERSION"
+      ]
+    },
+    "shorts": {
+      "format": "vertical",
+      "duration_target_seconds": 25,
+      "title": "Which release is active?",
+      "voiceover": "If deploys use a current symlink, inspect that pointer directly. Git history is only part of the incident.",
+      "caption": "Check the release pointer."
+    },
+    "linkedin": {
+      "question": "Does your rollback checklist verify the active release pointer?",
+      "cta": "Check deploy state outside Git too."
+    },
+    "youtube": {
+      "playlist": "Git Recovery and Release Rollback",
+      "description": "Inspect a release-directory current symlink during rollback triage."
+    },
+    "experiments": [
+      {
+        "id": "release_current_symlink_git_lane",
+        "metric": "save_rate",
+        "variant_a": "Git is not the only deployment state.",
+        "variant_b": "Check the active release pointer."
+      }
+    ]
+  },
+  {
+    "slug": "release-rollback-current-symlink-in-sandbox",
+    "title": "Rollback a Release Symlink in a Sandbox",
+    "series": "hosting-operations",
+    "hook": "Practice the pointer switch where the blast radius is zero.",
+    "problem": "You need to rehearse a symlink-style rollback by pointing current at the previous stable release directory.",
+    "command": "cd /lab/git-recovery-rollback && ln -sfn 2026-06-25-1000 releases/current",
+    "danger": "caution",
+    "starting_state": "releases/current points at the suspect 2026-06-25-1030 release inside a disposable fixture.",
+    "what_changed": "The releases/current symlink inside the disposable fixture points to 2026-06-25-1000.",
+    "when_to_use": "Use in a sandbox or controlled deploy path when rollback is implemented by moving a current symlink.",
+    "when_not_to_use": "Do not run this against a real production releases directory unless your deployment process explicitly calls for it.",
+    "undo": "Point releases/current back to 2026-06-25-1030 or recreate the fixture.",
+    "expected_output": "The current symlink resolves to 2026-06-25-1000 and its VERSION status is stable.",
+    "terminal_demo": {
+      "fixture": "containers/git-recovery-rollback-lab",
+      "commands": [
+        "cd /lab/git-recovery-rollback && readlink releases/current && cat releases/current/VERSION",
+        "cd /lab/git-recovery-rollback && ln -sfn 2026-06-25-1000 releases/current",
+        "cd /lab/git-recovery-rollback && readlink releases/current && cat releases/current/VERSION"
+      ]
+    },
+    "shorts": {
+      "format": "vertical",
+      "duration_target_seconds": 31,
+      "title": "Rollback the symlink safely.",
+      "voiceover": "In this sandbox, rollback is just moving current to the last stable release. Practice it before production pressure.",
+      "caption": "Symlink rollbacks need verification."
+    },
+    "linkedin": {
+      "question": "Have you rehearsed your symlink rollback command outside production?",
+      "cta": "Practice rollback where mistakes are cheap."
+    },
+    "youtube": {
+      "playlist": "Git Recovery and Release Rollback",
+      "description": "Practice a release-directory symlink rollback in a disposable fixture."
+    },
+    "experiments": [
+      {
+        "id": "release_symlink_rollback_sandbox",
+        "metric": "comment_rate",
+        "variant_a": "Practice pointer rollback safely.",
+        "variant_b": "Move current only when you know the target."
+      }
+    ]
+  },
+  {
+    "slug": "git-preview-rollback-patch",
+    "title": "Preview the Patch a Rollback Would Apply",
+    "series": "hosting-operations",
+    "hook": "Show the exact file changes before moving the branch back.",
+    "problem": "You know the last good release tag, but you want to inspect what a rollback would remove before changing anything.",
+    "command": "cd /lab/git-recovery-rollback && git diff --stat HEAD..release-2026-06-25-1000",
+    "danger": "safe",
+    "starting_state": "HEAD is the suspect release and release-2026-06-25-1000 is the previous stable tag.",
+    "what_changed": "Nothing changes. Git prints the patch summary from the current commit back to the last good release.",
+    "when_to_use": "Use before reset, revert, or deploy rollback when you need a quick preview of the files and line counts involved.",
+    "when_not_to_use": "Do not treat a small diff as automatically safe; migrations, config, and external state still need review.",
+    "undo": "No undo needed because this command is read-only.",
+    "expected_output": "A diffstat showing the config, migration, public page, and release metadata changes that rollback would remove.",
+    "terminal_demo": {
+      "fixture": "containers/git-recovery-rollback-lab",
+      "commands": [
+        "cd /lab/git-recovery-rollback && git diff --name-status HEAD..release-2026-06-25-1000",
+        "cd /lab/git-recovery-rollback && git diff --stat HEAD..release-2026-06-25-1000"
+      ]
+    },
+    "shorts": {
+      "format": "vertical",
+      "duration_target_seconds": 28,
+      "title": "Preview rollback first.",
+      "voiceover": "Before moving a branch or release pointer, diff current against the last good tag. The rollback patch should be visible.",
+      "caption": "Rollback changes should not be a surprise."
+    },
+    "linkedin": {
+      "question": "Do you preview rollback patches before changing refs?",
+      "cta": "Make the rollback diff part of incident review."
+    },
+    "youtube": {
+      "playlist": "Git Recovery and Release Rollback",
+      "description": "Use git diff against a last-good tag to preview the patch a rollback would apply."
+    },
+    "experiments": [
+      {
+        "id": "git_preview_rollback_patch",
+        "metric": "save_rate",
+        "variant_a": "Preview rollback before changing refs.",
+        "variant_b": "The rollback patch should be visible."
+      }
+    ]
+  },
+  {
+    "slug": "git-revert-suspect-release-commit",
+    "title": "Revert the Suspect Release Commit",
+    "series": "hosting-operations",
+    "hook": "Undo a bad release with a new commit instead of rewriting history.",
+    "problem": "The suspect release has already been shared, and you need a rollback commit that preserves branch history.",
+    "command": "cd /lab/git-recovery-rollback && git restore -- app/config.yml && git revert --no-edit release-2026-06-25-1030",
+    "danger": "caution",
+    "starting_state": "The fixture branch contains a tagged suspect release commit and one dirty config line in the disposable repo.",
+    "what_changed": "The dirty config line is discarded, then a new local revert commit is created inside the disposable demo repository.",
+    "when_to_use": "Use when a bad commit is already published or shared and rollback should be represented as a forward-moving commit.",
+    "when_not_to_use": "Do not use revert blindly when the bad release included database migrations or external side effects that need a separate rollback plan.",
+    "undo": "Reset the disposable fixture branch back one commit or recreate the fixture.",
+    "expected_output": "Git restores the dirty file, creates a revert commit, and the recent log shows the new Revert commit above the suspect release.",
+    "terminal_demo": {
+      "fixture": "containers/git-recovery-rollback-lab",
+      "commands": [
+        "cd /lab/git-recovery-rollback && git status --short && git log --oneline --decorate -3",
+        "cd /lab/git-recovery-rollback && git restore -- app/config.yml && git revert --no-edit release-2026-06-25-1030",
+        "cd /lab/git-recovery-rollback && git log --oneline --decorate -4"
+      ]
+    },
+    "shorts": {
+      "format": "vertical",
+      "duration_target_seconds": 33,
+      "title": "Revert, do not rewrite.",
+      "voiceover": "If the bad release commit is already shared, create a revert commit. History keeps moving forward and the rollback is reviewable.",
+      "caption": "Use revert for shared history."
+    },
+    "linkedin": {
+      "question": "When do you prefer git revert over resetting a release branch?",
+      "cta": "Use forward-moving rollback commits for shared history."
+    },
+    "youtube": {
+      "playlist": "Git Recovery and Release Rollback",
+      "description": "Use git revert to create a reviewable rollback commit for a suspect release."
+    },
+    "experiments": [
+      {
+        "id": "git_revert_suspect_release_commit",
+        "metric": "completion_rate",
+        "variant_a": "Revert shared history.",
+        "variant_b": "Rollback with a new commit."
+      }
+    ]
+  }
+]

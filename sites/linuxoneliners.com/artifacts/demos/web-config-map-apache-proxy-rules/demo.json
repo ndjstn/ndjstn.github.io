@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 222,
+  "elapsed_ms": 232,
   "stdout": "::fixture-ready::\n$ grep -RInE '^[[:space:]]*(ProxyPass|ProxyPassReverse)[[:space:]]' fixtures/apache/sites-enabled\nfixtures/apache/sites-enabled/app.conf:5:    ProxyPass / http://127.0.0.1:7000/\nfixtures/apache/sites-enabled/app.conf:6:    ProxyPassReverse / http://127.0.0.1:7000/\n::exit-code::0\n$ grep -RInE 'ProxyPreserveHost|ServerName' fixtures/apache/sites-enabled\nfixtures/apache/sites-enabled/app.conf:2:    ServerName app.example.com\nfixtures/apache/sites-enabled/app.conf:4:    ProxyPreserveHost On\nfixtures/apache/sites-enabled/example.conf:2:    ServerName legacy.example.com\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

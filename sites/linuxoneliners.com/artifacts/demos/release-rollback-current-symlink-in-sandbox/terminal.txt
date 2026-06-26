@@ -1,0 +1,13 @@
+::fixture-ready::
+$ cd /lab/git-recovery-rollback && readlink releases/current && cat releases/current/VERSION
+2026-06-25-1030
+release=2026-06-25-1030
+status=suspect
+::exit-code::0
+$ cd /lab/git-recovery-rollback && ln -sfn 2026-06-25-1000 releases/current
+::exit-code::0
+$ cd /lab/git-recovery-rollback && readlink releases/current && cat releases/current/VERSION
+2026-06-25-1000
+release=2026-06-25-1000
+status=stable
+::exit-code::0

@@ -1,0 +1,11 @@
+::fixture-ready::
+$ cd /lab/git-recovery-rollback && git tag --list 'release-*' | sort -V
+release-2026-06-24-1700
+release-2026-06-25-1000
+release-2026-06-25-1030
+::exit-code::0
+$ cd /lab/git-recovery-rollback && git log --oneline --decorate --graph --all -8
+* de583c6 (HEAD -> main, tag: release-2026-06-25-1030) Release 2026-06-25 10:30
+* c15c7c6 (tag: release-2026-06-25-1000) Release 2026-06-25 10:00
+* ddb9d51 (tag: release-2026-06-24-1700) Release 2026-06-24 17:00
+::exit-code::0

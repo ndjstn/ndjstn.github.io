@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 206,
+  "elapsed_ms": 247,
   "stdout": "::fixture-ready::\n$ openssl s_client -connect 203.0.113.10:443 -servername edge.test </dev/null 2>/dev/null | openssl x509 -noout -subject -ext subjectAltName\nsubject=CN = edge.test\nX509v3 Subject Alternative Name:\n    DNS:edge.test, DNS:www.edge.test\n::exit-code::0\n$ openssl s_client -connect 203.0.113.10:443 -servername wrong.edge.test </dev/null 2>/dev/null | openssl x509 -noout -subject -ext subjectAltName\nsubject=CN = default.edge-fixture.test\nX509v3 Subject Alternative Name:\n    DNS:default.edge-fixture.test\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

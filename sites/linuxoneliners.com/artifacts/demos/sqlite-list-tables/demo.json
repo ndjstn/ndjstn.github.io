@@ -6,8 +6,8 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 203,
-  "stdout": "::fixture-ready::\n$ ls -lh app.db\n-rw-r--r-- 1 root root 16 Jun 26 00:03 app.db\n::exit-code::0\n$ sqlite3 app.db \".tables\"\nevents  orders  schema_migrations  users\n::exit-code::0\n",
+  "elapsed_ms": 258,
+  "stdout": "::fixture-ready::\n$ ls -lh app.db\n-rw-r--r-- 1 root root 16 Jun 26 00:14 app.db\n::exit-code::0\n$ sqlite3 app.db \".tables\"\nevents  orders  schema_migrations  users\n::exit-code::0\n",
   "stderr": "",
   "ok": true,
   "security": {

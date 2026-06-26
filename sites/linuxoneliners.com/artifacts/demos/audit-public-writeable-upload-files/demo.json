@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 221,
+  "elapsed_ms": 223,
   "stdout": "::fixture-ready::\n$ find fixtures/perm-audit/releases/2026-06-25/uploads -type f -printf '%M %u:%g %p\\n' | sort\n-rw-r--r-- root:root fixtures/perm-audit/releases/2026-06-25/uploads/orphaned-upload.txt\n-rw-rw-r-- root:root fixtures/perm-audit/releases/2026-06-25/uploads/customer-export.csv\n::exit-code::0\n$ find fixtures/perm-audit/releases/2026-06-25/uploads -type f -perm /0022 -printf '%M %u:%g %p\\n' | sort\n-rw-rw-r-- root:root fixtures/perm-audit/releases/2026-06-25/uploads/customer-export.csv\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

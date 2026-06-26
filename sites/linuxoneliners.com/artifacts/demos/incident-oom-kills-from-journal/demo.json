@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 197,
+  "elapsed_ms": 230,
   "stdout": "::fixture-ready::\n$ journalctl -k --since \"2 hours ago\" --no-pager -o short-iso\n2026-06-25T14:05:09+00:00 vps kernel: warning Memory cgroup out of memory: Killed process 2201 worker total-vm:512000kB\n2026-06-25T14:05:10+00:00 vps kernel: err oom_reaper: reaped process 2201 worker\n::exit-code::0\n$ journalctl -k --since \"2 hours ago\" --no-pager -o short-iso | grep -Ei 'out of memory|oom|killed process'\n2026-06-25T14:05:09+00:00 vps kernel: warning Memory cgroup out of memory: Killed process 2201 worker total-vm:512000kB\n2026-06-25T14:05:10+00:00 vps kernel: err oom_reaper: reaped process 2201 worker\n::exit-code::0\n",
   "stderr": "",
   "ok": true,
