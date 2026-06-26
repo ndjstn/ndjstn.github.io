@@ -195,24 +195,26 @@ li {
 .site-search input {
   width: 100%;
   min-height: 100%;
-  border: 1px solid var(--line);
+  border: 1px solid var(--accent);
   border-radius: .35rem;
-  background: #0b0d11;
-  color: var(--text);
+  background: transparent;
+  color: var(--accent);
   padding: .72rem 1rem;
   font: inherit;
-  font-weight: 700;
+  font-weight: 800;
 }
 
 .site-search input:focus {
   border-color: var(--accent);
+  background: rgba(158, 228, 147, .08);
   outline: 2px solid rgba(158, 228, 147, .28);
   outline-offset: 2px;
 }
 
 .site-search input::placeholder {
-  color: var(--muted);
-  font-weight: 700;
+  color: var(--accent);
+  font-weight: 800;
+  opacity: .6;
 }
 
 .search-results {
