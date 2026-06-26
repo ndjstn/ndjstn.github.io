@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 186,
+  "elapsed_ms": 170,
   "stdout": "::fixture-ready::\n$ cat fixtures/nginx/nginx.conf\nevents {}\nhttp {\n  include conf.d/*.conf;\n  include sites-enabled/*;\n}\n::exit-code::0\n$ grep -RInE '^[[:space:]]*include[[:space:]]' fixtures/nginx/nginx.conf fixtures/nginx/conf.d fixtures/nginx/sites-enabled\nfixtures/nginx/nginx.conf:3:  include conf.d/*.conf;\nfixtures/nginx/nginx.conf:4:  include sites-enabled/*;\n::exit-code::0\n$ find fixtures/nginx -maxdepth 3 -type f | sort\nfixtures/nginx/conf.d/admin.conf\nfixtures/nginx/nginx.conf\nfixtures/nginx/sites-enabled/example.conf\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

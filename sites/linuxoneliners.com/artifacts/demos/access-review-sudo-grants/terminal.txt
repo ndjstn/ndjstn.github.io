@@ -1,0 +1,27 @@
+::fixture-ready::
+$ cat fixtures/user-access-audit/etc/group fixtures/user-access-audit/etc/sudoers fixtures/user-access-audit/etc/sudoers.d/app-deploy
+root:x:0:
+daemon:x:1:
+www-data:x:33:
+alex:x:1000:
+deploy:x:1001:
+reports:x:1002:
+breakglass:x:1003:
+backup:x:1004:
+sudo:x:27:alex,breakglass
+docker:x:998:deploy
+adm:x:4:alex
+Defaults env_reset
+root ALL=(ALL:ALL) ALL
+%sudo ALL=(ALL:ALL) ALL
+deploy ALL=(root) NOPASSWD: /usr/bin/systemctl restart app.service
+# app deploy automation
+deploy ALL=(root) NOPASSWD: /usr/bin/journalctl -u app.service, /usr/bin/systemctl reload nginx
+::exit-code::0
+$ awk -F: '$1=="sudo" {print "sudo group: " $4}' fixtures/user-access-audit/etc/group; grep -RhnE '^[^#].*ALL=' fixtures/user-access-audit/etc/sudoers fixtures/user-access-audit/etc/sudoers.d
+sudo group: alex,breakglass
+2:root ALL=(ALL:ALL) ALL
+3:%sudo ALL=(ALL:ALL) ALL
+4:deploy ALL=(root) NOPASSWD: /usr/bin/systemctl restart app.service
+2:deploy ALL=(root) NOPASSWD: /usr/bin/journalctl -u app.service, /usr/bin/systemctl reload nginx
+::exit-code::0

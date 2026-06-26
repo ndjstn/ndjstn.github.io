@@ -1,0 +1,18 @@
+::fixture-ready::
+$ grep -Rhn 'breakglass' fixtures/user-access-audit/etc fixtures/user-access-audit/home
+7:breakglass:x:1003:1003:Break Glass:/home/breakglass:/bin/bash
+7:breakglass:x:1003:
+9:sudo:x:27:alex,breakglass
+7:breakglass:$y$j9T$demoHashOnlyBreakglass:20530:0:99999:7:::
+1:ssh-ed25519 AAAAC3NzaDemoOnlyBreakglassVault breakglass@vault
+::exit-code::0
+$ grep -Rhn 'breakglass' fixtures/user-access-audit/etc fixtures/user-access-audit/home fixtures/user-access-audit/logs
+7:breakglass:x:1003:1003:Break Glass:/home/breakglass:/bin/bash
+7:breakglass:x:1003:
+9:sudo:x:27:alex,breakglass
+7:breakglass:$y$j9T$demoHashOnlyBreakglass:20530:0:99999:7:::
+1:ssh-ed25519 AAAAC3NzaDemoOnlyBreakglassVault breakglass@vault
+2:Jun 25 10:15:14 host sshd[1722]: Accepted publickey for breakglass from 198.51.100.99 port 52001 ssh2
+6:Jun 25 10:15:14 host sshd[1722]: Accepted publickey for breakglass from 198.51.100.99 port 52001 ssh2
+7:Jun 25 10:16:02 host sudo: breakglass : TTY=pts/2 ; PWD=/root ; USER=root ; COMMAND=/usr/bin/passwd alex
+::exit-code::0

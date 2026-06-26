@@ -1,0 +1,11 @@
+::fixture-ready::
+$ find fixtures/user-access-audit/home -path '*/.ssh/authorized_keys' -printf '%h\n' | awk -F/ '{print $(NF-1)}' | sort
+alex
+breakglass
+deploy
+reports
+::exit-code::0
+$ comm -12 <(find fixtures/user-access-audit/home -path '*/.ssh/authorized_keys' -printf '%h\n' | awk -F/ '{print $(NF-1)}' | sort) <(awk -F: '$1=="sudo" {gsub(",","\n",$4); print $4}' fixtures/user-access-audit/etc/group | sort)
+alex
+breakglass
+::exit-code::0

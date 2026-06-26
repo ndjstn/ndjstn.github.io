@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 206,
+  "elapsed_ms": 180,
   "stdout": "::fixture-ready::\n$ wc -l /var/log/nginx/error.log\n5 /var/log/nginx/error.log\n::exit-code::0\n$ grep -iE 'error|failed|denied|timeout' /var/log/nginx/error.log | tail -40\n2026/06/25 10:01:42 [error] 11#11: *7 connect() failed (111: Connection refused) while connecting to upstream\n2026/06/25 10:03:16 [error] 11#11: *9 access forbidden by rule, client: 203.0.113.44\n2026/06/25 10:04:33 [error] 11#11: *10 upstream timed out while reading response header\n::exit-code::0\n$ grep -inE 'error|failed|denied|timeout' /var/log/nginx/error.log | tail -20\n2:2026/06/25 10:01:42 [error] 11#11: *7 connect() failed (111: Connection refused) while connecting to upstream\n4:2026/06/25 10:03:16 [error] 11#11: *9 access forbidden by rule, client: 203.0.113.44\n5:2026/06/25 10:04:33 [error] 11#11: *10 upstream timed out while reading response header\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

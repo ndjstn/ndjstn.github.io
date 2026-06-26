@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 238,
+  "elapsed_ms": 249,
   "stdout": "::fixture-ready::\n$ cd /lab/git-recovery-rollback && readlink releases/current && cat releases/current/VERSION\n2026-06-25-1030\nrelease=2026-06-25-1030\nstatus=suspect\n::exit-code::0\n$ cd /lab/git-recovery-rollback && ln -sfn 2026-06-25-1000 releases/current\n::exit-code::0\n$ cd /lab/git-recovery-rollback && readlink releases/current && cat releases/current/VERSION\n2026-06-25-1000\nrelease=2026-06-25-1000\nstatus=stable\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

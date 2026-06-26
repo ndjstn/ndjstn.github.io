@@ -1,0 +1,14 @@
+::fixture-ready::
+$ awk -F: '{print $1, $7}' fixtures/user-access-audit/etc/passwd | sort
+alex /bin/bash
+backup /usr/sbin/nologin
+breakglass /bin/bash
+daemon /usr/sbin/nologin
+deploy /bin/bash
+reports /usr/sbin/nologin
+root /bin/bash
+www-data /usr/sbin/nologin
+::exit-code::0
+$ comm -12 <(awk -F: '$7 !~ /(bash|sh|zsh)$/ {print $1}' fixtures/user-access-audit/etc/passwd | sort) <(find fixtures/user-access-audit/home -path '*/.ssh/authorized_keys' -printf '%h\n' | awk -F/ '{print $(NF-1)}' | sort)
+reports
+::exit-code::0

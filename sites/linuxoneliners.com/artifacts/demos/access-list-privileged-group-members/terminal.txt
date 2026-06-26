@@ -1,0 +1,19 @@
+::fixture-ready::
+$ cat fixtures/user-access-audit/etc/group
+root:x:0:
+daemon:x:1:
+www-data:x:33:
+alex:x:1000:
+deploy:x:1001:
+reports:x:1002:
+breakglass:x:1003:
+backup:x:1004:
+sudo:x:27:alex,breakglass
+docker:x:998:deploy
+adm:x:4:alex
+::exit-code::0
+$ awk -F: '$1 ~ /^(sudo|adm|docker)$/ && $4 != "" {print $1 ": " $4}' fixtures/user-access-audit/etc/group
+sudo: alex,breakglass
+docker: deploy
+adm: alex
+::exit-code::0

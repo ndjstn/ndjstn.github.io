@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 222,
+  "elapsed_ms": 184,
   "stdout": "::fixture-ready::\n$ iptables -S INPUT\n-P INPUT DROP\n-A INPUT -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT\n-A INPUT -i lo -j ACCEPT\n-A INPUT -p tcp -s 203.0.113.0/24 --dport 22 -j ACCEPT\n-A INPUT -p tcp -m multiport --dports 80,443 -j ACCEPT\n-A INPUT -p tcp --dport 25 -j ACCEPT\n-A INPUT -p tcp --dport 5432 -j DROP\n::exit-code::0\n$ iptables -S INPUT | grep -- '--dport'\n-A INPUT -p tcp -s 203.0.113.0/24 --dport 22 -j ACCEPT\n-A INPUT -p tcp -m multiport --dports 80,443 -j ACCEPT\n-A INPUT -p tcp --dport 25 -j ACCEPT\n-A INPUT -p tcp --dport 5432 -j DROP\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

@@ -1,0 +1,13 @@
+::fixture-ready::
+$ find fixtures/user-access-audit/home -path '*/.ssh/authorized_keys' -print | sort
+fixtures/user-access-audit/home/alex/.ssh/authorized_keys
+fixtures/user-access-audit/home/breakglass/.ssh/authorized_keys
+fixtures/user-access-audit/home/deploy/.ssh/authorized_keys
+fixtures/user-access-audit/home/reports/.ssh/authorized_keys
+::exit-code::0
+$ find fixtures/user-access-audit/home -path '*/.ssh/authorized_keys' -exec sh -c 'for f do user=$(basename "$(dirname "$(dirname "$f")")"); keys=$(grep -vc "^[[:space:]]*#" "$f"); printf "%s %s %s\n" "$user" "$keys" "$f"; done' sh {} + | sort
+alex 2 fixtures/user-access-audit/home/alex/.ssh/authorized_keys
+breakglass 1 fixtures/user-access-audit/home/breakglass/.ssh/authorized_keys
+deploy 1 fixtures/user-access-audit/home/deploy/.ssh/authorized_keys
+reports 1 fixtures/user-access-audit/home/reports/.ssh/authorized_keys
+::exit-code::0

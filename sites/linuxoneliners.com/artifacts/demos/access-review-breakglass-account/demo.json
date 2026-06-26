@@ -1,0 +1,25 @@
+{
+  "slug": "access-review-breakglass-account",
+  "title": "Review a Breakglass Account",
+  "fixture": "containers/user-access-audit-lab",
+  "command_count": 2,
+  "container_tool": "docker",
+  "image": "localhost/linuxoneliners-lab:latest",
+  "exit_code": 0,
+  "elapsed_ms": 181,
+  "stdout": "::fixture-ready::\n$ grep -Rhn 'breakglass' fixtures/user-access-audit/etc fixtures/user-access-audit/home\n7:breakglass:x:1003:1003:Break Glass:/home/breakglass:/bin/bash\n7:breakglass:x:1003:\n9:sudo:x:27:alex,breakglass\n7:breakglass:$y$j9T$demoHashOnlyBreakglass:20530:0:99999:7:::\n1:ssh-ed25519 AAAAC3NzaDemoOnlyBreakglassVault breakglass@vault\n::exit-code::0\n$ grep -Rhn 'breakglass' fixtures/user-access-audit/etc fixtures/user-access-audit/home fixtures/user-access-audit/logs\n7:breakglass:x:1003:1003:Break Glass:/home/breakglass:/bin/bash\n7:breakglass:x:1003:\n9:sudo:x:27:alex,breakglass\n7:breakglass:$y$j9T$demoHashOnlyBreakglass:20530:0:99999:7:::\n1:ssh-ed25519 AAAAC3NzaDemoOnlyBreakglassVault breakglass@vault\n2:Jun 25 10:15:14 host sshd[1722]: Accepted publickey for breakglass from 198.51.100.99 port 52001 ssh2\n6:Jun 25 10:15:14 host sshd[1722]: Accepted publickey for breakglass from 198.51.100.99 port 52001 ssh2\n7:Jun 25 10:16:02 host sudo: breakglass : TTY=pts/2 ; PWD=/root ; USER=root ; COMMAND=/usr/bin/passwd alex\n::exit-code::0\n",
+  "stderr": "",
+  "ok": true,
+  "security": {
+    "network": "none",
+    "capabilities": "dropped",
+    "no_new_privileges": true,
+    "memory": "256m",
+    "cpus": "1",
+    "pids_limit": 128,
+    "tmpfs": [
+      "/tmp",
+      "/var"
+    ]
+  }
+}

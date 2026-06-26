@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 175,
+  "elapsed_ms": 181,
   "stdout": "::fixture-ready::\n$ find home -type f -path '*/.ssh/*' -printf '%m %p\\n' | sort\n600 home/alex/.ssh/authorized_keys\n600 home/deploy/.ssh/authorized_keys\n644 home/deploy/.ssh/id_rsa\n::exit-code::0\n$ find home -type f -name 'id_*' -printf '%m %p\\n' | awk '$1 > 600'\n644 home/deploy/.ssh/id_rsa\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

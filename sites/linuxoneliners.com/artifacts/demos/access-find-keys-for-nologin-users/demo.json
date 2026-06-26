@@ -1,0 +1,25 @@
+{
+  "slug": "access-find-keys-for-nologin-users",
+  "title": "Find SSH Keys for nologin Users",
+  "fixture": "containers/user-access-audit-lab",
+  "command_count": 2,
+  "container_tool": "docker",
+  "image": "localhost/linuxoneliners-lab:latest",
+  "exit_code": 0,
+  "elapsed_ms": 194,
+  "stdout": "::fixture-ready::\n$ awk -F: '{print $1, $7}' fixtures/user-access-audit/etc/passwd | sort\nalex /bin/bash\nbackup /usr/sbin/nologin\nbreakglass /bin/bash\ndaemon /usr/sbin/nologin\ndeploy /bin/bash\nreports /usr/sbin/nologin\nroot /bin/bash\nwww-data /usr/sbin/nologin\n::exit-code::0\n$ comm -12 <(awk -F: '$7 !~ /(bash|sh|zsh)$/ {print $1}' fixtures/user-access-audit/etc/passwd | sort) <(find fixtures/user-access-audit/home -path '*/.ssh/authorized_keys' -printf '%h\\n' | awk -F/ '{print $(NF-1)}' | sort)\nreports\n::exit-code::0\n",
+  "stderr": "",
+  "ok": true,
+  "security": {
+    "network": "none",
+    "capabilities": "dropped",
+    "no_new_privileges": true,
+    "memory": "256m",
+    "cpus": "1",
+    "pids_limit": 128,
+    "tmpfs": [
+      "/tmp",
+      "/var"
+    ]
+  }
+}

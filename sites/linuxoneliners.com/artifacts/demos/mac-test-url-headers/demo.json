@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 194,
+  "elapsed_ms": 189,
   "stdout": "::fixture-ready::\n$ printf '%s\\n' 'HTTP/2 200' 'content-type: text/html' 'cache-control: max-age=300'\nHTTP/2 200\ncontent-type: text/html\ncache-control: max-age=300\n::exit-code::0\n$ printf '%s\\n' 'HTTP/2 301' 'location: https://www.example.com/' | awk 'BEGIN{IGNORECASE=1} /HTTP|location|content-type|cache-control/'\nHTTP/2 301\nlocation: https://www.example.com/\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

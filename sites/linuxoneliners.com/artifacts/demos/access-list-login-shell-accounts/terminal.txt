@@ -1,0 +1,17 @@
+::fixture-ready::
+$ sed -n '1,8p' fixtures/user-access-audit/etc/passwd
+root:x:0:0:root:/root:/bin/bash
+daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin
+alex:x:1000:1000:Alex Admin:/home/alex:/bin/bash
+deploy:x:1001:1001:Deploy Bot:/home/deploy:/bin/bash
+reports:x:1002:1002:Reports Service:/home/reports:/usr/sbin/nologin
+breakglass:x:1003:1003:Break Glass:/home/breakglass:/bin/bash
+backup:x:1004:1004:Backup Service:/srv/backup:/usr/sbin/nologin
+::exit-code::0
+$ awk -F: '$7 ~ /(bash|sh|zsh)$/ {printf "%s %s\n", $1, $7}' fixtures/user-access-audit/etc/passwd
+root /bin/bash
+alex /bin/bash
+deploy /bin/bash
+breakglass /bin/bash
+::exit-code::0

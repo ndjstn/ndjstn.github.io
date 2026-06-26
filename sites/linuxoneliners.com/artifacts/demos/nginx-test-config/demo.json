@@ -7,7 +7,7 @@
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
   "elapsed_ms": 196,
-  "stdout": "::fixture-ready::\n$ nginx -t\nnginx: the configuration file /etc/nginx/nginx.conf syntax is ok\nnginx: configuration file /etc/nginx/nginx.conf test is successful\n::exit-code::0\n$ ls -l /etc/nginx/sites-enabled/\ntotal 0\nlrwxrwxrwx 1 root root 38 Jun 26 00:16 example.com -> /etc/nginx/sites-available/example.com\n::exit-code::0\n$ grep -R \"server_name\" /etc/nginx/sites-enabled/\n/etc/nginx/sites-enabled/example.com:    server_name example.com www.example.com;\n::exit-code::0\n",
+  "stdout": "::fixture-ready::\n$ nginx -t\nnginx: the configuration file /etc/nginx/nginx.conf syntax is ok\nnginx: configuration file /etc/nginx/nginx.conf test is successful\n::exit-code::0\n$ ls -l /etc/nginx/sites-enabled/\ntotal 0\nlrwxrwxrwx 1 root root 38 Jun 26 00:19 example.com -> /etc/nginx/sites-available/example.com\n::exit-code::0\n$ grep -R \"server_name\" /etc/nginx/sites-enabled/\n/etc/nginx/sites-enabled/example.com:    server_name example.com www.example.com;\n::exit-code::0\n",
   "stderr": "",
   "ok": true,
   "security": {

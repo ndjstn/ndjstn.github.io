@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 208,
+  "elapsed_ms": 189,
   "stdout": "::fixture-ready::\n$ find backup -type f -printf '%s %p\\n' | sort -n\n0 backup/.snapshot\n0 backup/tmp/empty.cache\n13 backup/old-report.csv\n26 backup/content/index.md\n39 backup/app/config.yml\n::exit-code::0\n$ find backup -type f -size 0 -print\nbackup/tmp/empty.cache\nbackup/.snapshot\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

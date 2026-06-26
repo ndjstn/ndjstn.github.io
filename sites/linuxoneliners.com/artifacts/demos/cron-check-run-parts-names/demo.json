@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 194,
+  "elapsed_ms": 200,
   "stdout": "::fixture-ready::\n$ find /etc/cron.daily -maxdepth 1 -type f -printf '%f\\n' | sort\napt-compat\ndb.backup\ndpkg\nlogrotate\n::exit-code::0\n$ run-parts --test /etc/cron.daily\n/etc/cron.daily/apt-compat\n/etc/cron.daily/dpkg\n/etc/cron.daily/logrotate\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

@@ -1,0 +1,15 @@
+::fixture-ready::
+$ cut -d: -f1,2 fixtures/user-access-audit/etc/shadow
+root:!
+daemon:*
+www-data:*
+alex:$y$j9T$demoHashOnlyAlex
+deploy:!
+reports:!
+breakglass:$y$j9T$demoHashOnlyBreakglass
+backup:!
+::exit-code::0
+$ awk -F: '$2 !~ /^(!|\*)/ {print $1}' fixtures/user-access-audit/etc/shadow
+alex
+breakglass
+::exit-code::0

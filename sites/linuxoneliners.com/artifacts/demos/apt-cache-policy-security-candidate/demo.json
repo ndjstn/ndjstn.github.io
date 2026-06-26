@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 221,
+  "elapsed_ms": 183,
   "stdout": "::fixture-ready::\n$ apt-cache policy openssl\nopenssl:\n  Installed: 3.0.13-0ubuntu3.5\n  Candidate: 3.0.13-0ubuntu3.6\n  Version table:\n     3.0.13-0ubuntu3.6 500\n        500 http://security.ubuntu.com/ubuntu noble-security/main amd64 Packages\n *** 3.0.13-0ubuntu3.5 100\n        100 /var/lib/dpkg/status\n::exit-code::0\n$ apt-cache policy openssl | sed -n '/Installed:/p;/Candidate:/p;/security/p'\n  Installed: 3.0.13-0ubuntu3.5\n  Candidate: 3.0.13-0ubuntu3.6\n        500 http://security.ubuntu.com/ubuntu noble-security/main amd64 Packages\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

@@ -1,0 +1,11 @@
+::fixture-ready::
+$ grep 'sudo:' fixtures/user-access-audit/logs/auth.log
+Jun 25 08:12:19 host sudo:     alex : TTY=pts/0 ; PWD=/srv/app ; USER=root ; COMMAND=/usr/bin/systemctl reload nginx
+Jun 25 09:04:02 host sudo:   deploy : TTY=pts/1 ; PWD=/srv/app ; USER=root ; COMMAND=/usr/bin/journalctl -u app.service
+Jun 25 10:16:02 host sudo: breakglass : TTY=pts/2 ; PWD=/root ; USER=root ; COMMAND=/usr/bin/passwd alex
+::exit-code::0
+$ sed -n 's/.*sudo: *\([^: ]*\).*COMMAND=\(.*\)$/\1 -> \2/p' fixtures/user-access-audit/logs/auth.log | sort
+alex -> /usr/bin/systemctl reload nginx
+breakglass -> /usr/bin/passwd alex
+deploy -> /usr/bin/journalctl -u app.service
+::exit-code::0

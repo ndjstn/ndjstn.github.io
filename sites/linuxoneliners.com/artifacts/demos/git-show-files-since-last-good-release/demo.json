@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 230,
+  "elapsed_ms": 241,
   "stdout": "::fixture-ready::\n$ cd /lab/git-recovery-rollback && git diff --stat release-2026-06-25-1000..HEAD\n app/config.yml                   | 4 ++--\n db/migrate.sql                   | 1 +\n public/index.html                | 2 +-\n releases/2026-06-25-1030/VERSION | 2 ++\n 4 files changed, 6 insertions(+), 3 deletions(-)\n::exit-code::0\n$ cd /lab/git-recovery-rollback && git diff --name-status release-2026-06-25-1000..HEAD\nM\tapp/config.yml\nA\tdb/migrate.sql\nM\tpublic/index.html\nA\treleases/2026-06-25-1030/VERSION\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

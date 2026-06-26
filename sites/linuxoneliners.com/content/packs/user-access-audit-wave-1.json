@@ -1,0 +1,452 @@
+[
+  {
+    "slug": "access-list-login-shell-accounts",
+    "title": "List Accounts with Login Shells",
+    "series": "cybersecurity-triage",
+    "hook": "Login shells are the first account inventory to review.",
+    "problem": "You need to separate human or interactive accounts from service accounts in a passwd-style file.",
+    "command": "awk -F: '$7 ~ /(bash|sh|zsh)$/ {printf \"%s %s\\n\", $1, $7}' fixtures/user-access-audit/etc/passwd",
+    "danger": "safe",
+    "starting_state": "A fixture-local passwd file contains root, service accounts, deploy accounts, and emergency accounts.",
+    "what_changed": "Nothing changes. The command reads a fixture-local passwd stub and prints accounts with shell-like login programs.",
+    "when_to_use": "Use during server handoff, user access reviews, and first-response checks before changing accounts.",
+    "when_not_to_use": "Do not disable accounts from this list alone; confirm ownership, automation, and operational purpose first.",
+    "undo": "No undo needed because this command is read-only.",
+    "expected_output": "Usernames and login shells for accounts that can start an interactive shell.",
+    "terminal_demo": {
+      "fixture": "containers/user-access-audit-lab",
+      "commands": [
+        "sed -n '1,8p' fixtures/user-access-audit/etc/passwd",
+        "awk -F: '$7 ~ /(bash|sh|zsh)$/ {printf \"%s %s\\n\", $1, $7}' fixtures/user-access-audit/etc/passwd"
+      ]
+    },
+    "shorts": {
+      "format": "vertical",
+      "duration_target_seconds": 28,
+      "title": "Who can get a shell?",
+      "voiceover": "Start an access review by listing accounts with shell-like login programs, then verify whether each one still has a reason to exist.",
+      "caption": "Login shells deserve review."
+    },
+    "linkedin": {
+      "question": "Do you inventory login-capable accounts before changing server access?",
+      "cta": "Separate shell users from service accounts first."
+    },
+    "youtube": {
+      "playlist": "User Access Audit",
+      "description": "List accounts with login shells from a fixture-local passwd file."
+    },
+    "experiments": [
+      {
+        "id": "access_login_shell_accounts",
+        "metric": "save_rate",
+        "variant_a": "Who can get a shell?",
+        "variant_b": "Separate shell users from services."
+      }
+    ]
+  },
+  {
+    "slug": "access-find-password-enabled-accounts",
+    "title": "Find Password-Enabled Accounts",
+    "series": "cybersecurity-triage",
+    "hook": "A shell account with an unlocked password hash deserves extra attention.",
+    "problem": "You need to identify accounts whose shadow field is not locked with ! or *.",
+    "command": "awk -F: '$2 !~ /^(!|\\*)/ {print $1}' fixtures/user-access-audit/etc/shadow",
+    "danger": "safe",
+    "starting_state": "A fixture-local shadow file uses locked markers for most accounts and demo placeholder hashes for two accounts.",
+    "what_changed": "Nothing changes. The command reads the fixture-local shadow stub and prints accounts whose password field is not locked.",
+    "when_to_use": "Use during access audits when you need to distinguish locked accounts from accounts that may accept password authentication.",
+    "when_not_to_use": "Do not infer SSH password login policy from shadow alone; also check sshd configuration and PAM policy on real systems.",
+    "undo": "No undo needed because this command is read-only.",
+    "expected_output": "Account names with non-locked password fields.",
+    "terminal_demo": {
+      "fixture": "containers/user-access-audit-lab",
+      "commands": [
+        "cut -d: -f1,2 fixtures/user-access-audit/etc/shadow",
+        "awk -F: '$2 !~ /^(!|\\*)/ {print $1}' fixtures/user-access-audit/etc/shadow"
+      ]
+    },
+    "shorts": {
+      "format": "vertical",
+      "duration_target_seconds": 30,
+      "title": "Find unlocked passwords.",
+      "voiceover": "In a shadow file, locked accounts usually start with an exclamation mark or star. Filter for accounts that do not.",
+      "caption": "Unlocked password fields need review."
+    },
+    "linkedin": {
+      "question": "Do you check locked versus password-enabled accounts during access reviews?",
+      "cta": "Pair shadow review with SSH policy before changing anything."
+    },
+    "youtube": {
+      "playlist": "User Access Audit",
+      "description": "Find accounts whose shadow password field is not locked."
+    },
+    "experiments": [
+      {
+        "id": "access_password_enabled_accounts",
+        "metric": "completion_rate",
+        "variant_a": "Unlocked password fields.",
+        "variant_b": "Which accounts can still use passwords?"
+      }
+    ]
+  },
+  {
+    "slug": "access-review-sudo-grants",
+    "title": "Review sudo Grants",
+    "series": "cybersecurity-triage",
+    "hook": "Privilege paths should be visible before you remove or approve access.",
+    "problem": "You need a compact view of sudo group membership and sudoers rules from fixture-local stubs.",
+    "command": "awk -F: '$1==\"sudo\" {print \"sudo group: \" $4}' fixtures/user-access-audit/etc/group; grep -RhnE '^[^#].*ALL=' fixtures/user-access-audit/etc/sudoers fixtures/user-access-audit/etc/sudoers.d",
+    "danger": "safe",
+    "starting_state": "Fixture-local group and sudoers files include group-based admin access and command-limited deploy rules.",
+    "what_changed": "Nothing changes. The command reads fixture-local group and sudoers stubs and prints privilege grants.",
+    "when_to_use": "Use when auditing who can elevate privileges or when preparing to remove stale access.",
+    "when_not_to_use": "Do not edit sudoers based only on this summary; validate syntax and account ownership on real systems.",
+    "undo": "No undo needed because this command is read-only.",
+    "expected_output": "sudo group members followed by uncommented sudoers lines that grant privileges.",
+    "terminal_demo": {
+      "fixture": "containers/user-access-audit-lab",
+      "commands": [
+        "cat fixtures/user-access-audit/etc/group fixtures/user-access-audit/etc/sudoers fixtures/user-access-audit/etc/sudoers.d/app-deploy",
+        "awk -F: '$1==\"sudo\" {print \"sudo group: \" $4}' fixtures/user-access-audit/etc/group; grep -RhnE '^[^#].*ALL=' fixtures/user-access-audit/etc/sudoers fixtures/user-access-audit/etc/sudoers.d"
+      ]
+    },
+    "shorts": {
+      "format": "vertical",
+      "duration_target_seconds": 34,
+      "title": "Review sudo paths.",
+      "voiceover": "Sudo access can come from groups or direct rules. Print both before approving, removing, or narrowing privilege.",
+      "caption": "Privilege paths should be explicit."
+    },
+    "linkedin": {
+      "question": "Do you review sudo group membership and direct sudoers rules together?",
+      "cta": "Make every privilege path visible before editing."
+    },
+    "youtube": {
+      "playlist": "User Access Audit",
+      "description": "Summarize sudo group membership and sudoers grants from fixture-local stubs."
+    },
+    "experiments": [
+      {
+        "id": "access_review_sudo_grants",
+        "metric": "save_rate",
+        "variant_a": "Privilege paths should be explicit.",
+        "variant_b": "Groups and sudoers both matter."
+      }
+    ]
+  },
+  {
+    "slug": "access-count-authorized-keys-by-user",
+    "title": "Count authorized_keys by User",
+    "series": "cybersecurity-triage",
+    "hook": "authorized_keys is the practical SSH access list.",
+    "problem": "You need to find which home directories have authorized_keys files and how many active key lines each contains.",
+    "command": "find fixtures/user-access-audit/home -path '*/.ssh/authorized_keys' -exec sh -c 'for f do user=$(basename \"$(dirname \"$(dirname \"$f\")\")\"); keys=$(grep -vc \"^[[:space:]]*#\" \"$f\"); printf \"%s %s %s\\n\" \"$user\" \"$keys\" \"$f\"; done' sh {} + | sort",
+    "danger": "safe",
+    "starting_state": "Fixture-local home directories include authorized_keys files for human, deploy, emergency, and stale service accounts.",
+    "what_changed": "Nothing changes. The command reads fixture-local authorized_keys files and counts non-comment lines.",
+    "when_to_use": "Use during SSH access inventory, offboarding, or server handoff when keys may outlive account ownership.",
+    "when_not_to_use": "Do not remove keys just because they exist; confirm owner, source system, and current dependency first.",
+    "undo": "No undo needed because this command is read-only.",
+    "expected_output": "Usernames, active key counts, and authorized_keys file paths.",
+    "terminal_demo": {
+      "fixture": "containers/user-access-audit-lab",
+      "commands": [
+        "find fixtures/user-access-audit/home -path '*/.ssh/authorized_keys' -print | sort",
+        "find fixtures/user-access-audit/home -path '*/.ssh/authorized_keys' -exec sh -c 'for f do user=$(basename \"$(dirname \"$(dirname \"$f\")\")\"); keys=$(grep -vc \"^[[:space:]]*#\" \"$f\"); printf \"%s %s %s\\n\" \"$user\" \"$keys\" \"$f\"; done' sh {} + | sort"
+      ]
+    },
+    "shorts": {
+      "format": "vertical",
+      "duration_target_seconds": 32,
+      "title": "Count SSH keys by user.",
+      "voiceover": "Find authorized keys files, count active key lines, and turn scattered SSH access into a reviewable list.",
+      "caption": "authorized_keys is practical access inventory."
+    },
+    "linkedin": {
+      "question": "Do you count authorized_keys entries by user during offboarding?",
+      "cta": "Inventory SSH keys before removing access."
+    },
+    "youtube": {
+      "playlist": "User Access Audit",
+      "description": "Count active authorized_keys lines by user from fixture-local home directories."
+    },
+    "experiments": [
+      {
+        "id": "access_count_authorized_keys_by_user",
+        "metric": "watch_time",
+        "variant_a": "Count SSH keys by user.",
+        "variant_b": "Turn keys into an access list."
+      }
+    ]
+  },
+  {
+    "slug": "access-find-keys-for-nologin-users",
+    "title": "Find SSH Keys for nologin Users",
+    "series": "cybersecurity-triage",
+    "hook": "A nologin shell does not automatically mean SSH keys are irrelevant.",
+    "problem": "You need to spot accounts that have authorized_keys files even though their passwd shell is nologin.",
+    "command": "comm -12 <(awk -F: '$7 !~ /(bash|sh|zsh)$/ {print $1}' fixtures/user-access-audit/etc/passwd | sort) <(find fixtures/user-access-audit/home -path '*/.ssh/authorized_keys' -printf '%h\\n' | awk -F/ '{print $(NF-1)}' | sort)",
+    "danger": "safe",
+    "starting_state": "The fixture has service-style accounts and one nologin account with an old authorized_keys file.",
+    "what_changed": "Nothing changes. The command compares fixture-local passwd accounts with authorized_keys owners.",
+    "when_to_use": "Use when checking for stale SSH key files after service account changes or offboarding.",
+    "when_not_to_use": "Do not assume every match is exploitable; SSH daemon options, forced commands, and account policy can change behavior.",
+    "undo": "No undo needed because this command is read-only.",
+    "expected_output": "Account names that are nologin in passwd but still have authorized_keys files.",
+    "terminal_demo": {
+      "fixture": "containers/user-access-audit-lab",
+      "commands": [
+        "awk -F: '{print $1, $7}' fixtures/user-access-audit/etc/passwd | sort",
+        "comm -12 <(awk -F: '$7 !~ /(bash|sh|zsh)$/ {print $1}' fixtures/user-access-audit/etc/passwd | sort) <(find fixtures/user-access-audit/home -path '*/.ssh/authorized_keys' -printf '%h\\n' | awk -F/ '{print $(NF-1)}' | sort)"
+      ]
+    },
+    "shorts": {
+      "format": "vertical",
+      "duration_target_seconds": 33,
+      "title": "Find keys on nologin accounts.",
+      "voiceover": "Compare nologin accounts against authorized keys owners to find stale SSH access files that deserve review.",
+      "caption": "nologin accounts can still have key files."
+    },
+    "linkedin": {
+      "question": "Do you check for authorized_keys files on service or nologin accounts?",
+      "cta": "Compare account policy with the files that grant access."
+    },
+    "youtube": {
+      "playlist": "User Access Audit",
+      "description": "Compare passwd shells with authorized_keys owners to find stale SSH key files."
+    },
+    "experiments": [
+      {
+        "id": "access_keys_for_nologin_users",
+        "metric": "completion_rate",
+        "variant_a": "Find stale key files.",
+        "variant_b": "Compare nologin users to SSH keys."
+      }
+    ]
+  },
+  {
+    "slug": "access-show-successful-logins-and-sudo",
+    "title": "Show Successful Logins and sudo Use",
+    "series": "cybersecurity-triage",
+    "hook": "Access reviews need both who logged in and who elevated privileges.",
+    "problem": "You need a compact access timeline from auth logs that includes successful SSH logins and sudo commands.",
+    "command": "grep -E 'Accepted publickey|sudo:' fixtures/user-access-audit/logs/auth.log",
+    "danger": "safe",
+    "starting_state": "A fixture-local auth log contains accepted SSH public-key logins, failed noise, and sudo command audit lines.",
+    "what_changed": "Nothing changes. The command filters the fixture-local auth log for successful access and privilege-use lines.",
+    "when_to_use": "Use during first response, server handoff, or after a suspicious change to build a quick access timeline.",
+    "when_not_to_use": "Do not treat this as a complete audit trail; also check rotated logs, system journal, and identity-provider logs on real systems.",
+    "undo": "No undo needed because this command is read-only.",
+    "expected_output": "Accepted SSH login lines and sudo command lines in log order.",
+    "terminal_demo": {
+      "fixture": "containers/user-access-audit-lab",
+      "commands": [
+        "sed -n '1,8p' fixtures/user-access-audit/logs/auth.log",
+        "grep -E 'Accepted publickey|sudo:' fixtures/user-access-audit/logs/auth.log"
+      ]
+    },
+    "shorts": {
+      "format": "vertical",
+      "duration_target_seconds": 30,
+      "title": "Build an access timeline.",
+      "voiceover": "Filter auth logs for accepted SSH logins and sudo lines so real access stands apart from failed background noise.",
+      "caption": "Logins plus sudo make the timeline."
+    },
+    "linkedin": {
+      "question": "Do you combine successful SSH logins and sudo lines when reviewing access?",
+      "cta": "Build the timeline before changing access."
+    },
+    "youtube": {
+      "playlist": "User Access Audit",
+      "description": "Filter auth logs for accepted SSH public-key logins and sudo command use."
+    },
+    "experiments": [
+      {
+        "id": "access_successful_logins_and_sudo",
+        "metric": "save_rate",
+        "variant_a": "Logins plus sudo.",
+        "variant_b": "Build the access timeline first."
+      }
+    ]
+  },
+  {
+    "slug": "access-list-privileged-group-members",
+    "title": "List Privileged Group Members",
+    "series": "cybersecurity-triage",
+    "hook": "Group membership can grant more access than the username suggests.",
+    "problem": "You need to review accounts listed in privileged groups such as sudo, adm, or docker.",
+    "command": "awk -F: '$1 ~ /^(sudo|adm|docker)$/ && $4 != \"\" {print $1 \": \" $4}' fixtures/user-access-audit/etc/group",
+    "danger": "safe",
+    "starting_state": "A fixture-local group file includes administrative, log-reading, and container-runtime groups with named members.",
+    "what_changed": "Nothing changes. The command reads a fixture-local group stub and prints populated privileged groups.",
+    "when_to_use": "Use during access reviews when group membership may grant root, log, or runtime control.",
+    "when_not_to_use": "Do not remove group members from this output alone; confirm role ownership, automation, and approval records first.",
+    "undo": "No undo needed because this command is read-only.",
+    "expected_output": "Privileged group names followed by their listed members.",
+    "terminal_demo": {
+      "fixture": "containers/user-access-audit-lab",
+      "commands": [
+        "cat fixtures/user-access-audit/etc/group",
+        "awk -F: '$1 ~ /^(sudo|adm|docker)$/ && $4 != \"\" {print $1 \": \" $4}' fixtures/user-access-audit/etc/group"
+      ]
+    },
+    "shorts": {
+      "format": "vertical",
+      "duration_target_seconds": 29,
+      "title": "Review privileged groups.",
+      "voiceover": "Sudo is not the only group that matters. Print privileged groups with members so hidden access paths are visible.",
+      "caption": "Groups can be access paths."
+    },
+    "linkedin": {
+      "question": "Do you review docker and adm membership alongside sudo during access audits?",
+      "cta": "Check privileged groups before changing users."
+    },
+    "youtube": {
+      "playlist": "User Access Audit",
+      "description": "List members of privileged groups from a fixture-local group file."
+    },
+    "experiments": [
+      {
+        "id": "access_privileged_group_members",
+        "metric": "save_rate",
+        "variant_a": "Groups can be access paths.",
+        "variant_b": "Review sudo, adm, and docker together."
+      }
+    ]
+  },
+  {
+    "slug": "access-summarize-sudo-commands-by-user",
+    "title": "Summarize sudo Commands by User",
+    "series": "cybersecurity-triage",
+    "hook": "Privilege history is easier to review when users and commands are separated.",
+    "problem": "You need to extract sudo users and command paths from auth log lines.",
+    "command": "sed -n 's/.*sudo: *\\([^: ]*\\).*COMMAND=\\(.*\\)$/\\1 -> \\2/p' fixtures/user-access-audit/logs/auth.log | sort",
+    "danger": "safe",
+    "starting_state": "A fixture-local auth log contains sudo command audit lines for several accounts.",
+    "what_changed": "Nothing changes. The command filters sudo log lines and extracts the acting user plus command.",
+    "when_to_use": "Use during access reviews, incident triage, or post-change checks when privilege use matters.",
+    "when_not_to_use": "Do not assume this covers every privileged action; rotated logs, journal data, and direct root sessions may add context.",
+    "undo": "No undo needed because this command is read-only.",
+    "expected_output": "A sorted list of sudo users mapped to the commands they ran.",
+    "terminal_demo": {
+      "fixture": "containers/user-access-audit-lab",
+      "commands": [
+        "grep 'sudo:' fixtures/user-access-audit/logs/auth.log",
+        "sed -n 's/.*sudo: *\\([^: ]*\\).*COMMAND=\\(.*\\)$/\\1 -> \\2/p' fixtures/user-access-audit/logs/auth.log | sort"
+      ]
+    },
+    "shorts": {
+      "format": "vertical",
+      "duration_target_seconds": 31,
+      "title": "Summarize sudo history.",
+      "voiceover": "Extract the sudo user and command from auth logs so privilege use becomes a short review list instead of raw log noise.",
+      "caption": "Privilege history should be readable."
+    },
+    "linkedin": {
+      "question": "Do you summarize sudo commands by user before reviewing the full auth log?",
+      "cta": "Turn sudo logs into a readable access timeline."
+    },
+    "youtube": {
+      "playlist": "User Access Audit",
+      "description": "Extract sudo users and commands from fixture-local auth logs."
+    },
+    "experiments": [
+      {
+        "id": "access_sudo_commands_by_user",
+        "metric": "completion_rate",
+        "variant_a": "Privilege history should be readable.",
+        "variant_b": "Who ran which sudo command?"
+      }
+    ]
+  },
+  {
+    "slug": "access-review-breakglass-account",
+    "title": "Review a Breakglass Account",
+    "series": "cybersecurity-triage",
+    "hook": "Emergency accounts should be easy to find and hard to ignore.",
+    "problem": "You need to collect account, group, SSH key, and log evidence for a breakglass user from fixture-local files.",
+    "command": "grep -Rhn 'breakglass' fixtures/user-access-audit/etc fixtures/user-access-audit/home fixtures/user-access-audit/logs",
+    "danger": "safe",
+    "starting_state": "The fixture includes a breakglass account with a login shell, sudo membership, an SSH key, and recent auth activity.",
+    "what_changed": "Nothing changes. The command searches fixture-local account, access, and log stubs for the breakglass username.",
+    "when_to_use": "Use when auditing emergency accounts or checking whether exceptional access was used recently.",
+    "when_not_to_use": "Do not delete emergency access from search results alone; verify business continuity requirements and approval policy.",
+    "undo": "No undo needed because this command is read-only.",
+    "expected_output": "Line-numbered matches showing breakglass records across account files, keys, and logs.",
+    "terminal_demo": {
+      "fixture": "containers/user-access-audit-lab",
+      "commands": [
+        "grep -Rhn 'breakglass' fixtures/user-access-audit/etc fixtures/user-access-audit/home",
+        "grep -Rhn 'breakglass' fixtures/user-access-audit/etc fixtures/user-access-audit/home fixtures/user-access-audit/logs"
+      ]
+    },
+    "shorts": {
+      "format": "vertical",
+      "duration_target_seconds": 32,
+      "title": "Review breakglass access.",
+      "voiceover": "Emergency access should not be mysterious. Search account files, SSH keys, and logs for the breakglass user in one pass.",
+      "caption": "Emergency accounts need evidence."
+    },
+    "linkedin": {
+      "question": "Do you include recent log use when reviewing emergency accounts?",
+      "cta": "Collect account, key, and log evidence together."
+    },
+    "youtube": {
+      "playlist": "User Access Audit",
+      "description": "Search fixture-local account files, SSH keys, and logs for a breakglass account."
+    },
+    "experiments": [
+      {
+        "id": "access_review_breakglass_account",
+        "metric": "watch_time",
+        "variant_a": "Emergency accounts need evidence.",
+        "variant_b": "Find breakglass access everywhere."
+      }
+    ]
+  },
+  {
+    "slug": "access-find-ssh-key-users-with-sudo",
+    "title": "Find SSH Key Users with sudo",
+    "series": "cybersecurity-triage",
+    "hook": "The highest-priority access review starts where SSH keys and sudo overlap.",
+    "problem": "You need to identify users who both have authorized_keys files and appear in the sudo group.",
+    "command": "comm -12 <(find fixtures/user-access-audit/home -path '*/.ssh/authorized_keys' -printf '%h\\n' | awk -F/ '{print $(NF-1)}' | sort) <(awk -F: '$1==\"sudo\" {gsub(\",\",\"\\n\",$4); print $4}' fixtures/user-access-audit/etc/group | sort)",
+    "danger": "safe",
+    "starting_state": "The fixture has several authorized_keys files and a sudo group with named administrative users.",
+    "what_changed": "Nothing changes. The command compares fixture-local SSH key owners with sudo group members.",
+    "when_to_use": "Use during access reviews to prioritize accounts that can log in by key and elevate privileges.",
+    "when_not_to_use": "Do not treat this as the only privilege path; direct sudoers rules and other privileged groups can matter too.",
+    "undo": "No undo needed because this command is read-only.",
+    "expected_output": "Usernames present in both the authorized_keys owner list and the sudo group.",
+    "terminal_demo": {
+      "fixture": "containers/user-access-audit-lab",
+      "commands": [
+        "find fixtures/user-access-audit/home -path '*/.ssh/authorized_keys' -printf '%h\\n' | awk -F/ '{print $(NF-1)}' | sort",
+        "comm -12 <(find fixtures/user-access-audit/home -path '*/.ssh/authorized_keys' -printf '%h\\n' | awk -F/ '{print $(NF-1)}' | sort) <(awk -F: '$1==\"sudo\" {gsub(\",\",\"\\n\",$4); print $4}' fixtures/user-access-audit/etc/group | sort)"
+      ]
+    },
+    "shorts": {
+      "format": "vertical",
+      "duration_target_seconds": 33,
+      "title": "Find key users with sudo.",
+      "voiceover": "Compare authorized keys owners with sudo group members. Accounts in both lists deserve the first review pass.",
+      "caption": "SSH keys plus sudo is priority access."
+    },
+    "linkedin": {
+      "question": "Do you prioritize accounts that have both SSH keys and sudo access?",
+      "cta": "Intersect key ownership with privileged groups."
+    },
+    "youtube": {
+      "playlist": "User Access Audit",
+      "description": "Find users who both own authorized_keys files and appear in the sudo group."
+    },
+    "experiments": [
+      {
+        "id": "access_ssh_key_users_with_sudo",
+        "metric": "save_rate",
+        "variant_a": "SSH keys plus sudo is priority access.",
+        "variant_b": "Find the overlap first."
+      }
+    ]
+  }
+]

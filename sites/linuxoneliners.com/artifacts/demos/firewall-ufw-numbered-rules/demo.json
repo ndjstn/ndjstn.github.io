@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 203,
+  "elapsed_ms": 182,
   "stdout": "::fixture-ready::\n$ ufw status numbered\nStatus: active\n\n     To                         Action      From\n     --                         ------      ----\n[ 1] 22/tcp                     ALLOW IN    203.0.113.0/24\n[ 2] 80/tcp                     ALLOW IN    Anywhere\n[ 3] 443/tcp                    ALLOW IN    Anywhere\n[ 4] 25/tcp                     ALLOW IN    Anywhere\n[ 5] 5432/tcp                   DENY IN     Anywhere\n::exit-code::0\n$ ufw status numbered | awk '/ALLOW|DENY/ {print}'\n[ 1] 22/tcp                     ALLOW IN    203.0.113.0/24\n[ 2] 80/tcp                     ALLOW IN    Anywhere\n[ 3] 443/tcp                    ALLOW IN    Anywhere\n[ 4] 25/tcp                     ALLOW IN    Anywhere\n[ 5] 5432/tcp                   DENY IN     Anywhere\n::exit-code::0\n",
   "stderr": "",
   "ok": true,
