@@ -1,3 +1,25 @@
+<% featured_lessons = lessons.first(24) %>
+<% series_counts = lessons.group_by { |lesson| lesson["series"] }.transform_values(&:length) %>
+<% search_index = series.map do |item|
+  {
+    "type" => "problem",
+    "title" => item["title"],
+    "summary" => item["summary"],
+    "detail" => "#{series_counts.fetch(item["id"], 0)} fixes",
+    "url" => "series/#{item["id"]}/",
+    "terms" => [item["title"], item["summary"], item["id"]].join(" ")
+  }
+end + lessons.map do |lesson|
+  {
+    "type" => "fix",
+    "title" => lesson["title"],
+    "summary" => lesson["hook"],
+    "detail" => "#{series_title(lesson["series"])} - #{lesson["danger"]}",
+    "url" => "lessons/#{lesson["slug"]}/",
+    "terms" => [lesson["title"], lesson["hook"], lesson["problem"], lesson["command"], series_title(lesson["series"]), lesson["slug"]].join(" ")
+  }
+end %>
+
 <main>
   <section class="hero">
     <p class="eyebrow">linux fixes you can inspect first</p>
@@ -11,8 +33,33 @@
       <% end %>
     </div>
     <div class="hero-actions">
+      <form class="site-search" role="search" data-search-form>
+        <label class="sr-only" for="site-search">Search fixes and problem areas</label>
+        <input id="site-search" name="q" type="search" autocomplete="off" spellcheck="false" placeholder="Search fixes and problems" data-search-input>
+      </form>
       <a class="button" href="#lessons">Find a fix</a>
       <a class="button ghost" href="#series">Browse by problem</a>
+    </div>
+    <div class="search-results" data-search-results hidden></div>
+    <script type="application/json" id="search-index"><%= json_script(search_index) %></script>
+  </section>
+
+  <section id="series" class="section">
+    <div class="section-heading">
+      <p class="eyebrow">problem areas</p>
+      <h2>Browse by what broke</h2>
+    </div>
+    <div class="problem-grid">
+      <% series.each do |item| %>
+        <article>
+          <div class="card-meta">
+            <span><%= series_counts.fetch(item["id"], 0) %> fixes</span>
+            <span class="danger safe">safe</span>
+          </div>
+          <h3><a href="series/<%= item["id"] %>/"><%= item["title"] %></a></h3>
+          <p><%= item["summary"] %></p>
+        </article>
+      <% end %>
     </div>
   </section>
 
@@ -21,8 +68,9 @@
       <p class="eyebrow">verified fixes</p>
       <h2>Start here</h2>
     </div>
-    <div class="lesson-grid">
-      <% lessons.each do |lesson| %>
+    <p class="section-intro">A focused entry set from the <%= lessons.length %>-lesson library. Use the problem areas for the full catalog.</p>
+    <div class="lesson-grid featured-grid">
+      <% featured_lessons.each do |lesson| %>
         <article class="lesson-card">
           <div class="card-meta">
             <span><%= series_title(lesson["series"]) %></span>
@@ -31,22 +79,6 @@
           <h3><a href="lessons/<%= lesson["slug"] %>/"><%= lesson["title"] %></a></h3>
           <p><%= lesson["hook"] %></p>
           <code><%= lesson["command"] %></code>
-        </article>
-      <% end %>
-    </div>
-  </section>
-
-  <section id="series" class="section split">
-    <div>
-      <p class="eyebrow">problem areas</p>
-      <h2>Browse by what broke</h2>
-      <p>Use the category that matches the problem: disk pressure, logs, permissions, Nginx, DNS, defensive checks, or Mac terminal work.</p>
-    </div>
-    <div class="series-list">
-      <% series.each do |item| %>
-        <article>
-          <h3><a href="series/<%= item["id"] %>/"><%= item["title"] %></a></h3>
-          <p><%= item["summary"] %></p>
         </article>
       <% end %>
     </div>

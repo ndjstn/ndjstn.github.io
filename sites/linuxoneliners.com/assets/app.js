@@ -80,6 +80,117 @@ function trackEvent(name, properties = {}) {
   }
 }
 
+function escapeHtml(value) {
+  return String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;");
+}
+
+function setupSiteSearch() {
+  const input = document.querySelector("[data-search-input]");
+  const form = document.querySelector("[data-search-form]");
+  const results = document.querySelector("[data-search-results]");
+  const indexNode = document.getElementById("search-index");
+
+  if (!input || !form || !results || !indexNode) return;
+
+  let items = [];
+  try {
+    items = JSON.parse(indexNode.textContent).map((item) => ({
+      ...item,
+      titleText: String(item.title || "").toLowerCase(),
+      summaryText: String(item.summary || "").toLowerCase(),
+      detailText: String(item.detail || "").toLowerCase(),
+      termsText: String(item.terms || "").toLowerCase()
+    }));
+  } catch {
+    return;
+  }
+
+  let rankedResults = [];
+
+  function scoreItem(item, terms, query) {
+    let score = 0;
+
+    terms.forEach((term) => {
+      if (item.titleText === term) score += 140;
+      if (item.titleText.startsWith(term)) score += 95;
+      if (item.titleText.includes(term)) score += 70;
+      if (item.summaryText.includes(term)) score += 36;
+      if (item.detailText.includes(term)) score += 28;
+      if (item.termsText.includes(term)) score += 18;
+    });
+
+    if (item.titleText.includes(query)) score += 35;
+    if (item.type === "problem") score += 4;
+
+    return score;
+  }
+
+  function renderSearch() {
+    const query = input.value.trim().toLowerCase();
+    const terms = query.split(/\s+/).filter(Boolean);
+
+    if (query.length < 2 || terms.length === 0) {
+      rankedResults = [];
+      results.hidden = true;
+      results.innerHTML = "";
+      return;
+    }
+
+    rankedResults = items
+      .map((item) => ({ item, score: scoreItem(item, terms, query) }))
+      .filter((entry) => entry.score > 0)
+      .sort((a, b) => b.score - a.score || a.item.title.localeCompare(b.item.title))
+      .slice(0, 8);
+
+    if (rankedResults.length === 0) {
+      results.hidden = false;
+      results.innerHTML = `
+        <p class="search-results-title">No matches</p>
+        <p>Try a command, service name, error, or problem area.</p>
+      `;
+      return;
+    }
+
+    const countLabel = rankedResults.length === 1 ? "match" : "matches";
+    results.hidden = false;
+    results.innerHTML = `
+      <p class="search-results-title">Best ${countLabel}</p>
+      <div class="search-result-list">
+        ${rankedResults.map(({ item }) => `
+          <article class="search-result">
+            <span class="search-result-meta">${escapeHtml(item.type)} / ${escapeHtml(item.detail)}</span>
+            <a href="${escapeHtml(item.url)}" data-track="site_search_result" data-track-label="${escapeHtml(item.type)}:${escapeHtml(item.title)}">${escapeHtml(item.title)}</a>
+            <p>${escapeHtml(item.summary)}</p>
+          </article>
+        `).join("")}
+      </div>
+    `;
+  }
+
+  input.addEventListener("input", renderSearch);
+
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    renderSearch();
+
+    trackEvent("site_search", {
+      queryLength: input.value.trim().length,
+      resultCount: rankedResults.length
+    });
+
+    if (rankedResults[0]) {
+      window.location.href = rankedResults[0].item.url;
+    }
+  });
+}
+
+setupSiteSearch();
+
 document.addEventListener("click", async (event) => {
   const button = event.target.closest("[data-copy]");
   const tracked = event.target.closest("[data-track]");

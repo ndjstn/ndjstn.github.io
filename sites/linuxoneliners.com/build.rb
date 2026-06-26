@@ -57,6 +57,13 @@ class TemplateContext
   def html_attr(value)
     CGI.escapeHTML(value.to_s)
   end
+
+  def json_script(value)
+    JSON.generate(value)
+        .gsub("<", "\\u003c")
+        .gsub(">", "\\u003e")
+        .gsub("&", "\\u0026")
+  end
 end
 
 series_by_id = CONTENT["series"].to_h { |series| [series["id"], series] }
