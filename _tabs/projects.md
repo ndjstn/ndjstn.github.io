@@ -4,20 +4,16 @@ icon: fas fa-briefcase
 order: 2
 ---
 
-This page collects the projects I am actively ready to discuss with hiring teams. Each entry links to the write-up and the source repository or reproducible code.
+This page collects the projects I am actively ready to discuss with hiring teams. Each entry links to the write-up and describes the reproducible code path.
 
 ## Featured portfolio projects
 
-| Project | Focus | Source |
+| Project | Focus | Reproducibility |
 | --- | --- | --- |
-| [Ames housing price modeling](/posts/house-prices-ames-stacked-ensembles/) | Stacked Ridge, XGBoost, and LightGBM ensemble for housing price prediction with residual and feature analysis. | [Repository](https://github.com/ndjstn/house-prices-ames) |
-| [Credit card fraud thresholding](/posts/credit-card-fraud-default-threshold/) | Fraud detection on an imbalanced benchmark, with decision-threshold and cost-curve analysis. | [Repository](https://github.com/ndjstn/credit-card-fraud) |
-| [California housing dataset audit](/posts/california-housing-prices-dataset/) | Regression teaching project focused on unit of analysis, capped targets, geography, and baseline modeling. | [Source script](https://github.com/ndjstn/ndjstn.github.io/blob/main/scripts/generate_california_housing_article_images.py) |
+| [Ames housing price modeling](/posts/house-prices-ames-stacked-ensembles/) | Stacked Ridge, XGBoost, and LightGBM ensemble for housing price prediction with residual and feature analysis. | Notebook, source, and outputs are described in the write-up. |
+| [Credit card fraud thresholding](/posts/credit-card-fraud-default-threshold/) | Fraud detection on an imbalanced benchmark, with decision-threshold and cost-curve analysis. | Notebook, source, and outputs are described in the write-up. |
+| [California housing dataset audit](/posts/california-housing-prices-dataset/) | Regression teaching project focused on unit of analysis, capped targets, geography, and baseline modeling. | Figure-generation script and data source are described in the write-up. |
 
 ## Current rule
 
-I keep this page intentionally narrow. A project belongs here only when the write-up, repository, figures, and public explanation are ready to be reviewed together.
-
-## Repository access
-
-The current public GitHub profile is available at [github.com/ndjstn](https://github.com/ndjstn). Individual project pages link to the relevant source repository, notebook, script, or reproducible code path.
+I keep this page intentionally narrow. A project belongs here only when the write-up, figures, and public explanation are ready to be reviewed together.

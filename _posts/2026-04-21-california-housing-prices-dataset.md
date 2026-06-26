@@ -176,7 +176,7 @@ But as a teaching dataset, it still holds up because it makes the right mistakes
 
 ## Reproducibility note
 
-The figures in this post were generated from the public StatLib archive used by scikit-learn. The script is in the site repository at [`scripts/generate_california_housing_article_images.py`](https://github.com/ndjstn/ndjstn.github.io/blob/main/scripts/generate_california_housing_article_images.py). It downloads the archive, recreates the scikit-learn-style derived columns, and writes the post images under `assets/img/posts/california-housing-prices/`.
+The figures in this post were generated from the public StatLib archive used by scikit-learn. The figure-generation script is `scripts/generate_california_housing_article_images.py`. It downloads the archive, recreates the scikit-learn-style derived columns, and writes the post images under `assets/img/posts/california-housing-prices/`.
 
 ## References
 
@@ -185,7 +185,7 @@ scikit-learn developers. (2026). <em>fetch_california_housing</em>. scikit-learn
 </div>
 
 <div id="ref-sklearn-descr" style="padding-left: 1.5em; text-indent: -1.5em; margin-bottom: 0.85rem;">
-scikit-learn developers. (2026). <em>California Housing dataset description</em>. scikit-learn source documentation. <a href="https://raw.githubusercontent.com/scikit-learn/scikit-learn/main/sklearn/datasets/descr/california_housing.rst">https://raw.githubusercontent.com/scikit-learn/scikit-learn/main/sklearn/datasets/descr/california_housing.rst</a>
+scikit-learn developers. (2026). <em>California Housing dataset description</em>. scikit-learn source documentation.
 </div>
 
 <div id="ref-pace-barry" style="padding-left: 1.5em; text-indent: -1.5em; margin-bottom: 0.85rem;">

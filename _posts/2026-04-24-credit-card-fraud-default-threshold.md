@@ -119,7 +119,7 @@ The test set has 123 positives, which means the recall estimates have confidence
 
 ## Reproducibility note
 
-Everything here comes from one pipeline that runs end-to-end from the Kaggle CSV through preprocessing, stratified splitting, the three model fits, the cost sweep, and the figure generation. The narrative version of the pipeline is in `notebooks/credit-card-fraud-analysis.ipynb`, the single-script version is in `src/run_analysis.py`, and the figures and numeric outputs are all in the public repository at [github.com/ndjstn/credit-card-fraud](https://github.com/ndjstn/credit-card-fraud). The dataset is the `creditcard.csv` file from the Machine Learning Group ULB dataset on Kaggle ([Dal Pozzolo et al., 2015](#ref-dalpozzolo2015)).
+Everything here comes from one pipeline that runs end-to-end from the Kaggle CSV through preprocessing, stratified splitting, the three model fits, the cost sweep, and the figure generation. The narrative version of the pipeline is in `notebooks/credit-card-fraud-analysis.ipynb`, the single-script version is in `src/run_analysis.py`, and the figures and numeric outputs are part of the reproducible project bundle. The dataset is the `creditcard.csv` file from the Machine Learning Group ULB dataset on Kaggle ([Dal Pozzolo et al., 2015](#ref-dalpozzolo2015)).
 
 ## References
 

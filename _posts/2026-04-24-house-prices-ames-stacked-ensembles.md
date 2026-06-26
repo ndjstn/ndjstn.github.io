@@ -93,7 +93,7 @@ Not a causal analysis either. OverallQual is a composite. GrLivArea is partially
 
 ## Reproducibility note
 
-Source code, notebook, and outputs at [github.com/ndjstn/house-prices-ames](https://github.com/ndjstn/house-prices-ames). Dataset is the `train.csv` from Kaggle's House Prices competition ([De Cock, 2011](#ref-decock)).
+Source code, notebook, and outputs are maintained as a reproducible project bundle. Dataset is the `train.csv` from Kaggle's House Prices competition ([De Cock, 2011](#ref-decock)).
 
 ## References
 
