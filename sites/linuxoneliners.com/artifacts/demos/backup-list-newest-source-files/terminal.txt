@@ -7,7 +7,7 @@ source/content/index.md
 ::exit-code::0
 $ find source -type f -printf '%TY-%Tm-%Td %TH:%TM %p\n' | sort
 2026-06-25 12:10 source/content/index.md
-2026-06-26 00:24 source/app/config.yml
-2026-06-26 00:24 source/assets/logo.svg
-2026-06-26 00:24 source/content/about.md
+2026-06-26 00:27 source/app/config.yml
+2026-06-26 00:27 source/assets/logo.svg
+2026-06-26 00:27 source/content/about.md
 ::exit-code::0

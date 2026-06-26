@@ -1,0 +1,25 @@
+{
+  "slug": "ssh-password-auth-exceptions",
+  "title": "Find SSH Password Auth Exceptions",
+  "fixture": "containers/ssh-auth-access-triage-lab",
+  "command_count": 2,
+  "container_tool": "docker",
+  "image": "localhost/linuxoneliners-lab:latest",
+  "exit_code": 0,
+  "elapsed_ms": 187,
+  "stdout": "::fixture-ready::\n$ sed -n '1,12p' etc/ssh/sshd_config\nPort 22\nPubkeyAuthentication yes\nPasswordAuthentication no\nKbdInteractiveAuthentication no\nAuthenticationMethods publickey\nAllowUsers alice deploy\nInclude etc/ssh/sshd_config.d/*.conf\nMatch Address 198.51.100.0/24\n    PasswordAuthentication yes\n    AuthenticationMethods publickey,password\n::exit-code::0\n$ awk '/^Match /{ctx=$0} /^PasswordAuthentication|^AuthenticationMethods|^[[:space:]]+PasswordAuthentication|^[[:space:]]+AuthenticationMethods/ {print (ctx ? ctx : \"global\") \": \" $0}' etc/ssh/sshd_config\nglobal: PasswordAuthentication no\nglobal: AuthenticationMethods publickey\nMatch Address 198.51.100.0/24:     PasswordAuthentication yes\nMatch Address 198.51.100.0/24:     AuthenticationMethods publickey,password\n::exit-code::0\n",
+  "stderr": "",
+  "ok": true,
+  "security": {
+    "network": "none",
+    "capabilities": "dropped",
+    "no_new_privileges": true,
+    "memory": "256m",
+    "cpus": "1",
+    "pids_limit": 128,
+    "tmpfs": [
+      "/tmp",
+      "/var"
+    ]
+  }
+}

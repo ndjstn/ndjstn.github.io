@@ -1,0 +1,452 @@
+[
+  {
+    "slug": "ssh-auth-outcome-summary",
+    "title": "Summarize SSH Auth Outcomes",
+    "series": "cybersecurity-triage",
+    "hook": "SSH logs get easier to read once accepted and failed methods are counted.",
+    "problem": "You need a quick count of successful and failed SSH authentication methods from an auth log.",
+    "command": "awk '/sshd/ && /Accepted/ {print \"accepted\", $7} /sshd/ && /Failed password/ {print \"failed\", \"password\"} /sshd/ && /Failed publickey/ {print \"failed\", \"publickey\"}' logs/auth.log | sort | uniq -c | sort -nr",
+    "danger": "safe",
+    "starting_state": "A fixture auth log contains accepted public-key logins plus failed password and public-key attempts.",
+    "what_changed": "Nothing changes. The command reads the auth log and counts matching SSH authentication outcomes.",
+    "when_to_use": "Use during SSH access triage when you need a fast read on whether noise is password guessing, stale keys, or real accepted access.",
+    "when_not_to_use": "Do not treat this as a full incident timeline; review the matching source lines before making account or firewall changes.",
+    "undo": "No undo needed because this command is read-only.",
+    "expected_output": "A count-sorted summary of accepted public-key logins and failed SSH authentication methods.",
+    "terminal_demo": {
+      "fixture": "containers/ssh-auth-access-triage-lab",
+      "commands": [
+        "grep 'sshd' logs/auth.log",
+        "awk '/sshd/ && /Accepted/ {print \"accepted\", $7} /sshd/ && /Failed password/ {print \"failed\", \"password\"} /sshd/ && /Failed publickey/ {print \"failed\", \"publickey\"}' logs/auth.log | sort | uniq -c | sort -nr"
+      ]
+    },
+    "shorts": {
+      "format": "vertical",
+      "duration_target_seconds": 31,
+      "title": "Count SSH auth outcomes.",
+      "voiceover": "Before reading every SSH line, count accepted and failed authentication methods so the access pattern is visible.",
+      "caption": "Summarize SSH auth before deep triage."
+    },
+    "linkedin": {
+      "question": "Do you summarize SSH authentication outcomes before reading every auth log line?",
+      "cta": "Turn noisy SSH logs into a small evidence table first."
+    },
+    "youtube": {
+      "playlist": "SSH Authentication and Access Triage",
+      "description": "Count accepted and failed SSH authentication methods from auth logs."
+    },
+    "experiments": [
+      {
+        "id": "ssh_auth_outcome_summary",
+        "metric": "save_rate",
+        "variant_a": "Count SSH outcomes first.",
+        "variant_b": "Password noise or accepted access?"
+      }
+    ]
+  },
+  {
+    "slug": "ssh-password-auth-exceptions",
+    "title": "Find SSH Password Auth Exceptions",
+    "series": "cybersecurity-triage",
+    "hook": "A global password-auth setting can be changed later by a Match block.",
+    "problem": "You need to see whether sshd_config has password authentication exceptions under Match rules.",
+    "command": "awk '/^Match /{ctx=$0} /^PasswordAuthentication|^AuthenticationMethods|^[[:space:]]+PasswordAuthentication|^[[:space:]]+AuthenticationMethods/ {print (ctx ? ctx : \"global\") \": \" $0}' etc/ssh/sshd_config",
+    "danger": "safe",
+    "starting_state": "An sshd_config fixture disables password authentication globally but enables it for one source range in a Match block.",
+    "what_changed": "Nothing changes. The command reads sshd_config and prints authentication directives with their current Match context.",
+    "when_to_use": "Use when a host appears key-only but some users or source ranges can still use password authentication.",
+    "when_not_to_use": "Do not reload SSH based only on this excerpt; validate the full effective sshd configuration on a real host.",
+    "undo": "No undo needed because this command is read-only.",
+    "expected_output": "Authentication directives labeled as global or attached to the active Match block.",
+    "terminal_demo": {
+      "fixture": "containers/ssh-auth-access-triage-lab",
+      "commands": [
+        "sed -n '1,12p' etc/ssh/sshd_config",
+        "awk '/^Match /{ctx=$0} /^PasswordAuthentication|^AuthenticationMethods|^[[:space:]]+PasswordAuthentication|^[[:space:]]+AuthenticationMethods/ {print (ctx ? ctx : \"global\") \": \" $0}' etc/ssh/sshd_config"
+      ]
+    },
+    "shorts": {
+      "format": "vertical",
+      "duration_target_seconds": 33,
+      "title": "Find SSH password exceptions.",
+      "voiceover": "PasswordAuthentication no is not the whole story if a Match block later changes the rule for a source range.",
+      "caption": "Global SSH policy can have exceptions."
+    },
+    "linkedin": {
+      "question": "Do you check SSH Match blocks before assuming password auth is disabled everywhere?",
+      "cta": "Read authentication directives with their context, not as isolated lines."
+    },
+    "youtube": {
+      "playlist": "SSH Authentication and Access Triage",
+      "description": "Find password authentication exceptions inside sshd_config Match blocks."
+    },
+    "experiments": [
+      {
+        "id": "ssh_password_auth_exceptions",
+        "metric": "watch_time",
+        "variant_a": "Password auth exception.",
+        "variant_b": "Match blocks change SSH policy."
+      }
+    ]
+  },
+  {
+    "slug": "ssh-access-allow-deny-rules",
+    "title": "List SSH Allow and Deny Rules",
+    "series": "cybersecurity-triage",
+    "hook": "SSH access can be shaped by users, groups, and Match blocks.",
+    "problem": "You need to find SSH allow-list and deny-list directives across the main config and include files.",
+    "command": "grep -RhnE '^(AllowUsers|AllowGroups|DenyUsers|DenyGroups|Match )' etc/ssh",
+    "danger": "safe",
+    "starting_state": "A fixture has AllowUsers in the main sshd_config and DenyUsers plus AllowGroups in an included file.",
+    "what_changed": "Nothing changes. The command searches fixture-local SSH config files and prints matching access directives with file and line numbers.",
+    "when_to_use": "Use during access reviews, server handoffs, or when a user can authenticate but still cannot open an SSH session.",
+    "when_not_to_use": "Do not remove allow or deny rules from this output alone; confirm group membership, Match context, and operational ownership first.",
+    "undo": "No undo needed because this command is read-only.",
+    "expected_output": "Line-numbered SSH access directives from sshd_config and included files.",
+    "terminal_demo": {
+      "fixture": "containers/ssh-auth-access-triage-lab",
+      "commands": [
+        "find etc/ssh -type f -print | sort",
+        "grep -RhnE '^(AllowUsers|AllowGroups|DenyUsers|DenyGroups|Match )' etc/ssh"
+      ]
+    },
+    "shorts": {
+      "format": "vertical",
+      "duration_target_seconds": 29,
+      "title": "List SSH access rules.",
+      "voiceover": "Search sshd config and includes for allow and deny directives before changing access.",
+      "caption": "SSH access rules can hide in includes."
+    },
+    "linkedin": {
+      "question": "Do you search sshd_config includes before changing SSH allow-list rules?",
+      "cta": "Review all SSH access directives before editing one file."
+    },
+    "youtube": {
+      "playlist": "SSH Authentication and Access Triage",
+      "description": "Find SSH AllowUsers, AllowGroups, DenyUsers, DenyGroups, and Match directives."
+    },
+    "experiments": [
+      {
+        "id": "ssh_access_allow_deny_rules",
+        "metric": "completion_rate",
+        "variant_a": "Find allow and deny rules.",
+        "variant_b": "SSH includes can carry access policy."
+      }
+    ]
+  },
+  {
+    "slug": "ssh-authorized-keys-inventory",
+    "title": "Inventory SSH authorized_keys",
+    "series": "cybersecurity-triage",
+    "hook": "authorized_keys files are the practical list of who can use key-based SSH.",
+    "problem": "You need to list authorized key files and identify the key type plus comment for each entry.",
+    "command": "find home -path '*/.ssh/authorized_keys' -exec awk '{print FILENAME, $1, $NF}' {} +",
+    "danger": "safe",
+    "starting_state": "Home directories contain authorized_keys files for human and deploy accounts, including one file with loose permissions.",
+    "what_changed": "Nothing changes. The command reads authorized_keys files and prints the source file, key type, and trailing comment.",
+    "when_to_use": "Use during SSH access inventory, account handoff, or before removing a user's key-based access.",
+    "when_not_to_use": "Do not delete keys from this output alone; confirm the comment, owner, fingerprint, and current dependency first.",
+    "undo": "No undo needed because this command is read-only.",
+    "expected_output": "Each authorized_keys entry with its file path, key type, and comment.",
+    "terminal_demo": {
+      "fixture": "containers/ssh-auth-access-triage-lab",
+      "commands": [
+        "find home -path '*/.ssh/authorized_keys' -printf '%m %p\\n' | sort",
+        "find home -path '*/.ssh/authorized_keys' -exec awk '{print FILENAME, $1, $NF}' {} +"
+      ]
+    },
+    "shorts": {
+      "format": "vertical",
+      "duration_target_seconds": 30,
+      "title": "Inventory authorized keys.",
+      "voiceover": "List authorized keys by file, key type, and comment so SSH access has an auditable starting point.",
+      "caption": "authorized_keys is practical access inventory."
+    },
+    "linkedin": {
+      "question": "Do you inventory authorized_keys comments before removing SSH access?",
+      "cta": "Build the key inventory before changing account access."
+    },
+    "youtube": {
+      "playlist": "SSH Authentication and Access Triage",
+      "description": "List authorized_keys entries with file paths, key types, and comments."
+    },
+    "experiments": [
+      {
+        "id": "ssh_authorized_keys_inventory",
+        "metric": "save_rate",
+        "variant_a": "Inventory practical SSH access.",
+        "variant_b": "Find key comments before removal."
+      }
+    ]
+  },
+  {
+    "slug": "ssh-accepted-login-sources",
+    "title": "List Accepted SSH Login Sources",
+    "series": "cybersecurity-triage",
+    "hook": "Successful SSH logins are the access events worth anchoring first.",
+    "problem": "You need to list accepted SSH public-key logins with user and source IP.",
+    "command": "awk '/Accepted publickey/ {print $1, $2, $3, $9, $11}' logs/auth.log",
+    "danger": "safe",
+    "starting_state": "An auth log contains accepted public-key logins for human and deploy accounts.",
+    "what_changed": "Nothing changes. The command reads auth.log and prints timestamp, username, and source IP from accepted public-key events.",
+    "when_to_use": "Use when building an SSH access timeline or checking which accounts had successful key-based logins.",
+    "when_not_to_use": "Do not assume these are the only access events unless you also search for password, keyboard-interactive, and other Accepted patterns.",
+    "undo": "No undo needed because this command is read-only.",
+    "expected_output": "Accepted SSH login rows with date, time, user, and source IP.",
+    "terminal_demo": {
+      "fixture": "containers/ssh-auth-access-triage-lab",
+      "commands": [
+        "grep 'Accepted publickey' logs/auth.log",
+        "awk '/Accepted publickey/ {print $1, $2, $3, $9, $11}' logs/auth.log"
+      ]
+    },
+    "shorts": {
+      "format": "vertical",
+      "duration_target_seconds": 28,
+      "title": "List accepted SSH sources.",
+      "voiceover": "Start SSH triage with accepted logins. Print the timestamp, account, and source IP before chasing failed noise.",
+      "caption": "Accepted logins anchor the access timeline."
+    },
+    "linkedin": {
+      "question": "Do you anchor SSH triage on successful logins before reviewing failed attempts?",
+      "cta": "List accepted SSH sources before changing access."
+    },
+    "youtube": {
+      "playlist": "SSH Authentication and Access Triage",
+      "description": "List successful SSH public-key logins with users and source IPs."
+    },
+    "experiments": [
+      {
+        "id": "ssh_accepted_login_sources",
+        "metric": "watch_time",
+        "variant_a": "Accepted SSH sources.",
+        "variant_b": "Start with successful access."
+      }
+    ]
+  },
+  {
+    "slug": "ssh-failed-publickey-users",
+    "title": "Show Failed SSH Public-Key Users",
+    "series": "cybersecurity-triage",
+    "hook": "A failed public-key attempt often points to stale keys or the wrong account.",
+    "problem": "You need to extract users and source IPs from failed SSH public-key attempts.",
+    "command": "awk '/Failed publickey/ {print $9, $11}' logs/auth.log | sort | uniq -c | sort -nr",
+    "danger": "safe",
+    "starting_state": "An auth log contains a failed public-key attempt for a deploy account.",
+    "what_changed": "Nothing changes. The command reads auth.log and counts failed public-key attempts by user and source IP.",
+    "when_to_use": "Use when a key-based SSH login fails and you need to separate stale-key failures from password guessing.",
+    "when_not_to_use": "Do not rotate or remove keys based on this count alone; inspect key fingerprints and account ownership first.",
+    "undo": "No undo needed because this command is read-only.",
+    "expected_output": "Counted failed public-key attempts grouped by username and source IP.",
+    "terminal_demo": {
+      "fixture": "containers/ssh-auth-access-triage-lab",
+      "commands": [
+        "grep 'Failed publickey' logs/auth.log",
+        "awk '/Failed publickey/ {print $9, $11}' logs/auth.log | sort | uniq -c | sort -nr"
+      ]
+    },
+    "shorts": {
+      "format": "vertical",
+      "duration_target_seconds": 27,
+      "title": "Find failed SSH keys.",
+      "voiceover": "Filter failed public-key events to see which account and source are trying a key that does not work.",
+      "caption": "Failed public-key is different from password noise."
+    },
+    "linkedin": {
+      "question": "Do you separate failed public-key SSH attempts from password guessing?",
+      "cta": "Treat stale-key evidence differently from brute-force noise."
+    },
+    "youtube": {
+      "playlist": "SSH Authentication and Access Triage",
+      "description": "Extract users and sources from failed SSH public-key attempts."
+    },
+    "experiments": [
+      {
+        "id": "ssh_failed_publickey_users",
+        "metric": "completion_rate",
+        "variant_a": "Stale key attempt.",
+        "variant_b": "Public-key failure, not password noise."
+      }
+    ]
+  },
+  {
+    "slug": "ssh-authorized-key-type-summary",
+    "title": "Summarize SSH Authorized Key Types",
+    "series": "cybersecurity-triage",
+    "hook": "Key inventory gets more useful when old key types stand out.",
+    "problem": "You need to count SSH key algorithms used in authorized_keys files.",
+    "command": "find home -path '*/.ssh/authorized_keys' -exec awk '{print $1}' {} + | sort | uniq -c | sort -nr",
+    "danger": "safe",
+    "starting_state": "Authorized_keys files contain a mix of ed25519 and rsa entries.",
+    "what_changed": "Nothing changes. The command reads authorized_keys files and counts the first field, which is the key type.",
+    "when_to_use": "Use during SSH access reviews when you need to spot legacy key types before planning cleanup.",
+    "when_not_to_use": "Do not delete RSA keys solely because they appear here; confirm policy, fingerprint, owner, and compatibility first.",
+    "undo": "No undo needed because this command is read-only.",
+    "expected_output": "A count-sorted list of authorized SSH key types.",
+    "terminal_demo": {
+      "fixture": "containers/ssh-auth-access-triage-lab",
+      "commands": [
+        "find home -path '*/.ssh/authorized_keys' -exec awk '{print FILENAME, $1}' {} +",
+        "find home -path '*/.ssh/authorized_keys' -exec awk '{print $1}' {} + | sort | uniq -c | sort -nr"
+      ]
+    },
+    "shorts": {
+      "format": "vertical",
+      "duration_target_seconds": 29,
+      "title": "Count SSH key types.",
+      "voiceover": "Count authorized key algorithms so old or unexpected key types stand out during access review.",
+      "caption": "Key type summary before key cleanup."
+    },
+    "linkedin": {
+      "question": "Do you summarize authorized SSH key types before planning key cleanup?",
+      "cta": "Use key type counts as inventory, not as an automatic delete list."
+    },
+    "youtube": {
+      "playlist": "SSH Authentication and Access Triage",
+      "description": "Count key algorithms across authorized_keys files."
+    },
+    "experiments": [
+      {
+        "id": "ssh_authorized_key_type_summary",
+        "metric": "save_rate",
+        "variant_a": "Count key algorithms.",
+        "variant_b": "Spot legacy SSH keys."
+      }
+    ]
+  },
+  {
+    "slug": "ssh-authorized-keys-loose-modes",
+    "title": "Find Loose authorized_keys Modes",
+    "series": "cybersecurity-triage",
+    "hook": "SSH key access files should not be looser than intended.",
+    "problem": "You need to find authorized_keys files with permissions broader than 600.",
+    "command": "find home -path '*/.ssh/authorized_keys' -printf '%m %p\\n' | awk '$1 > 600'",
+    "danger": "safe",
+    "starting_state": "One authorized_keys file is mode 644 while the others are mode 600.",
+    "what_changed": "Nothing changes. The command lists authorized_keys modes and filters files whose numeric mode is greater than 600.",
+    "when_to_use": "Use during SSH access audits or after provisioning user keys to spot loose access-file permissions.",
+    "when_not_to_use": "Do not chmod files blindly from this list; confirm ownership, platform expectations, and deployment tooling first.",
+    "undo": "No undo needed because this command is read-only.",
+    "expected_output": "Mode and path for authorized_keys files with permissions broader than 600.",
+    "terminal_demo": {
+      "fixture": "containers/ssh-auth-access-triage-lab",
+      "commands": [
+        "find home -path '*/.ssh/authorized_keys' -printf '%m %p\\n' | sort",
+        "find home -path '*/.ssh/authorized_keys' -printf '%m %p\\n' | awk '$1 > 600'"
+      ]
+    },
+    "shorts": {
+      "format": "vertical",
+      "duration_target_seconds": 28,
+      "title": "Find loose authorized_keys.",
+      "voiceover": "List authorized_keys modes and flag files broader than 600 before changing SSH access.",
+      "caption": "Review loose SSH access-file modes."
+    },
+    "linkedin": {
+      "question": "Do you check authorized_keys permissions during SSH access reviews?",
+      "cta": "Find loose modes before editing keys or accounts."
+    },
+    "youtube": {
+      "playlist": "SSH Authentication and Access Triage",
+      "description": "Find authorized_keys files with permissions broader than 600."
+    },
+    "experiments": [
+      {
+        "id": "ssh_authorized_keys_loose_modes",
+        "metric": "completion_rate",
+        "variant_a": "Loose authorized_keys modes.",
+        "variant_b": "Check key file permissions."
+      }
+    ]
+  },
+  {
+    "slug": "ssh-auth-policy-order",
+    "title": "Show SSH Auth Policy Order",
+    "series": "cybersecurity-triage",
+    "hook": "The order of Include, Match, and authentication directives changes how SSH policy reads.",
+    "problem": "You need to see SSH authentication directives in file order, including Include and Match lines.",
+    "command": "grep -nE '^(Include|Match |PubkeyAuthentication|PasswordAuthentication|AuthenticationMethods|[[:space:]]+(PasswordAuthentication|AuthenticationMethods))' etc/ssh/sshd_config",
+    "danger": "safe",
+    "starting_state": "An sshd_config fixture has global authentication settings, an Include directive, and a Match block with overrides.",
+    "what_changed": "Nothing changes. The command prints line-numbered policy directives in the order sshd_config presents them.",
+    "when_to_use": "Use when SSH policy looks contradictory and you need to see whether later Match rules override global assumptions.",
+    "when_not_to_use": "Do not treat grep output as a full effective config on production systems; use sshd's config test tooling where available.",
+    "undo": "No undo needed because this command is read-only.",
+    "expected_output": "Line-numbered Include, Match, and authentication directives from sshd_config.",
+    "terminal_demo": {
+      "fixture": "containers/ssh-auth-access-triage-lab",
+      "commands": [
+        "nl -ba etc/ssh/sshd_config",
+        "grep -nE '^(Include|Match |PubkeyAuthentication|PasswordAuthentication|AuthenticationMethods|[[:space:]]+(PasswordAuthentication|AuthenticationMethods))' etc/ssh/sshd_config"
+      ]
+    },
+    "shorts": {
+      "format": "vertical",
+      "duration_target_seconds": 32,
+      "title": "Read SSH policy in order.",
+      "voiceover": "Print Include, Match, and authentication directives in file order so later exceptions are visible.",
+      "caption": "SSH policy order matters."
+    },
+    "linkedin": {
+      "question": "Do you read SSH authentication policy in file order when Match blocks are present?",
+      "cta": "Check policy order before editing sshd_config."
+    },
+    "youtube": {
+      "playlist": "SSH Authentication and Access Triage",
+      "description": "Show SSH authentication policy directives in file order."
+    },
+    "experiments": [
+      {
+        "id": "ssh_auth_policy_order",
+        "metric": "watch_time",
+        "variant_a": "Policy order matters.",
+        "variant_b": "Match can override global settings."
+      }
+    ]
+  },
+  {
+    "slug": "ssh-allowusers-extract",
+    "title": "Extract SSH AllowUsers Accounts",
+    "series": "cybersecurity-triage",
+    "hook": "AllowUsers turns SSH access into an explicit account list.",
+    "problem": "You need to extract each account named in an AllowUsers directive.",
+    "command": "awk '/^AllowUsers/ {for (i = 2; i <= NF; i++) print $i}' etc/ssh/sshd_config",
+    "danger": "safe",
+    "starting_state": "The SSH daemon config contains an AllowUsers directive for alice and deploy.",
+    "what_changed": "Nothing changes. The command reads sshd_config and prints each allowed account on its own line.",
+    "when_to_use": "Use during account reviews, server handoffs, or when checking whether a user is excluded by SSH allow-list policy.",
+    "when_not_to_use": "Do not assume this is the complete access list if AllowGroups, Match blocks, PAM, or cloud-side controls also apply.",
+    "undo": "No undo needed because this command is read-only.",
+    "expected_output": "One SSH AllowUsers account per line.",
+    "terminal_demo": {
+      "fixture": "containers/ssh-auth-access-triage-lab",
+      "commands": [
+        "grep '^AllowUsers' etc/ssh/sshd_config",
+        "awk '/^AllowUsers/ {for (i = 2; i <= NF; i++) print $i}' etc/ssh/sshd_config"
+      ]
+    },
+    "shorts": {
+      "format": "vertical",
+      "duration_target_seconds": 26,
+      "title": "Extract SSH AllowUsers.",
+      "voiceover": "Split AllowUsers into one account per line so the SSH allow-list is easy to review.",
+      "caption": "Make the SSH allow-list readable."
+    },
+    "linkedin": {
+      "question": "Do you extract SSH AllowUsers into a reviewable account list?",
+      "cta": "Turn access directives into a simple checklist before editing."
+    },
+    "youtube": {
+      "playlist": "SSH Authentication and Access Triage",
+      "description": "Extract accounts from an SSH AllowUsers directive."
+    },
+    "experiments": [
+      {
+        "id": "ssh_allowusers_extract",
+        "metric": "save_rate",
+        "variant_a": "Review the SSH allow-list.",
+        "variant_b": "One AllowUsers account per line."
+      }
+    ]
+  }
+]

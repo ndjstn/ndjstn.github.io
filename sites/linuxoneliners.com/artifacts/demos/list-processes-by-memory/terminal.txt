@@ -9,7 +9,7 @@ $ ps -eo pid,comm,%mem,%cpu --sort=-%mem | head
 ::exit-code::0
 $ free -h
                total        used        free      shared  buff/cache   available
-Mem:           125Gi        37Gi        10Gi       258Mi        75Gi        87Gi
+Mem:           125Gi        42Gi       6.3Gi       292Mi        75Gi        83Gi
 Swap:             0B          0B          0B
 ::exit-code::0
 $ df -h

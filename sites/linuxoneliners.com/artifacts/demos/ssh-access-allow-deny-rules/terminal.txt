@@ -1,0 +1,11 @@
+::fixture-ready::
+$ find etc/ssh -type f -print | sort
+etc/ssh/sshd_config
+etc/ssh/sshd_config.d/access.conf
+::exit-code::0
+$ grep -RhnE '^(AllowUsers|AllowGroups|DenyUsers|DenyGroups|Match )' etc/ssh
+1:DenyUsers test oldadmin
+2:AllowGroups ssh-login deployers
+6:AllowUsers alice deploy
+8:Match Address 198.51.100.0/24
+::exit-code::0

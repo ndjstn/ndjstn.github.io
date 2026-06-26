@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 209,
+  "elapsed_ms": 211,
   "stdout": "::fixture-ready::\n$ find /lab/disk-inode-cleanup/var/tmp/uploads -xdev -type f -printf '%TY-%Tm-%Td %10s %p\\n' | sort\n2026-06-01   78643200 /lab/disk-inode-cleanup/var/tmp/uploads/old-export.tar\n2026-06-25   23068672 /lab/disk-inode-cleanup/var/tmp/uploads/recent-export.tar\n::exit-code::0\n$ find /lab/disk-inode-cleanup/var/tmp/uploads -xdev -type f -mtime +7 -printf '%TY-%Tm-%Td %10s %p\\n' | sort\n2026-06-01   78643200 /lab/disk-inode-cleanup/var/tmp/uploads/old-export.tar\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

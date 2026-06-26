@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 174,
+  "elapsed_ms": 179,
   "stdout": "::fixture-ready::\n$ grep 'sudo:' fixtures/user-access-audit/logs/auth.log\nJun 25 08:12:19 host sudo:     alex : TTY=pts/0 ; PWD=/srv/app ; USER=root ; COMMAND=/usr/bin/systemctl reload nginx\nJun 25 09:04:02 host sudo:   deploy : TTY=pts/1 ; PWD=/srv/app ; USER=root ; COMMAND=/usr/bin/journalctl -u app.service\nJun 25 10:16:02 host sudo: breakglass : TTY=pts/2 ; PWD=/root ; USER=root ; COMMAND=/usr/bin/passwd alex\n::exit-code::0\n$ sed -n 's/.*sudo: *\\([^: ]*\\).*COMMAND=\\(.*\\)$/\\1 -> \\2/p' fixtures/user-access-audit/logs/auth.log | sort\nalex -> /usr/bin/systemctl reload nginx\nbreakglass -> /usr/bin/passwd alex\ndeploy -> /usr/bin/journalctl -u app.service\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 190,
+  "elapsed_ms": 175,
   "stdout": "::fixture-ready::\n$ unattended-upgrade --dry-run --debug\nInitial blacklist:\nInitial whitelist:\nPackages that will be upgraded: openssl curl\nChecking: openssl ([<Origin component:'main' archive:'noble-security' origin:'Ubuntu' label:'Ubuntu'>])\nChecking: curl ([<Origin component:'main' archive:'noble-updates' origin:'Ubuntu' label:'Ubuntu'>])\nPackage nginx is not allowed to be upgraded unattended\nDry-run, no packages were installed.\n::exit-code::0\n$ unattended-upgrade --dry-run --debug 2>&1 | sed -n '/Packages that will be upgraded:/,/^$/p'\nPackages that will be upgraded: openssl curl\nChecking: openssl ([<Origin component:'main' archive:'noble-security' origin:'Ubuntu' label:'Ubuntu'>])\nChecking: curl ([<Origin component:'main' archive:'noble-updates' origin:'Ubuntu' label:'Ubuntu'>])\nPackage nginx is not allowed to be upgraded unattended\nDry-run, no packages were installed.\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

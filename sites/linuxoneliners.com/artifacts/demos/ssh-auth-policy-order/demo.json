@@ -1,0 +1,25 @@
+{
+  "slug": "ssh-auth-policy-order",
+  "title": "Show SSH Auth Policy Order",
+  "fixture": "containers/ssh-auth-access-triage-lab",
+  "command_count": 2,
+  "container_tool": "docker",
+  "image": "localhost/linuxoneliners-lab:latest",
+  "exit_code": 0,
+  "elapsed_ms": 199,
+  "stdout": "::fixture-ready::\n$ nl -ba etc/ssh/sshd_config\n     1\tPort 22\n     2\tPubkeyAuthentication yes\n     3\tPasswordAuthentication no\n     4\tKbdInteractiveAuthentication no\n     5\tAuthenticationMethods publickey\n     6\tAllowUsers alice deploy\n     7\tInclude etc/ssh/sshd_config.d/*.conf\n     8\tMatch Address 198.51.100.0/24\n     9\t    PasswordAuthentication yes\n    10\t    AuthenticationMethods publickey,password\n::exit-code::0\n$ grep -nE '^(Include|Match |PubkeyAuthentication|PasswordAuthentication|AuthenticationMethods|[[:space:]]+(PasswordAuthentication|AuthenticationMethods))' etc/ssh/sshd_config\n2:PubkeyAuthentication yes\n3:PasswordAuthentication no\n5:AuthenticationMethods publickey\n7:Include etc/ssh/sshd_config.d/*.conf\n8:Match Address 198.51.100.0/24\n9:    PasswordAuthentication yes\n10:    AuthenticationMethods publickey,password\n::exit-code::0\n",
+  "stderr": "",
+  "ok": true,
+  "security": {
+    "network": "none",
+    "capabilities": "dropped",
+    "no_new_privileges": true,
+    "memory": "256m",
+    "cpus": "1",
+    "pids_limit": 128,
+    "tmpfs": [
+      "/tmp",
+      "/var"
+    ]
+  }
+}

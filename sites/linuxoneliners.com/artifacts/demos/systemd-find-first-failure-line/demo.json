@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 180,
+  "elapsed_ms": 185,
   "stdout": "::fixture-ready::\n$ journalctl -u app-worker -b --no-pager -o short-iso\n2026-06-25T14:20:58-05:00 vps systemd[1]: Started app-worker.service - Background job worker.\n2026-06-25T14:20:58-05:00 vps worker[2081]: loading /etc/app/worker.env\n2026-06-25T14:20:58-05:00 vps worker[2081]: ERROR redis connection refused at 127.0.0.1:6379\n2026-06-25T14:20:59-05:00 vps systemd[1]: app-worker.service: Failed with result 'exit-code'.\n2026-06-25T14:21:04-05:00 vps systemd[1]: app-worker.service: Scheduled restart job, restart counter is at 4.\n2026-06-25T14:22:17-05:00 vps systemd[1]: Started app-worker.service - Background job worker.\n2026-06-25T14:22:17-05:00 vps systemd[2144]: app-worker.service: Failed to determine user credentials: No such process\n2026-06-25T14:22:17-05:00 vps systemd[2144]: app-worker.service: Failed at step USER spawning /srv/app/bin/worker: No such process\n2026-06-25T14:22:17-05:00 vps systemd[1]: app-worker.service: Main process exited, code=exited, status=217/USER\n2026-06-25T14:22:17-05:00 vps systemd[1]: app-worker.service: Failed with result 'exit-code'.\n::exit-code::0\n$ journalctl -u app-worker -b --no-pager -o short-iso | grep -m1 -E 'ERROR|Failed|status='\n2026-06-25T14:20:58-05:00 vps worker[2081]: ERROR redis connection refused at 127.0.0.1:6379\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

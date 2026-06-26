@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 203,
+  "elapsed_ms": 213,
   "stdout": "::fixture-ready::\n$ readlink -f /lab/disk-inode-cleanup/home/deploy/current\n/lab/disk-inode-cleanup/home/deploy/releases/2026-06-25\n::exit-code::0\n$ current=$(readlink -f /lab/disk-inode-cleanup/home/deploy/current); find /lab/disk-inode-cleanup/home/deploy/releases -mindepth 1 -maxdepth 1 -type d ! -samefile \"$current\" -printf '%TY-%Tm-%Td %p\\n' | sort\n2026-06-01 /lab/disk-inode-cleanup/home/deploy/releases/2026-06-01\n2026-06-18 /lab/disk-inode-cleanup/home/deploy/releases/2026-06-18\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

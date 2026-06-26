@@ -1,0 +1,9 @@
+::fixture-ready::
+$ grep 'Accepted publickey' logs/auth.log
+Jun 25 10:01:41 vps sshd[111]: Accepted publickey for alice from 198.51.100.20 port 61422 ssh2: ED25519 SHA256:alicekey
+Jun 25 10:04:22 vps sshd[121]: Accepted publickey for deploy from 198.51.100.21 port 60444 ssh2: ED25519 SHA256:deploykey
+::exit-code::0
+$ awk '/Accepted publickey/ {print $1, $2, $3, $9, $11}' logs/auth.log
+Jun 25 10:01:41 alice 198.51.100.20
+Jun 25 10:04:22 deploy 198.51.100.21
+::exit-code::0

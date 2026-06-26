@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 211,
+  "elapsed_ms": 212,
   "stdout": "::fixture-ready::\n$ find /lab/disk-inode-cleanup/var/cache/app -xdev -type f -printf '%TY-%Tm-%Td\\n' | sort | uniq -c\n    160 2026-06-26\n::exit-code::0\n$ find /lab/disk-inode-cleanup/var/cache/app -xdev -type f -printf '%h\\n' | sort | uniq -c | sort -nr\n    120 /lab/disk-inode-cleanup/var/cache/app/shards/a\n     40 /lab/disk-inode-cleanup/var/cache/app/shards/b\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

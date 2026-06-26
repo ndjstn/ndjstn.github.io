@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 207,
+  "elapsed_ms": 193,
   "stdout": "::fixture-ready::\n$ pg_isready -h 127.0.0.1 -p 5432\n127.0.0.1:5432 - accepting connections\n::exit-code::0\n$ pg_isready -h 127.0.0.1 -p 15432 || true\n127.0.0.1:15432 - no response\n::exit-code::0\n$ ss -ltnp | grep ':5432'\nLISTEN 0      128    127.0.0.1:5432      0.0.0.0:* users:((\"postgres\",pid=421,fd=5))\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

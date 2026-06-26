@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 190,
+  "elapsed_ms": 165,
   "stdout": "::fixture-ready::\n$ grep -RInE '(password=|token=|secret=|Authorization: Bearer)' fixtures/incidents\nfixtures/incidents/app.log:10:2026-06-25T14:07:01Z level=WARN service=api request_id=req-108 msg=token=demoTOKEN123 should_be_redacted\n::exit-code::0\n$ grep -RInE '(password=|token=|secret=|Authorization: Bearer)' fixtures/incidents | awk '{gsub(/password=[^ ]+/, \"password=REDACTED\"); gsub(/token=[^ ]+/, \"token=REDACTED\"); gsub(/secret=[^ ]+/, \"secret=REDACTED\"); gsub(/Authorization: Bearer [A-Za-z0-9._-]+/, \"Authorization: Bearer REDACTED\"); print}'\nfixtures/incidents/app.log:10:2026-06-25T14:07:01Z level=WARN service=api request_id=req-108 msg=token=REDACTED should_be_redacted\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

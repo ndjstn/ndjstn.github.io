@@ -7,14 +7,14 @@ c15c7c6 (tag: release-2026-06-25-1000) Release 2026-06-25 10:00
 ddb9d51 (tag: release-2026-06-24-1700) Release 2026-06-24 17:00
 ::exit-code::0
 $ cd /lab/git-recovery-rollback && git restore -- app/config.yml && git revert --no-edit release-2026-06-25-1030
-[main 5b168be] Revert "Release 2026-06-25 10:30"
- Date: Fri Jun 26 00:24:47 2026 +0000
+[main 13b32e2] Revert "Release 2026-06-25 10:30"
+ Date: Fri Jun 26 00:27:39 2026 +0000
  4 files changed, 3 insertions(+), 6 deletions(-)
  delete mode 100644 db/migrate.sql
  delete mode 100644 releases/2026-06-25-1030/VERSION
 ::exit-code::0
 $ cd /lab/git-recovery-rollback && git log --oneline --decorate -4
-5b168be (HEAD -> main) Revert "Release 2026-06-25 10:30"
+13b32e2 (HEAD -> main) Revert "Release 2026-06-25 10:30"
 de583c6 (tag: release-2026-06-25-1030) Release 2026-06-25 10:30
 c15c7c6 (tag: release-2026-06-25-1000) Release 2026-06-25 10:00
 ddb9d51 (tag: release-2026-06-24-1700) Release 2026-06-24 17:00

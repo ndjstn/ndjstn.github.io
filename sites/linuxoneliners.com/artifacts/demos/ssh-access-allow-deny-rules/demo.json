@@ -1,0 +1,25 @@
+{
+  "slug": "ssh-access-allow-deny-rules",
+  "title": "List SSH Allow and Deny Rules",
+  "fixture": "containers/ssh-auth-access-triage-lab",
+  "command_count": 2,
+  "container_tool": "docker",
+  "image": "localhost/linuxoneliners-lab:latest",
+  "exit_code": 0,
+  "elapsed_ms": 197,
+  "stdout": "::fixture-ready::\n$ find etc/ssh -type f -print | sort\netc/ssh/sshd_config\netc/ssh/sshd_config.d/access.conf\n::exit-code::0\n$ grep -RhnE '^(AllowUsers|AllowGroups|DenyUsers|DenyGroups|Match )' etc/ssh\n1:DenyUsers test oldadmin\n2:AllowGroups ssh-login deployers\n6:AllowUsers alice deploy\n8:Match Address 198.51.100.0/24\n::exit-code::0\n",
+  "stderr": "",
+  "ok": true,
+  "security": {
+    "network": "none",
+    "capabilities": "dropped",
+    "no_new_privileges": true,
+    "memory": "256m",
+    "cpus": "1",
+    "pids_limit": 128,
+    "tmpfs": [
+      "/tmp",
+      "/var"
+    ]
+  }
+}

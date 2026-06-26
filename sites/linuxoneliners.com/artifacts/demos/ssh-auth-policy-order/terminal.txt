@@ -1,0 +1,22 @@
+::fixture-ready::
+$ nl -ba etc/ssh/sshd_config
+     1	Port 22
+     2	PubkeyAuthentication yes
+     3	PasswordAuthentication no
+     4	KbdInteractiveAuthentication no
+     5	AuthenticationMethods publickey
+     6	AllowUsers alice deploy
+     7	Include etc/ssh/sshd_config.d/*.conf
+     8	Match Address 198.51.100.0/24
+     9	    PasswordAuthentication yes
+    10	    AuthenticationMethods publickey,password
+::exit-code::0
+$ grep -nE '^(Include|Match |PubkeyAuthentication|PasswordAuthentication|AuthenticationMethods|[[:space:]]+(PasswordAuthentication|AuthenticationMethods))' etc/ssh/sshd_config
+2:PubkeyAuthentication yes
+3:PasswordAuthentication no
+5:AuthenticationMethods publickey
+7:Include etc/ssh/sshd_config.d/*.conf
+8:Match Address 198.51.100.0/24
+9:    PasswordAuthentication yes
+10:    AuthenticationMethods publickey,password
+::exit-code::0

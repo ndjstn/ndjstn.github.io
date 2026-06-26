@@ -1,0 +1,25 @@
+{
+  "slug": "ssh-authorized-key-type-summary",
+  "title": "Summarize SSH Authorized Key Types",
+  "fixture": "containers/ssh-auth-access-triage-lab",
+  "command_count": 2,
+  "container_tool": "docker",
+  "image": "localhost/linuxoneliners-lab:latest",
+  "exit_code": 0,
+  "elapsed_ms": 192,
+  "stdout": "::fixture-ready::\n$ find home -path '*/.ssh/authorized_keys' -exec awk '{print FILENAME, $1}' {} +\nhome/deploy/.ssh/authorized_keys ssh-ed25519\nhome/bob/.ssh/authorized_keys ssh-rsa\nhome/alice/.ssh/authorized_keys ssh-ed25519\nhome/alice/.ssh/authorized_keys ssh-rsa\n::exit-code::0\n$ find home -path '*/.ssh/authorized_keys' -exec awk '{print $1}' {} + | sort | uniq -c | sort -nr\n      2 ssh-rsa\n      2 ssh-ed25519\n::exit-code::0\n",
+  "stderr": "",
+  "ok": true,
+  "security": {
+    "network": "none",
+    "capabilities": "dropped",
+    "no_new_privileges": true,
+    "memory": "256m",
+    "cpus": "1",
+    "pids_limit": 128,
+    "tmpfs": [
+      "/tmp",
+      "/var"
+    ]
+  }
+}

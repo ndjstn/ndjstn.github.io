@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 179,
+  "elapsed_ms": 186,
   "stdout": "::fixture-ready::\n$ journalctl -p err..alert --since \"2 hours ago\" --no-pager -o short-iso\n2026-06-25T14:03:08+00:00 vps api[1842]: err request_id=req-103 ERROR database timeout after 30000ms\n2026-06-25T14:03:12+00:00 vps api[1842]: err request_id=req-103 ERROR retry failed upstream=db\n2026-06-25T14:05:10+00:00 vps worker[2201]: crit FATAL job runner exited code=137\n2026-06-25T14:06:33+00:00 vps api[1842]: err request_id=req-107 ERROR payment provider returned 500\n::exit-code::0\n$ journalctl -p err..alert --since \"2 hours ago\" --no-pager -o short-iso | awk '{print $1, $3, $4, substr($0,index($0,$5))}'\n2026-06-25T14:03:08+00:00 api[1842]: err request_id=req-103 ERROR database timeout after 30000ms\n2026-06-25T14:03:12+00:00 api[1842]: err request_id=req-103 ERROR retry failed upstream=db\n2026-06-25T14:05:10+00:00 worker[2201]: crit FATAL job runner exited code=137\n2026-06-25T14:06:33+00:00 api[1842]: err request_id=req-107 ERROR payment provider returned 500\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

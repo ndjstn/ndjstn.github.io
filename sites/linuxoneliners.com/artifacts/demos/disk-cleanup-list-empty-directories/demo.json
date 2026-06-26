@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 207,
+  "elapsed_ms": 224,
   "stdout": "::fixture-ready::\n$ find /lab/disk-inode-cleanup/var/cache/app -xdev -maxdepth 3 -type d -print | sort\n/lab/disk-inode-cleanup/var/cache/app\n/lab/disk-inode-cleanup/var/cache/app/empty-old\n/lab/disk-inode-cleanup/var/cache/app/shards\n/lab/disk-inode-cleanup/var/cache/app/shards/a\n/lab/disk-inode-cleanup/var/cache/app/shards/b\n::exit-code::0\n$ find /lab/disk-inode-cleanup/var/cache/app -xdev -depth -type d -empty -print\n/lab/disk-inode-cleanup/var/cache/app/empty-old\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

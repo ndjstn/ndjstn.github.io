@@ -1,0 +1,11 @@
+::fixture-ready::
+$ find home -path '*/.ssh/authorized_keys' -exec awk '{print FILENAME, $1}' {} +
+home/deploy/.ssh/authorized_keys ssh-ed25519
+home/bob/.ssh/authorized_keys ssh-rsa
+home/alice/.ssh/authorized_keys ssh-ed25519
+home/alice/.ssh/authorized_keys ssh-rsa
+::exit-code::0
+$ find home -path '*/.ssh/authorized_keys' -exec awk '{print $1}' {} + | sort | uniq -c | sort -nr
+      2 ssh-rsa
+      2 ssh-ed25519
+::exit-code::0

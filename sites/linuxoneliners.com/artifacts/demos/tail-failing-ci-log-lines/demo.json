@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 185,
+  "elapsed_ms": 194,
   "stdout": "::fixture-ready::\n$ sed -n '1,20p' logs/build.log\nINFO setup complete\nerror test failed in checkout.spec.ts\nfatal deploy stopped before release switch\nTraceback: deploy.py line 42\n::exit-code::0\n$ grep -RInE 'error|failed|exception|traceback|fatal' logs/ | tail -50\nlogs/build.log:2:error test failed in checkout.spec.ts\nlogs/build.log:3:fatal deploy stopped before release switch\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

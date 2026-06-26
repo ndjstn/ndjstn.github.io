@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 203,
+  "elapsed_ms": 185,
   "stdout": "::fixture-ready::\n$ printf '%s\\n' '/opt/homebrew/bin/node'\n/opt/homebrew/bin/node\n::exit-code::0\n$ printf '%s\\n' '/opt/homebrew/bin/node' 'v22.11.0'\n/opt/homebrew/bin/node\nv22.11.0\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

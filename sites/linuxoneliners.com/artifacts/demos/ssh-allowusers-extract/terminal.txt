@@ -1,0 +1,8 @@
+::fixture-ready::
+$ grep '^AllowUsers' etc/ssh/sshd_config
+AllowUsers alice deploy
+::exit-code::0
+$ awk '/^AllowUsers/ {for (i = 2; i <= NF; i++) print $i}' etc/ssh/sshd_config
+alice
+deploy
+::exit-code::0

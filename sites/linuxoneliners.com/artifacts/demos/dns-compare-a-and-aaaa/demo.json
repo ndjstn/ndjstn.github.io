@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 192,
+  "elapsed_ms": 187,
   "stdout": "::fixture-ready::\n$ printf 'A '; dig +short edge.test A; printf 'AAAA '; dig +short edge.test AAAA\nA 203.0.113.10\nAAAA 2001:db8:44::10\n::exit-code::0\n$ curl -4 -I https://edge.test && curl -6 -I https://edge.test\nHTTP/2 200\nserver: edge-fixture\ncontent-type: text/html\n\nipv6_path=connect_failed status=000\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

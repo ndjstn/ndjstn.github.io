@@ -1,0 +1,7 @@
+::fixture-ready::
+$ grep 'Failed publickey' logs/auth.log
+Jun 25 10:03:09 vps sshd[118]: Failed publickey for deploy from 198.51.100.40 port 60210 ssh2: RSA SHA256:olddeploy
+::exit-code::0
+$ awk '/Failed publickey/ {print $9, $11}' logs/auth.log | sort | uniq -c | sort -nr
+      1 deploy 198.51.100.40
+::exit-code::0

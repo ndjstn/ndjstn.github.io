@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 178,
+  "elapsed_ms": 185,
   "stdout": "::fixture-ready::\n$ systemctl status app-worker --no-pager --lines=50\n\u25cf app-worker.service - Background job worker\n     Loaded: loaded (/etc/systemd/system/app-worker.service; enabled; preset: enabled)\n    Drop-In: /etc/systemd/system/app-worker.service.d\n             \u2514\u2500override.conf\n     Active: failed (Result: exit-code) since Thu 2026-06-25 14:22:17 CDT; 4min ago\n   Duration: 1.243s\n    Process: 2144 ExecStart=/srv/app/bin/worker --queue default (code=exited, status=217/USER)\n   Main PID: 2144 (code=exited, status=217/USER)\n        CPU: 38ms\n\nJun 25 14:22:17 vps systemd[1]: Started app-worker.service - Background job worker.\nJun 25 14:22:17 vps systemd[2144]: app-worker.service: Failed to determine user credentials: No such process\nJun 25 14:22:17 vps systemd[2144]: app-worker.service: Failed at step USER spawning /srv/app/bin/worker: No such process\nJun 25 14:22:17 vps systemd[1]: app-worker.service: Main process exited, code=exited, status=217/USER\nJun 25 14:22:17 vps systemd[1]: app-worker.service: Failed with result 'exit-code'.\n::exit-code::0\n$ systemctl show app-worker --property=Result,ExecMainCode,ExecMainStatus,NRestarts --no-pager\nResult=exit-code\nExecMainCode=1\nExecMainStatus=217\nNRestarts=5\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

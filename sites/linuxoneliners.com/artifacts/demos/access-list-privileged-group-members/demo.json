@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 192,
+  "elapsed_ms": 193,
   "stdout": "::fixture-ready::\n$ cat fixtures/user-access-audit/etc/group\nroot:x:0:\ndaemon:x:1:\nwww-data:x:33:\nalex:x:1000:\ndeploy:x:1001:\nreports:x:1002:\nbreakglass:x:1003:\nbackup:x:1004:\nsudo:x:27:alex,breakglass\ndocker:x:998:deploy\nadm:x:4:alex\n::exit-code::0\n$ awk -F: '$1 ~ /^(sudo|adm|docker)$/ && $4 != \"\" {print $1 \": \" $4}' fixtures/user-access-audit/etc/group\nsudo: alex,breakglass\ndocker: deploy\nadm: alex\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

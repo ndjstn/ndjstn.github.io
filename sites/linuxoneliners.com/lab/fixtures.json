@@ -367,5 +367,19 @@
     "touch -t 202606251200 /lab/disk-inode-cleanup/var/tmp/uploads/recent-export.tar /lab/disk-inode-cleanup/home/deploy/releases/2026-06-25 /lab/disk-inode-cleanup/home/deploy/releases/2026-06-25/VERSION",
     "cat > /usr/local/bin/df <<'SH'\n#!/usr/bin/env bash\nif [[ \"$*\" == *\"-ih\"* ]]; then\n  cat <<'OUT'\nFilesystem     Inodes IUsed IFree IUse% Mounted on\n/dev/vda1        512K  499K   13K   98% /lab/disk-inode-cleanup\ntmpfs            245K    14  245K    1% /run\nOUT\nelse\n  cat <<'OUT'\nFilesystem      Size  Used Avail Use% Mounted on\n/dev/vda1        25G   24G  680M  98% /lab/disk-inode-cleanup\ntmpfs           982M   12M  970M   2% /run\nOUT\nfi\nSH\nchmod +x /usr/local/bin/df",
     "cd /lab/disk-inode-cleanup"
+  ],
+  "containers/ssh-auth-access-triage-lab": [
+    "rm -rf ssh-auth-access",
+    "mkdir -p ssh-auth-access/logs ssh-auth-access/etc/ssh/sshd_config.d ssh-auth-access/home/alice/.ssh ssh-auth-access/home/deploy/.ssh ssh-auth-access/home/bob/.ssh",
+    "cd ssh-auth-access",
+    "cat > logs/auth.log <<'LOG'\nJun 25 09:58:12 vps sshd[101]: Failed password for invalid user admin from 203.0.113.44 port 50122 ssh2\nJun 25 09:58:18 vps sshd[102]: Failed password for root from 203.0.113.44 port 50124 ssh2\nJun 25 10:01:41 vps sshd[111]: Accepted publickey for alice from 198.51.100.20 port 61422 ssh2: ED25519 SHA256:alicekey\nJun 25 10:03:09 vps sshd[118]: Failed publickey for deploy from 198.51.100.40 port 60210 ssh2: RSA SHA256:olddeploy\nJun 25 10:04:22 vps sshd[121]: Accepted publickey for deploy from 198.51.100.21 port 60444 ssh2: ED25519 SHA256:deploykey\nJun 25 10:05:01 vps sshd[130]: Failed password for bob from 198.51.100.55 port 61200 ssh2\nJun 25 10:05:03 vps sshd[130]: Connection closed by authenticating user bob 198.51.100.55 port 61200 [preauth]\nLOG",
+    "cat > etc/ssh/sshd_config <<'CONF'\nPort 22\nPubkeyAuthentication yes\nPasswordAuthentication no\nKbdInteractiveAuthentication no\nAuthenticationMethods publickey\nAllowUsers alice deploy\nInclude etc/ssh/sshd_config.d/*.conf\nMatch Address 198.51.100.0/24\n    PasswordAuthentication yes\n    AuthenticationMethods publickey,password\nCONF",
+    "cat > etc/ssh/sshd_config.d/access.conf <<'CONF'\nDenyUsers test oldadmin\nAllowGroups ssh-login deployers\nCONF",
+    "printf 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDemoAliceKey alice-laptop-2026\\nssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDemoBreakglass breakglass-ticket-4821\\n' > home/alice/.ssh/authorized_keys",
+    "printf 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDemoDeployKey deploy-ci-2026\\n' > home/deploy/.ssh/authorized_keys",
+    "printf 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDemoBobOld bob-old-laptop\\n' > home/bob/.ssh/authorized_keys",
+    "chmod 700 home/alice/.ssh home/deploy/.ssh home/bob/.ssh",
+    "chmod 600 home/alice/.ssh/authorized_keys home/deploy/.ssh/authorized_keys",
+    "chmod 644 home/bob/.ssh/authorized_keys"
   ]
 }

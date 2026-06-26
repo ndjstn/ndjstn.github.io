@@ -1,0 +1,25 @@
+{
+  "slug": "ssh-failed-publickey-users",
+  "title": "Show Failed SSH Public-Key Users",
+  "fixture": "containers/ssh-auth-access-triage-lab",
+  "command_count": 2,
+  "container_tool": "docker",
+  "image": "localhost/linuxoneliners-lab:latest",
+  "exit_code": 0,
+  "elapsed_ms": 189,
+  "stdout": "::fixture-ready::\n$ grep 'Failed publickey' logs/auth.log\nJun 25 10:03:09 vps sshd[118]: Failed publickey for deploy from 198.51.100.40 port 60210 ssh2: RSA SHA256:olddeploy\n::exit-code::0\n$ awk '/Failed publickey/ {print $9, $11}' logs/auth.log | sort | uniq -c | sort -nr\n      1 deploy 198.51.100.40\n::exit-code::0\n",
+  "stderr": "",
+  "ok": true,
+  "security": {
+    "network": "none",
+    "capabilities": "dropped",
+    "no_new_privileges": true,
+    "memory": "256m",
+    "cpus": "1",
+    "pids_limit": 128,
+    "tmpfs": [
+      "/tmp",
+      "/var"
+    ]
+  }
+}

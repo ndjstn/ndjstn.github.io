@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 187,
+  "elapsed_ms": 206,
   "stdout": "::fixture-ready::\n$ ufw status numbered\nStatus: active\n\n     To                         Action      From\n     --                         ------      ----\n[ 1] 22/tcp                     ALLOW IN    203.0.113.0/24\n[ 2] 80/tcp                     ALLOW IN    Anywhere\n[ 3] 443/tcp                    ALLOW IN    Anywhere\n[ 4] 25/tcp                     ALLOW IN    Anywhere\n[ 5] 5432/tcp                   DENY IN     Anywhere\n::exit-code::0\n$ ss -ltnp\nState  Recv-Q Send-Q Local Address:Port Peer Address:Port Process\nLISTEN 0      128          0.0.0.0:22        0.0.0.0:*     users:((\"sshd\",pid=801,fd=3))\nLISTEN 0      511          0.0.0.0:80        0.0.0.0:*     users:((\"nginx\",pid=1907,fd=6))\nLISTEN 0      511          0.0.0.0:443       0.0.0.0:*     users:((\"nginx\",pid=1907,fd=7))\nLISTEN 0      128        127.0.0.1:5432      0.0.0.0:*     users:((\"postgres\",pid=2011,fd=7))\nLISTEN 0      128        127.0.0.1:6379      0.0.0.0:*     users:((\"redis-server\",pid=2112,fd=6))\nLISTEN 0      64           0.0.0.0:9000      0.0.0.0:*     users:((\"node\",pid=2219,fd=18))\n::exit-code::0\n$ comm -23 <(ufw status numbered | awk '/ALLOW/ {print}' | grep -Eo '[0-9]+/(tcp|udp)' | cut -d/ -f1 | sort -u) <(ss -ltnp | awk '/LISTEN/ {n=split($4,a,\":\"); print a[n]}' | sort -u)\n25\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

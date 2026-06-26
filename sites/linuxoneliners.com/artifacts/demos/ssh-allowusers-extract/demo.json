@@ -1,0 +1,25 @@
+{
+  "slug": "ssh-allowusers-extract",
+  "title": "Extract SSH AllowUsers Accounts",
+  "fixture": "containers/ssh-auth-access-triage-lab",
+  "command_count": 2,
+  "container_tool": "docker",
+  "image": "localhost/linuxoneliners-lab:latest",
+  "exit_code": 0,
+  "elapsed_ms": 199,
+  "stdout": "::fixture-ready::\n$ grep '^AllowUsers' etc/ssh/sshd_config\nAllowUsers alice deploy\n::exit-code::0\n$ awk '/^AllowUsers/ {for (i = 2; i <= NF; i++) print $i}' etc/ssh/sshd_config\nalice\ndeploy\n::exit-code::0\n",
+  "stderr": "",
+  "ok": true,
+  "security": {
+    "network": "none",
+    "capabilities": "dropped",
+    "no_new_privileges": true,
+    "memory": "256m",
+    "cpus": "1",
+    "pids_limit": 128,
+    "tmpfs": [
+      "/tmp",
+      "/var"
+    ]
+  }
+}

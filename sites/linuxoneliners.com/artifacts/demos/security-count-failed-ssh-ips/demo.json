@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 184,
+  "elapsed_ms": 175,
   "stdout": "::fixture-ready::\n$ grep 'Failed password' logs/auth.log\nJun 25 12:00:01 vps sshd[1001]: Failed password for invalid user admin from 203.0.113.44 port 51122 ssh2\nJun 25 12:00:03 vps sshd[1002]: Failed password for root from 203.0.113.44 port 51124 ssh2\nJun 25 12:01:10 vps sshd[1003]: Failed password for deploy from 198.51.100.77 port 41002 ssh2\n::exit-code::0\n$ sed -n 's/.*Failed password .* from \\([0-9.]*\\) port.*/\\1/p' logs/auth.log | sort | uniq -c | sort -nr\n      2 203.0.113.44\n      1 198.51.100.77\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

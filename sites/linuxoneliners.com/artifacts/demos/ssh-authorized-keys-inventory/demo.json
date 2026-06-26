@@ -1,0 +1,25 @@
+{
+  "slug": "ssh-authorized-keys-inventory",
+  "title": "Inventory SSH authorized_keys",
+  "fixture": "containers/ssh-auth-access-triage-lab",
+  "command_count": 2,
+  "container_tool": "docker",
+  "image": "localhost/linuxoneliners-lab:latest",
+  "exit_code": 0,
+  "elapsed_ms": 178,
+  "stdout": "::fixture-ready::\n$ find home -path '*/.ssh/authorized_keys' -printf '%m %p\\n' | sort\n600 home/alice/.ssh/authorized_keys\n600 home/deploy/.ssh/authorized_keys\n644 home/bob/.ssh/authorized_keys\n::exit-code::0\n$ find home -path '*/.ssh/authorized_keys' -exec awk '{print FILENAME, $1, $NF}' {} +\nhome/deploy/.ssh/authorized_keys ssh-ed25519 deploy-ci-2026\nhome/bob/.ssh/authorized_keys ssh-rsa bob-old-laptop\nhome/alice/.ssh/authorized_keys ssh-ed25519 alice-laptop-2026\nhome/alice/.ssh/authorized_keys ssh-rsa breakglass-ticket-4821\n::exit-code::0\n",
+  "stderr": "",
+  "ok": true,
+  "security": {
+    "network": "none",
+    "capabilities": "dropped",
+    "no_new_privileges": true,
+    "memory": "256m",
+    "cpus": "1",
+    "pids_limit": 128,
+    "tmpfs": [
+      "/tmp",
+      "/var"
+    ]
+  }
+}

@@ -1,0 +1,19 @@
+::fixture-ready::
+$ sed -n '1,12p' etc/ssh/sshd_config
+Port 22
+PubkeyAuthentication yes
+PasswordAuthentication no
+KbdInteractiveAuthentication no
+AuthenticationMethods publickey
+AllowUsers alice deploy
+Include etc/ssh/sshd_config.d/*.conf
+Match Address 198.51.100.0/24
+    PasswordAuthentication yes
+    AuthenticationMethods publickey,password
+::exit-code::0
+$ awk '/^Match /{ctx=$0} /^PasswordAuthentication|^AuthenticationMethods|^[[:space:]]+PasswordAuthentication|^[[:space:]]+AuthenticationMethods/ {print (ctx ? ctx : "global") ": " $0}' etc/ssh/sshd_config
+global: PasswordAuthentication no
+global: AuthenticationMethods publickey
+Match Address 198.51.100.0/24:     PasswordAuthentication yes
+Match Address 198.51.100.0/24:     AuthenticationMethods publickey,password
+::exit-code::0

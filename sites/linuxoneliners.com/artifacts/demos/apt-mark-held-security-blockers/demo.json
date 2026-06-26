@@ -6,7 +6,7 @@
   "container_tool": "docker",
   "image": "localhost/linuxoneliners-lab:latest",
   "exit_code": 0,
-  "elapsed_ms": 188,
+  "elapsed_ms": 205,
   "stdout": "::fixture-ready::\n$ apt-mark showhold\napp-agent\nlinux-image-generic\n::exit-code::0\n$ apt-mark showhold | sed 's/^/held: /'\nheld: app-agent\nheld: linux-image-generic\n::exit-code::0\n",
   "stderr": "",
   "ok": true,

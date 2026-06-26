@@ -1,0 +1,25 @@
+{
+  "slug": "ssh-authorized-keys-loose-modes",
+  "title": "Find Loose authorized_keys Modes",
+  "fixture": "containers/ssh-auth-access-triage-lab",
+  "command_count": 2,
+  "container_tool": "docker",
+  "image": "localhost/linuxoneliners-lab:latest",
+  "exit_code": 0,
+  "elapsed_ms": 201,
+  "stdout": "::fixture-ready::\n$ find home -path '*/.ssh/authorized_keys' -printf '%m %p\\n' | sort\n600 home/alice/.ssh/authorized_keys\n600 home/deploy/.ssh/authorized_keys\n644 home/bob/.ssh/authorized_keys\n::exit-code::0\n$ find home -path '*/.ssh/authorized_keys' -printf '%m %p\\n' | awk '$1 > 600'\n644 home/bob/.ssh/authorized_keys\n::exit-code::0\n",
+  "stderr": "",
+  "ok": true,
+  "security": {
+    "network": "none",
+    "capabilities": "dropped",
+    "no_new_privileges": true,
+    "memory": "256m",
+    "cpus": "1",
+    "pids_limit": 128,
+    "tmpfs": [
+      "/tmp",
+      "/var"
+    ]
+  }
+}
