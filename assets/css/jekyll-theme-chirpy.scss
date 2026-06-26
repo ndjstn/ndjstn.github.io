@@ -1,0 +1,26 @@
+---
+---
+
+/* prettier-ignore */
+@use 'main
+{%- if jekyll.environment == 'production' -%}
+  .bundle
+{%- endif -%}
+';
+
+/* Local portfolio overrides */
+#sidebar ul,
+#sidebar li {
+  list-style: none;
+}
+
+#sidebar .nav {
+  margin-left: 0;
+  padding-left: 0;
+}
+
+#sidebar .nav > .nav-item::marker,
+#sidebar .sidebar-bottom::marker,
+#sidebar .sidebar-bottom *::marker {
+  content: "";
+}
